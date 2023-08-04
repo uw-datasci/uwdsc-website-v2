@@ -29,10 +29,10 @@ export default function Button({
 }: ButtonProps) {
   switch (hierarchy) {
     case 'primary':
-      classes = `text-white bg-gradient ${text} ${font} ${border} ${rounded} ${padding} ${classes}`;
+      classes = `text-white inline-block text-center bg-gradient ${text} ${font} ${border} ${rounded} ${padding} ${classes}`;
       break;
     case 'secondary':
-      classes = `text-white ${text} ${font} ${border} ${padding} ${rounded} ${classes}`;
+      classes = `text-white inline-block text-center bg-black ${text} ${font} ${border} ${padding} ${rounded} ${classes}`;
       break;
   }
 

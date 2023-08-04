@@ -89,7 +89,7 @@ export default function Navbar() {
         </Button>
       </header>
       <div
-        className={`transition-300 fixed inset-0 lg:hidden ${
+        className={`transition-300 bg-black fixed inset-0 lg:hidden ${
           isMobileMenuOpen ? '' : 'translate-x-full'
         }`}
       >
