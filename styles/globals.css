@@ -30,18 +30,22 @@
 
 @layer components {
   .mx-container {
-    @apply mx-3 3xs:mx-5 xs:mx-7 sm:mx-9 xl:mx-16 3xl:mx-auto 3xl:max-w-[1200px];
+    @apply mx-5 xs:mx-7 sm:mx-9 xl:mx-12 3xl:mx-auto 3xl:max-w-[1200px];
+  }
+
+  .mx-nav {
+    @apply mx-5 xs:mx-7 sm:mx-9 xl:mx-12;
   }
 
   .transition-300 {
     @apply duration-300 ease-in-out;
   }
 
-  .gradient {
+  .bg-gradient {
     @apply bg-gradient-to-tr from-pink to-blue;
   }
 
   .gradient-text {
-    @apply inline bg-clip-text text-transparent gradient;
+    @apply inline bg-clip-text text-transparent bg-gradient;
   }
 }
