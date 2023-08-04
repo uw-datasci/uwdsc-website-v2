@@ -2,26 +2,42 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+@font-face {
+  font-family: 'Satoshi-Variable';
+  src:
+    url('../public/fonts/Satoshi-Variable.woff2') format('woff2'),
+    url('../public/fonts/Satoshi-Variable.woff') format('woff'),
+    url('../public/fonts/Satoshi-Variable.ttf') format('truetype');
+  font-weight: 200 700;
+  font-display: swap;
+  font-style: normal;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+@font-face {
+  font-family: 'ClashDisplay-Variable';
+  src:
+    url('../public/fonts/ClashDisplay-Variable.woff2') format('woff2'),
+    url('../public/fonts/ClashDisplay-Variable.woff') format('woff'),
+    url('../public/fonts/ClashDisplay-Variable.ttf') format('truetype');
+  font-weight: 200 700;
+  font-display: swap;
+  font-style: normal;
+}
+
+@layer components {
+  .mx-container {
+    @apply mx-3 3xs:mx-5 xs:mx-7 sm:mx-9 xl:mx-16 3xl:mx-auto 3xl:max-w-[1200px];
   }
-}
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  .transition-300 {
+    @apply duration-300 ease-in-out;
+  }
+
+  .gradient {
+    @apply bg-gradient-to-tr from-pink to-blue;
+  }
+
+  .gradient-text {
+    @apply inline bg-clip-text text-transparent gradient;
+  }
 }
