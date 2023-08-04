@@ -19,6 +19,10 @@ module.exports = {
       green: '#76CE7A',
       transparent: 'transparent',
     },
+    fontFamily: {
+      sans: ['Satoshi-Variable', 'sans-serif'],
+      display: ['ClashDisplay-Variable', 'sans-serif'],
+    },
   },
   plugins: [],
 };
