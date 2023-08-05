@@ -16,14 +16,15 @@ const STATS = [
     stat: 100,
   },
 ];
-const ANIMATION_DURATION = 1000;
+const ANIMATION_DURATION = 1500;
 
 export default function ClubStats() {
   const [stats, setStats] = useState(Array(STATS.length).fill(0));
   const statsRef = useRef(stats);
+  const sectionRef = useRef(null);
   statsRef.current = stats;
 
-  useEffect(() => {
+  const animate = () => {
     const interval = 10;
     const incrementSteps = STATS.map(
       (stat) => stat.stat / (ANIMATION_DURATION / interval)
@@ -38,10 +39,38 @@ export default function ClubStats() {
 
     const intervalId = setInterval(incrementStats, interval);
     return () => clearInterval(intervalId);
+  };
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          animate();
+          observer.disconnect();
+        }
+      },
+      {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.1,
+      }
+    );
+
+    const currentSectionRef = sectionRef.current;
+
+    if (currentSectionRef) {
+      observer.observe(currentSectionRef);
+    }
+
+    return () => {
+      if (currentSectionRef) {
+        observer.unobserve(currentSectionRef);
+      }
+    };
   }, []);
 
   return (
-    <section className='mb-section mx-container'>
+    <section className='mb-section mx-container' ref={sectionRef}>
       <SectionTitle mb='mb-8 lg:mb-12'>CLUB STATS</SectionTitle>
       <div className='grid gap-14 md:grid-cols-3 max-w-[1080px] mx-auto'>
         {STATS.map((stat, i) => (
