@@ -18,6 +18,7 @@ module.exports = {
       red: '#D28686',
       green: '#76CE7A',
       transparent: 'transparent',
+      lightGreen: '#89C66D'
     },
     fontFamily: {
       sans: ['Satoshi-Variable', 'sans-serif'],
