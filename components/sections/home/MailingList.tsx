@@ -1,7 +1,11 @@
+import Image from 'next/image';
 import { useFormik } from 'formik';
 
 import Button from '@/components/UI/Button';
 import Banner from '@/components/layout/Banner';
+
+import echo1 from '@/public/graphics/echo-1.png';
+import echo2 from '@/public/graphics/echo-2.png';
 
 export default function MailingList() {
   const formik = useFormik({
@@ -14,7 +18,17 @@ export default function MailingList() {
   });
 
   return (
-    <section className='mb-section'>
+    <section className='mb-section relative overflow-hidden'>
+      <Image
+        src={echo1}
+        alt='echo 1'
+        className='absolute hidden md:block w-[50%] -bottom-[20%] opacity-20 -left-[5%]'
+      />
+      <Image
+        src={echo2}
+        alt='echo 2'
+        className='absolute hidden md:block w-[50%] md:w-[35%] -bottom-[5%] opacity-20 -right-[5%]'
+      />
       <Banner>
         <div className='pt-8 pb-12 2xs:pt-10 2xs:pb-14 sm:pt-12 sm:pb-18 lg:pt-18 lg:pb-24 2xl:pt-24 2xl:pb-36'>
           <h2 className='font-bold text-center text-white text-xl 3xs:text-2xl max-w-[390px] mx-auto 2xs:text-3xl mb-4 xs:text-5xl xs:max-w-[400px] sm:text-6xl sm:max-w-[480px] md:mb-6 md:text-8xl md:max-w-[540px] xl:max-w-[640px] xl:text-9xl 2xl:text-10xl 2xl:mb-9'>
