@@ -6,7 +6,6 @@ import { type Event } from '@/types/types';
 type EventCardProps = Event;
 
 export default function EventCard({
-  id,
   title,
   description,
   image,

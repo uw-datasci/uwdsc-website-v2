@@ -41,8 +41,6 @@ export default function Dropdown({
     };
   }, [id, isOpen]);
 
-  console.log(isOpen);
-
   return (
     <div className={`relative ${classes}`}>
       <div

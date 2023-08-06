@@ -3,6 +3,7 @@ import WhatWeDo from '@/components/sections/home/WhatWeDo';
 import ClubStats from '@/components/sections/home/ClubStats';
 import UpcomingEvents from '@/components/sections/home/UpcomingEvents';
 import PastEvents from '@/components/sections/home/PastEvents';
+import Resources from '@/components/sections/home/Resources';
 import MailingList from '@/components/sections/home/MailingList';
 import FAQ from '@/components/sections/home/FAQ';
 import Blogs from '@/components/sections/home/Blogs';
@@ -17,6 +18,7 @@ export default function Home() {
       <ClubStats />
       <UpcomingEvents />
       <PastEvents />
+      <Resources />
       <MailingList />
       <FAQ />
       <Blogs />

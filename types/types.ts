@@ -10,6 +10,13 @@ export type Event = {
   link?: string;
 };
 
+export type Resource = {
+  id: string;
+  title: string;
+  description: string;
+  link: string;
+};
+
 export type Subteam = {
   id: string;
   name: string;
