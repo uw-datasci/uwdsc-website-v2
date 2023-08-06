@@ -16,7 +16,7 @@ export default function TeamCard({
   linkedin,
 }: TeamCardProps) {
   return (
-    <div className='rounded-2xl border border-grey3 pt-7 pb-8 w-full 3xs:w-[240px] xl:w-[280px] px-6 text-center hover:border-grey2 transition-300'>
+    <div className='rounded-2xl border border-grey3 pt-7 pb-8 w-full 3xs:w-[240px] xl:w-[280px] px-6 text-center hover:border-grey2 xl:rounded-4xl transition-300'>
       <Image
         src={image}
         alt={name}

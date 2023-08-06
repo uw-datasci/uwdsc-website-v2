@@ -40,7 +40,10 @@ export default function Contact() {
   });
 
   return (
-    <section className='mb-section grid gap-10 mx-container lg:grid-cols-2 lg:gap-16'>
+    <section
+      id='contact'
+      className='mb-section grid gap-10 mx-container lg:grid-cols-2 lg:gap-16'
+    >
       <div>
         <h2 className='text-white font-bold text-4xl md:text-8xl xl:text-8xl mb-3 lg:-mt-3'>
           Contact Us
