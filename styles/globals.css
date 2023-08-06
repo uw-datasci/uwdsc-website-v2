@@ -37,6 +37,10 @@
     @apply mb-24 lg:mb-52;
   }
 
+  .px-container {
+    @apply px-5 xs:px-7 sm:px-9 xl:px-12 3xl:px-[calc((100dvw-1200px)/2)];
+  }
+
   .transition-300 {
     @apply duration-300 ease-in-out;
   }
@@ -47,5 +51,14 @@
 
   .gradient-text {
     @apply inline bg-clip-text text-transparent;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 }
