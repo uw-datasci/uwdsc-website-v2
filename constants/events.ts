@@ -58,3 +58,36 @@ export const UPCOMING_EVENTS: Event[] = [
     link: 'https://www.youtube.com',
   },
 ];
+
+export const PAST_EVENTS: Event[] = [
+  {
+    id: '1',
+    title: 'E-Leetcoding',
+    image: event,
+  },
+  {
+    id: '2',
+    title: 'E-Leetcoding',
+    image: event,
+  },
+  {
+    id: '3',
+    title: 'E-Leetcoding',
+    image: event,
+  },
+  {
+    id: '4',
+    title: 'E-Leetcoding',
+    image: event,
+  },
+  {
+    id: '5',
+    title: 'E-Leetcoding',
+    image: event,
+  },
+  {
+    id: '6',
+    title: 'E-Leetcoding',
+    image: event,
+  },
+];

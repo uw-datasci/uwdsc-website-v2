@@ -20,7 +20,11 @@ export default function EventCard({
       <div className='relative whitespace-normal'>
         <div className='bg-gradient opacity-10 absolute inset-0' />
         <div className='relative px-6 pt-5 pb-8'>
-          <h4 className='text-white font-bold text-2xl md:text-3xl mb-2'>
+          <h4
+            className={`text-white font-bold text-2xl md:text-3xl ${
+              description ? 'mb-2' : ''
+            }`}
+          >
             {title}
           </h4>
           {description && (
