@@ -62,7 +62,7 @@ export default function Dropdown({
         />
       </div>
       <div
-        className={`transition-300 rounded-lg border px-2 py-2 border-white absolute top-[calc(100%+16px)] inset-x-0 ${
+        className={`transition-300 rounded-lg bg-black border px-2 py-2 border-grey1 absolute top-[calc(100%+16px)] inset-x-0 ${
           isOpen ? '' : 'pointer-events-none opacity-0'
         }`}
       >

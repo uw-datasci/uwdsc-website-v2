@@ -22,7 +22,7 @@ const CHIPS = [
   {
     label: 'discord.gg/Mnpt72VGN4',
     href: 'https://discord.gg/Mnpt72VGN4',
-    icon: <RxDiscordLogo className='w-6 text-white' />,
+    icon: <RxDiscordLogo size={24} className='text-white' />,
   },
 ];
 

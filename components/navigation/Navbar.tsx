@@ -1,12 +1,10 @@
 import { useState } from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { Instagram, Linkedin, Mail, Youtube } from 'react-feather';
 
 import Button from '@/components/UI/Button';
 import GradientBorder from '@/components/UI/GradientBorder';
-
-import dsc from '@/public/logos/dsc.svg';
+import Logo from '@/components/UI/Logo';
 
 const ROUTES = [
   {
@@ -52,7 +50,7 @@ export default function Navbar() {
   return (
     <>
       <header className='mx-nav z-50 items-center relative mt-8 lg:mt-12 flex justify-between'>
-        <Image src={dsc} alt='logo' className='w-10 lg:w-12' />
+        <Logo />
         <nav className='lg:flex gap-16 hidden'>
           {ROUTES.map(({ label, href }) => (
             <Link href={href} className='text-white font-semibold' key={label}>
