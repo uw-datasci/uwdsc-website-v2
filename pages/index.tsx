@@ -8,7 +8,6 @@ import FAQ from '@/components/sections/home/FAQ';
 import Blogs from '@/components/sections/home/Blogs';
 import Sponsors from '@/components/sections/home/Sponsors';
 import Contact from '@/components/sections/home/Contact';
-import Footer from '@/components/navigation/Footer';
 
 export default function Home() {
   return (
@@ -23,7 +22,6 @@ export default function Home() {
       <Blogs />
       <Sponsors />
       <Contact />
-      <Footer />
     </>
   );
 }

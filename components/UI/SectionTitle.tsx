@@ -1,6 +1,6 @@
 type SectionTitleProps = {
   mb: string;
-  children: React.ReactNode;
+  children: string;
 };
 
 export default function SectionTitle({ mb, children }: SectionTitleProps) {
@@ -9,7 +9,7 @@ export default function SectionTitle({ mb, children }: SectionTitleProps) {
       className={`font-display font-medium tracking-[10px] text-center md:text-lg xl:text-xl ${mb}`}
     >
       <span className='bg-gradient-to-b gradient-text from-white to-[#ffffff20] -mr-2'>
-        {children}
+        {children.toUpperCase()}
       </span>
     </h2>
   );
