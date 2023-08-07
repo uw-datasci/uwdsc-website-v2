@@ -10,6 +10,8 @@ import huggingface from "@/public/logos/cxc/huggingface.png";
 import bdo from "@/public/logos/cxc/bdo.png";
 import cyclica from "@/public/logos/cxc/cyclica.png";
 import wyvern from "@/public/logos/cxc/wyvern.png";
+import salesforce from "@/public/logos/cxc/salesforce.png";
+import databricks from '@/public/logos/cxc/databricks.png'
 
 const PAST_SPONSORS = [
   { name: "MathSoc", classes: "", logo: mathsoc },
@@ -18,7 +20,10 @@ const PAST_SPONSORS = [
   { name: "Cyclica", classes: "", logo: cyclica },
   { name: "Wyvern", classes: "", logo: wyvern },
   { name: "Hugging Face", classes: "", logo: huggingface },
-  { name: "BDO", classes: "", logo: bdo },
+  { name: "Salesforce", classes: "", logo: salesforce },
+  { name: "Databricks", classes: "", logo: databricks },
+  { name: "BDO", classes: "", logo: bdo }
+
 ];
 
 export default function CxCSponsors() {
