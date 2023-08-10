@@ -1,4 +1,4 @@
-import GradientBorder from './GradientBorder';
+import GradientBorder from "./GradientBorder";
 
 type ChipProps = {
   icon: React.ReactNode;
@@ -8,15 +8,15 @@ type ChipProps = {
 
 export default function Chip({ icon, href, children }: ChipProps) {
   return (
-    <GradientBorder rounded='rounded-full'>
+    <GradientBorder rounded="rounded-full">
       <a
         href={href}
-        target='_blank'
-        rel='noreferrer'
-        className='bg-black rounded-full pl-4 pr-5 py-3 flex items-center gap-2'
+        target="_blank"
+        rel="noreferrer"
+        className="flex items-center gap-2 rounded-full bg-black py-3 pl-4 pr-5"
       >
         {icon}
-        <p className='text-white font-semibold'>{children}</p>
+        <p className="font-semibold text-white">{children}</p>
       </a>
     </GradientBorder>
   );

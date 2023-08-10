@@ -1,10 +1,10 @@
-import Link from 'next/link';
+import Link from "next/link";
 
 type ButtonProps = {
-  type: 'button' | 'submit' | 'route' | 'link';
+  type: "button" | "submit" | "route" | "link";
   href?: string;
   onClick?: () => void;
-  hierarchy: 'primary' | 'secondary';
+  hierarchy: "primary" | "secondary";
   text?: string;
   font?: string;
   border?: string;
@@ -23,44 +23,44 @@ export default function Button({
   font,
   border,
   rounded,
-  padding = 'py-3 px-5',
+  padding = "py-3 px-5",
   classes,
   children,
 }: ButtonProps) {
   switch (hierarchy) {
-    case 'primary':
+    case "primary":
       classes = `text-white inline-block text-center bg-gradient ${text} ${font} ${border} ${rounded} ${padding} ${classes}`;
       break;
-    case 'secondary':
+    case "secondary":
       classes = `text-white inline-block text-center bg-black ${text} ${font} ${border} ${padding} ${rounded} ${classes}`;
       break;
   }
 
   switch (type) {
-    case 'button':
+    case "button":
       return (
-        <button type='button' onClick={onClick} className={`${classes}`}>
+        <button type="button" onClick={onClick} className={`${classes}`}>
           {children}
         </button>
       );
-    case 'submit':
+    case "submit":
       return (
-        <button type='submit' onClick={onClick} className={`${classes}`}>
+        <button type="submit" onClick={onClick} className={`${classes}`}>
           {children}
         </button>
       );
-    case 'route':
+    case "route":
       return (
         <Link href={href as string} className={`${classes}`}>
           {children}
         </Link>
       );
-    case 'link':
+    case "link":
       return (
         <a
           href={href}
-          target='_blank'
-          rel='noreferrer'
+          target="_blank"
+          rel="noreferrer"
           className={`${classes}`}
         >
           {children}

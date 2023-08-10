@@ -1,8 +1,8 @@
-import { Check } from 'react-feather';
+import { Check } from "react-feather";
 
-import GradientBorder from '@/components/UI/GradientBorder';
+import GradientBorder from "@/components/UI/GradientBorder";
 
-import { type SponsorTier } from '@/types/types';
+import { type SponsorTier } from "@/types/types";
 
 type SponsorTierProps = SponsorTier;
 
@@ -14,25 +14,25 @@ export default function SponsorTierCard({
   value,
 }: SponsorTierProps) {
   return (
-    <GradientBorder rounded='rounded-2xl' classes='w-[min(100%,340px)]'>
-      <div className='rounded-2xl bg-black text-center px-6 pt-8 h-full pb-10 flex flex-col justify-between'>
+    <GradientBorder rounded="rounded-2xl" classes="w-[min(100%,340px)]">
+      <div className="flex h-full flex-col justify-between rounded-2xl bg-black px-6 pb-10 pt-8 text-center">
         <div>
-          <h2 className='text-3xl 3xs:text-5xl font-bold mb-2'>
+          <h2 className="mb-2 text-3xl font-bold 3xs:text-5xl">
             <span className={color}>{name}</span>
           </h2>
-          <div className='text-white leading-loose mb-8'>{description}</div>
-          <ul className='mb-12 grid gap-3.5'>
+          <div className="mb-8 leading-loose text-white">{description}</div>
+          <ul className="mb-12 grid gap-3.5">
             {perks.map((perk) => (
-              <li className='flex items-center gap-3.5' key={perk}>
-                <div className='w-4 h-4 rounded-full grid place-content-center bg-green'>
-                  <Check className='text-black w-2.5' />
+              <li className="flex items-center gap-3.5" key={perk}>
+                <div className="grid h-4 w-4 place-content-center rounded-full bg-green">
+                  <Check className="w-2.5 text-black" />
                 </div>
-                <p className='text-white font-medium'>{perk}</p>
+                <p className="font-medium text-white">{perk}</p>
               </li>
             ))}
           </ul>
         </div>
-        <div className='text-white font-bold text-7xl mb-2 font-display'>{`$${value}+`}</div>
+        <div className="mb-2 font-display text-7xl font-bold text-white">{`$${value}+`}</div>
       </div>
     </GradientBorder>
   );

@@ -1,8 +1,8 @@
-import Image from 'next/image';
+import Image from "next/image";
 
-import { Mail, Globe, Instagram, Linkedin } from 'react-feather';
+import { Mail, Globe, Instagram, Linkedin } from "react-feather";
 
-import { type Member } from '@/types/types';
+import { type Member } from "@/types/types";
 
 type TeamCardProps = Member;
 
@@ -16,35 +16,35 @@ export default function TeamCard({
   linkedin,
 }: TeamCardProps) {
   return (
-    <div className='rounded-2xl border border-grey3 pt-7 pb-8 w-full 3xs:w-[240px] xl:w-[280px] px-6 text-center hover:border-grey2 xl:rounded-4xl transition-300'>
+    <div className="transition-300 w-full rounded-2xl border border-grey3 px-6 pb-8 pt-7 text-center hover:border-grey2 3xs:w-[240px] xl:w-[280px] xl:rounded-4xl">
       <Image
         src={image}
         alt={name}
-        className='aspect-square object-cover w-32 xl:w-40 inline-block rounded-lg mb-6'
+        className="mb-6 inline-block aspect-square w-32 rounded-lg object-cover xl:w-40"
       />
-      <h4 className='text-white font-semibold text-xl xl:text-2xl mb-2.5'>
+      <h4 className="mb-2.5 text-xl font-semibold text-white xl:text-2xl">
         {name}
       </h4>
-      <p className='text-grey2 font-medium xl:text-lg mb-4'>{position}</p>
-      <div className='flex gap-5 justify-center'>
+      <p className="mb-4 font-medium text-grey2 xl:text-lg">{position}</p>
+      <div className="flex justify-center gap-5">
         {email && (
-          <a href={`mailto:${email}`} target='_blank' rel='noreferrer noopener'>
-            <Mail className='text-grey2 hover:text-grey1 transition-300' />
+          <a href={`mailto:${email}`} target="_blank" rel="noreferrer noopener">
+            <Mail className="transition-300 text-grey2 hover:text-grey1" />
           </a>
         )}
         {website && (
-          <a href={website} target='_blank' rel='noreferrer noopener'>
-            <Globe className='text-grey2 hover:text-grey1 transition-300' />
+          <a href={website} target="_blank" rel="noreferrer noopener">
+            <Globe className="transition-300 text-grey2 hover:text-grey1" />
           </a>
         )}
         {instagram && (
-          <a href={instagram} target='_blank' rel='noreferrer noopener'>
-            <Instagram className='text-grey2 hover:text-grey1 transition-300' />
+          <a href={instagram} target="_blank" rel="noreferrer noopener">
+            <Instagram className="transition-300 text-grey2 hover:text-grey1" />
           </a>
         )}
         {linkedin && (
-          <a href={linkedin} target='_blank' rel='noreferrer noopener'>
-            <Linkedin className='text-grey2 hover:text-grey1 transition-300' />
+          <a href={linkedin} target="_blank" rel="noreferrer noopener">
+            <Linkedin className="transition-300 text-grey2 hover:text-grey1" />
           </a>
         )}
       </div>

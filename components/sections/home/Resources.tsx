@@ -1,11 +1,11 @@
-import Carousel from '@/components/UI/Carousel';
-import ResourceCard from '@/components/cards/ResourceCard';
+import Carousel from "@/components/UI/Carousel";
+import ResourceCard from "@/components/cards/ResourceCard";
 
-import { RESOURCES } from '@/constants/resources';
+import { RESOURCES } from "@/constants/resources";
 
 export default function Resources() {
   return (
-    <Carousel title='Resources'>
+    <Carousel title="Resources">
       {RESOURCES.map((resource, i) => (
         <ResourceCard {...resource} key={`resource-${i}`} />
       ))}

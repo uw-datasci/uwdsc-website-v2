@@ -1,7 +1,7 @@
-import Button from '@/components/UI/Button';
-import GradientBorder from '@/components/UI/GradientBorder';
+import Button from "@/components/UI/Button";
+import GradientBorder from "@/components/UI/GradientBorder";
 
-import { type Resource } from '@/types/types';
+import { type Resource } from "@/types/types";
 
 type ResourceCardProps = Resource;
 
@@ -11,23 +11,23 @@ export default function ResourceCard({
   link,
 }: ResourceCardProps) {
   return (
-    <div className='border border-grey3 whitespace-normal relative rounded-4xl w-[300px] md:w-[360px] overflow-hidden'>
-      <div className='bg-gradient opacity-10 absolute inset-0' />
-      <div className='relative px-6 pt-5 pb-8'>
-        <h4 className='text-white font-bold text-2xl md:text-3xl mb-2'>
+    <div className="relative w-[300px] overflow-hidden whitespace-normal rounded-4xl border border-grey3 md:w-[360px]">
+      <div className="bg-gradient absolute inset-0 opacity-10" />
+      <div className="relative px-6 pb-8 pt-5">
+        <h4 className="mb-2 text-2xl font-bold text-white md:text-3xl">
           {title}
         </h4>
-        <p className='text-grey1 leading-loose text-sm md:text-md mb-7'>
+        <p className="mb-7 text-sm leading-loose text-grey1 md:text-md">
           {description}
         </p>
-        <GradientBorder rounded='rounded-md'>
+        <GradientBorder rounded="rounded-md">
           <Button
-            type='link'
+            type="link"
             href={link}
-            hierarchy='secondary'
-            font='font-bold'
-            rounded='rounded-md'
-            classes='w-full'
+            hierarchy="secondary"
+            font="font-bold"
+            rounded="rounded-md"
+            classes="w-full"
           >
             Learn More
           </Button>

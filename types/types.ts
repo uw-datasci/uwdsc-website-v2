@@ -1,4 +1,4 @@
-import { type StaticImageData } from 'next/image';
+import { type StaticImageData } from "next/image";
 
 export type Event = {
   id: string;
@@ -37,7 +37,7 @@ export type Member = {
 export type ContactField = {
   id: string;
   name: string;
-  type: 'input' | 'textarea' | 'dropdown';
+  type: "input" | "textarea" | "dropdown";
   placeholder: string;
   options?: string[];
 };
