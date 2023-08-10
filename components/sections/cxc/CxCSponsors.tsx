@@ -35,6 +35,7 @@ export default function CxCSponsors() {
           <Image
             src={logo}
             alt={name}
+            key={`${name.split(" ").join("_")}`}
             className={`h-16 md:h-20 w-auto ${classes}`}
           />
         ))}

@@ -43,7 +43,7 @@ export default function CxCSponsorTiers() {
       <SectionTitle mb="mb-6">SPONSORSHIP TIERS</SectionTitle>
       <div className="flex flex-col lg:flex-row md:flex-col justify-center">
         {SPONSOR_TIERS.map((props: sponsorTierType) => (
-          <SponsorTier {...props} />
+          <SponsorTier {...props} key={`${props.tierName}`}/>
         ))}
       </div>
     </section>
