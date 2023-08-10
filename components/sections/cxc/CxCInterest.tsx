@@ -28,21 +28,21 @@ export default function CxCInterest() {
               hierarchy="primary"
               font="font-bold"
               text="xl:text-lg"
-              padding="px-4 xl:px-6"
-              rounded="rounded-sm"
+              padding="px-4 xl:px-6 mx-2 md:mx-0"
+              rounded="rounded-md"
               classes="right-1 inset-y-1 xl:right-2 xl:inset-y-2 h-16"
             >
               Set Up a Meeting
             </Button>
-            <GradientBorder rounded="rounded-lg">
+            <GradientBorder rounded="rounded-md" classes="mx-2 md:mx-0">
               <Button
                 href="https://twitter.com"
                 type="link"
                 hierarchy="secondary"
                 font="font-bold"
                 text="xl:text-lg"
-                padding="px-4 xl:px-6 py-4"
-                rounded="rounded-lg"
+                padding="px-4 xl:px-6 py-2 md:py-4"
+                rounded="rounded-md"
                 classes="h-16"
               >
                 Download Sponsorship Package

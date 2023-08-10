@@ -17,7 +17,7 @@ export default function SponsorTier({
   value,
 }: sponsorTierType) {
   return (
-    <GradientBorder rounded="rounded-lg mx-1 my-5 h-full w-3/4 lg:w-1/4 lg:min-w-[270px] xl:mx-4 2xl:min-w-[350px]">
+    <GradientBorder rounded="rounded-lg mx-auto md:mx-1 my-5 h-full w-3/4 lg:w-1/4 lg:min-w-[270px] xl:mx-4 2xl:min-w-[350px]">
       <div className="rounded-lg bg-black h-full text-center p-2">
         <h2 className={`${tierColor} text-xl lg:text-3xl font-bold`}>{tierName}</h2>
         <div className="text-white text-sm m-2 min-h-[70px]">{description}</div>

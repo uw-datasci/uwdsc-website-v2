@@ -4,7 +4,7 @@ const QUESTIONS = [
   {
     question: 'What is CxC?',
     answer:
-      'CxC is a Data Hackathon in which you (and your group) have the opportunity to work with company-provided problems using their datasets.',
+      'CxC is a Data Hackathon in which you (and your group) have the opportunity to work with company-provided problems.',
   },
   {
     question: 'Why is CxC 2 weeks long?',
