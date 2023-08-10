@@ -2,35 +2,7 @@ import { Fragment } from 'react';
 
 import ContactForm from '@/components/sections/templates/ContactForm';
 
-import { ContactField } from '@/types/types';
-
-const FIELDS: ContactField[] = [
-  {
-    id: 'name',
-    name: 'name',
-    type: 'input',
-    placeholder: 'Name',
-  },
-  {
-    id: 'email',
-    name: 'email',
-    type: 'input',
-    placeholder: 'Email',
-  },
-  {
-    id: 'purpose',
-    name: 'purpose',
-    type: 'dropdown',
-    placeholder: 'Purpose of Contact',
-    options: ['Sponsorship', 'General Inquiry', 'Other'],
-  },
-  {
-    id: 'message',
-    name: 'message',
-    type: 'textarea',
-    placeholder: 'Message',
-  },
-];
+import { CONTACT_FORM_FIELDS } from '@/constants/forms';
 
 export default function ContactUs() {
   return (
@@ -44,7 +16,7 @@ export default function ContactUs() {
           ASAP!
         </Fragment>
       }
-      fields={FIELDS}
+      fields={CONTACT_FORM_FIELDS}
     />
   );
 }

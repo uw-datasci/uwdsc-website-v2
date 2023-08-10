@@ -21,7 +21,7 @@ export default function Home() {
       <Resources />
       <MailingList />
       <FrequentlyAskedQuestions />
-      <Blogs />
+      {/* <Blogs /> */}
       <Sponsors />
       <ContactUs />
     </>
