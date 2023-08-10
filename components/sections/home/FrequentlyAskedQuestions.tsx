@@ -1,45 +1,46 @@
-import QAndA from '@/components/layout/QAndA';
+import FAQ from '@/components/sections/templates/FAQ';
 
-const QUESTIONS = [
+import { QandA } from '@/types/types';
+
+const QUESTIONS: QandA[] = [
   {
+    id: '1',
     question: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit?',
     answer:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.',
   },
   {
+    id: '2',
     question: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit?',
     answer:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.',
   },
   {
+    id: '3',
     question: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit?',
     answer:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.',
   },
   {
+    id: '4',
     question: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit?',
     answer:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.',
   },
   {
+    id: '5',
     question: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit?',
     answer:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.',
   },
   {
+    id: '6',
     question: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit?',
     answer:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.',
   },
 ];
 
-export default function FAQ() {
-  return (
-    <section className='mb-section mx-container grid gap-8 xl:gap-14 xl:grid-cols-[4fr_5fr]'>
-      <h2 className='text-white font-bold text-4xl md:text-8xl xl:text-8xl xl:-mt-6'>
-        Frequently Asked Questions
-      </h2>
-      <QAndA questions={QUESTIONS} />
-    </section>
-  );
+export default function FrequentlyAskedQuestions() {
+  return <FAQ questions={QUESTIONS} />;
 }

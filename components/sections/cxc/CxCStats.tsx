@@ -1,24 +1,25 @@
-import Stats from "@/components/UI/Stats";
+import Stats from '@/components/sections/templates/Stats';
 
-const STATS = [
+import { type Stat } from '@/types/types';
+
+const STATS: Stat[] = [
   {
-    title: "Participants",
+    id: 'participants',
+    title: 'Participants',
     stat: 300,
   },
   {
-    title: "Collaborating Companies",
+    id: 'collaborating-companies',
+    title: 'Collaborating Companies',
     stat: 10,
   },
   {
-    title: "Instagram Following",
-    stat: 2410,
-  },
-  {
-    title: "Hackathons Hosted",
+    id: 'hackathons-hosted',
+    title: 'Hackathons Hosted',
     stat: 4,
   },
 ];
 
 export default function CxCStats() {
-  return <Stats inputStats={STATS} statTitle={"CxC STATS"} />;
+  return <Stats title='CXC STATS' stats={STATS} />;
 }

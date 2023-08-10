@@ -5,10 +5,10 @@ import UpcomingEvents from '@/components/sections/home/UpcomingEvents';
 import PastEvents from '@/components/sections/home/PastEvents';
 import Resources from '@/components/sections/home/Resources';
 import MailingList from '@/components/sections/home/MailingList';
-import FAQ from '@/components/sections/home/FAQ';
+import FrequentlyAskedQuestions from '@/components/sections/home/FrequentlyAskedQuestions';
 import Blogs from '@/components/sections/home/Blogs';
 import Sponsors from '@/components/sections/home/Sponsors';
-import Contact from '@/components/sections/home/Contact';
+import ContactUs from '@/components/sections/home/ContactUs';
 
 export default function Home() {
   return (
@@ -20,10 +20,10 @@ export default function Home() {
       <PastEvents />
       <Resources />
       <MailingList />
-      <FAQ />
+      <FrequentlyAskedQuestions />
       <Blogs />
       <Sponsors />
-      <Contact />
+      <ContactUs />
     </>
   );
 }

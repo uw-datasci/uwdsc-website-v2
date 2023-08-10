@@ -31,10 +31,10 @@ export default function MailingList() {
       />
       <Banner>
         <div className='pt-8 pb-12 2xs:pt-10 2xs:pb-14 sm:pt-12 sm:pb-18 lg:pt-18 lg:pb-24 2xl:pt-24 2xl:pb-36'>
-          <h2 className='font-bold text-center text-white text-xl 3xs:text-2xl max-w-[390px] mx-auto 2xs:text-3xl mb-4 xs:text-5xl xs:max-w-[400px] sm:text-6xl sm:max-w-[480px] md:mb-6 md:text-8xl md:max-w-[540px] xl:max-w-[640px] xl:text-9xl 2xl:text-10xl 2xl:mb-9'>
+          <h2 className='font-bold text-center text-white text-xl 3xs:text-2xl max-w-[390px] mx-auto 2xs:text-3xl mb-4 xs:text-5xl xs:max-w-[400px] sm:text-6xl sm:max-w-[480px] md:mb-6 md:text-8xl md:max-w-[540px] xl:max-w-[640px] xl:text-9xl 2xl:text-10xl'>
             Stay up to date on Data Science Club events.
           </h2>
-          <p className='text-white mb-8 text-center xs:text-lg xs:mb-10 md:text-xl 2xl:text-2xl md:mb-12 2xl:mb-16'>
+          <p className='text-white mb-8 text-center leading-loose xs:text-lg xs:mb-10 md:text-xl 2xl:text-2xl md:mb-12'>
             Join our mailing list! No spam, we promise.
           </p>
           <form

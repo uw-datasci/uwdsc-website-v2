@@ -1,20 +1,25 @@
-import Stats from "@/components/UI/Stats";
+import Stats from '@/components/sections/templates/Stats';
 
-const STATS = [
+import { Stat } from '@/types/types';
+
+const STATS: Stat[] = [
   {
-    title: "Workshops Held",
+    id: 'workshops-held',
+    title: 'Workshops Held',
     stat: 100,
   },
   {
-    title: "Current Members",
+    id: 'current-members',
+    title: 'Current Members',
     stat: 400,
   },
   {
-    title: "Recruiting Events Held",
+    id: 'recruiting-events-held',
+    title: 'Recruiting Events Held',
     stat: 100,
   },
 ];
 
 export default function ClubStats() {
-  return <Stats inputStats={STATS} statTitle={"CXC STATS"} />;
+  return <Stats title='Club STATS' stats={STATS} />;
 }

@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 import { Mail, Globe, Instagram, Linkedin } from 'react-feather';
 
-import { Member } from '@/types/types';
+import { type Member } from '@/types/types';
 
 type TeamCardProps = Member;
 

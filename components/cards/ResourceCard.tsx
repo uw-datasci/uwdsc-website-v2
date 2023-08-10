@@ -1,7 +1,7 @@
 import Button from '@/components/UI/Button';
+import GradientBorder from '@/components/UI/GradientBorder';
 
 import { type Resource } from '@/types/types';
-import GradientBorder from '../UI/GradientBorder';
 
 type ResourceCardProps = Resource;
 
