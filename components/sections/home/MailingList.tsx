@@ -1,16 +1,16 @@
-import Image from 'next/image';
-import { useFormik } from 'formik';
+import Image from "next/image";
+import { useFormik } from "formik";
 
-import Button from '@/components/UI/Button';
-import Banner from '@/components/layout/Banner';
+import Button from "@/components/UI/Button";
+import Banner from "@/components/layout/Banner";
 
-import echo1 from '@/public/graphics/echo-1.png';
-import echo2 from '@/public/graphics/echo-2.png';
+import echo1 from "@/public/graphics/echo-1.png";
+import echo2 from "@/public/graphics/echo-2.png";
 
 export default function MailingList() {
   const formik = useFormik({
     initialValues: {
-      email: '',
+      email: "",
     },
     onSubmit: (values) => {
       alert(JSON.stringify(values, null, 2));
@@ -18,47 +18,47 @@ export default function MailingList() {
   });
 
   return (
-    <section className='mb-section relative overflow-hidden'>
+    <section className="mb-section relative overflow-hidden">
       <Image
         src={echo1}
-        alt='echo 1'
-        className='absolute hidden md:block w-[50%] -bottom-[20%] opacity-20 -left-[5%]'
+        alt="echo 1"
+        className="absolute -bottom-[20%] -left-[5%] hidden w-[50%] opacity-20 md:block"
       />
       <Image
         src={echo2}
-        alt='echo 2'
-        className='absolute hidden md:block w-[50%] md:w-[35%] -bottom-[5%] opacity-20 -right-[5%]'
+        alt="echo 2"
+        className="absolute -bottom-[5%] -right-[5%] hidden w-[50%] opacity-20 md:block md:w-[35%]"
       />
       <Banner>
-        <div className='pt-8 pb-12 2xs:pt-10 2xs:pb-14 sm:pt-12 sm:pb-18 lg:pt-18 lg:pb-24 2xl:pt-24 2xl:pb-36'>
-          <h2 className='font-bold text-center text-white text-xl 3xs:text-2xl max-w-[390px] mx-auto 2xs:text-3xl mb-4 xs:text-5xl xs:max-w-[400px] sm:text-6xl sm:max-w-[480px] md:mb-6 md:text-8xl md:max-w-[540px] xl:max-w-[640px] xl:text-9xl 2xl:text-10xl 2xl:mb-9'>
+        <div className="pb-12 pt-8 2xs:pb-14 2xs:pt-10 sm:pb-18 sm:pt-12 lg:pb-24 lg:pt-18 2xl:pb-36 2xl:pt-24">
+          <h2 className="mx-auto mb-4 max-w-[390px] text-center text-xl font-bold text-white 3xs:text-2xl 2xs:text-3xl xs:max-w-[400px] xs:text-5xl sm:max-w-[480px] sm:text-6xl md:mb-6 md:max-w-[540px] md:text-8xl xl:max-w-[640px] xl:text-9xl 2xl:text-10xl">
             Stay up to date on Data Science Club events.
           </h2>
-          <p className='text-white mb-8 text-center xs:text-lg xs:mb-10 md:text-xl 2xl:text-2xl md:mb-12 2xl:mb-16'>
+          <p className="mb-8 text-center leading-loose text-white xs:mb-10 xs:text-lg md:mb-12 md:text-xl 2xl:text-2xl">
             Join our mailing list! No spam, we promise.
           </p>
           <form
             onSubmit={formik.handleSubmit}
-            className='relative max-w-[680px] mx-auto '
+            className="relative mx-auto max-w-[680px] "
           >
             <input
-              type='text'
-              id='email'
-              name='email'
-              placeholder='Enter your email'
+              type="text"
+              id="email"
+              name="email"
+              placeholder="Enter your email"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.email}
-              className='text-white placeholder:text-grey1 bg-grey4 w-full rounded-md pl-4.5 pr-24 py-3.5 outline-none border border-grey1 transition-300 focus:border-white xl:px-6 xl:py-4.5 xl:text-lg xl:pr-32'
+              className="transition-300 w-full rounded-md border border-grey1 bg-grey4 py-3.5 pl-4.5 pr-24 text-white outline-none placeholder:text-grey1 focus:border-white xl:px-6 xl:py-4.5 xl:pr-32 xl:text-lg"
             />
             <Button
-              type='submit'
-              hierarchy='primary'
-              font='font-bold'
-              text='xl:text-lg'
-              padding='px-4 xl:px-6'
-              rounded='rounded-sm'
-              classes='absolute right-1 inset-y-1 xl:right-2 xl:inset-y-2'
+              type="submit"
+              hierarchy="primary"
+              font="font-bold"
+              text="xl:text-lg"
+              padding="px-4 xl:px-6"
+              rounded="rounded-sm"
+              classes="absolute right-1 inset-y-1 xl:right-2 xl:inset-y-2"
             >
               Submit
             </Button>

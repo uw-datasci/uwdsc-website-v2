@@ -6,9 +6,9 @@ type SectionTitleProps = {
 export default function SectionTitle({ mb, children }: SectionTitleProps) {
   return (
     <h2
-      className={`font-display font-medium tracking-[10px] text-center md:text-lg xl:text-xl ${mb}`}
+      className={`text-center font-display font-medium tracking-[10px] md:text-lg xl:text-xl ${mb}`}
     >
-      <span className='bg-gradient-to-b gradient-text from-white to-[#ffffff20] -mr-2'>
+      <span className="gradient-text -mr-2 bg-gradient-to-b from-white to-[#ffffff20]">
         {children.toUpperCase()}
       </span>
     </h2>

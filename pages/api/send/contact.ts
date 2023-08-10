@@ -1,18 +1,18 @@
-import { type NextApiRequest, type NextApiResponse } from 'next';
+import { type NextApiRequest, type NextApiResponse } from "next";
 
-import ContactTemplate from '@/components/email-templates/ContactTemplate';
+import ContactTemplate from "@/components/email-templates/ContactTemplate";
 
-import { resend } from '@/lib/resend';
+import { resend } from "@/lib/resend";
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ) {
   try {
     const { name, email, purpose, message } = req.body;
     const response = await resend.emails.send({
-      to: 'contact@uwdatascience.ca',
-      from: 'Website Contact Form <website@uwdatascience.ca>',
+      to: "contact@uwdatascience.ca",
+      from: "Website Contact Form <website@uwdatascience.ca>",
       subject: `Contact Form Submission from ${name}`,
       react: ContactTemplate({ name, email, purpose, message }),
     });

@@ -10,6 +10,6 @@ export default function GradientBorder({
   children,
 }: GradientBorderProps) {
   return (
-    <div className={`p-0.25 bg-gradient ${rounded} ${classes}`}>{children}</div>
+    <div className={`bg-gradient p-0.25 ${rounded} ${classes}`}>{children}</div>
   );
 }

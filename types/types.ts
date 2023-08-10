@@ -1,4 +1,4 @@
-import { type StaticImageData } from 'next/image';
+import { type StaticImageData } from "next/image";
 
 export type Event = {
   id: string;
@@ -32,4 +32,33 @@ export type Member = {
   website?: string;
   linkedin?: string;
   instagram?: string;
+};
+
+export type ContactField = {
+  id: string;
+  name: string;
+  type: "input" | "textarea" | "dropdown";
+  placeholder: string;
+  options?: string[];
+};
+
+export type QandA = {
+  id: string;
+  question: string;
+  answer: string;
+};
+
+export type Stat = {
+  id: string;
+  title: string;
+  stat: number;
+};
+
+export type SponsorTier = {
+  id: string;
+  name: string;
+  color: string;
+  description: string;
+  perks: string[];
+  value: number;
 };

@@ -4,9 +4,9 @@ type BannerProps = {
 
 export default function Banner({ children }: BannerProps) {
   return (
-    <div className='relative'>
-      <div className='bg-gradient opacity-20 absolute inset-0' />
-      <div className='relative z-10 mx-container'>{children}</div>
+    <div className="relative">
+      <div className="bg-gradient absolute inset-0 opacity-20" />
+      <div className="mx-container relative z-10">{children}</div>
     </div>
   );
 }

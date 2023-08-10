@@ -5,6 +5,12 @@ module.exports = {
     './components/**/*.{js,ts,jsx,tsx,mdx}',
     './app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
+  safelist: [
+    'from-[#FFFFFF20]',
+    'from-[#FFD700]',
+    'from-[#A9A9A9]',
+    'to-white',
+  ],
   theme: {
     colors: {
       black: '#000211',
@@ -18,6 +24,7 @@ module.exports = {
       red: '#D28686',
       green: '#76CE7A',
       transparent: 'transparent',
+      lightGreen: '#89C66D',
     },
     fontFamily: {
       sans: ['Satoshi-Variable', 'sans-serif'],

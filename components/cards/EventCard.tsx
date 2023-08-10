@@ -14,45 +14,45 @@ export default function EventCard({
   link,
 }: EventCardProps) {
   return (
-    <div className='border border-grey3 rounded-4xl w-[300px] md:w-[360px] overflow-hidden'>
-      <Image src={image} alt={title} className='aspect-[2/1] object-cover' />
-      <div className='relative whitespace-normal'>
-        <div className='bg-gradient opacity-10 absolute inset-0' />
-        <div className='relative px-6 pt-5 pb-8'>
+    <div className="w-[300px] overflow-hidden rounded-4xl border border-grey3 md:w-[360px]">
+      <Image src={image} alt={title} className="aspect-[2/1] object-cover" />
+      <div className="relative whitespace-normal">
+        <div className="bg-gradient absolute inset-0 opacity-10" />
+        <div className="relative px-6 pb-8 pt-5">
           <h4
-            className={`text-white font-bold text-2xl md:text-3xl ${
+            className={`text-2xl font-bold text-white md:text-3xl ${
               description ? 'mb-2' : ''
             }`}
           >
             {title}
           </h4>
           {description && (
-            <p className='text-grey1 leading-loose text-sm md:text-md mb-5'>
+            <p className="mb-5 text-sm leading-loose text-grey1 md:text-md">
               {description}
             </p>
           )}
           {date && (
-            <div className='flex gap-3 items-center mb-5'>
-              <Clock className='w-6 text-white' />
-              <p className='text-white'>{date}</p>
+            <div className="mb-5 flex items-center gap-3">
+              <Clock className="w-6 text-white" />
+              <p className="text-white">{date}</p>
             </div>
           )}
           {(location || link) && (
-            <div className='flex gap-3 items-center'>
+            <div className="flex items-center gap-3">
               {location && (
                 <>
-                  <MapPin className='w-6 text-white' />
-                  <p className='text-white'>{location}</p>
+                  <MapPin className="w-6 text-white" />
+                  <p className="text-white">{location}</p>
                 </>
               )}
               {link && (
                 <>
-                  <Link className='w-6 text-white' />
+                  <Link className="w-6 text-white" />
                   <a
                     href={link}
-                    target='_blank'
-                    rel='noreferrer noopener'
-                    className='text-white underline underline-offset-[6px]'
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="text-white underline underline-offset-[6px]"
                   >
                     Event Link
                   </a>
