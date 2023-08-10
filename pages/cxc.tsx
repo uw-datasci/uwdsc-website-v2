@@ -6,9 +6,6 @@ import CxCSponsors from "@/components/sections/cxc/CxCSponsors";
 import CxCFAQ from "@/components/sections/cxc/CxCFAQ";
 import CxCHero from "@/components/sections/cxc/CxCHero";
 
-import Image from "next/image";
-import ComputersPic from "@/public/graphics/computers.png";
-
 export default function CxC() {
   return (
     <>

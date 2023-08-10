@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { useFormik } from "formik";
 
 import Button from "@/components/UI/Button";
