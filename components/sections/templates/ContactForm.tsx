@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useFormik } from "formik";
 import { Mail, Instagram } from "react-feather";
 import { RxDiscordLogo } from "react-icons/rx";
@@ -7,6 +8,8 @@ import Dropdown from "@/components/UI/Dropdown";
 import TextArea from "@/components/UI/TextArea";
 import Button from "@/components/UI/Button";
 import Chip from "@/components/UI/Chip";
+import LoadingSpinner from "@/components/UI/LoadingSpinner";
+import InputFeedback from "@/components/UI/InputFeedback";
 
 import { ContactField } from "@/types/types";
 
@@ -32,22 +35,59 @@ type ContactProps = {
   title: string;
   description: React.ReactNode;
   fields: ContactField[];
+  validate: (values: Record<string, string>) => Record<string, string>;
+  onSubmit: (values: Record<string, string>) => Promise<void>;
 };
 
 export default function ContactForm({
   title,
   description,
   fields,
+  validate,
+  onSubmit,
 }: ContactProps) {
+  const [loading, setLoading] = useState<boolean>(false);
+  const [success, setSuccess] = useState<boolean>(false);
+  const [error, setError] = useState<boolean>(false);
+
   const formik = useFormik({
     initialValues: fields.reduce((acc: Record<string, string>, field) => {
       acc[field.name] = "";
       return acc;
     }, {}),
-    onSubmit: (values) => {
-      console.log(values);
+    validate,
+    onSubmit: async (values) => {
+      setLoading(true);
+      setSuccess(false);
+      setError(false);
+      try {
+        await onSubmit(values);
+        formik.resetForm();
+        setSuccess(true);
+      } catch (error) {
+        console.error(error);
+        setError(true);
+      } finally {
+        setLoading(false);
+      }
     },
   });
+
+  const submitMessage = (
+    <>
+      {success && (
+        <InputFeedback state="success">
+          Your message has been sent! We will get back to you ASAP.
+        </InputFeedback>
+      )}
+      {error && (
+        <InputFeedback state="error">
+          There was an error sending your message. Please refresh this page and
+          try again.
+        </InputFeedback>
+      )}
+    </>
+  );
 
   return (
     <section
@@ -69,63 +109,104 @@ export default function ContactForm({
           ))}
         </div>
       </div>
-      <form onSubmit={formik.handleSubmit}>
-        {fields.map((field, i) => {
-          switch (field.type) {
-            case "input":
-              return (
-                <TextInput
-                  id={field.id}
-                  name={field.name}
-                  type="text"
-                  placeholder={field.placeholder}
-                  value={formik.values[field.name]}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  classes={i === fields.length - 1 ? "mb-14" : "mb-6"}
-                  key={field.id}
-                />
-              );
-            case "textarea":
-              return (
-                <TextArea
-                  id={field.id}
-                  name={field.name}
-                  placeholder={field.placeholder}
-                  value={formik.values[field.name]}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  classes={i === fields.length - 1 ? "mb-14" : "mb-6"}
-                  key={field.id}
-                />
-              );
-            case "dropdown":
-              return (
-                <Dropdown
-                  id={field.id}
-                  name={field.name}
-                  placeholder={field.placeholder}
-                  options={field.options as string[]}
-                  value={formik.values[field.name]}
-                  onChange={formik.handleChange}
-                  classes={i === fields.length - 1 ? "mb-14" : "mb-6"}
-                  key={field.id}
-                />
-              );
-          }
-        })}
-        <Button
-          type="submit"
-          hierarchy="primary"
-          font="font-bold"
-          text="lg:text-lg"
-          padding="py-3 sm:px-7"
-          rounded="rounded-lg"
-          classes="w-full sm:w-auto"
+      <div className="relative">
+        {loading && (
+          <LoadingSpinner
+            size={60}
+            classes="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+          />
+        )}
+        <form
+          className={`${loading ? "pointer-events-none opacity-0" : ""}`}
+          onSubmit={formik.handleSubmit}
         >
-          Submit
-        </Button>
-      </form>
+          {fields.map((field, i) => {
+            switch (field.type) {
+              case "input":
+                return (
+                  <div
+                    className={i === fields.length - 1 ? "mb-14" : "mb-6"}
+                    key={field.id}
+                  >
+                    <TextInput
+                      id={field.id}
+                      name={field.name}
+                      type="text"
+                      placeholder={field.placeholder}
+                      value={formik.values[field.name]}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                    />
+                    {formik.touched[field.name] &&
+                      formik.errors[field.name] && (
+                        <InputFeedback state="error">
+                          {formik.errors[field.name]}
+                        </InputFeedback>
+                      )}
+                    {i === fields.length - 1 && submitMessage}
+                  </div>
+                );
+              case "textarea":
+                return (
+                  <div
+                    className={i === fields.length - 1 ? "mb-14" : "mb-6"}
+                    key={field.id}
+                  >
+                    <TextArea
+                      id={field.id}
+                      name={field.name}
+                      placeholder={field.placeholder}
+                      value={formik.values[field.name]}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                    />
+                    {formik.touched[field.name] &&
+                      formik.errors[field.name] && (
+                        <InputFeedback state="error">
+                          {formik.errors[field.name]}
+                        </InputFeedback>
+                      )}
+                    {i === fields.length - 1 && submitMessage}
+                  </div>
+                );
+              case "dropdown":
+                return (
+                  <div
+                    className={i === fields.length - 1 ? "mb-14" : "mb-6"}
+                    key={field.id}
+                  >
+                    <Dropdown
+                      id={field.id}
+                      name={field.name}
+                      placeholder={field.placeholder}
+                      options={field.options as string[]}
+                      value={formik.values[field.name]}
+                      onChange={formik.handleChange}
+                    />
+                    {formik.touched[field.name] &&
+                      formik.errors[field.name] && (
+                        <InputFeedback state="error">
+                          {formik.errors[field.name]}
+                        </InputFeedback>
+                      )}
+                    {i === fields.length - 1 && submitMessage}
+                  </div>
+                );
+            }
+          })}
+          <Button
+            type="submit"
+            hierarchy="primary"
+            font="font-bold"
+            text="lg:text-lg"
+            padding="py-3 sm:px-7"
+            rounded="rounded-lg"
+            classes="w-full sm:w-auto"
+          >
+            Submit
+          </Button>
+        </form>
+      </div>
     </section>
   );
 }

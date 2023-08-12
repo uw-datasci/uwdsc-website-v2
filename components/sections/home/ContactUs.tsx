@@ -2,6 +2,8 @@ import { Fragment } from "react";
 
 import ContactForm from "@/components/sections/templates/ContactForm";
 
+import { validateContactForm } from "@/utils/formValidation";
+import { sendContactEmail } from "@/utils/emails";
 import { CONTACT_FORM_FIELDS } from "@/constants/forms";
 
 export default function ContactUs() {
@@ -17,6 +19,8 @@ export default function ContactUs() {
         </Fragment>
       }
       fields={CONTACT_FORM_FIELDS}
+      validate={validateContactForm}
+      onSubmit={sendContactEmail}
     />
   );
 }

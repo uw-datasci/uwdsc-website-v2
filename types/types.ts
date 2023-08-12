@@ -62,3 +62,17 @@ export type SponsorTier = {
   perks: string[];
   value: number;
 };
+
+export type ContactForm = {
+  name: string;
+  email: string;
+  purpose: "Sponsorship" | "General Inquiry" | "Other";
+  message?: string;
+};
+
+export type SponsorForm = {
+  name: string;
+  company: string;
+  email: string;
+  message?: string;
+};
