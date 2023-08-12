@@ -8,7 +8,7 @@ import officeOpen from "@/public/graphics/office-open.png";
 export default function Hero() {
   return (
     <section className="mx-container mb-section relative">
-      <div className="absolute left-1/2 top-6 w-[min(100%,400px)] -translate-x-1/2 xl:w-[500px]">
+      <div className="absolute left-1/2 top-6 w-[min(100%,400px)] -translate-x-1/2">
         <Image src={officeOpen} alt="office open" />
         <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent" />
       </div>
