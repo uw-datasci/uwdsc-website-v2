@@ -13,7 +13,7 @@ export default async function handler(
     const response = await resend.emails.send({
       to: "contact@uwdatascience.ca",
       from: "Sponsor Contact Form <website@uwdatascience.ca>",
-      subject: `Contact Form Submission from ${name}`,
+      subject: `Sponsor Contact Form Submission from ${name}`,
       react: ContactTemplate({ name, email, purpose: "sponsor", message }),
     });
     res.status(200).json({ success: true, response });

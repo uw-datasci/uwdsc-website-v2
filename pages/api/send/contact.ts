@@ -12,8 +12,8 @@ export default async function handler(
     const { name, email, purpose, message } = req.body;
     const response = await resend.emails.send({
       to: "contact@uwdatascience.ca",
-      from: "Website Contact Form <website@uwdatascience.ca>",
-      subject: `Contact Form Submission from ${name}`,
+      from: "General Contact Form <website@uwdatascience.ca>",
+      subject: `General Contact Form Submission from ${name}`,
       react: ContactTemplate({ name, email, purpose, message }),
     });
     res.status(200).json({ success: true, response });
