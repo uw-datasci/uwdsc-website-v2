@@ -84,7 +84,8 @@ export default function Stats({ title, stats }: StatsProps) {
         {stats.map((stat, i) => (
           <div className="text-center" key={stat.id}>
             <p className="mb-2 font-display text-12xl font-bold text-white">
-              {Math.round(curStats[i])}+
+              {Math.round(curStats[i])}
+              {stat.suffix}
             </p>
             <p className="gradient-text bg-gradient-to-b from-white to-[#ffffff80] text-xl font-bold xl:text-2xl">
               {stat.title}

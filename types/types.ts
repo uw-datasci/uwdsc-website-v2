@@ -52,6 +52,7 @@ export type Stat = {
   id: string;
   title: string;
   stat: number;
+  suffix: string;
 };
 
 export type SponsorTier = {

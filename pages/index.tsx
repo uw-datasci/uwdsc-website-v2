@@ -14,13 +14,13 @@ export default function Home() {
   return (
     <>
       <Hero />
-      <WhatWeDo />
+      {/* <WhatWeDo /> */}
       <ClubStats />
-      <UpcomingEvents />
-      <PastEvents />
-      <Resources />
+      {/* <UpcomingEvents /> */}
+      {/* <PastEvents /> */}
+      {/* <Resources /> */}
       <MailingList />
-      <FrequentlyAskedQuestions />
+      {/* <FrequentlyAskedQuestions /> */}
       {/* <Blogs /> */}
       <Sponsors />
       <ContactUs />

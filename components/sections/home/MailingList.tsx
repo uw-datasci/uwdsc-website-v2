@@ -1,19 +1,38 @@
+import { useState } from "react";
+import axios from "axios";
 import Image from "next/image";
 import { useFormik } from "formik";
 
 import Button from "@/components/UI/Button";
 import Banner from "@/components/layout/Banner";
+import LoadingSpinner from "@/components/UI/LoadingSpinner";
+import InputFeedback from "@/components/UI/InputFeedback";
 
 import echo1 from "@/public/graphics/echo-1.png";
 import echo2 from "@/public/graphics/echo-2.png";
 
 export default function MailingList() {
+  const [loading, setLoading] = useState<boolean>(false);
+  const [success, setSuccess] = useState<boolean>(false);
+  const [error, setError] = useState<boolean>(false);
+
   const formik = useFormik({
     initialValues: {
       email: "",
     },
-    onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+    onSubmit: async (values) => {
+      setLoading(true);
+      setSuccess(false);
+      setError(false);
+      try {
+        await axios.post("/api/send/mailing-list", values);
+        setSuccess(true);
+      } catch (err) {
+        console.error(err);
+        setError(true);
+      } finally {
+        setLoading(false);
+      }
     },
   });
 
@@ -37,32 +56,55 @@ export default function MailingList() {
           <p className="mb-8 text-center leading-loose text-white xs:mb-10 xs:text-lg md:mb-12 md:text-xl 2xl:text-2xl">
             Join our mailing list! No spam, we promise.
           </p>
-          <form
-            onSubmit={formik.handleSubmit}
-            className="relative mx-auto max-w-[680px] "
-          >
-            <input
-              type="text"
-              id="email"
-              name="email"
-              placeholder="Enter your email"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.email}
-              className="transition-300 w-full rounded-md border border-grey1 bg-grey4 py-3.5 pl-4.5 pr-24 text-white outline-none placeholder:text-grey1 focus:border-white xl:px-6 xl:py-4.5 xl:pr-32 xl:text-lg"
-            />
-            <Button
-              type="submit"
-              hierarchy="primary"
-              font="font-bold"
-              text="xl:text-lg"
-              padding="px-4 xl:px-6"
-              rounded="rounded-sm"
-              classes="absolute right-1 inset-y-1 xl:right-2 xl:inset-y-2"
+          <div className="relative">
+            <form
+              onSubmit={formik.handleSubmit}
+              className={`mx-auto max-w-[680px] ${
+                loading ? "pointer-events-none opacity-0" : ""
+              }`}
             >
-              Submit
-            </Button>
-          </form>
+              <div className="relative">
+                <input
+                  type="text"
+                  id="email"
+                  name="email"
+                  placeholder="Enter your email"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.email}
+                  className="transition-300 w-full rounded-md border border-grey1 bg-grey4 py-3.5 pl-4.5 pr-24 text-white outline-none placeholder:text-grey1 focus:border-white xl:px-6 xl:py-4.5 xl:pr-32 xl:text-lg"
+                />
+                <Button
+                  type="submit"
+                  hierarchy="primary"
+                  font="font-bold"
+                  text="xl:text-lg"
+                  padding="px-4 xl:px-6"
+                  rounded="rounded-sm"
+                  classes="absolute right-1 inset-y-1 xl:right-2 xl:inset-y-2"
+                >
+                  Submit
+                </Button>
+              </div>
+              {((formik.touched.email && formik.errors.email) || error) && (
+                <InputFeedback state="error">
+                  {formik.errors.email ||
+                    "Something went wrong. Please refresh the page and try again."}
+                </InputFeedback>
+              )}
+              {success && (
+                <InputFeedback state="success">
+                  Success! Thank you for joining our mailing list.
+                </InputFeedback>
+              )}
+            </form>
+            {loading && (
+              <LoadingSpinner
+                size={32}
+                classes="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+              />
+            )}
+          </div>
         </div>
       </Banner>
     </section>

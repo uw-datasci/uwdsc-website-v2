@@ -11,13 +11,13 @@ export default function SponsorshipInterest() {
             Interested in sponsoring CxC?
           </h2>
           <p className="mx-auto mb-8 max-w-[500px] text-center leading-loose text-white xs:text-lg sm:mb-12 md:max-w-[600px] md:text-xl">
-            Thank you for your interest in collaborating with us, see below for
-            our sponsorship package for your reference!
+            Thank you for your interest in collaborating with us! Please set up
+            a meeting with us below.
           </p>
           <div className="flex flex-col gap-5 sm:flex-row sm:justify-center sm:gap-12">
             <Button
-              type="link"
-              href=""
+              type="route"
+              href="#contact"
               hierarchy="primary"
               font="font-bold"
               text="sm:text-lg 2xl:text-xl"
@@ -26,7 +26,7 @@ export default function SponsorshipInterest() {
             >
               Set Up a Meeting
             </Button>
-            <GradientBorder rounded="rounded-lg">
+            {/* <GradientBorder rounded="rounded-lg">
               <Button
                 type="link"
                 href=""
@@ -39,7 +39,7 @@ export default function SponsorshipInterest() {
               >
                 Download Sponsorship Package
               </Button>
-            </GradientBorder>
+            </GradientBorder> */}
           </div>
         </div>
       </Banner>

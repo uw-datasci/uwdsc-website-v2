@@ -11,7 +11,7 @@ export default function CxC() {
     <>
       <Hero />
       <CxCStats />
-      <FrequentlyAskedQuestions />
+      {/* <FrequentlyAskedQuestions /> */}
       <SponsorshipTiers />
       <SponsorshipInterest />
       <SponsorForm />

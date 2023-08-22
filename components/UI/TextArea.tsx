@@ -5,6 +5,7 @@ type TextAreaProps = {
   value: string;
   onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   onBlur: (e: React.FocusEvent<HTMLTextAreaElement>) => void;
+  rows?: number;
   classes?: string;
 };
 
@@ -15,13 +16,14 @@ export default function TextArea({
   value,
   onChange,
   onBlur,
+  rows = 8,
   classes,
 }: TextAreaProps) {
   return (
     <textarea
       name={name}
       id={id}
-      rows={8}
+      rows={rows}
       placeholder={placeholder}
       onChange={onChange}
       onBlur={onBlur}

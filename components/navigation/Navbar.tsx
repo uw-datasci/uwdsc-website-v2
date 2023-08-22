@@ -12,13 +12,13 @@ const ROUTES = [
     href: "/",
   },
   {
-    label: "CXC",
+    label: "CxC",
     href: "/cxc",
   },
-  {
-    label: "Team",
-    href: "/team",
-  },
+  // {
+  //   label: "Team",
+  //   href: "/team",
+  // },
   {
     label: "Contact",
     href: "/#contact",
@@ -77,7 +77,7 @@ export default function Navbar() {
         </button>
         <Button
           type="link"
-          href=""
+          href="https://docs.google.com/forms/d/e/1FAIpQLSf2sRrqPzrnXh3VFxLyHzGEIPTAHgpKZU4nEJ9tBBGslgUGVA/viewform"
           hierarchy="primary"
           font="font-bold"
           rounded="rounded-md"

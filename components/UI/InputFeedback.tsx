@@ -6,7 +6,7 @@ type InputFeedbackProps = {
 export default function InputFeedback({ state, children }: InputFeedbackProps) {
   return (
     <p
-      className={`mt-2 leading-relaxed md:mt-4 ${
+      className={`mt-4 leading-relaxed ${
         state === "success" ? "text-green" : "text-red"
       }`}
     >
