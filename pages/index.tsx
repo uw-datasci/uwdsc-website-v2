@@ -1,3 +1,4 @@
+import SEO from "@/components/SEO/SEO";
 import Hero from "@/components/sections/home/Hero";
 import WhatWeDo from "@/components/sections/home/WhatWeDo";
 import ClubStats from "@/components/sections/home/ClubStats";
@@ -13,6 +14,11 @@ import ContactUs from "@/components/sections/home/ContactUs";
 export default function Home() {
   return (
     <>
+      <SEO
+        title="UWaterloo Data Science Club"
+        description="Inspiring the data science leaders of the future by building an inclusive community at the University of Waterloo to bridge the gap between academics and the industry."
+        keywords="University of Waterloo,Data Science,University of Waterloo Data Science Club,Waterloo Data Science,UWDSC"
+      />
       <Hero />
       {/* <WhatWeDo /> */}
       <ClubStats />
