@@ -9,37 +9,36 @@ export const WHAT_WE_DO_CARDS = [
   {
     title: "Workshops",
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.",
+      "Join us for workshops, where we teach a variety of Data Science topics.",
     graphic: rocket,
   },
   {
-    title: "CXC",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.",
+    title: "CxC",
+    description: "Stay tuned for our CxC hackathon, happening this winter!",
     graphic: trophy,
   },
   {
     title: "Project Program",
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.",
+      "Collaborate with fellow students on any project of your choice.",
     graphic: folder,
   },
   {
     title: "E-Leetcoding",
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.",
+      "Prepare for technical interviews with our weekly Leetcoding sessions.",
     graphic: computer,
   },
   {
     title: "Reading Groups",
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.",
+      "Learn about the latest developments in Data Science and Machine Learning.",
     graphic: documents,
   },
   {
     title: "Social Events",
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.",
+      "Come hang out with us and meet other students interested in Data Science!",
     graphic: chat,
   },
 ];

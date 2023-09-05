@@ -20,7 +20,7 @@ export default function Home() {
         keywords="University of Waterloo,Data Science,University of Waterloo Data Science Club,Waterloo Data Science,UWDSC"
       />
       <Hero />
-      {/* <WhatWeDo /> */}
+      <WhatWeDo />
       <ClubStats />
       {/* <UpcomingEvents /> */}
       {/* <PastEvents /> */}
