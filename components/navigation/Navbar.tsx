@@ -9,19 +9,23 @@ import Logo from "@/components/UI/Logo";
 const ROUTES = [
   {
     label: "Home",
-    href: "/",
+    route: "/",
+  },
+  {
+    label: "Join Us",
+    link: "https://docs.google.com/forms/d/1rP5StjTbQS8JUp20qbHECCLathytMqMQt-AtwHZgdfI/edit?usp=drive_web",
   },
   {
     label: "CxC",
-    href: "/cxc",
+    route: "/cxc",
   },
   // {
   //   label: "Team",
-  //   href: "/team",
+  //   route: "/team",
   // },
   {
     label: "Contact",
-    href: "/#contact",
+    route: "/#contact",
   },
 ];
 
@@ -52,11 +56,29 @@ export default function Navbar() {
       <header className="mx-nav relative z-50 mt-8 flex items-center justify-between lg:mt-12">
         <Logo />
         <nav className="hidden gap-16 lg:flex">
-          {ROUTES.map(({ label, href }) => (
-            <Link href={href} className="font-semibold text-white" key={label}>
-              {label}
-            </Link>
-          ))}
+          {ROUTES.map((route) => {
+            if (route.link) {
+              return (
+                <a
+                  href={route.link}
+                  className="font-semibold text-white"
+                  key={route.label}
+                >
+                  {route.label}
+                </a>
+              );
+            } else if (route.route) {
+              return (
+                <Link
+                  href={route.route}
+                  className="font-semibold text-white"
+                  key={route.label}
+                >
+                  {route.label}
+                </Link>
+              );
+            }
+          })}
         </nav>
         <button
           type="button"
@@ -93,15 +115,30 @@ export default function Navbar() {
       >
         <div className="bg-gradient pointer-events-none absolute inset-0 opacity-10" />
         <nav className="mx-container mt-36 grid gap-8">
-          {ROUTES.map(({ label, href }) => (
-            <Link
-              href={href}
-              className="text-5xl font-bold text-white"
-              key={label}
-            >
-              {label}
-            </Link>
-          ))}
+          {ROUTES.map((route) => {
+            if (route.link) {
+              return (
+                <a
+                  href={route.link}
+                  className="text-5xl font-bold text-white"
+                  key={route.label}
+                >
+                  {route.label}
+                </a>
+              );
+            } else if (route.route) {
+              return (
+                <Link
+                  href={route.route}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="text-5xl font-bold text-white"
+                  key={route.label}
+                >
+                  {route.label}
+                </Link>
+              );
+            }
+          })}
         </nav>
         <div className="absolute inset-x-0 bottom-12 flex justify-center gap-4">
           {SOCIALS.map(({ icon, href }, i) => (
