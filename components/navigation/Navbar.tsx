@@ -61,6 +61,7 @@ export default function Navbar() {
               return (
                 <a
                   href={route.link}
+                  target="_blank"
                   className="font-semibold text-white"
                   key={route.label}
                 >
@@ -120,6 +121,7 @@ export default function Navbar() {
               return (
                 <a
                   href={route.link}
+                  target="_blank"
                   className="text-5xl font-bold text-white"
                   key={route.label}
                 >
