@@ -13,7 +13,7 @@ export default function Events() {
 			{UPCOMING_EVENTS.map((event) => (
 						<div key={event.id}>
 							<SEO title="Events" />
-								<section className="mx-container mb-section mt-14 lg:mt-20">
+								<section className="mx-container mt-14 lg:mt-20">
 									
 									<EventSection id={event.id} title={event.title} description={event.description} image={event.image} date={event.date} location={event.location} link={event.link} />
 									
