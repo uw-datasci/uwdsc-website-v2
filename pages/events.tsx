@@ -1,0 +1,1 @@
+import EventCard from "@/components/cards/EventCard";
