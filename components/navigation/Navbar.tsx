@@ -27,6 +27,10 @@ const ROUTES = [
     label: "Contact",
     route: "/#contact",
   },
+  {
+    label: "Events",
+    route: "/events",
+  }
 ];
 
 const SOCIALS = [
