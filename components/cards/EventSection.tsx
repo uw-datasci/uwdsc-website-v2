@@ -13,7 +13,7 @@ export default function EventSection({
 }: EventSectionProps) {
   return (
     <>
-      <div className="flex justify-center text-white mx-28 grid gap-6 ">
+      <div className="flex justify-center text-white mx-3028 grid gap-6 ">
         {/* title */}
         <h1 className="mb-2 text-xl font-bold 3xs:text-xl sm:text-4xl lg:text-6xl 2xl:text-8xl">
           {title}
