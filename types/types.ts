@@ -1,5 +1,14 @@
 import { type StaticImageData } from "next/image";
 
+export type Blog = {
+  id: string;
+  title: string;
+  description?: string;
+  image: StaticImageData;
+  link?: string;
+  label: string;
+};
+
 export type Event = {
   id: string;
   title: string;
