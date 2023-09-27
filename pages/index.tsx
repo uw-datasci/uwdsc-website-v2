@@ -22,7 +22,7 @@ export default function Home() {
       <Hero />
       <WhatWeDo />
       <ClubStats />
-      {/* <UpcomingEvents /> */}
+      <UpcomingEvents />
       {/* <PastEvents /> */}
       {/* <Resources /> */}
       <MailingList />
