@@ -14,9 +14,9 @@ export const CLUB_STATS: Stat[] = [
     suffix: "+",
   },
   {
-    id: "recruiting-events-held",
-    title: "Recruiting Events Held",
-    stat: 100,
+    id: "instagram-followers",
+    title: "Instagram Followers",
+    stat: 2500,
     suffix: "+",
   },
 ];
