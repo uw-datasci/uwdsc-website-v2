@@ -26,8 +26,9 @@ export default function FAQ({ questions }: FAQProps) {
         {questions.map((question, i) => (
           <Fragment key={`question-${i}`}>
             <div
-              className={`cursor-pointer ${i === questions.length - 1 ? "" : "pb-7"
-                } ${i === 0 ? "" : "pt-7"}`}
+              className={`cursor-pointer ${
+                i === questions.length - 1 ? "" : "pb-7"
+              } ${i === 0 ? "" : "pt-7"}`}
               onClick={() => toggleHeight(i)}
             >
               <div className="flex items-center justify-between gap-6 ">
@@ -35,12 +36,13 @@ export default function FAQ({ questions }: FAQProps) {
                   {question.question}
                 </h3>
                 <ChevronDown
-                  className={`transition-300 w-6 text-white ${heights[i] === 0 ? "rotate-0" : "rotate-180"
-                    }`}
+                  className={`transition-300 w-6 text-white ${
+                    heights[i] === 0 ? "rotate-0" : "rotate-180"
+                  }`}
                 />
               </div>
               <AnimateHeight duration={300} height={heights[i]}>
-                <p className="mt-4 leading-loose text-grey1 2xl:text-lg whitespace-pre w-32 break-words">
+                <p className="mt-4 w-32 whitespace-pre break-words leading-loose text-grey1 2xl:text-lg">
                   {question.answer}
                 </p>
               </AnimateHeight>

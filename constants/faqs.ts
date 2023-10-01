@@ -25,8 +25,7 @@ export const GENERAL_FAQ: QandA[] = [
   {
     id: "1",
     question: "What is DSC?",
-    answer:
-      `We are a MathSoc club dedicated to building a community of students 
+    answer: `We are a MathSoc club dedicated to building a community of students 
 passionate about exploring the field of Data Science. DSC hosts a number
 of workshops/events throughout the term, mostly academic focused (see below). 
 Our iconic mascots include Echo the Whale and Bert (ref the ML model by Google)`,
@@ -34,8 +33,7 @@ Our iconic mascots include Echo the Whale and Bert (ref the ML model by Google)`
   {
     id: "2",
     question: "What are some events DSC hosts?",
-    answer:
-      `1. Intro workshops on data tools which will look great on your resume :) 
+    answer: `1. Intro workshops on data tools which will look great on your resume :) 
 E.g. Pandas, Tableau, Build Your Own DS Project, Machine Learning Algorithms) \n
 2. Industry professionals/alumni/upper-year panels to help students explore more of 
 the field and opportunities
@@ -60,23 +58,20 @@ ML research papers (Eg. NLP, computer vision)\n
   {
     id: "4",
     question: "How often do I have to go to the events?",
-    answer:
-      `All of our events are OPTIONAL! We do NOT have a set schedule for most events, 
+    answer: `All of our events are OPTIONAL! We do NOT have a set schedule for most events, 
 so looking out for the newest info/updates on our Instagram/Discord would be best.`,
   },
   {
     id: "5",
     question: "What is the $4 membership fee going to?",
-    answer:
-      `The membership fee covers the ENTIRE Fall2023 term (not per event). By paying 
+    answer: `The membership fee covers the ENTIRE Fall2023 term (not per event). By paying 
 the membership fee, you can attend all of our events, most of which include 
 FREE FOOD.`,
   },
   {
     id: "6",
     question: "How to sign up?",
-    answer:
-    `Scan QR code at the booth or go to our LinkTree (in Instagram bio) to access the 
+    answer: `Scan QR code at the booth or go to our LinkTree (in Instagram bio) to access the 
 MEMBER SIGN-UP form. You can pay the $4 membership fee by one of the 
 following methods:
     
