@@ -18,8 +18,8 @@ export default function FAQ({ questions }: FAQProps) {
   };
 
   return (
-    <section className="mb-section mx-container grid gap-8 xl:grid-cols-[4fr_5fr] xl:gap-14">
-      <h2 className="text-4xl font-bold text-white md:text-8xl xl:-mt-6 xl:text-8xl">
+    <section className="mb-section mx-container grid gap-8 xl:grid-cols-[4fr_5fr] xl:gap-14 ">
+      <h2 className="text-4xl font-bold text-white md:text-8xl xl:-mt-6 xl:text-8xl ">
         Frequently Asked Questions
       </h2>
       <div>
@@ -31,7 +31,7 @@ export default function FAQ({ questions }: FAQProps) {
               } ${i === 0 ? "" : "pt-7"}`}
               onClick={() => toggleHeight(i)}
             >
-              <div className="flex items-center justify-between gap-6">
+              <div className="flex items-center justify-between gap-6 ">
                 <h3 className="font-semibold leading-loose text-white xs:text-lg 2xl:text-xl">
                   {question.question}
                 </h3>
@@ -42,7 +42,7 @@ export default function FAQ({ questions }: FAQProps) {
                 />
               </div>
               <AnimateHeight duration={300} height={heights[i]}>
-                <p className="mt-4 leading-loose text-grey1 2xl:text-lg">
+                <p className="mt-4 w-32 whitespace-pre break-words leading-loose text-grey1 2xl:text-lg">
                   {question.answer}
                 </p>
               </AnimateHeight>

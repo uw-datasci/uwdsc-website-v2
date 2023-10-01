@@ -26,7 +26,7 @@ export default function Home() {
       {/* <PastEvents /> */}
       {/* <Resources /> */}
       <MailingList />
-      {/* <FrequentlyAskedQuestions /> */}
+      <FrequentlyAskedQuestions />
       {/* <Blogs /> */}
       <Sponsors />
       <ContactUs />
