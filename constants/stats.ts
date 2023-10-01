@@ -10,7 +10,7 @@ export const CLUB_STATS: Stat[] = [
   {
     id: "current-members",
     title: "Current Members",
-    stat: 400,
+    stat: 300,
     suffix: "+",
   },
   {
