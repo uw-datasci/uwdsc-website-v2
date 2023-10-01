@@ -1,7 +1,7 @@
-import Image from 'next/image';
-import { Clock, Link, MapPin } from 'react-feather';
+import Image from "next/image";
+import { Clock, Link, MapPin } from "react-feather";
 
-import { type Event } from '@/types/types';
+import { type Event } from "@/types/types";
 
 type EventCardProps = Event;
 
@@ -21,13 +21,13 @@ export default function EventCard({
         <div className="relative px-6 pb-8 pt-5">
           <h4
             className={`text-2xl font-bold text-white md:text-3xl ${
-              description ? 'mb-2' : ''
+              description ? "mb-2" : ""
             }`}
           >
             {title}
           </h4>
           {description && (
-            <p className="mb-5 text-sm leading-loose text-grey1 md:text-md">
+            <p className="mb-5 line-clamp-3 text-sm leading-loose text-grey1 md:text-md">
               {description}
             </p>
           )}
