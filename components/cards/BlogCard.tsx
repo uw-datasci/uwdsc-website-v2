@@ -1,5 +1,4 @@
 import Image from 'next/image';
-
 import GradientBorder from '../UI/GradientBorder';
 
 import { type Blog } from '@/types/types';
@@ -14,7 +13,7 @@ export default function BlogCard({
   label,
 }: BlogCardProps) {
   return (
-    <div className="m-0 overflow-hidden rounded-2xl lg:w-[510px] md:w-[400px] sm:w-[400px]">
+    <div className="m-0 overflow-hidden rounded-2xl lg:w-[564px] md:w-[400px] sm:w-[400px]">
       <div className="relative">
         <a href={link} target="_blank">
           <Image src={image} alt={title} className="object-cover rounded-2xl" />
