@@ -16,7 +16,7 @@ export default function BlogCard({
     <div className="m-0 overflow-hidden rounded-2xl lg:w-[564px] md:w-[400px] sm:w-[400px]">
       <div className="relative">
         <a href={link} target="_blank">
-          <Image src={image} alt={title} className="object-cover rounded-2xl" />
+          <Image src={image} alt={title} className="relative object-cover rounded-2xl lg:w-[564px] lg:h-[319px] md:w-[400px] md:h-[226px] sm:w-[400px] sm:h-[226px]" />
         </a>
         <h1 className="absolute bottom-3 right-2 p-4 text-sm font-normal text-white">
           <GradientBorder rounded="rounded-full">
