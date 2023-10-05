@@ -20,7 +20,7 @@ export default function Hero() {
           Experience CxC, a hackathon that brings together students and
           companies to build projects that solve real-world problems.
         </p>
-        <div className="flex flex-col gap-5 sm:flex-row sm:justify-center sm:gap-12 hover:ring-blue-500">
+        <div className="flex flex-col gap-5 sm:flex-row sm:justify-center sm:gap-12 ">
           {/* <Button
             type="link"
             href=""
@@ -41,7 +41,7 @@ export default function Hero() {
               text="sm:text-lg 2xl:text-xl"
               padding="py-3 sm:px-7 sm:py-4"
               rounded="rounded-[15px]"
-              classes="w-full ring-blue-500"
+              classes="w-full "
             >
               Sponsor Us
             </Button>
