@@ -22,7 +22,7 @@ export default function SponsorshipInterest() {
               font="font-bold"
               text="sm:text-lg 2xl:text-xl"
               padding="py-3 sm:px-7 sm:py-4"
-              rounded="rounded-lg"
+              rounded="rounded-lg hover:bg-gradient-to-bl "
             >
               Set Up a Meeting
             </Button>

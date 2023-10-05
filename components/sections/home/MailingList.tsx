@@ -81,7 +81,7 @@ export default function MailingList() {
                   text="xl:text-lg"
                   padding="px-4 xl:px-6"
                   rounded="rounded-sm"
-                  classes="absolute right-1 inset-y-1 xl:right-2 xl:inset-y-2"
+                  classes="absolute right-1 inset-y-1 xl:right-2 xl:inset-y-2 hover:bg-gradient-to-bl "
                 >
                   Submit
                 </Button>

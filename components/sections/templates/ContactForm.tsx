@@ -201,7 +201,7 @@ export default function ContactForm({
             text="lg:text-lg"
             padding="py-3 sm:px-7"
             rounded="rounded-lg"
-            classes="w-full sm:w-auto"
+            classes="w-full sm:w-auto hover:bg-gradient-to-bl "
           >
             Submit
           </Button>

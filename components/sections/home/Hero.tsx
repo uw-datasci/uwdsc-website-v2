@@ -25,7 +25,8 @@ export default function Hero() {
             font="font-bold"
             text="sm:text-lg 2xl:text-xl"
             padding="py-3 sm:px-7 sm:py-4"
-            rounded="rounded-lg"
+            rounded="rounded-lg "
+            classes = " hover:bg-gradient-to-bl "
           >
             Join Us
           </Button>
@@ -38,7 +39,7 @@ export default function Hero() {
               text="sm:text-lg 2xl:text-xl"
               padding="py-3 sm:px-7 sm:py-4"
               rounded="rounded-[15px]"
-              classes="w-full"
+              classes="w-full "
             >
               Sponsor Us
             </Button>
