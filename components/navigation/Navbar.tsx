@@ -19,10 +19,10 @@ const ROUTES = [
     label: "CxC",
     route: "/cxc",
   },
-  // {
-  //   label: "Team",
-  //   route: "/team",
-  // },
+  {
+    label: "Team",
+    route: "/team",
+  },
   {
     label: "Contact",
     route: "/#contact",
