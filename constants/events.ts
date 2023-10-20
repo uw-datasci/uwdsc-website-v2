@@ -4,8 +4,18 @@ import event from "@/public/placeholder/event.png";
 import dataViz from "@/public/events/dataViz.png";
 import upper from "@/public/events/upper_year.png";
 import system from "@/public/events/system.png";
+import decode from "@/public/events/decode.png";
 
 export const UPCOMING_EVENTS: Event[] = [
+  {
+    id: "0",
+    title: "Decoding:Black Box",
+    description:
+      "Interested in ethical landscape of AI? Join us to learn how to decode the black box and forge a pathway for alignment.",
+    image: decode,
+    date: "7:30-9pm, Thurs, Oct 19",
+    location: "MC Comfy",
+  },
   {
     id: "1",
     title: "Data Viz Workshop",
@@ -32,15 +42,6 @@ export const UPCOMING_EVENTS: Event[] = [
     date: "6-7pm, Wed, Nov 8",
     location: "TBD",
   },
-  // {
-  //   id: "5",
-  //   title: "E-Leetcoding",
-  //   description:
-  //     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.",
-  //   image: event,
-  //   date: "6-7pm, Thurs, Dec 27",
-  //   location: "MC 3034",
-  // },
   // {
   //   id: "6",
   //   title: "E-Leetcoding",
