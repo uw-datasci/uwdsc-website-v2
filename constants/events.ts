@@ -2,62 +2,46 @@ import { Event } from "@/types/types";
 
 import event from "@/public/placeholder/event.png";
 import dataViz from "@/public/events/dataViz.png";
-import bot from "@/public/events/bot.png";
-import leetcoding from "@/public/events/leetcoding.png";
+import upper from "@/public/events/upper_year.png";
+import system from "@/public/events/system.png";
+import network from "@/public/events/network.png";
 
 export const UPCOMING_EVENTS: Event[] = [
   {
     id: "1",
-    title: "E-Leetcoding",
-    description: "E-leet Coding: Your go-to for tech interview prep! Join Peter Szczeszynski, Md. Abdul Chowdhury for LeetCode discussions!",
-    image: leetcoding,
-    date: "6pm, Tues, Sept 26",
-    location: "MC 4040",
-  },
-  {
-    id: "2",
     title: "Data Viz Workshop",
     description:
       "Submit your data viz to our coming week-long contest for a chance to win! 1st place will win a DSC crewneck!",
     image: dataViz,
-    date: "6:30-7:30pm, Wed, Sept 27",
+    date: "Deadline: Oct 24!",
     location: "MC Comfy",
+  },
+  {
+    id: "2",
+    title: "Upper Year Panel",
+    description: "Feeling stressed out from co-op search? Gain valuable co-op insights from upper-years!",
+    image: upper,
+    date: "6-7:30pm, Wed, Oct 25",
+    location: "STC 0040",
   },
   {
     id: "3",
-    title: "BOT",
-    description: "Join us for an exciting start to the term, where you can make new friends and expand your network in DSC!",
-    image: bot,
-    date: "6-7pm, Mon, Oct 2",
-    location: "STC 0050",
+    title: "Pyramid Network",
+    description:
+      "Join us for a workshop about Object Detection and how we can use Feature Pyramid Networks to train models!",
+    image: network,
+    date: "6:30-8pm, Thurs, Oct 26",
+    location: "MC 5501",
   },
   {
     id: "4",
-    title: "Quant Webinar",
+    title: "Info + Networking",
     description:
-      "Explore quant trading careers with Vici. Learn about quant finance, hedge funds, case studies, and meet experienced traders!",
-    image: event,
-    date: "6pm, Wed, Oct 4",
-    location: "MC Comfy",
+      "Join us for an informative and networking session with Point 72 - Cubist Systematic Strategies!",
+    image: system,
+    date: "6-7pm, Wed, Nov 8",
+    location: "TBD",
   },
-  // {
-  //   id: "5",
-  //   title: "E-Leetcoding",
-  //   description:
-  //     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.",
-  //   image: event,
-  //   date: "6-7pm, Thurs, Dec 27",
-  //   location: "MC 3034",
-  // },
-  // {
-  //   id: "6",
-  //   title: "E-Leetcoding",
-  //   description:
-  //     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.",
-  //   image: event,
-  //   date: "6-7pm, Thurs, Dec 27",
-  //   link: "https://www.youtube.com",
-  // },
 ];
 
 export const PAST_EVENTS: Event[] = [
