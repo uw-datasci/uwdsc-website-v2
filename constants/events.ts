@@ -4,18 +4,9 @@ import event from "@/public/placeholder/event.png";
 import dataViz from "@/public/events/dataViz.png";
 import upper from "@/public/events/upper_year.png";
 import system from "@/public/events/system.png";
-import decode from "@/public/events/decode.png";
+import network from "@/public/events/network.png";
 
 export const UPCOMING_EVENTS: Event[] = [
-  {
-    id: "0",
-    title: "Decoding:Black Box",
-    description:
-      "Interested in ethical landscape of AI? Join us to learn how to decode the black box and forge a pathway for alignment.",
-    image: decode,
-    date: "7:30-9pm, Thurs, Oct 19",
-    location: "MC Comfy",
-  },
   {
     id: "1",
     title: "Data Viz Workshop",
@@ -31,10 +22,19 @@ export const UPCOMING_EVENTS: Event[] = [
     description: "Feeling stressed out from co-op search? Gain valuable co-op insights from upper-years!",
     image: upper,
     date: "6-7:30pm, Wed, Oct 25",
-    location: "TBD",
+    location: "STC 0040",
   },
   {
     id: "3",
+    title: "Pyramid Network",
+    description:
+      "Join us for a workshop about Object Detection and how we can use Feature Pyramid Networks to train models!",
+    image: network,
+    date: "6:30-8pm, Thurs, Oct 26",
+    location: "MC 5501",
+  },
+  {
+    id: "4",
     title: "Info + Networking",
     description:
       "Join us for an informative and networking session with Point 72 - Cubist Systematic Strategies!",
@@ -42,15 +42,6 @@ export const UPCOMING_EVENTS: Event[] = [
     date: "6-7pm, Wed, Nov 8",
     location: "TBD",
   },
-  // {
-  //   id: "6",
-  //   title: "E-Leetcoding",
-  //   description:
-  //     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.",
-  //   image: event,
-  //   date: "6-7pm, Thurs, Dec 27",
-  //   link: "https://www.youtube.com",
-  // },
 ];
 
 export const PAST_EVENTS: Event[] = [
