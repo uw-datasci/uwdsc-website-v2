@@ -10,13 +10,13 @@ export const CLUB_STATS: Stat[] = [
   {
     id: "current-members",
     title: "Current Members",
-    stat: 400,
+    stat: 300,
     suffix: "+",
   },
   {
-    id: "recruiting-events-held",
-    title: "Recruiting Events Held",
-    stat: 100,
+    id: "instagram-followers",
+    title: "Instagram Followers",
+    stat: 2500,
     suffix: "+",
   },
 ];
