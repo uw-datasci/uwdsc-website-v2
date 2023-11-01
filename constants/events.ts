@@ -1,7 +1,6 @@
 import { Event } from "@/types/types";
 
 import event from "@/public/placeholder/event.png";
-import dataViz from "@/public/events/dataViz.png";
 import upper from "@/public/events/upper_year.png";
 import system from "@/public/events/system.png";
 import network from "@/public/events/network.png";
