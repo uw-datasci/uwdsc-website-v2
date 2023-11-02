@@ -1,46 +1,37 @@
 import { Event } from "@/types/types";
 
 import event from "@/public/placeholder/event.png";
-import dataViz from "@/public/events/dataViz.png";
-import upper from "@/public/events/upper_year.png";
 import system from "@/public/events/system.png";
-import network from "@/public/events/network.png";
+import reading from "@/public/events/reading.png";
+import regress from "@/public/events/regress.png";
 
 export const UPCOMING_EVENTS: Event[] = [
   {
-    id: "1",
-    title: "Data Viz Workshop",
+    id: "0",
+    title: "Regress vs Classify",
     description:
-      "Submit your data viz to our coming week-long contest for a chance to win! 1st place will win a DSC crewneck!",
-    image: dataViz,
-    date: "Deadline: Oct 24!",
-    location: "MC Comfy",
-  },
-  {
-    id: "2",
-    title: "Upper Year Panel",
-    description: "Feeling stressed out from co-op search? Gain valuable co-op insights from upper-years!",
-    image: upper,
-    date: "6-7:30pm, Wed, Oct 25",
-    location: "STC 0040",
-  },
-  {
-    id: "3",
-    title: "Pyramid Network",
-    description:
-      "Join us for a workshop about Object Detection and how we can use Feature Pyramid Networks to train models!",
-    image: network,
-    date: "6:30-8pm, Thurs, Oct 26",
+      "Unlock the Power of Regression and Classification: A Workshop for Predictive and Exploratory Analytics!",
+    image: regress,
+    date: "6-7:30pm, Thurs, Nov 2",
     location: "MC 5501",
   },
   {
-    id: "4",
+    id: "1",
+    title: "Reading Group",
+    description:
+      "This week's reading group is about gaming and reinforcement learnings! The link is available on our instagram!",
+    image: reading,
+    date: "6-7pm, Sunday, Nov 5",
+    location: "zoom",
+  },
+  {
+    id: "2",
     title: "Info + Networking",
     description:
       "Join us for an informative and networking session with Point 72 - Cubist Systematic Strategies!",
     image: system,
     date: "6-7pm, Wed, Nov 8",
-    location: "TBD",
+    location: "STC 0050",
   },
 ];
 
