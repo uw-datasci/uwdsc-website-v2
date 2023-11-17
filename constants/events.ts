@@ -1,6 +1,6 @@
 import { Event } from "@/types/types";
 
-import event from "@/public/placeholder/event.png";
+// import event from "@/public/placeholder/event.png";
 import eot from "@/public/events/eot.png";
 
 export const UPCOMING_EVENTS: Event[] = [

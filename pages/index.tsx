@@ -3,7 +3,7 @@ import Hero from "@/components/sections/home/Hero";
 import WhatWeDo from "@/components/sections/home/WhatWeDo";
 import ClubStats from "@/components/sections/home/ClubStats";
 import UpcomingEvents from "@/components/sections/home/UpcomingEvents";
-import PastEvents from "@/components/sections/home/PastEvents";
+// import PastEvents from "@/components/sections/home/PastEvents";
 import Resources from "@/components/sections/home/Resources";
 import MailingList from "@/components/sections/home/MailingList";
 import FrequentlyAskedQuestions from "@/components/sections/home/FrequentlyAskedQuestions";
