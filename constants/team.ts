@@ -35,7 +35,7 @@ import lucy from "@/public/teams/Lucy-Qi.jpg";
 import maggie from "@/public/teams/Maggie-Liu.jpeg";
 import mariam from "@/public/teams/Mariam-Al-Hulaibi.jpeg";
 import michelle from "@/public/teams/Michelle-Lu.jpeg";
-import neysa from "@/public/teams/neysa - Neysa Patel.jpg";
+import neysa from "@/public/teams/neysa.png";
 import nina from "@/public/teams/Nina-Do.jpeg";
 import raiyan from "@/public/teams/Raiyan-Sayeed.jpeg";
 import rayaq from "@/public/teams/Rayaq-Siddiqui.jpeg";
