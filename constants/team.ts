@@ -21,17 +21,14 @@ import daniel from "@/public/teams/Daniel-Su.jpg";
 import donghwui from "@/public/teams/Donghwui-Kim.jpg";
 import emily from "@/public/teams/Emily.jpeg";
 import enoch from "@/public/teams/Enoch-Tin.jpg";
-import ethan from "@/public/teams/Ethan-Cai.jpg";
 import felix from "@/public/teams/Felix-Yang.jpeg";
 import guo from "@/public/teams/Guo-Chen.jpg";
 import hadas from "@/public/teams/Hadas-Barabash.jpg";
 import hayden from "@/public/teams/Hayden-Azan.jpg";
 import jacob from "@/public/teams/Jacob-Yan.png";
+import jacobS from "@/public/teams/Jacob-Schnell.jpeg";
 import jennifer from "@/public/teams/Jennifer-Peter.jpeg";
-import katarina from "@/public/teams/Katarina-Makivic.jpeg";
-// import kaushik from "@/public/teams/Kaushik-Chatterjee.jfif";
 import khushi from "@/public/teams/Khushi-Adukia.jpeg";
-import kimberley from "@/public/teams/Kimberley-Hoang.jpg";
 import kriti from "@/public/teams/Kriti-Sodhi.jpg";
 import kun from "@/public/teams/Kun-Zhu.jpg";
 import lucy from "@/public/teams/Lucy-Qi.jpg";
@@ -46,7 +43,7 @@ import rex from "@/public/teams/Rex-Niu.jpeg";
 import rohan from "@/public/teams/Rohan-Minocha.png";
 import sara from "@/public/teams/Sara-Zufishan.jpeg";
 import sebastian from "@/public/teams/Sebastian-Valencia.jpg";
-import shae from "@/public/teams/Shae-Lynn-Stirling.jpg";
+import shae from "@/public/teams/Shae.jpg";
 import shamar from "@/public/teams/Shamar-Phillips.jpeg";
 import shashwat from "@/public/teams/Shashwat-Murawala.jpg";
 import sherry from "@/public/teams/SherryPic - Sherry.jpg";
@@ -57,7 +54,8 @@ import soyeon from "@/public/teams/Soyeon-Jang.jpg";
 import simone from "@/public/teams/Simone-Coutinho.jpg";
 import iris from "@/public/teams/Iris-Kim.png";
 import suhayl from "@/public/teams/Suhayl-Sayed.jpeg";
-import zeaj from "@/public/teams/Zeaj-Zamoranos Large.jpeg"
+import zeaj from "@/public/teams/Zeaj-Zamoranos Large.jpeg";
+import kim from "@/public/teams/Kim-Hoang.jpg";
 
 
 export const TEAM: Subteam[] = [
@@ -78,6 +76,126 @@ export const TEAM: Subteam[] = [
         position: "Co-President",
         image: dania,
         email: "contact@uwdatascience.ca"
+      },
+    ],
+  },
+  {
+    id: "internal",
+    name: "Internal",
+    members: [
+      {
+        id: "internal1",
+        name: "Enoch Tin",
+        position: "VP Internal",
+        image: enoch, 
+      },
+      {
+        id: "internal2",
+        name: "Felix Yang",
+        position: "Internal Coordinator",
+        image: felix,
+      },
+      {
+        id: "internal3",
+        name: "Adeline Su",
+        position: "Internal Coordinator",
+        image: adeline,
+      },
+      {
+        id: "internal4",
+        name: "Alyssa Lam",
+        position: "Internal Coordinator",
+        image: alyssa,
+      },
+      {
+        id: "internal5",
+        name: "Suhayl Sayed",
+        position: "Internal Coordinator",
+        image: suhayl,
+      },
+    ],
+  },
+  {
+    id: "events",
+    name: "Events",
+    members: [
+      {
+        id: "events2",
+        name: "Kim Hoang",
+        position: "VP of Events",
+        image: kim,
+      },
+      {
+        id: "external1",
+        name: "Raiyan Sayeed",
+        position: "External Affairs Lead",
+        image: raiyan, 
+      },
+      {
+        id: "events4",
+        name: "Leo Feng",
+        position: "Event Coordinator",
+        image: team,
+      },
+      {
+        id: "events5",
+        name: "Andrew Au",
+        position: "Event Coordinator",
+        image: andrew,
+      },
+      {
+        id: "events6",
+        name: "Curtis Sinopoli",
+        position: "Event Coordinator",
+        image: curits,
+      },
+      {
+        id: "events7",
+        name: "Donghwui Kim",
+        position: "Event Coordinator",
+        image: donghwui,
+      },
+      {
+        id: "events8",
+        name: "Emily Wang",
+        position: "Event Coordinator",
+        image: emily,
+      },
+      {
+        id: "events9",
+        name: "Guo Chen",
+        position: "Event Coordinator",
+        image: guo,
+      },
+      {
+        id: "events10",
+        name: "Michelle Lu",
+        position: "Event Coordinator",
+        image: michelle,
+      },
+    ],
+  },
+  {
+    id: "outreach",
+    name: "Outreach",
+    members: [
+      {
+        id: "outreach1",
+        name: "Bansari Shah",
+        position: "Outreach Coordinator",
+        image: bansari,
+      },
+      {
+        id: "outreach2",
+        name: "Iris Kim",
+        position: "Outreach Coordinator",
+        image: iris,
+      },
+      {
+        id: "outreach3",
+        name: "Shashwat Murawala",
+        position: "Outreach Coordinator",
+        image: shashwat,
       },
     ],
   },
@@ -130,102 +248,6 @@ export const TEAM: Subteam[] = [
     ],
   },
   {
-    id: "design",
-    name: "Design",
-    members: [
-      {
-        id: "design1",
-        name: "Kun Zhu",
-        position: "VP Design",
-        image: kun, 
-      },
-      {
-        id: "design2",
-        name: "Marcus Luong",
-        position: "Multimedia Coordinator",
-        image: team,
-      },
-      {
-        id: "design3",
-        name: "Lucy Qi",
-        position: "Multimedia Coordinator",
-        image: lucy,
-      },
-      {
-        id: "design4",
-        name: "Zeaj Zamoranos",
-        position: "Design Advisor",
-        image: zeaj,
-      },
-      {
-        id: "design5",
-        name: "Malavika Sikka",
-        position: "Graphic Designer",
-        image: team,
-      },
-      {
-        id: "design6",
-        name: "Daniel Su",
-        position: "Graphic Designer",
-        image: daniel,
-      },
-      {
-        id: "design7",
-        name: "Stanley Lin",
-        position: "Graphic Designer",
-        image: stanley,
-      },
-      {
-        id: "design8",
-        name: "Teresa Zhang",
-        position: "Graphic Designer",
-        image: teresa,
-      },
-      {
-        id: "design9",
-        name: "Sebastian Valencia",
-        position: "Graphic Designer",
-        image: sebastian,
-      },
-    ],
-  },
-  {
-    id: "discord",
-    name: "Discord Dev",
-    members: [
-      {
-        id: "discord1",
-        name: "Maisha Thasin",
-        position: "VP of Discord Development",
-        image: team, 
-      },
-      {
-        id: "discord2",
-        name: "Evelina Zheng",
-        position: "Discord Developer",
-        image: team,
-      },
-      {
-        id: "discord3",
-        name: "Hasan Khan",
-        position: "Discord Developer",
-        image: team,
-      },
-      {
-        id: "discord4",
-        name: "Kriti Sodhi",
-        position: "Discord Developer",
-        image: kriti,
-      },
-      {
-        id: "discord5",
-        name: "Sherry Feng",
-        position: "Discord Developer",
-        image: sherry,
-      },
-    ],
-  },
-  {
     id: "education",
     name: "Education",
     members: [
@@ -245,7 +267,7 @@ export const TEAM: Subteam[] = [
         id: "education3",
         name: "Jacob Schnell",
         position: "Reading Group Lead",
-        image: jacob,
+        image: jacobS,
       },
       {
         id: "education4",
@@ -270,180 +292,6 @@ export const TEAM: Subteam[] = [
         name: "Rayaq Siddiqui",
         position: "Workshop Lead",
         image: rayaq,
-      },
-    ],
-  },
-  {
-    id: "events",
-    name: "Events",
-    members: [
-      {
-        id: "events1",
-        name: "Katarina Makivic",
-        position: "VP of Events",
-        image: katarina, 
-      },
-      {
-        id: "events2",
-        name: "Kim Hoang",
-        position: "VP of Events",
-        image: kimberley,
-      },
-      {
-        id: "events3",
-        name: "Ethan Cai",
-        position: "Event Assistant",
-        image: ethan,
-      },
-      {
-        id: "events4",
-        name: "Leo Feng",
-        position: "Event Coordinator",
-        image: team,
-      },
-      {
-        id: "events5",
-        name: "Andrew Au",
-        position: "Event Coordinator",
-        image: andrew,
-      },
-      {
-        id: "events6",
-        name: "Curtis Sinopoli",
-        position: "Event Coordinator",
-        image: curits,
-      },
-      {
-        id: "events7",
-        name: "Donghwui Kim",
-        position: "Event Coordinator",
-        image: donghwui,
-      },
-      {
-        id: "events8",
-        name: "Emily Wang",
-        position: "Event Coordinator",
-        image: emily,
-      },
-      {
-        id: "events9",
-        name: "Guo Chen",
-        position: "Event Coordinator",
-        image: guo,
-      },
-      {
-        id: "events10",
-        name: "Michelle Lu",
-        position: "Event Coordinator",
-        image: michelle,
-      },
-    ],
-  },
-  {
-    id: "internal",
-    name: "Internal",
-    members: [
-      {
-        id: "internal1",
-        name: "Enoch Tin",
-        position: "VP Internal",
-        image: enoch, 
-      },
-      {
-        id: "internal2",
-        name: "Felix Yang",
-        position: "Internal Coordinator",
-        image: felix,
-      },
-      {
-        id: "internal3",
-        name: "Adeline Su",
-        position: "Internal Coordinator",
-        image: adeline,
-      },
-      {
-        id: "internal4",
-        name: "Alyssa Lam",
-        position: "Internal Coordinator",
-        image: alyssa,
-      },
-      {
-        id: "internal5",
-        name: "Suhayl Sayed",
-        position: "Internal Coordinator",
-        image: suhayl,
-      },
-    ],
-  },
-  {
-    id: "outreach",
-    name: "Outreach",
-    members: [
-      {
-        id: "outreach1",
-        name: "Bansari Shah",
-        position: "Outreach Coordinator",
-        image: bansari,
-      },
-      {
-        id: "outreach2",
-        name: "Iris Kim",
-        position: "Outreach Coordinator",
-        image: iris,
-      },
-      {
-        id: "outreach3",
-        name: "Shashwat Murawala",
-        position: "Outreach Coordinator",
-        image: shashwat,
-      },
-    ],
-  },
-  {
-    id: "podcast",
-    name: "Podcast",
-    members: [
-      {
-        id: "podcast1",
-        name: "Anvita Gupta",
-        position: "Podcast Host",
-        image: anvita, 
-      },
-      {
-        id: "podcast2",
-        name: "Jaemin Han",
-        position: "Podcast Host",
-        image: team,
-      },
-    ],
-  },
-  {
-    id: "social",
-    name: "Social Media",
-    members: [
-      {
-        id: "social1",
-        name: "Shae-Lynn Stirling",
-        position: "VP of Social Media",
-        image: shae,
-      },
-      {
-        id: "social2",
-        name: "Mariam Al-Hulaibi",
-        position: "Social Media Coordinator",
-        image: mariam,
-      },
-      {
-        id: "social3",
-        name: "Rex Niu",
-        position: "Social Media Coordinator",
-        image: rex,
-      },
-      {
-        id: "social4",
-        name: "Simone Coutinho",
-        position: "Social Media Coordinator",
-        image: simone,
       },
     ],
   },
@@ -496,32 +344,104 @@ export const TEAM: Subteam[] = [
     ],
   },
   {
-    id: "external",
-    name: "External",
+    id: "design",
+    name: "Design",
     members: [
       {
-        id: "external1",
-        name: "Raiyan Sayeed",
-        position: "External Affairs Lead",
-        image: raiyan, 
+        id: "design1",
+        name: "Kun Zhu",
+        position: "VP Design",
+        image: kun, 
+      },
+      {
+        id: "design4",
+        name: "Zeaj Zamoranos",
+        position: "Design Advisor",
+        image: zeaj,
+      },
+      {
+        id: "design5",
+        name: "Malavika Sikka",
+        position: "Graphic Designer",
+        image: team,
+      },
+      {
+        id: "design6",
+        name: "Daniel Su",
+        position: "Graphic Designer",
+        image: daniel,
+      },
+      {
+        id: "design7",
+        name: "Stanley Lin",
+        position: "Graphic Designer",
+        image: stanley,
+      },
+      {
+        id: "design8",
+        name: "Teresa Zhang",
+        position: "Graphic Designer",
+        image: teresa,
+      },
+      {
+        id: "design9",
+        name: "Sebastian Valencia",
+        position: "Graphic Designer",
+        image: sebastian,
       },
     ],
-  },  
+  },
+  {
+    id: "social",
+    name: "Social Media",
+    members: [
+      {
+        id: "social1",
+        name: "Shae-Lynn Stirling",
+        position: "VP of Social Media",
+        image: shae,
+      },
+      {
+        id: "social2",
+        name: "Mariam Al-Hulaibi",
+        position: "Social Media Coordinator",
+        image: mariam,
+      },
+      {
+        id: "social3",
+        name: "Rex Niu",
+        position: "Social Media Coordinator",
+        image: rex,
+      },
+      {
+        id: "social4",
+        name: "Simone Coutinho",
+        position: "Social Media Coordinator",
+        image: simone,
+      },
+      {
+        id: "design2",
+        name: "Marcus Luong",
+        position: "Multimedia Coordinator",
+        image: team,
+      },
+      {
+        id: "design3",
+        name: "Lucy Qi",
+        position: "Multimedia Coordinator",
+        image: lucy,
+      },
+    ],
+  },
   {
     id: "development",
-    name: "Development",
+    name: "Web Development",
     members: [
       {
         id: "development1",
         name: "Andrew Qiao",
         position: "VP of Web Development",
         image: andrewqiao, 
-      },
-      {
-        id: "development2",
-        name: "Nina Do",
-        position: "Frontend Developer",
-        image: nina,
       },
       {
         id: "development3",
@@ -532,9 +452,70 @@ export const TEAM: Subteam[] = [
       {
         id: "development4",
         name: "Abigail Xu",
-        position: "Developer", // Assuming position, update as needed
+        position: "Backend Developer", // Assuming position, update as needed
         image: abigail,
       },
+      {
+        id: "development2",
+        name: "Nina Do",
+        position: "Frontend Developer",
+        image: nina,
+      },
     ],
-  }
+  },
+  {
+    id: "discord",
+    name: "Discord Development",
+    members: [
+      {
+        id: "discord1",
+        name: "Maisha Thasin",
+        position: "VP of Discord Development",
+        image: team, 
+      },
+      {
+        id: "discord2",
+        name: "Evelina Zheng",
+        position: "Discord Developer",
+        image: team,
+      },
+      {
+        id: "discord3",
+        name: "Hasan Khan",
+        position: "Discord Developer",
+        image: team,
+      },
+      {
+        id: "discord4",
+        name: "Kriti Sodhi",
+        position: "Discord Developer",
+        image: kriti,
+      },
+      {
+        id: "discord5",
+        name: "Sherry Feng",
+        position: "Discord Developer",
+        image: sherry,
+      },
+    ],
+  },
+  {
+    id: "podcast",
+    name: "Podcast",
+    members: [
+      {
+        id: "podcast1",
+        name: "Anvita Gupta",
+        position: "Podcast Host",
+        image: anvita, 
+      },
+      {
+        id: "podcast2",
+        name: "Jaemin Han",
+        position: "Podcast Host",
+        image: team,
+      },
+    ],
+  }, 
+
 ];
