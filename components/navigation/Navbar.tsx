@@ -104,7 +104,7 @@ export default function Navbar() {
           hierarchy="primary"
           font="font-bold"
           rounded="rounded-md"
-          classes="hidden lg:block"
+          classes="hidden lg:block hover:bg-gradient-to-bl "
         >
           Join Us
         </Button>

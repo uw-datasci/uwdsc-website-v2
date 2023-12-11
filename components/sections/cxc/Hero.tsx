@@ -20,7 +20,7 @@ export default function Hero() {
           Experience CxC, a hackathon that brings together students and
           companies to build projects that solve real-world problems.
         </p>
-        <div className="flex flex-col gap-5 sm:flex-row sm:justify-center sm:gap-12">
+        <div className="flex flex-col gap-5 sm:flex-row sm:justify-center sm:gap-12 ">
           {/* <Button
             type="link"
             href=""
@@ -32,7 +32,7 @@ export default function Hero() {
           >
             Sign Up
           </Button> */}
-          <GradientBorder rounded="rounded-lg">
+          <GradientBorder rounded="rounded-lg ">
             <Button
               type="route"
               href="#contact"
