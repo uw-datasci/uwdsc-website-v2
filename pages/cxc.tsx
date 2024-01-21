@@ -5,7 +5,10 @@ import FrequentlyAskedQuestions from "@/components/sections/cxc/FrequentlyAskedQ
 import SponsorshipTiers from "@/components/sections/cxc/SponsorshipTiers";
 import SponsorshipInterest from "@/components/sections/cxc/SponsorshipInterest";
 import SponsorForm from "@/components/sections/cxc/SponsorForm";
-import Sponsors from "@/components/sections/cxc/Sponsors";
+import Sponsors from "@/components/sections/home/Sponsors";
+import PastEvents from "@/components/sections/cxc/PastEvents"
+import PastSponsors from "@/components/sections/cxc/PastSponsors";
+import PastCxC from "@/components/sections/cxc/PastCxC";
 
 export default function CxC() {
   return (
@@ -15,12 +18,15 @@ export default function CxC() {
         description="Experience CxC, a hackathon that brings together students and companies to build projects that solve real-world problems."
       />
       <Hero />
+      
+      <PastEvents />
+      <PastCxC/>
+      
       <CxCStats />
-      {/* <FrequentlyAskedQuestions /> */}
       <SponsorshipTiers />
       <SponsorshipInterest />
       <SponsorForm />
-      <Sponsors />
+      <PastSponsors />
     </>
   );
 }
