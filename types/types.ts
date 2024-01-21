@@ -10,6 +10,12 @@ export type Event = {
   link?: string;
 };
 
+export type Photo = {
+  id: string;
+  title: string;
+  image: StaticImageData;
+};
+
 export type Resource = {
   id: string;
   title: string;

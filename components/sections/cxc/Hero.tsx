@@ -21,9 +21,9 @@ export default function Hero() {
           companies to build projects that solve real-world problems.
         </p>
         <div className="flex flex-col gap-5 sm:flex-row sm:justify-center sm:gap-12">
-          {/* <Button
+          <Button
             type="link"
-            href=""
+            href="https://discord.gg/Sr6KSt5cK4"
             hierarchy="primary"
             font="font-bold"
             text="sm:text-lg 2xl:text-xl"
@@ -31,7 +31,7 @@ export default function Hero() {
             rounded="rounded-lg"
           >
             Sign Up
-          </Button> */}
+          </Button>
           <GradientBorder rounded="rounded-lg">
             <Button
               type="route"
@@ -43,7 +43,7 @@ export default function Hero() {
               rounded="rounded-[15px]"
               classes="w-full"
             >
-              Sponsor Us
+              Sponsor CxC
             </Button>
           </GradientBorder>
         </div>

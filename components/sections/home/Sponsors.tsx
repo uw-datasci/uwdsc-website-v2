@@ -4,18 +4,21 @@ import SectionTitle from "@/components/UI/SectionTitle";
 
 import mathsoc from "@/public/logos/mathsoc.png";
 import mef from "@/public/logos/mef.png";
+import { CURRENT_SPONSORS } from "@/constants/sponsors";
 
 export default function Sponsors() {
   return (
     <section className="mb-section mx-container">
       <SectionTitle mb="mb-12">OUR SPONSORS</SectionTitle>
-      <div className="flex flex-wrap justify-center gap-16 lg:gap-40">
-        <Image
-          src={mathsoc}
-          alt="mathsoc logo"
-          className="h-16 w-auto md:h-20"
-        />
-        <Image src={mef} alt="mef logo" className="h-16 w-auto md:h-20" />
+      <div className="flex flex-wrap justify-center gap-x-40 gap-y-20">
+        {CURRENT_SPONSORS.map(({ name, logo }) => (
+          <Image
+            src={logo}
+            alt={name}
+            className="h-16 w-auto md:h-20"
+            key={name}
+          />
+        ))}
       </div>
     </section>
   );

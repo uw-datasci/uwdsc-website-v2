@@ -4,7 +4,7 @@ import SectionTitle from "@/components/UI/SectionTitle";
 
 import { PAST_SPONSORS } from "@/constants/sponsors";
 
-export default function Sponsors() {
+export default function PastSponsors() {
   return (
     <section className="mb-section mx-container">
       <SectionTitle mb="mb-12">PAST SPONSORS</SectionTitle>

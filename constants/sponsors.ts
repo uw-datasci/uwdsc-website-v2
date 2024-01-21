@@ -10,6 +10,11 @@ import wyvern from "@/public/logos/cxc/wyvern.png";
 import salesforce from "@/public/logos/cxc/salesforce.png";
 import databricks from "@/public/logos/cxc/databricks.png";
 
+export const CURRENT_SPONSORS = [
+  { name: "MathSoc", logo: mathsoc },
+  { name: "MEF", logo: mef }
+];
+
 export const PAST_SPONSORS = [
   { name: "MathSoc", logo: mathsoc },
   { name: "MEF", logo: mef },
