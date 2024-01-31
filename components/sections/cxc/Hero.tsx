@@ -23,7 +23,7 @@ export default function Hero() {
         <div className="flex flex-col gap-5 sm:flex-row sm:justify-center sm:gap-12">
           <Button
             type="link"
-            href="https://linktr.ee/uwdsc/"
+            href="https://lu.ma/cxc"
             hierarchy="primary"
             font="font-bold"
             text="sm:text-lg 2xl:text-xl"
