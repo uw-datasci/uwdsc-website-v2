@@ -7,7 +7,7 @@ import { CURRENT_CXC_SPONSORS } from "@/constants/sponsors";
 export default function CxCSponsors() {
   return (
     <section className="mb-section mx-container">
-      <SectionTitle mb="mb-20">THIS YEAR'S SPONSORS</SectionTitle>
+      <SectionTitle mb="mb-20">THIS YEAR&apos;S SPONSORS</SectionTitle>
       <div className="flex flex-wrap justify-center gap-x-40 gap-y-20">
         {CURRENT_CXC_SPONSORS.map(({ name, logo }) => (
           <Image
