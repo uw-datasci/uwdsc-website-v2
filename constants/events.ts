@@ -68,11 +68,6 @@ export const PAST_EVENTS: Event[] = [
 
 export const PAST_CXC: Photo[] = [
   {
-    id: "0",
-    title: "c0",
-    image: c0,
-  },
-  {
     id: "3",
     title: "c3",
     image: c3,
