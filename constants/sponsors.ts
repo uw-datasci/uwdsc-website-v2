@@ -9,10 +9,22 @@ import cyclica from "@/public/logos/cxc/cyclica.png";
 import wyvern from "@/public/logos/cxc/wyvern.png";
 import salesforce from "@/public/logos/cxc/salesforce.png";
 import databricks from "@/public/logos/cxc/databricks.png";
+import EY from "@/public/logos/cxc_2024/EY.png";
+import IIS from "@/public/logos/cxc_2024/IIS.png";
+import OwnersBox from "@/public/logos/cxc_2024/OwnersBox.png";
+import Quadreal from "@/public/logos/cxc_2024/Quadreal.png";
 
 export const CURRENT_SPONSORS = [
   { name: "MathSoc", logo: mathsoc },
   { name: "MEF", logo: mef }
+];
+
+export const CURRENT_CXC_SPONSORS = [
+  { name: "EY", logo: EY },
+  { name: "IIS", logo: IIS },
+  { name: "OwnersBox", logo: OwnersBox },
+  { name: "Quadreal", logo: Quadreal }
+
 ];
 
 export const PAST_SPONSORS = [
