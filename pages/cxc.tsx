@@ -6,7 +6,7 @@ import SponsorshipTiers from "@/components/sections/cxc/SponsorshipTiers";
 import SponsorshipInterest from "@/components/sections/cxc/SponsorshipInterest";
 import SponsorForm from "@/components/sections/cxc/SponsorForm";
 import Sponsors from "@/components/sections/home/Sponsors";
-import PastEvents from "@/components/sections/cxc/PastEvents"
+import PastEvents from "@/components/sections/home/PastEvents"
 import PastSponsors from "@/components/sections/cxc/PastSponsors";
 import PastCxC from "@/components/sections/cxc/PastCxC";
 import CxCSponsors from "@/components/sections/cxc/CxCSponsors";
@@ -19,14 +19,13 @@ export default function CxC() {
         description="Experience CxC, a hackathon that brings together students and companies to build projects that solve real-world problems."
       />
       <Hero />
-      <CxCSponsors/>
-      <PastEvents />
-      <PastCxC/>
       <CxCStats />
-      <SponsorshipTiers />
-      <SponsorshipInterest />
-      <SponsorForm />
-      <PastSponsors />
+      <CxCSponsors/>
+      <PastCxC/>
+      {/* <SponsorshipTiers /> */}
+      {/* <SponsorshipInterest /> */}
+      {/* <SponsorForm /> */}
+      {/* <PastSponsors /> */}
     </>
   );
 }
