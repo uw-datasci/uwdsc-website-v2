@@ -8,10 +8,6 @@ import GradientBorder from "@/components/UI/GradientBorder";
 
 import officeArcade from "@/public/graphics/office-arcade.png";
 
-const EMBED_BASE_URL =
-  process.env.NODE_ENV === "production"
-    ? "https://embed.lu.ma"
-    : "http://127.0.0.1:333";
 
 export default function Hero() {
 
@@ -44,12 +40,9 @@ export default function Hero() {
         </p>
         <div className="flex flex-col gap-5 sm:flex-row sm:justify-center sm:gap-12">
           <Button
-            type="link"
-            // href="https://lu.ma/cxc"
+            type="luma-button"
             href="https://lu.ma/event/evt-ChamzwlXhzTJZDS"
-            classes="luma-checkout--button"
-            data-luma-action="checkout"
-            data-luma-event-id="evt-ChamzwlXhzTJZDS"
+            classes="ease-in-out"
             hierarchy="primary"
             font="font-bold"
             text="sm:text-lg 2xl:text-xl"
@@ -58,19 +51,7 @@ export default function Hero() {
           >
             Sign Up
           </Button>
-          {/* <a
-            href="https://lu.ma/event/evt-ChamzwlXhzTJZDS"
-            className="luma-checkout--button py-3 sm:px-7 sm:py-4 rounded-lg font-bold sm:text-lg 2xl:text-xl text-white bg-blue-600 hover:bg-blue-700 transition duration-300 ease-in-out"
-            type="button"
-            data-luma-action="checkout"
-            data-luma-event-id="evt-ChamzwlXhzTJZDS"
-          >
-            Sign Up
-          </a> */}
-          <Script
-            id="luma-checkout"
-            src={`${EMBED_BASE_URL}/checkout-button.js`}
-          />
+          
           {/* <GradientBorder rounded="rounded-lg">
             <Button
               type="route"
