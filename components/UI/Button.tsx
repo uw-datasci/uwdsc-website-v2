@@ -1,7 +1,8 @@
 import Link from "next/link";
+import Script from 'next/script'
 
 type ButtonProps = {
-  type: "button" | "submit" | "route" | "link";
+  type: "button" | "submit" | "route" | "link" | "luma-button";
   href?: string;
   onClick?: () => void;
   hierarchy: "primary" | "secondary";
@@ -13,6 +14,12 @@ type ButtonProps = {
   classes?: string;
   children: React.ReactNode;
 };
+
+const EMBED_BASE_URL =
+  process.env.NODE_ENV === "production"
+    ? "https://embed.lu.ma"
+    : "http://127.0.0.1:333";
+
 
 export default function Button({
   type,
@@ -65,6 +72,26 @@ export default function Button({
         >
           {children}
         </a>
+      );
+    case "luma-button":
+      return (
+        <>
+          <a
+            href="https://lu.ma/event/evt-ChamzwlXhzTJZDS"
+            className={`${classes}`}
+            type="button"
+            data-luma-action="checkout"
+            data-luma-event-id="evt-ChamzwlXhzTJZDS"
+          >
+            {children}
+          </a>
+        
+          <Script
+            id="luma-checkout"
+            src={`${EMBED_BASE_URL}/checkout-button.js`}
+          />
+        </>
+          
       );
     default:
       return <></>;
