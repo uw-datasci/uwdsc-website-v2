@@ -25,8 +25,8 @@ const CHIPS = [
     icon: <Instagram className="w-5 text-white" />,
   },
   {
-    label: "discord.gg/Mnpt72VGN4",
-    href: "https://discord.gg/Mnpt72VGN4",
+    label: "discord.gg/VFVkyP5mgm",
+    href: "https://discord.gg/VFVkyP5mgm",
     icon: <RxDiscordLogo size={24} className="text-white" />,
   },
 ];

@@ -84,6 +84,7 @@ export default function Stats({ title, stats }: StatsProps) {
         {stats.map((stat, i) => (
           <div className="text-center" key={stat.id}>
             <p className="mb-2 font-display text-12xl font-bold text-white">
+              {stat.prefix}
               {Math.round(curStats[i])}
               {stat.suffix}
             </p>

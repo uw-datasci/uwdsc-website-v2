@@ -7,6 +7,6 @@ import { PAST_CXC } from "@/constants/events";
 
 export default function PastCxC() {
   return (
-    <CarouselGallery title="CxC Winter 2023" images={PAST_CXC}/>
+    <CarouselGallery title="Past CxC" images={PAST_CXC}/>
   );
 }

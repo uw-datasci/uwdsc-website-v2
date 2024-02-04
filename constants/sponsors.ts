@@ -20,11 +20,26 @@ export const CURRENT_SPONSORS = [
 ];
 
 export const CURRENT_CXC_SPONSORS = [
-  { name: "EY", logo: EY },
-  { name: "IIS", logo: IIS },
-  { name: "OwnersBox", logo: OwnersBox },
-  { name: "Quadreal", logo: Quadreal }
+  // Top Sponsors
+  { name: "EY", logo: EY, type:"top" },
+  // { name: "MEF", logo: MEF, type:"top" },
+  // { name: "WUSA", logo: WUSA, type:"top" },
+  
+  // // Dataset Sponsors
+  // { name: "OwnersBox", logo: OwnersBox, type:"dataset" },
+  // { name: "Infinite Investments", logo: IIS, type:"dataset"},
+  // { name: "Quadreal", logo: Quadreal, type:"dataset" },
 
+  // // Gold Sponsors
+  // { name: "Interac", logo: Interac, type:"gold" },
+  // { name: "Fidelity", logo: Fidelity, type:"gold"},
+  // { name: "Architech", logo: Architech, type:"gold" },
+  // { name: "Boomerang", logo: Boomerang, type:"gold" },
+  // { name: "Live Assets", logo: LiveAssets, type:"gold" },
+
+  // // Gold Sponsors
+  // { name: "FluidAI", logo: FluidAI, type:"silver" },
+  // { name: "ECapital", logo: ECapital, type:"silver"},
 ];
 
 export const PAST_SPONSORS = [

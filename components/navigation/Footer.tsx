@@ -15,7 +15,7 @@ const SOCIALS = [
   },
   {
     icon: <RxDiscordLogo size={24} className="text-white" />,
-    href: "https://discord.gg/2Y5W2z6",
+    href: "https://discord.gg/VFVkyP5mgm",
   },
   {
     icon: <Linkedin className="w-6 text-white" />,
@@ -35,7 +35,7 @@ const SOCIALS = [
   },
   {
     icon: <RiSpotifyLine size={24} className="text-white" />,
-    href: "https://open.spotify.com/show/4r1GMei94NFMEMTi6ErvEk?si=3b8fa1ef88334caa",
+    href: "https://open.spotify.com/show/4iWipypyDClyRHM47JIMzg",
   },
 ];
 
