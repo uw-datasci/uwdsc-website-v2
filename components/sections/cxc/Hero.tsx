@@ -1,10 +1,17 @@
 import Image from "next/image";
 import { useEffect } from 'react';
+import Script from 'next/script'
+
 
 import Button from "@/components/UI/Button";
 import GradientBorder from "@/components/UI/GradientBorder";
 
 import officeArcade from "@/public/graphics/office-arcade.png";
+
+const EMBED_BASE_URL =
+  process.env.NODE_ENV === "production"
+    ? "https://embed.lu.ma"
+    : "http://127.0.0.1:333";
 
 export default function Hero() {
 
@@ -40,7 +47,7 @@ export default function Hero() {
             type="link"
             // href="https://lu.ma/cxc"
             href="https://lu.ma/event/evt-ChamzwlXhzTJZDS"
-            classes="luma-checkout--button py-3 sm:px-7 sm:py-4 rounded-lg font-bold sm:text-lg 2xl:text-xl text-white bg-blue-600 hover:bg-blue-700 transition duration-300 ease-in-out"
+            classes="luma-checkout--button"
             data-luma-action="checkout"
             data-luma-event-id="evt-ChamzwlXhzTJZDS"
             hierarchy="primary"
@@ -54,11 +61,16 @@ export default function Hero() {
           {/* <a
             href="https://lu.ma/event/evt-ChamzwlXhzTJZDS"
             className="luma-checkout--button py-3 sm:px-7 sm:py-4 rounded-lg font-bold sm:text-lg 2xl:text-xl text-white bg-blue-600 hover:bg-blue-700 transition duration-300 ease-in-out"
+            type="button"
             data-luma-action="checkout"
             data-luma-event-id="evt-ChamzwlXhzTJZDS"
           >
             Sign Up
           </a> */}
+          <Script
+            id="luma-checkout"
+            src={`${EMBED_BASE_URL}/checkout-button.js`}
+          />
           {/* <GradientBorder rounded="rounded-lg">
             <Button
               type="route"

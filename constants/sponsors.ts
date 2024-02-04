@@ -21,7 +21,7 @@ import Boomerang from "@/public/logos/cxc_2024/Boomerang.png";
 import Interac from "@/public/logos/cxc_2024/Interac.png";
 import LiveAssets from "@/public/logos/cxc_2024/LiveAssets.png";
 import FluidAI from "@/public/logos/cxc_2024/FluidAI.svg";
-import ECapital from "@/public/logos/cxc_2024/ECapital.png";
+import Ecapital from "@/public/logos/cxc_2024/Ecapital.png";
 
 export const CURRENT_SPONSORS = [
   { name: "MathSoc", logo: mathsoc },
@@ -48,7 +48,7 @@ export const CURRENT_CXC_SPONSORS = [
 
   // Gold Sponsors
   { name: "FluidAI", logo: FluidAI, type:"silver" },
-  { name: "ECapital", logo: ECapital, type:"silver"},
+  { name: "Ecapital", logo: Ecapital, type:"silver"},
 ];
 
 export const PAST_SPONSORS = [
