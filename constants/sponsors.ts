@@ -13,6 +13,15 @@ import EY from "@/public/logos/cxc_2024/EY.png";
 import IIS from "@/public/logos/cxc_2024/IIS.png";
 import OwnersBox from "@/public/logos/cxc_2024/OwnersBox.png";
 import Quadreal from "@/public/logos/cxc_2024/Quadreal.png";
+import MEF from "@/public/logos/mef.png";
+import WUSA from "@/public/logos/cxc_2024/wusa.png";
+import Fidelity from "@/public/logos/cxc_2024/Fidelity.png";
+import Architech from "@/public/logos/cxc_2024/Architech.png";
+import Boomerang from "@/public/logos/cxc_2024/Boomerang.png";
+import Interac from "@/public/logos/cxc_2024/Interac.png";
+import LiveAssets from "@/public/logos/cxc_2024/LiveAssets.png";
+import FluidAI from "@/public/logos/cxc_2024/FluidAI.svg";
+import ECapital from "@/public/logos/cxc_2024/ECapital.png";
 
 export const CURRENT_SPONSORS = [
   { name: "MathSoc", logo: mathsoc },
@@ -22,24 +31,24 @@ export const CURRENT_SPONSORS = [
 export const CURRENT_CXC_SPONSORS = [
   // Top Sponsors
   { name: "EY", logo: EY, type:"top" },
-  // { name: "MEF", logo: MEF, type:"top" },
-  // { name: "WUSA", logo: WUSA, type:"top" },
+  { name: "MEF", logo: MEF, type:"top" },
+  { name: "WUSA", logo: WUSA, type:"top" },
   
-  // // Dataset Sponsors
-  // { name: "OwnersBox", logo: OwnersBox, type:"dataset" },
-  // { name: "Infinite Investments", logo: IIS, type:"dataset"},
-  // { name: "Quadreal", logo: Quadreal, type:"dataset" },
+  // Dataset Sponsors
+  { name: "OwnersBox", logo: OwnersBox, type:"dataset" },
+  { name: "Infinite Investments", logo: IIS, type:"dataset"},
+  { name: "Quadreal", logo: Quadreal, type:"dataset" },
 
-  // // Gold Sponsors
-  // { name: "Interac", logo: Interac, type:"gold" },
-  // { name: "Fidelity", logo: Fidelity, type:"gold"},
-  // { name: "Architech", logo: Architech, type:"gold" },
-  // { name: "Boomerang", logo: Boomerang, type:"gold" },
-  // { name: "Live Assets", logo: LiveAssets, type:"gold" },
+  // Gold Sponsors
+  { name: "Interac", logo: Interac, type:"gold" },
+  { name: "Fidelity", logo: Fidelity, type:"gold"},
+  { name: "Architech", logo: Architech, type:"gold" },
+  { name: "Boomerang", logo: Boomerang, type:"gold" },
+  { name: "LiveAssets", logo: LiveAssets, type:"gold" },
 
-  // // Gold Sponsors
-  // { name: "FluidAI", logo: FluidAI, type:"silver" },
-  // { name: "ECapital", logo: ECapital, type:"silver"},
+  // Gold Sponsors
+  { name: "FluidAI", logo: FluidAI, type:"silver" },
+  { name: "ECapital", logo: ECapital, type:"silver"},
 ];
 
 export const PAST_SPONSORS = [
