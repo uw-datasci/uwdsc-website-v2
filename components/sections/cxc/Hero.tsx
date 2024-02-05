@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { useEffect } from 'react';
 import Script from 'next/script'
+import CxcLogo from '@/public/cxc/cxc_logo.svg'
 
 
 import Button from "@/components/UI/Button";
@@ -30,12 +31,17 @@ export default function Hero() {
         <Image src={officeArcade} alt="office open" />
         <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent" />
       </div>
-      <div className="relative pt-56 text-center sm:pt-64">
+      <div className="relative pt-56 text-center sm:pt-55">
         <h1 className="mx-auto mb-4 text-center text-2xl font-bold text-white 3xs:text-3xl 2xs:text-5xl xs:text-7xl sm:text-8xl lg:text-10xl 3xl:text-12xl">
-          Clubs x Companies
+          {/* Clubs x Companies */}
+          <Image
+            src={CxcLogo}
+            alt="CxcLogo"
+            className="mx-auto max-w-[120px] lg:max-w-none lg:min-w-[310px] pl-10"
+          />
         </h1>
         <p className="mx-auto mb-10 max-w-[350px] leading-loose text-white xs:max-w-[600px] xs:text-lg lg:mb-14 2xl:max-w-[640px] 2xl:text-xl">
-          Experience CxC, a hackathon that brings together students and
+        Experience CxC - Powered by EY, a datathon that brings together students and
           companies to build projects that solve real-world problems.
         </p>
         <div className="flex flex-col gap-5 sm:flex-row sm:justify-center sm:gap-12">
