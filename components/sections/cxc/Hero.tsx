@@ -31,13 +31,13 @@ export default function Hero() {
         <Image src={officeArcade} alt="office open" />
         <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent" />
       </div>
-      <div className="relative pt-56 text-center sm:pt-55">
+      <div className="relative pt-44 text-center lg:pt-56">
         <h1 className="mx-auto mb-4 text-center text-2xl font-bold text-white 3xs:text-3xl 2xs:text-5xl xs:text-7xl sm:text-8xl lg:text-10xl 3xl:text-12xl">
           {/* Clubs x Companies */}
           <Image
             src={CxcLogo}
             alt="CxcLogo"
-            className="mx-auto max-w-[120px] lg:max-w-none lg:min-w-[310px] pl-10"
+            className="mx-auto lg:max-w-none lg:min-w-[310px] pl-8 lg:pl-10 "
           />
         </h1>
         <p className="mx-auto mb-10 max-w-[350px] leading-loose text-white xs:max-w-[600px] xs:text-lg lg:mb-14 2xl:max-w-[640px] 2xl:text-xl">
