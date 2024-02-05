@@ -245,6 +245,12 @@ export const TEAM: Subteam[] = [
         position: "CxC Coordinator",
         image: khushi,
       },
+      {
+        id: "cxc8",
+        name: "Andrew Qiao",
+        position: "CxC Coordinator", // update may be needed
+        image: andrewqiao, 
+      },
     ],
   },
   {
@@ -439,21 +445,15 @@ export const TEAM: Subteam[] = [
     members: [
       {
         id: "development1",
-        name: "Andrew Qiao",
+        name: "Abigail Xu",
         position: "VP of Web Development",
-        image: andrewqiao, 
+        image: abigail,
       },
       {
         id: "development3",
         name: "Rohan Minocha",
         position: "Backend Developer",
         image: rohan,
-      },
-      {
-        id: "development4",
-        name: "Abigail Xu",
-        position: "Backend Developer", // Assuming position, update as needed
-        image: abigail,
       },
       {
         id: "development2",
