@@ -3,6 +3,10 @@ import ResourceCard from "@/components/cards/ResourceCard";
 
 import { RESOURCES } from "@/constants/resources";
 
+/**
+ * Not currently used
+ */
+
 export default function Resources() {
   return (
     <Carousel title="Resources">

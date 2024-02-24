@@ -1,16 +1,33 @@
 import Image from "next/image";
-
+import { type Sponsor } from "@/types/types";
 import SectionTitle from "@/components/UI/SectionTitle";
 
-import { CURRENT_CXC_SPONSORS } from "@/constants/sponsors";
+type SponsorsProps = {
+  sectionTitle: string;
+  className: string;
+  sponsorList: Sponsor[]
+};
 
-export default function CxCSponsors() {
+/**
+ * Used to render sponsors section
+ * ex. "OUR SPONSORS" on home page, "THIS YEAR'S SPONSORS" on cxc page
+ */
+
+export default function Sponsors({
+  sectionTitle,
+  className,
+  sponsorList
+}: SponsorsProps
+) {
+  if (className == ""){
+    className = "gap-x-40 gap-y-20"
+  }
   return (
     <section className="mb-section mx-container">
-      <SectionTitle mb="mb-20">THIS YEAR&apos;S SPONSORS</SectionTitle>
-      <div className="flex flex-wrap justify-center gap-x-24 gap-y-20">
-        {CURRENT_CXC_SPONSORS.map(({ name, logo, type }) => {
-          let height = "h-1 md:h-2"
+      <SectionTitle mb="mb-20">{sectionTitle}</SectionTitle>
+      <div className={`flex flex-wrap justify-center ${className}`}>
+        {sponsorList?.map(({ name, logo, type }) => {
+          let height = "h-16 md:h-20"
           if (type=="top"){
             height = "h-24 md:h-22"
           } else if (type=="dataset"){

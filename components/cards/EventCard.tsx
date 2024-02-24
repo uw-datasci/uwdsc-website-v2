@@ -5,6 +5,11 @@ import { type Event } from "@/types/types";
 
 type EventCardProps = Event;
 
+/**
+ * A card that displays a event with a image and a title.
+ * ex. cards in Past Events on home page
+ */
+
 export default function EventCard({
   title,
   description,

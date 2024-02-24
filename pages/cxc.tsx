@@ -5,11 +5,10 @@ import FrequentlyAskedQuestions from "@/components/sections/cxc/FrequentlyAskedQ
 import SponsorshipTiers from "@/components/sections/cxc/SponsorshipTiers";
 import SponsorshipInterest from "@/components/sections/cxc/SponsorshipInterest";
 import SponsorForm from "@/components/sections/cxc/SponsorForm";
-import Sponsors from "@/components/sections/home/Sponsors";
 import PastEvents from "@/components/sections/home/PastEvents"
-import PastSponsors from "@/components/sections/cxc/PastSponsors";
 import PastCxC from "@/components/sections/cxc/PastCxC";
-import CxCSponsors from "@/components/sections/cxc/CxCSponsors";
+import Sponsors from "@/components/sections/templates/Sponsors";
+import {CURRENT_CXC_SPONSORS, PAST_SPONSORS} from "@/constants/sponsors"
 
 export default function CxC() {
   return (
@@ -20,12 +19,12 @@ export default function CxC() {
       />
       <Hero />
       <CxCStats />
-      <CxCSponsors/>
+      <Sponsors sectionTitle="THIS YEAR&apos;S SPONSORS" className="gap-x-24 gap-y-20" sponsorList={CURRENT_CXC_SPONSORS}/>
       <PastCxC/>
       {/* <SponsorshipTiers /> */}
       {/* <SponsorshipInterest /> */}
       {/* <SponsorForm /> */}
-      {/* <PastSponsors /> */}
+      {/* <Sponsors sectionTitle="THIS YEAR&apos;S SPONSORS" className="" sponsorList={PAST_SPONSORS}/> */}
     </>
   );
 }

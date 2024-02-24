@@ -6,6 +6,10 @@ import { type SponsorTier } from "@/types/types";
 
 type SponsorTierProps = SponsorTier;
 
+/**
+ * Card to display a sponsor tier
+ */
+
 export default function SponsorTierCard({
   name,
   color,

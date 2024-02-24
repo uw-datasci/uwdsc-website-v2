@@ -3,6 +3,10 @@ import EventCard from "@/components/cards/EventCard";
 
 import { UPCOMING_EVENTS } from "@/constants/events";
 
+/**
+ * Not currently used
+ */
+
 export default function UpcomingEvents() {
   return (
     <Carousel title="Upcoming Events">

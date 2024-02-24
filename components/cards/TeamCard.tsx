@@ -6,6 +6,10 @@ import { type Member } from "@/types/types";
 
 type TeamCardProps = Member;
 
+/**
+ * Card to display a team member, with a image, name, position, email
+ */
+
 export default function TeamCard({
   name,
   position,

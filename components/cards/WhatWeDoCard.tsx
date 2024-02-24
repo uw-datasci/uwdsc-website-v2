@@ -6,6 +6,11 @@ type WhatWeDoCardProps = {
   graphic: StaticImageData;
 };
 
+/**
+ * Card to display what we do
+ * ex. WHAT WE DO section on home page
+ */
+
 export default function WhatWeDoCard({
   title,
   description,
