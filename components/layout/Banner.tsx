@@ -2,6 +2,10 @@ type BannerProps = {
   children: React.ReactNode;
 };
 
+/**
+ * Not currently used
+ */
+
 export default function Banner({ children }: BannerProps) {
   return (
     <div className="relative">

@@ -1,6 +1,5 @@
 import Image from "next/image";
 import { useEffect } from 'react';
-import Script from 'next/script'
 import CxcLogo from '@/public/cxc/cxc_logo.svg'
 
 
@@ -33,7 +32,6 @@ export default function Hero() {
       </div>
       <div className="relative pt-44 text-center lg:pt-56">
         <h1 className="mx-auto mb-4 text-center text-2xl font-bold text-white 3xs:text-3xl 2xs:text-5xl xs:text-7xl sm:text-8xl lg:text-10xl 3xl:text-12xl">
-          {/* Clubs x Companies */}
           <Image
             src={CxcLogo}
             alt="CxcLogo"
@@ -57,6 +55,8 @@ export default function Hero() {
           >
             Sign Up
           </Button>
+
+          {/* Commented out during CXC event: */}
           
           {/* <GradientBorder rounded="rounded-lg">
             <Button

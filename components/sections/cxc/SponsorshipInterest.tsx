@@ -2,6 +2,10 @@ import Banner from "@/components/layout/Banner";
 import Button from "@/components/UI/Button";
 import GradientBorder from "@/components/UI/GradientBorder";
 
+/**
+ * Not currently used
+ */
+
 export default function SponsorshipInterest() {
   return (
     <section className="mb-section">

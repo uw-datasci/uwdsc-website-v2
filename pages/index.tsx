@@ -7,7 +7,8 @@ import Resources from "@/components/sections/home/Resources";
 import MailingList from "@/components/sections/home/MailingList";
 import FrequentlyAskedQuestions from "@/components/sections/home/FrequentlyAskedQuestions";
 import Blogs from "@/components/sections/home/Blogs";
-import Sponsors from "@/components/sections/home/Sponsors";
+import Sponsors from "@/components/sections/templates/Sponsors";
+import {CURRENT_SPONSORS} from "@/constants/sponsors"
 import ContactUs from "@/components/sections/home/ContactUs";
 import PastEvents from "@/components/sections/home/PastEvents"
 
@@ -20,7 +21,7 @@ export default function Home() {
         keywords="University of Waterloo,Data Science,University of Waterloo Data Science Club,Waterloo Data Science,UWDSC"
       />
       <Hero />
-      <Sponsors />
+      <Sponsors sectionTitle="OUR SPONSORS" className="" sponsorList={CURRENT_SPONSORS}/>
       <WhatWeDo />
       <ClubStats />
       {/* <UpcomingEvents /> */}

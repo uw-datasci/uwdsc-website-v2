@@ -84,3 +84,9 @@ export type SponsorForm = {
   email: string;
   message?: string;
 };
+
+export type Sponsor = {
+  name: string;
+  logo: StaticImageData;
+  type: string
+}

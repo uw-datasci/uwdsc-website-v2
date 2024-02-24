@@ -5,6 +5,10 @@ import { type Resource } from "@/types/types";
 
 type ResourceCardProps = Resource;
 
+/**
+ * Used in Resources, latter is not currently used
+ */
+
 export default function ResourceCard({
   title,
   description,

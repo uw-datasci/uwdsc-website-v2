@@ -1,4 +1,5 @@
 import { type SponsorTier } from "@/types/types";
+import { type Sponsor } from "@/types/types";
 
 import mathsoc from "@/public/logos/mathsoc.png";
 import mef from "@/public/logos/mef.png";
@@ -23,12 +24,17 @@ import LiveAssets from "@/public/logos/cxc_2024/LiveAssets.png";
 import FluidAI from "@/public/logos/cxc_2024/FluidAI.svg";
 import Ecapital from "@/public/logos/cxc_2024/Ecapital.png";
 
-export const CURRENT_SPONSORS = [
-  { name: "MathSoc", logo: mathsoc },
-  { name: "MEF", logo: mef }
+
+/*
+ * Constent data for SPONSORS lists, and SPONSOR_TIERS
+ */
+
+export const CURRENT_SPONSORS: Sponsor[] = [
+  { name: "MathSoc", logo: mathsoc, type:"" },
+  { name: "MEF", logo: mef, type:"" }
 ];
 
-export const CURRENT_CXC_SPONSORS = [
+export const CURRENT_CXC_SPONSORS: Sponsor[] = [
   // Top Sponsors
   { name: "EY", logo: EY, type:"top" },
   { name: "MEF", logo: MEF, type:"top" },
@@ -51,16 +57,16 @@ export const CURRENT_CXC_SPONSORS = [
   { name: "Ecapital", logo: Ecapital, type:"silver"},
 ];
 
-export const PAST_SPONSORS = [
-  { name: "MathSoc", logo: mathsoc },
-  { name: "MEF", logo: mef },
-  { name: "Intact", logo: intact },
-  { name: "Cyclica", logo: cyclica },
-  { name: "Wyvern", logo: wyvern },
-  { name: "Hugging Face", logo: huggingface },
-  { name: "Salesforce", logo: salesforce },
-  { name: "Databricks", logo: databricks },
-  { name: "BDO", logo: bdo },
+export const PAST_SPONSORS: Sponsor[] = [
+  { name: "MathSoc", logo: mathsoc, type:"" },
+  { name: "MEF", logo: mef, type:"" },
+  { name: "Intact", logo: intact, type:"" },
+  { name: "Cyclica", logo: cyclica, type:"" },
+  { name: "Wyvern", logo: wyvern, type:"" },
+  { name: "Hugging Face", logo: huggingface, type:"" },
+  { name: "Salesforce", logo: salesforce, type:"" },
+  { name: "Databricks", logo: databricks, type:"" },
+  { name: "BDO", logo: bdo, type:"" },
 ];
 
 export const SPONSOR_TIERS: SponsorTier[] = [
