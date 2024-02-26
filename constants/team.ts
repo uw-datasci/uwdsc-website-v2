@@ -65,14 +65,7 @@ export const TEAM: Subteam[] = [
     members: [
       {
         id: "president1",
-        name: "Maggie Liu",
-        position: "Co-President",
-        image: maggie,
-        email: "contact@uwdatascience.ca",
-      },
-      {
-        id: "president1",
-        name: "Basse Al Omari",
+        name: "Bassel Al Omari",
         position: "Co-President",
         image: bassel,
       },
