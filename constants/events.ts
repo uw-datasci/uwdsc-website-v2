@@ -1,6 +1,5 @@
 import { Event, Photo } from "@/types/types";
 
-// import event from "@/public/placeholder/event.png";
 import eot from "@/public/events/eot.png";
 import hatch from "@/public/pastEvents/event-hatch.png";
 import janeStreet from "@/public/pastEvents/event-jane-street.png";
@@ -9,6 +8,9 @@ import cohereWorkshop from "@/public/pastEvents/event-cohere-workshop.png";
 import techyon from "@/public/pastEvents/event-techyon.png";
 import bdo from "@/public/pastEvents/event-bdo.png";
 import sectors from "@/public/pastEvents/event-sectors.png";
+import llmReadingGroups from "@/public/pastEvents/event-llm-reading-groups.png";
+import cxcByEY from "@/public/pastEvents/event-cxc-by-ey.jpg";
+
 import c0 from "@/public/cxc/c0.png";
 import c1 from "@/public/cxc/c1.jpg";
 import c2 from "@/public/cxc/c2.jpg";
@@ -30,17 +32,27 @@ export const UPCOMING_EVENTS: Event[] = [
 
 export const PAST_EVENTS: Event[] = [
   {
-    id: "1",
+    id: "9",
+    title: "CxC Datathon by EY",
+    image: cxcByEY,
+  },
+  {
+    id: "8",
+    title: "LLM Reading Groups",
+    image: llmReadingGroups,
+  },
+  {
+    id: "7",
     title: "Hatch Fireside Chat",
     image: hatch,
   },
   {
-    id: "2",
+    id: "6",
     title: "Jane Street Estimathon",
     image: janeStreet,
   },
   {
-    id: "3",
+    id: "5",
     title: "Cohere Hackathon",
     image: cohere,
   },
@@ -50,17 +62,17 @@ export const PAST_EVENTS: Event[] = [
     image: techyon,
   },
   {
-    id: "5",
+    id: "3",
     title: "BDO Datathon",
     image: bdo,
   },
   {
-    id: "6",
+    id: "2",
     title: "DS Across Sectors",
     image: sectors,
   },
   {
-    id: "7",
+    id: "1",
     title: "Cohere Workshop",
     image: cohereWorkshop,
   }

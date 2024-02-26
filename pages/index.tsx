@@ -21,11 +21,11 @@ export default function Home() {
         keywords="University of Waterloo,Data Science,University of Waterloo Data Science Club,Waterloo Data Science,UWDSC"
       />
       <Hero />
-      <Sponsors sectionTitle="OUR SPONSORS" className="" sponsorList={CURRENT_SPONSORS}/>
       <WhatWeDo />
       <ClubStats />
       {/* <UpcomingEvents /> */}
       <PastEvents />
+      <Sponsors sectionTitle="OUR SPONSORS" className="" sponsorList={CURRENT_SPONSORS}/>
       {/* <Resources /> */}
       <MailingList />
       <FrequentlyAskedQuestions />
