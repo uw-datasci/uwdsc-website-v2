@@ -72,6 +72,12 @@ export const TEAM: Subteam[] = [
       },
       {
         id: "president1",
+        name: "Basse Al Omari",
+        position: "Co-President",
+        image: bassel,
+      },
+      {
+        id: "president2",
         name: "Dania Laiju",
         position: "Co-President",
         image: dania,
@@ -280,12 +286,6 @@ export const TEAM: Subteam[] = [
         name: "Soyeon Jang",
         position: "Reading Group Lead",
         image: soyeon,
-      },
-      {
-        id: "education5",
-        name: "Basse Al Omari",
-        position: "Workshop Lead",
-        image: bassel,
       },
       {
         id: "education6",
