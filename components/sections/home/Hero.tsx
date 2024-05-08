@@ -20,7 +20,7 @@ export default function Hero() {
         <div className="flex flex-col gap-5 sm:flex-row sm:justify-center sm:gap-12 lg:justify-start">
           <Button
             type="link"
-            href="https://docs.google.com/forms/u/3/d/e/1FAIpQLSdbUWqHDQy8fHaiHEQeB3OeiFJWcTfeXed-qhd6MklJNJh06g/viewform?usp=send_form"
+            href="https://docs.google.com/forms/d/e/1FAIpQLSdbUWqHDQy8fHaiHEQeB3OeiFJWcTfeXed-qhd6MklJNJh06g/viewform"
             hierarchy="primary"
             font="font-bold"
             text="sm:text-lg 2xl:text-xl"
