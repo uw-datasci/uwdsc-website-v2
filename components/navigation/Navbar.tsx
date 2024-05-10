@@ -13,7 +13,7 @@ const ROUTES = [
   },
   {
     label: "Join Us",
-    link: "https://docs.google.com/forms/d/e/1FAIpQLSdbUWqHDQy8fHaiHEQeB3OeiFJWcTfeXed-qhd6MklJNJh06g/viewform",
+    link: "https://forms.gle/tDGHayEDwWUjzgXY6",
   },
   {
     label: "CxC",
@@ -100,7 +100,7 @@ export default function Navbar() {
         </button>
         <Button
           type="link"
-          href="https://docs.google.com/forms/u/3/d/e/1FAIpQLSdbUWqHDQy8fHaiHEQeB3OeiFJWcTfeXed-qhd6MklJNJh06g/viewform?usp=send_form"
+          href="https://forms.gle/tDGHayEDwWUjzgXY6"
           hierarchy="primary"
           font="font-bold"
           rounded="rounded-md"
