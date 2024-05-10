@@ -13,7 +13,7 @@ const ROUTES = [
   },
   {
     label: "Join Us",
-    link: "https://docs.google.com/forms/u/3/d/e/1FAIpQLSdbUWqHDQy8fHaiHEQeB3OeiFJWcTfeXed-qhd6MklJNJh06g/viewform?usp=send_form",
+    link: "https://docs.google.com/forms/d/e/1FAIpQLSdbUWqHDQy8fHaiHEQeB3OeiFJWcTfeXed-qhd6MklJNJh06g/viewform",
   },
   {
     label: "CxC",
