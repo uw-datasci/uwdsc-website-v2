@@ -12,10 +12,6 @@ const ROUTES = [
     route: "/",
   },
   {
-    label: "Join Us",
-    link: "https://forms.gle/tDGHayEDwWUjzgXY6",
-  },
-  {
     label: "CxC",
     route: "/cxc",
   },
