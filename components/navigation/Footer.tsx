@@ -1,6 +1,6 @@
-import { Mail, Instagram, Linkedin, Youtube, Twitter } from "react-feather";
+import { Mail, Instagram, Linkedin, Youtube} from "react-feather";
 import { RxDiscordLogo } from "react-icons/rx";
-import { RiSpotifyLine, RiTiktokLine } from "react-icons/ri";
+import { RiSpotifyLine, RiTiktokLine, RiTwitterXLine } from "react-icons/ri";
 
 import Logo from "@/components/UI/Logo";
 
@@ -26,7 +26,7 @@ const SOCIALS = [
     href: "https://www.youtube.com/channel/UCknY88pglf2xz_S72WHIDxg",
   },
   {
-    icon: <Twitter className="w-6 text-white" />,
+    icon: <RiTwitterXLine size={24} className="text-white" />,
     href: "https://twitter.com/uwaterloodsc",
   },
   {
