@@ -12,10 +12,6 @@ const ROUTES = [
     route: "/",
   },
   {
-    label: "Join Us",
-    link: "https://forms.gle/tDGHayEDwWUjzgXY6",
-  },
-  {
     label: "CxC",
     route: "/cxc",
   },
@@ -57,28 +53,15 @@ export default function Navbar() {
         <Logo />
         <nav className="hidden gap-16 lg:flex">
           {ROUTES.map((route) => {
-            if (route.link) {
-              return (
-                <a
-                  href={route.link}
-                  target="_blank"
-                  className="font-semibold text-white"
-                  key={route.label}
-                >
-                  {route.label}
-                </a>
-              );
-            } else if (route.route) {
-              return (
-                <Link
-                  href={route.route}
-                  className="font-semibold text-white"
-                  key={route.label}
-                >
-                  {route.label}
-                </Link>
-              );
-            }
+            return (
+              <Link
+                href={route.route}
+                className="font-semibold text-white"
+                key={route.label}
+              >
+                {route.label}
+              </Link>
+            );
           })}
         </nav>
         <button
@@ -117,29 +100,16 @@ export default function Navbar() {
         <div className="bg-gradient pointer-events-none absolute inset-0 opacity-10" />
         <nav className="mx-container mt-36 grid gap-8">
           {ROUTES.map((route) => {
-            if (route.link) {
-              return (
-                <a
-                  href={route.link}
-                  target="_blank"
-                  className="text-5xl font-bold text-white"
-                  key={route.label}
-                >
-                  {route.label}
-                </a>
-              );
-            } else if (route.route) {
-              return (
-                <Link
-                  href={route.route}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="text-5xl font-bold text-white"
-                  key={route.label}
-                >
-                  {route.label}
-                </Link>
-              );
-            }
+            return (
+              <Link
+                href={route.route}
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="text-5xl font-bold text-white"
+                key={route.label}
+              >
+                {route.label}
+              </Link>
+            );
           })}
         </nav>
         <div className="absolute inset-x-0 bottom-12 flex justify-center gap-4">
