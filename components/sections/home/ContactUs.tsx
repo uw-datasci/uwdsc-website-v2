@@ -14,7 +14,7 @@ export default function ContactUs() {
         <Fragment>
           Have a question or interested in sponsoring us? Send us a message
           here, through our social medias, or even visit our office at{" "}
-          <span className="font-bold">MC 3034</span>. We&apos;ll get back to you
+          <span className="font-bold">MC 3031</span>. We&apos;ll get back to you
           ASAP!
         </Fragment>
       }
