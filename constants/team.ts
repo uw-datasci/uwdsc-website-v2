@@ -2,19 +2,18 @@ import { Subteam } from "@/types/types";
 
 import team from "@/public/placeholder/team.png"
 
+import aaron from "@/public/teams/Aaron-Liang.jpg"
+import adam from "@/public/teams/Adam-Yeo.jpg";
 import abigail from "@/public/teams/Abigail-Xu.png";
 import adeline from "@/public/teams/Adeline-Su.jpeg";
 import aiden from "@/public/teams/Aiden-Ramgoolam.jpg";
 import alyssa from "@/public/teams/Alyssa-Lam.jpg";
 import andrew from "@/public/teams/Andrew-Au.jpg";
-import andrewqiao from "@/public/teams/Andrew-Qiao.jpg";
 import anvita from "@/public/teams/Anvita-Gupta.jpeg";
 import ashley from "@/public/teams/Ashley-Ferreira.jpg";
 // import aung from "@/public/teams/Aung-Khant-Min.jpg";
-import bansari from "@/public/teams/Bansari-Shah.jpeg";
 import bassel from "@/public/teams/Bassel-Al-Omari.jpg";
 import cherry from "@/public/teams/Cherry-Yang.jpeg";
-import cloris from "@/public/teams/Cloris-Zhang.jpeg";
 import curits from "@/public/teams/Curits-Sinopoli.jpeg";
 import dania from "@/public/teams/Dania-Laiju.jpg";
 import daniel from "@/public/teams/Daniel-Su.jpg";
@@ -24,22 +23,16 @@ import enoch from "@/public/teams/Enoch-Tin.jpg";
 import evelina from "@/public/teams/Evelina-Zheng.png"
 import felix from "@/public/teams/Felix-Yang.jpeg";
 import guo from "@/public/teams/Guo-Chen.jpg";
-import hadas from "@/public/teams/Hadas-Barabash.jpg";
-import hayden from "@/public/teams/Hayden-Azan.jpg";
 import jacob from "@/public/teams/Jacob-Yan.png";
 import jacobS from "@/public/teams/Jacob-Schnell.jpeg";
-import jennifer from "@/public/teams/Jennifer-Peter.jpeg";
-import khushi from "@/public/teams/Khushi-Adukia.jpeg";
+import kevina from "@/public/teams/Kevina-Li.jpg";
 import kriti from "@/public/teams/Kriti-Sodhi.jpg";
 import kun from "@/public/teams/Kun-Zhu.jpg";
 import lucy from "@/public/teams/Lucy-Qi.jpg";
-import maggie from "@/public/teams/Maggie-Liu.jpeg";
 import mariam from "@/public/teams/Mariam-Al-Hulaibi.jpeg";
 import michelle from "@/public/teams/Michelle-Lu.jpeg";
-import neysa from "@/public/teams/neysa.png";
 import nina from "@/public/teams/Nina-Do.jpeg";
 import raiyan from "@/public/teams/Raiyan-Sayeed.jpeg";
-import rayaq from "@/public/teams/Rayaq-Siddiqui.jpeg";
 import rex from "@/public/teams/Rex-Niu.jpeg";
 import rohan from "@/public/teams/Rohan-Minocha.png";
 import sara from "@/public/teams/Sara-Zufishan.jpeg";
@@ -53,9 +46,7 @@ import shruti from "@/public/teams/Shruti-Dua.jpg";
 import siddharth from "@/public/teams/Siddharth-Vagavolu.jpg";
 import stanley from "@/public/teams/stanley_lin - Stanley.png";
 import teresa from "@/public/teams/Teresa-Zhang Large.jpeg";
-import soyeon from "@/public/teams/Soyeon-Jang.jpg";
 import simone from "@/public/teams/Simone-Coutinho.jpg";
-import iris from "@/public/teams/Iris-Kim.png";
 import suhayl from "@/public/teams/Suhayl-Sayed.jpeg";
 import zeaj from "@/public/teams/Zeaj-Zamoranos Large.jpeg";
 import kim from "@/public/teams/Kim-Hoang.jpg";
@@ -183,75 +174,27 @@ export const TEAM: Subteam[] = [
     members: [
       {
         id: "outreach1",
-        name: "Bansari Shah",
+        name: "Aaron Liang",
         position: "Outreach Coordinator",
-        image: bansari,
+        image: aaron,
       },
       {
         id: "outreach2",
-        name: "Iris Kim",
+        name: "Adam Yeo",
         position: "Outreach Coordinator",
-        image: iris,
+        image: adam,
       },
       {
         id: "outreach3",
-        name: "Shashwat Murawala",
+        name: "Kevina Li",
         position: "Outreach Coordinator",
-        image: shashwat,
-      },
-    ],
-  },
-  {
-    id: "cxc",
-    name: "CxC",
-    members: [
-      {
-        id: "cxc1",
-        name: "Jacob Yan",
-        position: "VP of CxC",
-        image: jacob, 
+        image: kevina,
       },
       {
-        id: "cxc2",
-        name: "Maggie Guo",
-        position: "VP of CxC",
-        image: team,
-      },
-      {
-        id: "cxc3",
-        name: "Cloris Zhang",
-        position: "CxC Coordinator",
-        image: cloris,
-      },
-      {
-        id: "cxc4",
-        name: "Hayden Azan",
-        position: "CxC Coordinator",
-        image: hayden,
-      },
-      {
-        id: "cxc5",
-        name: "Jeff Liu",
-        position: "CxC Coordinator",
-        image: team,
-      },
-      {
-        id: "cxc6",
-        name: "Jennifer Peter",
-        position: "CxC Coordinator",
-        image: jennifer,
-      },
-      {
-        id: "cxc7",
-        name: "Khushi Adukia",
-        position: "CxC Coordinator",
-        image: khushi,
-      },
-      {
-        id: "cxc8",
-        name: "Andrew Qiao",
-        position: "CxC Coordinator", // update may be needed
-        image: andrewqiao, 
+        id: "outreach4",
+        name: "Simone Coutinho",
+        position: "Outreach Coordinator",
+        image: simone,
       },
     ],
   },
@@ -261,39 +204,21 @@ export const TEAM: Subteam[] = [
     members: [
       {
         id: "education1",
-        name: "Hadas Barabash",
+        name: "Daniel Bartman",
         position: "VP of Education",
-        image: hadas, 
+        image: team, 
       },
       {
         id: "education2",
-        name: "Ashley Ferreira",
-        position: "Reading Group Lead",
-        image: ashley,
+        name: "Bassel Al Omari",
+        position: "Education Lead",
+        image: bassel,
       },
       {
         id: "education3",
-        name: "Jacob Schnell",
-        position: "Reading Group Lead",
-        image: jacobS,
-      },
-      {
-        id: "education4",
-        name: "Soyeon Jang",
-        position: "Reading Group Lead",
-        image: soyeon,
-      },
-      {
-        id: "education6",
-        name: "Neysa Patel",
-        position: "Workshop Lead",
-        image: neysa,
-      },
-      {
-        id: "education7",
-        name: "Rayaq Siddiqui",
-        position: "Workshop Lead",
-        image: rayaq,
+        name: "Ammar Siddiqui",
+        position: "Education Advisor",
+        image: team,
       },
     ],
   },
