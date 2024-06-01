@@ -54,11 +54,18 @@ import sheng from "@/public/teams/Sheng-Liang-Chow.jpeg";
 import siddharth from "@/public/teams/Siddharth-Vagavolu.jpg";
 import simha from "@/public/teams/Simha-Kalimipalli.png";
 import simone from "@/public/teams/Simone-Coutinho.jpg";
-import stanley from "@/public/teams/stanley_lin - Stanley.png";
+import stanley from "@/public/teams/Stanley Lin.png";
 // import suhayl from "@/public/teams/Suhayl-Sayed.jpeg";
 import teresa from "@/public/teams/Teresa-Zhang Large.jpeg";
 import zeaj from "@/public/teams/Zeaj-Zamoranos Large.jpeg";
 
+import meera from "@/public/teams/Meera Mehta.jpeg";
+import delin from "@/public/teams/Delin Gu.jpg";
+import kelly from "@/public/teams/Kelly Qu.jpg";
+
+import anika from "@/public/teams/Anika Awasti.jpeg"
+import rachel from "@/public/teams/Rachel Philipose.jpg"
+import aryan from "@/public/teams/Aryan_Vijayan.jpg"
 
 export const TEAM: Subteam[] = [
   {
@@ -105,67 +112,67 @@ export const TEAM: Subteam[] = [
         id: "events1",
         name: "Michelle Lu",
         position: "VP of Events",
-        image: michelle, 
+        image: michelle,
       },
       {
         id: "events2",
         name: "Curtis Sinopoli",
         position: "VP of Events",
-        image: curits, 
+        image: curits,
       },
       {
         id: "events3",
         name: "Justin Kim",
         position: "VP of External",
-        image: justin, 
+        image: justin,
       },
       {
         id: "events4",
         name: "Joshua Li",
         position: "Event Coordinator",
-        image: team, 
+        image: team,
       },
       {
         id: "events5",
         name: "Andrew Au",
         position: "Event Coordinator",
-        image: andrew, 
+        image: andrew,
       },
       {
         id: "events6",
         name: "Isabella Rossi",
         position: "Event Coordinator",
-        image: isabella, 
+        image: isabella,
       },
       {
         id: "events7",
         name: "Leo Feng",
         position: "Event Coordinator",
-        image: leo, 
+        image: leo,
       },
       {
         id: "events8",
         name: "Maruhan Selvaratnam",
         position: "Event Coordinator",
-        image: team, 
+        image: team,
       },
       {
         id: "events9",
         name: "Aiden Ramgoolam",
         position: "Event Coordinator",
-        image: aiden, 
+        image: aiden,
       },
       {
         id: "events10",
         name: "Mihir Kachroo",
         position: "Event Coordinator",
-        image: team, 
+        image: team,
       },
       {
         id: "events11",
         name: "Ishani Kurmude",
         position: "Event Coordinator",
-        image: ishani, 
+        image: ishani,
       },
 
       // reading group
@@ -173,47 +180,47 @@ export const TEAM: Subteam[] = [
         id: "events12",
         name: "Simha Kalimipalli",
         position: "Reading Group Lead",
-        image: simha, 
+        image: simha,
       },
       {
         id: "events13",
         name: "Muhammad Bilal Khan",
         position: "Reading Group Lead",
-        image: muhammad, 
+        image: muhammad,
       },
       {
         id: "events14",
         name: "Jacob Schnell",
         position: "Reading Group Lead",
-        image: jacobS, 
+        image: jacobS,
       },
-      
+
       // workshop
       {
         id: "events15",
         name: "Maisha thasin",
         position: "Workshop lead",
-        image: team, 
+        image: team,
       },
       {
         id: "events16",
         name: "Tanvir Deol",
         position: "Workshop lead",
-        image: team, 
+        image: team,
       },
       {
         id: "events17",
         name: "Roman Kaharlytskyi",
         position: "Workshop lead",
-        image: roman, 
+        image: roman,
       },
       {
         id: "events18",
         name: "Aania Raheem",
         position: "Workshop lead",
-        image: aania, 
+        image: aania,
       },
-      
+
     ],
   },
   {
@@ -254,7 +261,7 @@ export const TEAM: Subteam[] = [
         id: "education1",
         name: "Daniel Bartman",
         position: "VP of Education",
-        image: team, 
+        image: team,
       },
       {
         id: "education2",
@@ -276,45 +283,27 @@ export const TEAM: Subteam[] = [
     members: [
       {
         id: "design1",
-        name: "Kun Zhu",
-        position: "VP Design",
-        image: kun, 
-      },
-      {
-        id: "design4",
-        name: "Zeaj Zamoranos",
-        position: "Design Advisor",
-        image: zeaj,
-      },
-      {
-        id: "design5",
-        name: "Malavika Sikka",
-        position: "Graphic Designer",
-        image: team,
-      },
-      {
-        id: "design6",
-        name: "Daniel Su",
-        position: "Graphic Designer",
-        image: daniel,
-      },
-      {
-        id: "design7",
         name: "Stanley Lin",
-        position: "Graphic Designer",
+        position: "VP Design",
         image: stanley,
       },
       {
-        id: "design8",
-        name: "Teresa Zhang",
-        position: "Graphic Designer",
-        image: teresa,
+        id: "design2",
+        name: "Meera Mehta",
+        position: "Designer",
+        image: meera,
       },
       {
-        id: "design9",
-        name: "Sebastian Valencia",
-        position: "Graphic Designer",
-        image: sebastian,
+        id: "design3",
+        name: "Delin Gu",
+        position: "Designer",
+        image: delin,
+      },
+      {
+        id: "design4",
+        name: "Kelly Qu",
+        position: "Designer",
+        image: kelly,
       },
     ],
   },
@@ -324,39 +313,33 @@ export const TEAM: Subteam[] = [
     members: [
       {
         id: "social1",
-        name: "Shae-Lynn Stirling",
+        name: "Mick Wang",
         position: "VP of Social Media",
-        image: shae,
-      },
-      {
-        id: "social2",
-        name: "Mariam Al-Hulaibi",
-        position: "Social Media Coordinator",
-        image: mariam,
-      },
-      {
-        id: "social3",
-        name: "Rex Niu",
-        position: "Social Media Coordinator",
-        image: rex,
-      },
-      {
-        id: "social4",
-        name: "Simone Coutinho",
-        position: "Social Media Coordinator",
-        image: simone,
-      },
-      {
-        id: "design2",
-        name: "Marcus Luong",
-        position: "Multimedia Coordinator",
         image: team,
       },
       {
-        id: "design3",
-        name: "Lucy Qi",
-        position: "Multimedia Coordinator",
-        image: lucy,
+        id: "social2",
+        name: "Shae-Lynn Stirling",
+        position: "Social Advisor",
+        image: shae,
+      },
+      {
+        id: "social3",
+        name: "Anika Awasthi",
+        position: "Social Media Coordinator",
+        image: anika,
+      },
+      {
+        id: "social4",
+        name: "Rachel Philipose",
+        position: "Social Media Coordinator",
+        image: rachel,
+      },
+      {
+        id: "social5",
+        name: "Aryan Vijayan",
+        position: "Social Media Coordinator",
+        image: aryan,
       },
     ],
   },
@@ -398,10 +381,10 @@ export const TEAM: Subteam[] = [
         id: "podcast1",
         name: "Ashley Ferreira",
         position: "Podcast Editor and Host",
-        image: ashley, 
+        image: ashley,
       },
     ],
-  }, 
+  },
   {
     id: "finance",
     name: "Finance",
@@ -410,15 +393,15 @@ export const TEAM: Subteam[] = [
         id: "finance1",
         name: "Jacob Yan",
         position: "VP of Finance",
-        image: jacobY, 
+        image: jacobY,
       },
       {
         id: "finance2",
         name: "Enoch Tin",
         position: "Finance Advisor",
-        image: enoch, 
+        image: enoch,
       },
     ],
-  }, 
+  },
 
 ];
