@@ -21,11 +21,8 @@ import evelina from "@/public/teams/Evelina-Zheng.png"
 import felix from "@/public/teams/Felix-Yang.jpeg";
 import guo from "@/public/teams/Guo-Chen.jpg";
 import kevina from "@/public/teams/Kevina-Li.jpg";
-import lucy from "@/public/teams/Lucy-Qi.jpg";
-import mariam from "@/public/teams/Mariam-Al-Hulaibi.jpeg";
 import michelle from "@/public/teams/Michelle-Lu.jpeg";
 import raiyan from "@/public/teams/Raiyan-Sayeed.jpeg";
-import rex from "@/public/teams/Rex-Niu.jpeg";
 import sara from "@/public/teams/Sara-Zufishan.jpeg";
 import shae from "@/public/teams/Shae.jpg";
 import shamar from "@/public/teams/Shamar-Phillips.jpeg";
@@ -39,6 +36,9 @@ import delin from "@/public/teams/Delin Gu.jpg"
 import kelly from "@/public/teams/Kelly Qu.jpg"
 import meera from "@/public/teams/Meera Mehta.jpeg"
 import stanley from "@/public/teams/Stanley Lin.png"
+import anika from "@/public/teams/Anika Awasti.jpeg"
+import aryan from "@/public/teams/Aryan_Vijayan.jpg"
+import rachel from "@/public/teams/Rachel Philipose.jpg"
 
 export const TEAM: Subteam[] = [
   {
@@ -294,39 +294,33 @@ export const TEAM: Subteam[] = [
     members: [
       {
         id: "social1",
-        name: "Shae-Lynn Stirling",
+        name: "Mick Wang",
         position: "VP of Social Media",
-        image: shae,
-      },
-      {
-        id: "social2",
-        name: "Mariam Al-Hulaibi",
-        position: "Social Media Coordinator",
-        image: mariam,
-      },
-      {
-        id: "social3",
-        name: "Rex Niu",
-        position: "Social Media Coordinator",
-        image: rex,
-      },
-      {
-        id: "social4",
-        name: "Simone Coutinho",
-        position: "Social Media Coordinator",
-        image: simone,
-      },
-      {
-        id: "design2",
-        name: "Marcus Luong",
-        position: "Multimedia Coordinator",
         image: team,
       },
       {
-        id: "design3",
-        name: "Lucy Qi",
-        position: "Multimedia Coordinator",
-        image: lucy,
+        id: "social2",
+        name: "Shae-Lynn Stirling",
+        position: "Social Advisor",
+        image: shae,
+      },
+      {
+        id: "social3",
+        name: "Anika Awasti",
+        position: "Social Media Coordinator",
+        image: anika,
+      },
+      {
+        id: "social4",
+        name: "Aryan Vijayan",
+        position: "Social Media Coordinator",
+        image: aryan,
+      },
+      {
+        id: "social5",
+        name: "Rachel Philipose",
+        position: "Social Media Coordinator",
+        image: rachel,
       },
     ],
   },
