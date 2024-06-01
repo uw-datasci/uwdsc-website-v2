@@ -102,6 +102,18 @@ export const TEAM: Subteam[] = [
         position: "Internal Coordinator and Social Advisor",
         image: shae,
       },
+      {
+        id: "finance1",
+        name: "Jacob Yan",
+        position: "VP of Finance",
+        image: jacobY,
+      },
+      {
+        id: "finance2",
+        name: "Enoch Tin",
+        position: "Finance Advisor",
+        image: enoch,
+      },
     ],
   },
   {
@@ -119,12 +131,6 @@ export const TEAM: Subteam[] = [
         name: "Curtis Sinopoli",
         position: "VP of Events",
         image: curits,
-      },
-      {
-        id: "events3",
-        name: "Justin Kim",
-        position: "VP of External",
-        image: justin,
       },
       {
         id: "events4",
@@ -160,7 +166,7 @@ export const TEAM: Subteam[] = [
         id: "events9",
         name: "Aiden Ramgoolam",
         position: "Event Coordinator",
-        image: aiden,
+        image: team,
       },
       {
         id: "events10",
@@ -174,53 +180,6 @@ export const TEAM: Subteam[] = [
         position: "Event Coordinator",
         image: ishani,
       },
-
-      // reading group
-      {
-        id: "events12",
-        name: "Simha Kalimipalli",
-        position: "Reading Group Lead",
-        image: simha,
-      },
-      {
-        id: "events13",
-        name: "Muhammad Bilal Khan",
-        position: "Reading Group Lead",
-        image: muhammad,
-      },
-      {
-        id: "events14",
-        name: "Jacob Schnell",
-        position: "Reading Group Lead",
-        image: jacobS,
-      },
-
-      // workshop
-      {
-        id: "events15",
-        name: "Maisha thasin",
-        position: "Workshop lead",
-        image: team,
-      },
-      {
-        id: "events16",
-        name: "Tanvir Deol",
-        position: "Workshop lead",
-        image: team,
-      },
-      {
-        id: "events17",
-        name: "Roman Kaharlytskyi",
-        position: "Workshop lead",
-        image: roman,
-      },
-      {
-        id: "events18",
-        name: "Aania Raheem",
-        position: "Workshop lead",
-        image: aania,
-      },
-
     ],
   },
   {
@@ -232,6 +191,12 @@ export const TEAM: Subteam[] = [
         name: "Aaron Liang",
         position: "Outreach Coordinator",
         image: aaron,
+      },
+      {
+        id: "outreach5",
+        name: "Justin Kim",
+        position: "VP of External",
+        image: justin,
       },
       {
         id: "outreach2",
@@ -274,6 +239,50 @@ export const TEAM: Subteam[] = [
         name: "Ammar Siddiqui",
         position: "Education Advisor",
         image: team,
+      },
+      // reading group
+      {
+        id: "education4",
+        name: "Simha Kalimipalli",
+        position: "Reading Group Lead",
+        image: simha,
+      },
+      {
+        id: "education5",
+        name: "Muhammad Bilal Khan",
+        position: "Reading Group Lead",
+        image: muhammad,
+      },
+      {
+        id: "education6",
+        name: "Jacob Schnell",
+        position: "Reading Group Lead",
+        image: jacobS,
+      },
+      // workshop
+      {
+        id: "education7",
+        name: "Maisha thasin",
+        position: "Workshop Lead",
+        image: team,
+      },
+      {
+        id: "education8",
+        name: "Tanvir Deol",
+        position: "Workshop Lead",
+        image: team,
+      },
+      {
+        id: "education9",
+        name: "Roman Kaharlytskyi",
+        position: "Workshop Lead",
+        image: roman,
+      },
+      {
+        id: "education10",
+        name: "Aania Raheem",
+        position: "Workshop Lead",
+        image: aania,
       },
     ],
   },
@@ -385,23 +394,5 @@ export const TEAM: Subteam[] = [
   //     },
   //   ],
   // },
-  {
-    id: "finance",
-    name: "Finance",
-    members: [
-      {
-        id: "finance1",
-        name: "Jacob Yan",
-        position: "VP of Finance",
-        image: jacobY,
-      },
-      {
-        id: "finance2",
-        name: "Enoch Tin",
-        position: "Finance Advisor",
-        image: enoch,
-      },
-    ],
-  },
 
 ];
