@@ -11,7 +11,7 @@ import aiden from "@/public/teams/Aiden-Ramgoolam.jpg";
 import alyssa from "@/public/teams/Alyssa-Lam.jpg";
 import andrew from "@/public/teams/Andrew-Au.jpg";
 // import anvita from "@/public/teams/Anvita-Gupta.jpeg";
-import ashley from "@/public/teams/Ashley-Ferreira.jpg";
+// import ashley from "@/public/teams/Ashley-Ferreira.jpg";
 // import aung from "@/public/teams/Aung-Khant-Min.jpg";
 import bassel from "@/public/teams/Bassel-Al-Omari.jpg";
 // import cherry from "@/public/teams/Cherry-Yang.jpeg";
@@ -373,18 +373,18 @@ export const TEAM: Subteam[] = [
       },
     ],
   },
-  {
-    id: "podcast",
-    name: "Podcast",
-    members: [
-      {
-        id: "podcast1",
-        name: "Ashley Ferreira",
-        position: "Podcast Editor and Host",
-        image: ashley,
-      },
-    ],
-  },
+  // {
+  //   id: "podcast",
+  //   name: "Podcast",
+  //   members: [
+  //     {
+  //       id: "podcast1",
+  //       name: "Ashley Ferreira",
+  //       position: "Podcast Editor and Host",
+  //       image: ashley,
+  //     },
+  //   ],
+  // },
   {
     id: "finance",
     name: "Finance",
