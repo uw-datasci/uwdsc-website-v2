@@ -2,62 +2,63 @@ import { Subteam } from "@/types/types";
 
 import team from "@/public/placeholder/team.png"
 
-import aaron from "@/public/teams/Aaron-Liang.jpg"
-import adam from "@/public/teams/Adam-Yeo.jpg";
+import aania from "@/public/teams/Aania-Shah.jpg";
+import aaron from "@/public/teams/Aaron-Liang.jpg";
 import abigail from "@/public/teams/Abigail-Xu.png";
+import adam from "@/public/teams/Adam-Yeo.jpg";
 import adeline from "@/public/teams/Adeline-Su.jpeg";
 import aiden from "@/public/teams/Aiden-Ramgoolam.jpg";
 import alyssa from "@/public/teams/Alyssa-Lam.jpg";
 import andrew from "@/public/teams/Andrew-Au.jpg";
-import anvita from "@/public/teams/Anvita-Gupta.jpeg";
+// import anvita from "@/public/teams/Anvita-Gupta.jpeg";
 import ashley from "@/public/teams/Ashley-Ferreira.jpg";
 // import aung from "@/public/teams/Aung-Khant-Min.jpg";
 import bassel from "@/public/teams/Bassel-Al-Omari.jpg";
-import cherry from "@/public/teams/Cherry-Yang.jpeg";
+// import cherry from "@/public/teams/Cherry-Yang.jpeg";
 import curits from "@/public/teams/Curits-Sinopoli.jpeg";
-import dania from "@/public/teams/Dania-Laiju.jpg";
+// import dania from "@/public/teams/Dania-Laiju.jpg";
 import daniel from "@/public/teams/Daniel-Su.jpg";
-import donghwui from "@/public/teams/Donghwui-Kim.jpg";
-import emily from "@/public/teams/Emily.jpeg";
+// import donghwui from "@/public/teams/Donghwui-Kim.jpg";
+// import emily from "@/public/teams/Emily.jpeg";
 import enoch from "@/public/teams/Enoch-Tin.jpg";
-import evelina from "@/public/teams/Evelina-Zheng.png"
-import felix from "@/public/teams/Felix-Yang.jpeg";
-import guo from "@/public/teams/Guo-Chen.jpg";
-import jacobY from "@/public/teams/Jacob-Yan.png";
+import evelina from "@/public/teams/Evelina-Zheng.png";
+// import felix from "@/public/teams/Felix-Yang.jpeg";
+// import guo from "@/public/teams/Guo-Chen.jpg";
+import isabella from "@/public/teams/Isabella-Rossi.png";
+import ishani from "@/public/teams/Ishani-Kurmude.jpeg";
 import jacobS from "@/public/teams/Jacob-Schnell.jpeg";
+import jacobY from "@/public/teams/Jacob-Yan.png";
+import justin from "@/public/teams/Justin-Kim.png";
 import kevina from "@/public/teams/Kevina-Li.jpg";
-import kriti from "@/public/teams/Kriti-Sodhi.jpg";
+import kim from "@/public/teams/Kim-Hoang.jpg";
+// import kriti from "@/public/teams/Kriti-Sodhi.jpg";
 import kun from "@/public/teams/Kun-Zhu.jpg";
+import leo from "@/public/teams/Leo-Feng.jpg";
 import lucy from "@/public/teams/Lucy-Qi.jpg";
 import mariam from "@/public/teams/Mariam-Al-Hulaibi.jpeg";
 import michelle from "@/public/teams/Michelle-Lu.jpeg";
-import nina from "@/public/teams/Nina-Do.jpeg";
-import raiyan from "@/public/teams/Raiyan-Sayeed.jpeg";
+import muhammad from "@/public/teams/Bilal-Khan.jpg";
+// import nina from "@/public/teams/Nina-Do.jpeg";
+// import raiyan from "@/public/teams/Raiyan-Sayeed.jpeg";
 import rex from "@/public/teams/Rex-Niu.jpeg";
-import rohan from "@/public/teams/Rohan-Minocha.png";
-import sara from "@/public/teams/Sara-Zufishan.jpeg";
+// import rohan from "@/public/teams/Rohan-Minocha.png";
+import roman from "@/public/teams/Roman-Kaharlytskyi.jpeg";
+// import sara from "@/public/teams/Sara-Zufishan.jpeg";
 import sebastian from "@/public/teams/Sebastian-Valencia.jpg";
 import shae from "@/public/teams/Shae.jpg";
-import shamar from "@/public/teams/Shamar-Phillips.jpeg";
-import shashwat from "@/public/teams/Shashwat-Murawala.jpg";
+// import shamar from "@/public/teams/Shamar-Phillips.jpeg";
+// import shashwat from "@/public/teams/Shashwat-Murawala.jpg";
 import sheng from "@/public/teams/Sheng-Liang-Chow.jpeg";
-import sherry from "@/public/teams/SherryPic - Sherry.jpg";
-import shruti from "@/public/teams/Shruti-Dua.jpg";
+// import sherry from "@/public/teams/SherryPic - Sherry.jpg";
+// import shruti from "@/public/teams/Shruti-Dua.jpg";
 import siddharth from "@/public/teams/Siddharth-Vagavolu.jpg";
-import stanley from "@/public/teams/stanley_lin - Stanley.png";
-import teresa from "@/public/teams/Teresa-Zhang Large.jpeg";
-import simone from "@/public/teams/Simone-Coutinho.jpg";
-import suhayl from "@/public/teams/Suhayl-Sayed.jpeg";
-import zeaj from "@/public/teams/Zeaj-Zamoranos Large.jpeg";
-import kim from "@/public/teams/Kim-Hoang.jpg";
-import justin from "@/public/teams/Justin-Kim.png";
-import isabella from "@/public/teams/Isabella-Rossi.png";
-import leo from "@/public/teams/Leo-Feng.jpg";
-import ishani from "@/public/teams/Ishani-Kurmude.jpeg";
 import simha from "@/public/teams/Simha-Kalimipalli.png";
-import muhammad from "@/public/teams/Bilal-Khan.jpg";
-import roman from "@/public/teams/Roman-Kaharlytskyi.jpeg";
-import aania from "@/public/teams/Aania-Shah.jpg";
+import simone from "@/public/teams/Simone-Coutinho.jpg";
+import stanley from "@/public/teams/stanley_lin - Stanley.png";
+// import suhayl from "@/public/teams/Suhayl-Sayed.jpeg";
+import teresa from "@/public/teams/Teresa-Zhang Large.jpeg";
+import zeaj from "@/public/teams/Zeaj-Zamoranos Large.jpeg";
+
 
 export const TEAM: Subteam[] = [
   {
@@ -266,54 +267,6 @@ export const TEAM: Subteam[] = [
         name: "Ammar Siddiqui",
         position: "Education Advisor",
         image: team,
-      },
-    ],
-  },
-  {
-    id: "tcc",
-    name: "TCC",
-    members: [
-      {
-        id: "tcc1",
-        name: "Sara Zufishan",
-        position: "VP of TCC",
-        image: sara, 
-      },
-      {
-        id: "tcc2",
-        name: "Shamar Phillips",
-        position: "Data Analyst",
-        image: shamar,
-      },
-      {
-        id: "tcc3",
-        name: "Aiden Ramgoolam",
-        position: "Data Analyst",
-        image: aiden,
-      },
-      {
-        id: "tcc4",
-        name: "Cherry Yang",
-        position: "Data Analyst",
-        image: cherry,
-      },
-      {
-        id: "tcc5",
-        name: "Nhat Quang Bui",
-        position: "Data Analyst",
-        image: team,
-      },
-      {
-        id: "tcc6",
-        name: "Siddharth Viswanath",
-        position: "Data Analyst",
-        image: team,
-      },
-      {
-        id: "tcc7",
-        name: "Shruti Dua",
-        position: "Data Analyst",
-        image: shruti,
       },
     ],
   },
