@@ -3,8 +3,8 @@ import { Subteam } from "@/types/types";
 import team from "@/public/placeholder/team.png"
 
 import aaron from "@/public/teams/Aaron-Liang.jpg"
-import abigail from "@/public/teams/Abigail.jpeg";
 import adam from "@/public/teams/Adam-Yeo.jpg";
+import abigail from "@/public/teams/Abigail-Xu.png";
 import adeline from "@/public/teams/Adeline-Su.jpeg";
 import aiden from "@/public/teams/Aiden-Ramgoolam.jpg";
 import alyssa from "@/public/teams/Alyssa-Lam.jpg";
@@ -20,6 +20,7 @@ import daniel from "@/public/teams/Daniel-Su.jpg";
 import donghwui from "@/public/teams/Donghwui-Kim.jpg";
 import emily from "@/public/teams/Emily.jpeg";
 import enoch from "@/public/teams/Enoch-Tin.jpg";
+import evelina from "@/public/teams/Evelina-Zheng.png"
 import felix from "@/public/teams/Felix-Yang.jpeg";
 import guo from "@/public/teams/Guo-Chen.jpg";
 import jacob from "@/public/teams/Jacob-Yan.png";
@@ -38,8 +39,11 @@ import sara from "@/public/teams/Sara-Zufishan.jpeg";
 import sebastian from "@/public/teams/Sebastian-Valencia.jpg";
 import shae from "@/public/teams/Shae.jpg";
 import shamar from "@/public/teams/Shamar-Phillips.jpeg";
+import shashwat from "@/public/teams/Shashwat-Murawala.jpg";
+import sheng from "@/public/teams/Sheng-Liang-Chow.jpeg";
 import sherry from "@/public/teams/SherryPic - Sherry.jpg";
 import shruti from "@/public/teams/Shruti-Dua.jpg";
+import siddharth from "@/public/teams/Siddharth-Vagavolu.jpg";
 import stanley from "@/public/teams/stanley_lin - Stanley.png";
 import teresa from "@/public/teams/Teresa-Zhang Large.jpeg";
 import simone from "@/public/teams/Simone-Coutinho.jpg";
@@ -367,52 +371,22 @@ export const TEAM: Subteam[] = [
         image: abigail,
       },
       {
-        id: "development3",
-        name: "Rohan Minocha",
-        position: "Backend Developer",
-        image: rohan,
-      },
-      {
         id: "development2",
-        name: "Nina Do",
-        position: "Frontend Developer",
-        image: nina,
-      },
-    ],
-  },
-  {
-    id: "discord",
-    name: "Discord Development",
-    members: [
-      {
-        id: "discord1",
-        name: "Maisha Thasin",
-        position: "VP of Discord Development",
-        image: team, 
+        name: "Sheng Liang Chow",
+        position: "Web Developer",
+        image: sheng,
       },
       {
-        id: "discord2",
+        id: "development3",
+        name: "Siddharth Vagavolu",
+        position: "Web Developer",
+        image: siddharth,
+      },
+      {
+        id: "development4",
         name: "Evelina Zheng",
-        position: "Discord Developer",
-        image: team,
-      },
-      {
-        id: "discord3",
-        name: "Hasan Khan",
-        position: "Discord Developer",
-        image: team,
-      },
-      {
-        id: "discord4",
-        name: "Kriti Sodhi",
-        position: "Discord Developer",
-        image: kriti,
-      },
-      {
-        id: "discord5",
-        name: "Sherry Feng",
-        position: "Discord Developer",
-        image: sherry,
+        position: "Web Developer",
+        image: evelina
       },
     ],
   },
@@ -422,15 +396,9 @@ export const TEAM: Subteam[] = [
     members: [
       {
         id: "podcast1",
-        name: "Anvita Gupta",
-        position: "Podcast Host",
-        image: anvita, 
-      },
-      {
-        id: "podcast2",
-        name: "Jaemin Han",
-        position: "Podcast Host",
-        image: team,
+        name: "Ashley Ferreira",
+        position: "Podcast Editor and Host",
+        image: ashley, 
       },
     ],
   }, 
