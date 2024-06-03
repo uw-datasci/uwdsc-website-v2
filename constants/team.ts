@@ -85,24 +85,6 @@ export const TEAM: Subteam[] = [
     name: "Internal",
     members: [
       {
-        id: "internal1",
-        name: "Adeline Su",
-        position: "Internal Coordinator",
-        image: adeline,
-      },
-      {
-        id: "internal2",
-        name: "Alyssa Lam",
-        position: "Internal Coordinator",
-        image: alyssa,
-      },
-      {
-        id: "internal3",
-        name: "Shae-Lynn Stirling",
-        position: "Internal Coordinator and Social Advisor",
-        image: shae,
-      },
-      {
         id: "finance1",
         name: "Jacob Yan",
         position: "VP of Finance",
@@ -113,6 +95,24 @@ export const TEAM: Subteam[] = [
         name: "Enoch Tin",
         position: "Finance Advisor",
         image: enoch,
+      },
+      {
+        id: "internal1",
+        name: "Shae-Lynn Stirling",
+        position: "Internal Coordinator",
+        image: shae,
+      },
+      {
+        id: "internal2",
+        name: "Adeline Su",
+        position: "Internal Coordinator",
+        image: adeline,
+      },
+      {
+        id: "internal3",
+        name: "Alyssa Lam",
+        position: "Internal Coordinator",
+        image: alyssa,
       },
     ],
   },
@@ -188,30 +188,30 @@ export const TEAM: Subteam[] = [
     members: [
       {
         id: "outreach1",
-        name: "Aaron Liang",
-        position: "Outreach Coordinator",
-        image: aaron,
-      },
-      {
-        id: "outreach5",
         name: "Justin Kim",
         position: "VP of External",
         image: justin,
       },
       {
         id: "outreach2",
+        name: "Aaron Liang",
+        position: "Outreach Coordinator",
+        image: aaron,
+      },
+      {
+        id: "outreach3",
         name: "Adam Yeo",
         position: "Outreach Coordinator",
         image: adam,
       },
       {
-        id: "outreach3",
+        id: "outreach4",
         name: "Kevina Li",
         position: "Outreach Coordinator",
         image: kevina,
       },
       {
-        id: "outreach4",
+        id: "outreach5",
         name: "Simone Coutinho",
         position: "Outreach Coordinator",
         image: simone,
@@ -230,39 +230,39 @@ export const TEAM: Subteam[] = [
       },
       {
         id: "education2",
-        name: "Bassel Al Omari",
-        position: "Education Lead",
-        image: bassel,
-      },
-      {
-        id: "education3",
         name: "Ammar Siddiqui",
         position: "Education Advisor",
         image: team,
       },
       // reading group
       {
-        id: "education4",
+        id: "education3",
         name: "Simha Kalimipalli",
         position: "Reading Group Lead",
         image: simha,
       },
       {
-        id: "education5",
+        id: "education4",
         name: "Muhammad Bilal Khan",
         position: "Reading Group Lead",
         image: muhammad,
       },
       {
-        id: "education6",
+        id: "education5",
         name: "Jacob Schnell",
         position: "Reading Group Lead",
         image: jacobS,
       },
       // workshop
       {
+        id: "education6",
+        name: "Bassel Al Omari",
+        position: "Workshop Lead",
+        image: bassel,
+      },
+      {
         id: "education7",
-        name: "Maisha thasin",
+        name: "Maisha Thasin",
         position: "Workshop Lead",
         image: team,
       },
