@@ -3,6 +3,7 @@ import { type Sponsor } from "@/types/types";
 
 import mathsoc from "@/public/logos/mathsoc.png";
 import mef from "@/public/logos/mef.png";
+import techyon from "@/public/logos/techyon.png";
 import intact from "@/public/logos/cxc/intact.png";
 import huggingface from "@/public/logos/cxc/huggingface.png";
 import bdo from "@/public/logos/cxc/bdo.png";
@@ -30,8 +31,9 @@ import Ecapital from "@/public/logos/cxc_2024/Ecapital.png";
  */
 
 export const CURRENT_SPONSORS: Sponsor[] = [
-  { name: "MathSoc", logo: mathsoc, type:"" },
-  { name: "MEF", logo: mef, type:"" }
+  { name: "MathSoc", logo: mathsoc },
+  { name: "MEF", logo: mef },
+  { name: "Techyon", logo: techyon, link: "https://techyon.org/"}
 ];
 
 export const CURRENT_CXC_SPONSORS: Sponsor[] = [
