@@ -88,5 +88,20 @@ export type SponsorForm = {
 export type Sponsor = {
   name: string;
   logo: StaticImageData;
-  type: string
+  type?: string;
+  link?: string;
+}
+
+export type User = {
+  userId: string;
+  dateCreated: Date;
+  password?: string;
+  firstAndLastName: string;
+  isPaidMember: boolean;
+  WatIAM: string;
+  waterlooEmail: string;
+  faculties: string[];
+  term: string;
+  reasonOfJoining: string;
+  suggestion: string
 }

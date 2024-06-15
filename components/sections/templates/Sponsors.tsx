@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { type Sponsor } from "@/types/types";
 import SectionTitle from "@/components/UI/SectionTitle";
 
@@ -26,7 +27,7 @@ export default function Sponsors({
     <section className="mb-section mx-container">
       <SectionTitle mb="mb-20">{sectionTitle}</SectionTitle>
       <div className={`flex flex-wrap justify-center ${className}`}>
-        {sponsorList?.map(({ name, logo, type }) => {
+        {sponsorList?.map(({ name, logo, type, link }) => {
           let height = "h-16 md:h-20"
           if (type=="top"){
             height = "h-24 md:h-22"
@@ -40,14 +41,24 @@ export default function Sponsors({
           } else if (type=="silver"){
             height = "h-8 md:h-8"
           }
-          return(
-            <Image
-            src={logo}
-            alt={name}
-            className={`w-auto ${height}`} 
-            key={name}
-            />
-          )
+
+          return link 
+            ? (
+              <Link href={link} passHref key={name}>
+                <Image
+                  src={logo}
+                  alt={name}
+                  className={`w-auto ${height}`}
+                />
+              </Link>
+            ) : (
+              <Image
+                src={logo}
+                alt={name}
+                className={`w-auto ${height}`}
+                key={name}
+              />
+            );
         })}
       </div>
     </section>
