@@ -2,6 +2,8 @@ import SectionTitle from "@/components/UI/SectionTitle";
 import AdminUserCard from "@/components/cards/AdminUserCard";
 import { type User} from "@/types/types";
 import Button from "@/components/UI/Button";
+import { useEffect, useState } from "react";
+
 
 const FakeUsers: User[] = [
     {
@@ -55,6 +57,28 @@ const FakeUsers: User[] = [
 ];
 
 export default function Admin() {
+
+    const [users, setUsers] = useState([]);
+
+    useEffect(() => {
+        // to test this separately, run a sign-in call manually and copy the token here
+        const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJuYW1lIjoiYWRtaW4xIiwiZW1haWwiOiJhZG1pbjFAZ21haWwuY29tIiwiaWQiOiI2Njc3MGVjY2IyYjNkNzg0MDAyZGI5YWYiLCJ1c2VyU3RhdHVzIjoiYWRtaW4ifSwiaWF0IjoxNzE5Njg1MjYwLCJleHAiOjE3MTk5NDQ0NjB9.1K9ue1woU5L6KZW8pOM3DUhxCFbOHLAgm-AENoc5VdE";
+        // const token = localStorage.getItem('token');
+        
+        fetch('http://localhost:5001/api/admin/getAllUsers', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => setUsers(data))
+        .catch(error => console.error('Error fetching users:', error));
+    }, []);
+
+    console.log(users);
+
     return (
         <>
             <section className="mx-container mb-section mt-14 lg:mt-20">
