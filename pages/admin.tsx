@@ -10,7 +10,7 @@ export default function Admin() {
 
     useEffect(() => {
         // to test this separately, run a sign-in call manually and copy the token here
-        const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJuYW1lIjoiYWRtaW4xIiwiZW1haWwiOiJhZG1pbjFAZ21haWwuY29tIiwiaWQiOiI2Njc3MGVjY2IyYjNkNzg0MDAyZGI5YWYiLCJ1c2VyU3RhdHVzIjoiYWRtaW4ifSwiaWF0IjoxNzE5Njg1MjYwLCJleHAiOjE3MTk5NDQ0NjB9.1K9ue1woU5L6KZW8pOM3DUhxCFbOHLAgm-AENoc5VdE";
+        const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJuYW1lIjoiYWRtaW4xIiwiZW1haWwiOiJhZG1pbjFAZ21haWwuY29tIiwiaWQiOiI2Njc3MGVjY2IyYjNkNzg0MDAyZGI5YWYiLCJ1c2VyU3RhdHVzIjoiYWRtaW4ifSwiaWF0IjoxNzIwMjkwNzk5LCJleHAiOjE3MjA1NDk5OTl9.xFHwM1vRb1e3zPSXkAIxSy8LLVAdXTtpoqiTV7mY33M"
         // const token = localStorage.getItem('token');
         
         fetch('http://localhost:5001/api/admin/getAllUsers', {
