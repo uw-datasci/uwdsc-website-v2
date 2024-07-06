@@ -93,15 +93,12 @@ export type Sponsor = {
 }
 
 export type User = {
-  userId: string;
-  dateCreated: Date;
-  password?: string;
-  firstAndLastName: string;
-  isPaidMember: boolean;
-  WatIAM: string;
-  waterlooEmail: string;
-  faculties: string[];
-  term: string;
-  reasonOfJoining: string;
-  suggestion: string
+  _id: string;
+  username: string;
+  email: string;
+  password: string;
+  userStatus: string;
+  createdAt: Date;
+  updatedAt?: Date;
+  __v?: number;
 }

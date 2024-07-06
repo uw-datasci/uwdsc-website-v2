@@ -4,61 +4,9 @@ import { type User} from "@/types/types";
 import Button from "@/components/UI/Button";
 import { useEffect, useState } from "react";
 
-
-const FakeUsers: User[] = [
-    {
-        userId: "abc",
-        dateCreated: new Date(),
-        firstAndLastName: "My Name",
-        isPaidMember: true,
-        WatIAM: "abc123",
-        waterlooEmail: "me2@email.com",
-        faculties: ["math", "env"],
-        term: "2B",
-        reasonOfJoining: "fun",
-        suggestion: ""
-    },
-    {
-        userId: "abc1",
-        dateCreated: new Date(),
-        firstAndLastName: "My Name 2",
-        isPaidMember: true,
-        WatIAM: "abc123",
-        waterlooEmail: "me@email.com",
-        faculties: ["maths"],
-        term: "1B",
-        reasonOfJoining: "fun!",
-        suggestion: ""
-    },
-    {
-        userId: "abc2",
-        dateCreated: new Date(),
-        firstAndLastName: "3My Name",
-        isPaidMember: true,
-        WatIAM: "abc123",
-        waterlooEmail: "me@email.com",
-        faculties: ["math"],
-        term: "4B",
-        reasonOfJoining: "fun",
-        suggestion: ""
-    },
-    {
-        userId: "a4bc",
-        dateCreated: new Date(),
-        firstAndLastName: "4My Name",
-        isPaidMember: true,
-        WatIAM: "abc123",
-        waterlooEmail: "me@email.com",
-        faculties: ["math"],
-        term: "8B",
-        reasonOfJoining: "fun",
-        suggestion: ""
-    }
-];
-
 export default function Admin() {
 
-    const [users, setUsers] = useState([]);
+    const [users, setUsers] = useState<User[]>([]);
 
     useEffect(() => {
         // to test this separately, run a sign-in call manually and copy the token here
@@ -73,8 +21,18 @@ export default function Admin() {
             }
         })
         .then(response => response.json())
-        .then(data => setUsers(data))
-        .catch(error => console.error('Error fetching users:', error));
+        .then(data => {
+            const mappedUsers: User[] = data.map((user: any) => ({
+                _id: user._id,
+                username: user.username,
+                email: user.email,
+                password: user.password,
+                userStatus: user.userStatus,
+                createdAt: new Date(user.createdAt),
+                updatedAt: new Date(user.updatedAt)
+            }));
+            setUsers(mappedUsers);
+        })        .catch(error => console.error('Error fetching users:', error));
     }, []);
 
     console.log(users);
@@ -101,8 +59,8 @@ export default function Admin() {
                         </Button>
                     </div>
                     <div className="flex flex-wrap justify-center gap-8 3xs:gap-12 xl:gap-20">
-                        {FakeUsers.map((user) => (
-                            <AdminUserCard {...user} key={user.userId} />
+                        {users.map((user) => (
+                            <AdminUserCard {...user} key={user._id} />
                         ))}
                     </div>
                 </div>

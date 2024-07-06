@@ -9,31 +9,25 @@ type UserCardProps = User;
  */
 
 export default function AdminUserCard({
-    dateCreated,
-    firstAndLastName,
-    isPaidMember,
-    WatIAM,
-    waterlooEmail,
-    faculties,
-    term,
-    reasonOfJoining,
-    suggestion
+    _id,
+    username,
+    email,
+    password,
+    userStatus,
+    createdAt,
+    updatedAt
 }: UserCardProps) {
     return (
         <div className="transition-300 w-full rounded-2xl border border-grey3 px-6 pb-8 pt-7 text-center hover:border-grey2 3xs:w-[240px] xl:w-[280px] xl:rounded-4xl">
             <h4 className="mb-2.5 text-xl font-semibold text-white xl:text-2xl">
-                {firstAndLastName}
+                {username}
             </h4>
-            <p className="mb-4 font-medium text-grey2 xl:text-lg">{isPaidMember ? "Paid Member" : "NOT Paid Member"}</p>
+            <p className="mb-4 font-medium text-grey2 xl:text-lg">User Status: {userStatus}</p>
             <Fragment>
                 <div className="text-white">
-                    <p>Date Created: {dateCreated.toDateString()}</p>
-                    <p>WatIAM: {WatIAM}</p>
-                    <p>Email: {waterlooEmail}</p>
-                    <p>Faculty: {faculties.join(", ")}</p>
-                    <p>Term: {term} </p>
-                    {reasonOfJoining && <p>Reason of Joining: {reasonOfJoining}</p>}
-                    {suggestion && <p>Suggestion: {suggestion}</p>}
+                    <p>Date Created: {createdAt.toDateString()}</p>
+                    {updatedAt && <p>Date Updated: {updatedAt.toDateString()}</p>}
+                    <p>Email: {email}</p>
                 </div>
             </Fragment>
             <div className="py-3">
