@@ -99,7 +99,7 @@ export type User = {
   email: string;
   password: string;
   userStatus: string;
-  createdAt: Date;
+  createdAt?: Date;
   updatedAt?: Date;
   __v?: number;
 }
