@@ -1,6 +1,9 @@
 import { type NextApiRequest, type NextApiResponse } from "next";
 import { store } from "@/store/store";
 import { login } from "@/store/slices/loginTokenSlice";
+import axios from "axios";
+
+const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJuYW1lIjoiYWRtaW4xIiwiZW1haWwiOiJhZG1pbjFAZ21haWwuY29tIiwiaWQiOiI2Njc3MGVjY2IyYjNkNzg0MDAyZGI5YWYiLCJ1c2VyU3RhdHVzIjoiYWRtaW4ifSwiaWF0IjoxNzIwODc5NDU1LCJleHAiOjE3MjExMzg2NTV9.Xip1P9r4BHhiNY7rQIisgPT2qQONBp8-Bp-IbXYXBSk"
 
 export default async function handler(
   req: NextApiRequest,
@@ -10,8 +13,20 @@ export default async function handler(
     const { name, WatIAM, email, faculty, term, advert, ideas } = req.body;
     console.log(`${name} ${WatIAM} ${email} ${faculty} ${term} ${advert} ${ideas}`);
     const response = Promise<void>;
-    store.dispatch(login("TOKEN GOES HERE"));
-    console.log(store.getState().loginToken.value);
+    /*const response = await axios({
+      url: 'http://localhost:5001/api/user/login',
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      data: JSON.stringify({
+        email: "member1@gmail.com",
+        password: "$2b$10$4651Q.T8cjq4E6En6rwRk.F/h7IihVJEZOoYWg.nU10gogs7nLCX6",
+      })
+    });
+
+    console.log(response);*/
+    
     /*
     To use state anywhere in the app,
       1. Import useSelector and rootState

@@ -14,7 +14,7 @@ import { sendSignUpInfo } from "@/utils/emails";
 
 const opacityTrans = "duration-1000 transition-opacity ease-in-out ";
 
-export default function () {
+export default function SignUpPage() {
   const [signUpPart2, setSignUpPart2] = useState(false);
   const [fields, setFields] = useState<Record<string,string>|null>(null);
   const signUpPage = useSelector((state: RootState) => state.signUpPage.value);
