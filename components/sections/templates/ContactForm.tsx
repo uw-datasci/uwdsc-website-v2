@@ -33,23 +33,32 @@ const CHIPS = [
 
 type ContactProps = {
   title: string;
+  id: string;
   includeSideInfo: boolean;
   description: React.ReactNode;
   fields: ContactField[];
   validate: (values: Record<string, string>) => Record<string, string>;
   onSubmit: (values: Record<string, string>) => Promise<void>;
+  errorMessage: string;
+  successMessage: string;
+  resetForm: boolean;
   formClasses?: string;
-  buttonClasses?: string;
+  customButton?: React.ReactNode;
 };
 
 export default function ContactForm({
   title,
+  id,
   includeSideInfo,
   description,
   fields,
   validate,
   onSubmit,
-  buttonClasses,
+  errorMessage,
+  successMessage,
+  resetForm,
+  formClasses,
+  customButton,
 }: ContactProps) {
   const [loading, setLoading] = useState<boolean>(false);
   const [success, setSuccess] = useState<boolean>(false);
@@ -67,7 +76,7 @@ export default function ContactForm({
       setError(false);
       try {
         await onSubmit(values);
-        formik.resetForm();
+        resetForm ? formik.resetForm(): null;
         setSuccess(true);
       } catch (error) {
         console.error(error);
@@ -82,13 +91,12 @@ export default function ContactForm({
     <>
       {success && (
         <InputFeedback state="success">
-          Your message has been sent! We will get back to you ASAP.
+          {successMessage}
         </InputFeedback>
       )}
       {error && (
         <InputFeedback state="error">
-          There was an error sending your message. Please refresh this page and
-          try again.
+          {errorMessage}
         </InputFeedback>
       )}
     </>
@@ -96,8 +104,8 @@ export default function ContactForm({
 
   return (
     <section
-      id="contact"
-      className={"mb-section mx-container " + (includeSideInfo ? "grid gap-10 lg:grid-cols-2 lg:gap-16" : "")}
+      id={id}
+      className={formClasses ? formClasses : "mb-section mx-container grid gap-10 lg:grid-cols-2 lg:gap-16"}
     >
       {includeSideInfo ? 
         <div>
@@ -202,17 +210,19 @@ export default function ContactForm({
                 );
             }
           })}
-          <Button
-            type="submit"
-            hierarchy="primary"
-            font="font-bold"
-            text="lg:text-lg"
-            padding="py-3 sm:px-7"
-            rounded="rounded-lg"
-            classes={buttonClasses? buttonClasses : "w-full sm:w-auto"}
-          >
-            Submit
-          </Button>
+          {customButton ? customButton : 
+            <Button
+              type="submit"
+              hierarchy="primary"
+              font="font-bold"
+              text="lg:text-lg"
+              padding="py-3 sm:px-7"
+              rounded="rounded-lg"
+              classes="w-full sm:w-auto"
+            >
+              Submit
+            </Button>
+          }
         </form>
       </div>
     </section>

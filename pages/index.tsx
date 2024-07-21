@@ -23,6 +23,7 @@ export default function Home() {
         description="Inspiring the data science leaders of the future by building an inclusive community at the University of Waterloo to bridge the gap between academics and the industry."
         keywords="University of Waterloo,Data Science,University of Waterloo Data Science Club,Waterloo Data Science,UWDSC"
       />
+      <SignUp/>
       <Hero />
       <WhatWeDo />
       <ClubStats />
@@ -34,7 +35,6 @@ export default function Home() {
       <FrequentlyAskedQuestions />
       {/* <Blogs /> */}
       <ContactUs />
-      <SignUp/> {/*Sponsor us Local HREF link does not work when placed above Contact(To be fixed)*/} 
     </>
   );
 }

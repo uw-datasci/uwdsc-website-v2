@@ -1,13 +1,16 @@
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '@/store/store';
-import Button from '@/components/UI/Button';
-import GradientBorder from '@/components/UI/GradientBorder';
-import { moveDown } from '@/store/slices/signUpPageSlice';
-import Logo from '@/components/UI/Logo';
-import ContactForm from '../templates/ContactForm';
-import { SIGN_UP_FORM_FIELDS_PART1, SIGN_UP_FORM_FIELDS_PART2 } from '@/constants/forms';
-import { sendSignUpInfo } from '@/utils/emails';
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/store/store";
+import { moveDown } from "@/store/slices/signUpPageSlice";
+
+import Button from "@/components/UI/Button";
+import GradientBorder from "@/components/UI/GradientBorder";
+import Logo from "@/components/UI/Logo";
+
+import ContactForm from "../templates/ContactForm";
+import { SIGN_UP_FORM_FIELDS_PART1, SIGN_UP_FORM_FIELDS_PART2 } from "@/constants/forms";
+import { validateSignUpFormPart1, validateSignUpFormPart2 } from "@/utils/formValidation";
+import { sendSignUpInfo } from "@/utils/emails";
 
 const opacityTrans = "duration-1000 transition-opacity ease-in-out ";
 
@@ -18,7 +21,6 @@ export default function () {
   const dispatch = useDispatch();
   const headings = "mt-10 text-2xl font-bold text-white 3xs:text-3xl 2xs:max-w-[390px] 2xs:text-4xl xs:max-w-[450px] xs:text-5xl sm:text-6xl md:max-w-[520px] md:text-7xl lg:mx-0 lg:mb-7 lg:max-w-[500px] lg:text-left lg:text-6xl xl:max-w-[540px] xl:text-9xl 2xl:max-w-[580px] 2xl:text-11xl 3xl:max-w-none 3xl:text-13xl";
   const subTexts = "mt-2 max-w-[350px] text-center leading-loose text-white sm:max-w-[420px] sm:text-lg lg:mx-0 lg:mb-14 lg:max-w-none lg:text-left lg:text-md xl:text-lg 2xl:text-xl";
-  let fieldss: Record<string, string> = {};
 
   const updatePart1Field = async (values: Record<string, string>) => {
     setFields({...values});
@@ -59,39 +61,73 @@ export default function () {
                 <h1 className={headings}>Join Us !</h1>
                 <p className={subTexts}>Become a part of a growing community of data science enthusiasts and participate in engaging discussions, hands-on projects, and networking opportunities.</p>
               </div>
-              <div className="w-full max-h-full p-8 flex flex-col justify-center" >
+              <div className="w-full max-h-full p-8 flex flex-col justify-center overflow-auto" >
                 <div className="w-full">
                   <ContactForm
                     title=""
+                    id=""
                     includeSideInfo={false}
                     description={<></>}
                     fields={SIGN_UP_FORM_FIELDS_PART1}
-                    validate={(values: Record<string, string>)=>{
-                      const errors: Record<string, string> = {};
-                      return errors;
-                    }}
+                    validate={validateSignUpFormPart1}
                     onSubmit={updatePart1Field}
-                    buttonClasses="w-full"
+                    successMessage=""
+                    errorMessage=""
+                    resetForm={false}
+                    formClasses="mx-container "
+                    customButton={
+                      <>
+                        <Button
+                          type="submit"
+                          hierarchy="primary"
+                          font="font-bold"
+                          text="lg:text-lg"
+                          padding="py-3 sm:px-7"
+                          rounded="rounded-lg"
+                          classes="w-full"
+                        >
+                          Sign Up!
+                        </Button>
+                        <p className="text-s text-grey3 p-2 hover:underline cursor-pointer" onClick={()=>{}}>Already a member? Sign in here.</p>
+                      </>
+                    }
                   />
                 </div>
               </div>
               <div className="w-full h-full border-r border-grey3 p-8 " >
                 <h1 className={headings/*"text-13xl text-white font-bold mt-10"*/}>Almost There !</h1>
-                <p className={subTexts/*"text-2xl text-white font-bold mt-2"*/}>Once you have submitted, you should receive a confirmation email to your uwaterloo email account.<br/><br/>And after all that hard work . . . <br/> Welcome to the club !</p>
+                <p className={subTexts/*"text-2xl text-white font-bold mt-2"*/}>Once you have submitted, you should receive a confirmation email to your uwaterloo email account.<br/><br/>And after all that hard work ... <br/> Welcome to the club !</p>
               </div>
-              <div className="w-full h-full p-8 flex flex-col justify-center" >
+              <div className="w-full h-full p-8 flex flex-col justify-center overflow-auto" >
                 <div className="w-full max-h-full">
                   <ContactForm
                       title=""
+                      id=""
                       includeSideInfo={false}
                       description={<></>}
                       fields={SIGN_UP_FORM_FIELDS_PART2}
-                      validate={(values: Record<string, string>)=>{
-                        const errors: Record<string, string> = {};
-                        return errors;
-                      }}
+                      validate={validateSignUpFormPart2}
                       onSubmit={updatePart2Field}
-                      buttonClasses="w-full"
+                      successMessage="Successfully registered. Check your email!"
+                      errorMessage="Something went wrong. Please let us know and try again later."
+                      resetForm={true}
+                      formClasses="mx-container "
+                      customButton={
+                        <>
+                          <Button
+                            type="submit"
+                            hierarchy="primary"
+                            font="font-bold"
+                            text="lg:text-lg"
+                            padding="py-3 sm:px-7"
+                            rounded="rounded-lg"
+                            classes="w-full"
+                          >
+                            Submit
+                          </Button>
+                          <p className="text-s text-grey3 p-2 hover:underline cursor-pointer" onClick={()=>{setSignUpPart2(!setSignUpPart2)}}>Go back</p>
+                        </>
+                      }
                     />
                 </div>
               </div>

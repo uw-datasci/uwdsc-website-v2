@@ -10,6 +10,7 @@ export default function ContactUs() {
   return (
     <ContactForm
       title="Contact Us"
+      id="contact"
       includeSideInfo={true}
       description={
         <Fragment>
@@ -22,6 +23,9 @@ export default function ContactUs() {
       fields={CONTACT_FORM_FIELDS}
       validate={validateContactForm}
       onSubmit={sendContactEmail}
+      successMessage="Your message has been sent! We will get back to you ASAP."
+      errorMessage="There was an error sending your message. Please refresh this page and\ntry again."
+      resetForm={true}
     />
   );
 }

@@ -1,17 +1,33 @@
 import { type NextApiRequest, type NextApiResponse } from "next";
-
-import ContactTemplate from "@/components/email-templates/ContactTemplate";
-
-import { resend } from "@/lib/resend";
+import { useDispatch } from "react-redux";
+import { login } from "@/store/slices/loginTokenSlice";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
+  const dispatch = useDispatch();
   try {
     const { name, WatIAM, email, faculty, term, advert, ideas } = req.body;
     console.log(`${name} ${WatIAM} ${email} ${faculty} ${term} ${advert} ${ideas}`);
     const response = Promise<void>;
+    dispatch(login("TOKEN GOES HERE"));
+    /*
+    To use state anywhere in the app,
+      1. Import useSelector and rootState
+      2. Initalize your hook like so :
+        const token = useSelector((state: RootState) => state.loginToken.value);
+
+    To login/logout,
+      1. Import useDispatch and login/logou(From the store slice)
+      2. Initialize dispatch like so :
+        const dispatch = useDispatch();
+      3. Use either login/logout
+        dispatch(login("AUTH TOKEN"));
+        or
+        dispatch(logout());
+      **When logged out, the redux state would just be an empty string**
+    */
     res.status(200).json({ success: true, response });
   } catch (error) {
     console.error(error);
