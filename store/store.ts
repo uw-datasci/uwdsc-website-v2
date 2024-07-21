@@ -1,7 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
+import signUpPageReducer from "./slices/signUpPageSlice.js";
 
 export const store = configureStore({
-  reducer: {},
+  reducer: {
+    signUpPage: signUpPageReducer
+  },
 });
 
 export type RootState = ReturnType<typeof store.getState>;

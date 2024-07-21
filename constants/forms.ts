@@ -54,3 +54,56 @@ export const SPONSOR_FORM_FIELDS: ContactField[] = [
     placeholder: "Message",
   },
 ];
+
+export const SIGN_UP_FORM_FIELDS_PART1: ContactField[] = [
+  {
+    id: "name",
+    name: "name",
+    type: "input",
+    placeholder: "FIrst name, Last name",
+  },
+  {
+    id: "WatIAM",
+    name: "WatIAM",
+    type: "input",
+    placeholder: "WatIAM (ex. slchow)",
+  },
+  {
+    id: "email",
+    name: "email",
+    type: "input",
+    placeholder: "Waterloo Email (ex. slchow@uwaterloo.ca)",
+  },
+];
+
+export const SIGN_UP_FORM_FIELDS_PART2: ContactField[] = [
+  {
+    id: "faculty",
+    name: "faculty",
+    type: "dropdown",
+    placeholder: "Which faculty is your program part of ?",
+    options: ["Math", "Engineering", "Science", "Arts", "Health", "Environment"],
+    classes: "z-50",
+  },
+  {
+    id: "term",
+    name: "term",
+    type: "dropdown",
+    placeholder: "Your current/last completed term",
+    options: ["1A","1B","2A","2B","3A","3B","4A","4B","Masters","PHD"],
+    classes: "z-40",
+  },
+  {
+    id: "advert",
+    name: "advert",
+    type: "input",
+    placeholder: "Where did you find this form ?",
+  },
+  {
+    id: "ideas",
+    name: "ideas",
+    type: "textarea",
+    placeholder: "[Optional] Share your ideas for new events or improvements!",
+    classes: "max-h-24",
+  },
+];

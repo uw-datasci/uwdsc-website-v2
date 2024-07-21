@@ -45,7 +45,7 @@ export default function Footer() {
       <hr className="border-b-1 border-grey3" />
       <footer className="mx-container mb-12 mt-9 flex flex-col justify-between gap-8 sm:flex-row sm:items-center">
         <div className="flex flex-col items-center sm:items-start">
-          <Logo classes="mb-4" />
+          <Logo classes="w-11.5 lg:w-13.5 mb-4" />
           <a
             href="mailto:contact@uwdatascience.ca"
             className="font-medium text-white"

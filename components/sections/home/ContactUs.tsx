@@ -10,6 +10,7 @@ export default function ContactUs() {
   return (
     <ContactForm
       title="Contact Us"
+      includeSideInfo={true}
       description={
         <Fragment>
           Have a question or interested in sponsoring us? Send us a message

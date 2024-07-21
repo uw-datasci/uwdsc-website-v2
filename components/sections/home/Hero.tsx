@@ -1,4 +1,6 @@
 import Image from "next/image";
+import { useDispatch } from "react-redux";
+import { moveUp } from "@/store/slices/signUpPageSlice";
 
 import Button from "@/components/UI/Button";
 import GradientBorder from "@/components/UI/GradientBorder";
@@ -6,6 +8,7 @@ import GradientBorder from "@/components/UI/GradientBorder";
 import officeOpen from "@/public/graphics/office-open.png";
 
 export default function Hero() {
+  const dispatch = useDispatch();
   return (
     <section className="mb-section mx-container mt-14 grid gap-16 lg:mt-24 lg:grid-cols-[minmax(0,5fr)_minmax(0,3fr)] ">
       <div>
@@ -19,13 +22,13 @@ export default function Hero() {
         </p>
         <div className="flex flex-col gap-5 sm:flex-row sm:justify-center sm:gap-12 lg:justify-start">
           <Button
-            type="link"
-            href="https://forms.gle/tDGHayEDwWUjzgXY6"
+            type="button"
             hierarchy="primary"
             font="font-bold"
             text="sm:text-lg 2xl:text-xl"
             padding="py-3 sm:px-7 sm:py-4"
             rounded="rounded-lg"
+            onClick={() => {dispatch(moveUp())}}
           >
             Join Us
           </Button>

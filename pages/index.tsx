@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import SEO from "@/components/SEO/SEO";
 import Hero from "@/components/sections/home/Hero";
 import WhatWeDo from "@/components/sections/home/WhatWeDo";
@@ -11,6 +13,7 @@ import Sponsors from "@/components/sections/templates/Sponsors";
 import {CURRENT_SPONSORS} from "@/constants/sponsors"
 import ContactUs from "@/components/sections/home/ContactUs";
 import PastEvents from "@/components/sections/home/PastEvents"
+import SignUp from "@/components/sections/home/SignUp";
 
 export default function Home() {
   return (
@@ -31,6 +34,7 @@ export default function Home() {
       <FrequentlyAskedQuestions />
       {/* <Blogs /> */}
       <ContactUs />
+      <SignUp/> {/*Sponsor us Local HREF link does not work when placed above Contact(To be fixed)*/} 
     </>
   );
 }
