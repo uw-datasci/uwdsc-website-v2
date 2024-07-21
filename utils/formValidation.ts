@@ -33,3 +33,40 @@ export const validateSponsorForm = (values: Record<string, string>) => {
 
   return errors;
 };
+
+export const validateSignUpFormPart1 = (values: Record<string, string>) => {
+  const errors: Record<string, string> = {};
+  const allowedEmail = "@uwaterloo.ca"
+
+  if (!values.name) {
+    errors.name = "Please enter your name.";
+  }
+
+  if (!values.WatIAM) {
+    errors.WatIAM = "Please enter your WatIAM ID.";
+  }
+
+  if (!values.email || !values.email.toLowerCase().includes(allowedEmail) || values.email.length < (allowedEmail.length + 1)) {
+    errors.email = "Please enter your UWaterloo email.";
+  }
+  
+  return errors;
+};
+
+export const validateSignUpFormPart2 = (values: Record<string, string>) => {
+  const errors: Record<string, string> = {};
+
+  if (!values.faculty) {
+    errors.faculty = "Please select your faculty.";
+  }
+
+  if (!values.term) {
+    errors.term = "Please select your current/last completed term.";
+  }
+
+  if (!values.advert) {
+    errors.advert = "Let us know where you heard about us!";
+  }
+  
+  return errors;
+};
