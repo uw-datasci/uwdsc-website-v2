@@ -46,6 +46,7 @@ export type ContactField = {
   type: "input" | "textarea" | "dropdown";
   placeholder: string;
   options?: string[];
+  classes?: string;
 };
 
 export type QandA = {

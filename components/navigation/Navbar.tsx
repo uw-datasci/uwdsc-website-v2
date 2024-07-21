@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { moveUp } from "@/store/slices/signUpPageSlice";
 import Link from "next/link";
 import { Instagram, Linkedin, Mail, Youtube } from "react-feather";
 
@@ -45,12 +47,13 @@ const SOCIALS = [
 ];
 
 export default function Navbar() {
+  let dispatch = useDispatch();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
 
   return (
     <>
       <header className="mx-nav relative z-50 mt-8 flex items-center justify-between lg:mt-12">
-        <Logo />
+        <Logo classes="w-11.5 lg:w-13.5"/>
         <nav className="hidden gap-16 lg:flex">
           {ROUTES.map((route) => {
             return (
@@ -82,12 +85,12 @@ export default function Navbar() {
           />
         </button>
         <Button
-          type="link"
-          href="https://forms.gle/tDGHayEDwWUjzgXY6"
+          type="button"
           hierarchy="primary"
           font="font-bold"
           rounded="rounded-md"
           classes="hidden lg:block"
+          onClick={() => {dispatch(moveUp())}}
         >
           Join Us
         </Button>
