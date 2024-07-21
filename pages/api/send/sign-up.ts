@@ -1,17 +1,17 @@
 import { type NextApiRequest, type NextApiResponse } from "next";
-import { useDispatch } from "react-redux";
+import { store } from "@/store/store";
 import { login } from "@/store/slices/loginTokenSlice";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  const dispatch = useDispatch();
   try {
     const { name, WatIAM, email, faculty, term, advert, ideas } = req.body;
     console.log(`${name} ${WatIAM} ${email} ${faculty} ${term} ${advert} ${ideas}`);
     const response = Promise<void>;
-    dispatch(login("TOKEN GOES HERE"));
+    store.dispatch(login("TOKEN GOES HERE"));
+    console.log(store.getState().loginToken.value);
     /*
     To use state anywhere in the app,
       1. Import useSelector and rootState
