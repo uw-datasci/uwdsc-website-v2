@@ -33,7 +33,7 @@ import kevina from "@/public/teams/Kevina-Li.jpg";
 import kim from "@/public/teams/Kim-Hoang.jpg";
 // import kriti from "@/public/teams/Kriti-Sodhi.jpg";
 import kun from "@/public/teams/Kun-Zhu.jpg";
-import leo from "@/public/teams/Leo-Feng.jpg";
+import leo from "@/public/teams/Leo-Feng.png";
 import lucy from "@/public/teams/Lucy-Qi.jpg";
 import mariam from "@/public/teams/Mariam-Al-Hulaibi.jpeg";
 import michelle from "@/public/teams/Michelle-Lu.jpeg";
