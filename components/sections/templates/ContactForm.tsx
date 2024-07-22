@@ -43,6 +43,7 @@ type ContactProps = {
   successMessage: string;
   resetForm: boolean;
   formClasses?: string;
+  inputFeedbackClasses?: string;
   customButton?: React.ReactNode;
 };
 
@@ -58,11 +59,13 @@ export default function ContactForm({
   successMessage,
   resetForm,
   formClasses,
+  inputFeedbackClasses,
   customButton,
 }: ContactProps) {
   const [loading, setLoading] = useState<boolean>(false);
   const [success, setSuccess] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
+  const [errorMessageOveride, setErrorMessageOveride] = useState<string>("");
 
   const formik = useFormik({
     initialValues: fields.reduce((acc: Record<string, string>, field) => {
@@ -78,8 +81,15 @@ export default function ContactForm({
         await onSubmit(values);
         resetForm ? formik.resetForm(): null;
         setSuccess(true);
-      } catch (error) {
+      } catch (error: any) {
         console.error(error);
+
+        const errorData = error.response.data;
+        if (errorData.hasOwnProperty("customErrorMessage") && errorData.customErrorMessage) {
+          setErrorMessageOveride(errorData.error.message);
+        } else {
+          setErrorMessageOveride("");
+        }
         setError(true);
       } finally {
         setLoading(false);
@@ -90,13 +100,13 @@ export default function ContactForm({
   const submitMessage = (
     <>
       {success && (
-        <InputFeedback state="success">
+        <InputFeedback state="success" classes={inputFeedbackClasses}>
           {successMessage}
         </InputFeedback>
       )}
       {error && (
-        <InputFeedback state="error">
-          {errorMessage}
+        <InputFeedback state="error" classes={inputFeedbackClasses}>
+          {errorMessageOveride? errorMessageOveride:errorMessage}
         </InputFeedback>
       )}
     </>
@@ -153,7 +163,7 @@ export default function ContactForm({
                     />
                     {formik.touched[field.name] &&
                       formik.errors[field.name] && (
-                        <InputFeedback state="error">
+                        <InputFeedback state="error" classes={inputFeedbackClasses}>
                           {formik.errors[field.name]}
                         </InputFeedback>
                       )}
@@ -177,7 +187,7 @@ export default function ContactForm({
                     />
                     {formik.touched[field.name] &&
                       formik.errors[field.name] && (
-                        <InputFeedback state="error">
+                        <InputFeedback state="error" classes={inputFeedbackClasses}>
                           {formik.errors[field.name]}
                         </InputFeedback>
                       )}
@@ -201,7 +211,7 @@ export default function ContactForm({
                     />
                     {formik.touched[field.name] &&
                       formik.errors[field.name] && (
-                        <InputFeedback state="error">
+                        <InputFeedback state="error" classes={inputFeedbackClasses}>
                           {formik.errors[field.name]}
                         </InputFeedback>
                       )}
