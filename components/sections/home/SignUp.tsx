@@ -11,12 +11,14 @@ import ContactForm from "../templates/ContactForm";
 import { SIGN_UP_FORM_FIELDS_PART1, SIGN_UP_FORM_FIELDS_PART2 } from "@/constants/forms";
 import { validateSignUpFormPart1, validateSignUpFormPart2 } from "@/utils/formValidation";
 import { sendSignUpInfo } from "@/utils/emails";
+import { clear } from "console";
 
 const opacityTrans = "duration-1000 transition-opacity ease-in-out ";
 
 export default function SignUpPage() {
-  const [signUpPart2, setSignUpPart2] = useState(false);
+  const [signUpPart2, setSignUpPart2] = useState<boolean>(false);
   const [fields, setFields] = useState<Record<string,string>|null>(null);
+  const [part1Reset, setPart1Reset] = useState<boolean>(false);
   const signUpPage = useSelector((state: RootState) => state.signUpPage.value);
   const dispatch = useDispatch();
   const headings = "mt-10 text-2xl font-bold text-white 3xs:text-3xl 2xs:max-w-[390px] 2xs:text-4xl xs:max-w-[450px] xs:text-5xl sm:text-6xl md:max-w-[520px] md:text-7xl lg:mx-0 lg:mb-7 lg:max-w-[500px] lg:text-left lg:text-6xl xl:max-w-[540px] xl:text-9xl 2xl:max-w-[580px] 2xl:text-11xl 3xl:max-w-none 3xl:text-13xl";
@@ -75,6 +77,7 @@ export default function SignUpPage() {
                     errorMessage=""
                     resetForm={false}
                     formClasses="mx-container "
+                    inputFeedbackClasses="mt-1 pl-6 mb-[-0.5rem] leading-relaxed text-s "
                     customButton={
                       <>
                         <Button
@@ -112,6 +115,7 @@ export default function SignUpPage() {
                       errorMessage="Something went wrong. Please let us know and try again later."
                       resetForm={true}
                       formClasses="mx-container "
+                      inputFeedbackClasses="mt-1 pl-1 leading-relaxed text-s "
                       customButton={
                         <>
                           <Button

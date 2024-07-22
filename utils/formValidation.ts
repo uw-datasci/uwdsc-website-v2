@@ -50,6 +50,10 @@ export const validateSignUpFormPart1 = (values: Record<string, string>) => {
     errors.email = "Please enter your UWaterloo email.";
   }
   
+  if (!values.password || values.password.length < 8) {
+    errors.password = "Your password needs to be at least 8 characters long.";
+  }
+
   return errors;
 };
 

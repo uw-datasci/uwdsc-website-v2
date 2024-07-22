@@ -74,6 +74,12 @@ export const SIGN_UP_FORM_FIELDS_PART1: ContactField[] = [
     type: "input",
     placeholder: "Waterloo Email (ex. slchow@uwaterloo.ca)",
   },
+  {
+    id: "password",
+    name: "password",
+    type: "input",
+    placeholder: "Your DSC account password (ex. d0ubl3_d3sc3nt)",
+  },
 ];
 
 export const SIGN_UP_FORM_FIELDS_PART2: ContactField[] = [

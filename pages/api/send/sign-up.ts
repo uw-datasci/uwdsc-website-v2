@@ -1,32 +1,45 @@
 import { type NextApiRequest, type NextApiResponse } from "next";
 import { store } from "@/store/store";
 import { login } from "@/store/slices/loginTokenSlice";
-import axios from "axios";
-
-const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJuYW1lIjoiYWRtaW4xIiwiZW1haWwiOiJhZG1pbjFAZ21haWwuY29tIiwiaWQiOiI2Njc3MGVjY2IyYjNkNzg0MDAyZGI5YWYiLCJ1c2VyU3RhdHVzIjoiYWRtaW4ifSwiaWF0IjoxNzIwODc5NDU1LCJleHAiOjE3MjExMzg2NTV9.Xip1P9r4BHhiNY7rQIisgPT2qQONBp8-Bp-IbXYXBSk"
+import axios, { Axios, AxiosError } from "axios";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
   try {
-    const { name, WatIAM, email, faculty, term, advert, ideas } = req.body;
-    console.log(`${name} ${WatIAM} ${email} ${faculty} ${term} ${advert} ${ideas}`);
-    const response = Promise<void>;
-    /*const response = await axios({
-      url: 'http://localhost:5001/api/user/login',
-      method: "GET",
+    const { name, WatIAM, email, password, faculty, term, advert, ideas } = req.body;
+    //console.log(`${name} ${WatIAM} ${email} ${password} ${faculty} ${term} ${advert} ${ideas}`);
+    
+    const adminLogin = (await axios({
+      url: 'http://localhost:5001/api/users/login',
+      method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
       data: JSON.stringify({
-        email: "member1@gmail.com",
-        password: "$2b$10$4651Q.T8cjq4E6En6rwRk.F/h7IihVJEZOoYWg.nU10gogs7nLCX6",
+        email: "admin1@gmail.com",
+        password: "123",
       })
-    });
-
-    console.log(response);*/
+    })).data; // There exists a circular structure within the response. Error when : JSON.stringify(response);
     
+    const token = adminLogin.accessToken;
+    
+    await axios({
+      url: 'http://localhost:5001/api/admin/createUser',
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json"
+      },
+      data: JSON.stringify({
+        username: name,
+        email: email,
+        password: password,
+        userStatus: "member"
+      })
+    }); 
+
     /*
     To use state anywhere in the app,
       1. Import useSelector and rootState
@@ -43,9 +56,15 @@ export default async function handler(
         dispatch(logout());
       **When logged out, the redux state would just be an empty string**
     */
-    res.status(200).json({ success: true, response });
-  } catch (error) {
+    res.status(200).json({ success: true });
+  } catch (error:any) {
+    let customMessage = false;
     console.error(error);
-    res.status(500).json({ success: false, error });
+
+    if (error.response.data.message == "User already registered!") {
+      error = { message: "The email you used is already a member!" };
+      customMessage = true;
+    }
+    res.status(500).json({ success: false, customErrorMessage: customMessage, error });
   }
 }
