@@ -13,7 +13,6 @@ import Sponsors from "@/components/sections/templates/Sponsors";
 import {CURRENT_SPONSORS} from "@/constants/sponsors"
 import ContactUs from "@/components/sections/home/ContactUs";
 import PastEvents from "@/components/sections/home/PastEvents"
-import SignUp from "@/components/sections/home/SignUp";
 
 export default function Home() {
   return (
@@ -23,7 +22,6 @@ export default function Home() {
         description="Inspiring the data science leaders of the future by building an inclusive community at the University of Waterloo to bridge the gap between academics and the industry."
         keywords="University of Waterloo,Data Science,University of Waterloo Data Science Club,Waterloo Data Science,UWDSC"
       />
-      <SignUp/>
       <Hero />
       <WhatWeDo />
       <ClubStats />
