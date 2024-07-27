@@ -1,6 +1,6 @@
 import SectionTitle from "@/components/UI/SectionTitle";
 import Button from "@/components/UI/Button";
-import AdminUserCard from "@/components/cards/AdminUserCard";
+import AdminUsersTableCard from "@/components/cards/AdminUsersTableCard";
 import UserFormCard from "@/components/cards/UserFormCard";
 import { type User } from "@/types/types";
 import { useEffect, useState } from "react";
@@ -13,7 +13,7 @@ export default function Admin() {
     const [showResetSearch, setShowResetSearch] = useState(false);
 
     // to test this separately, run a sign-in call manually and copy the token here
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJuYW1lIjoiYWRtaW4xIiwiZW1haWwiOiJhZG1pbjFAZ21haWwuY29tIiwiaWQiOiI2Njc3MGVjY2IyYjNkNzg0MDAyZGI5YWYiLCJ1c2VyU3RhdHVzIjoiYWRtaW4ifSwiaWF0IjoxNzIwODc5NDU1LCJleHAiOjE3MjExMzg2NTV9.Xip1P9r4BHhiNY7rQIisgPT2qQONBp8-Bp-IbXYXBSk"
+    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJuYW1lIjoiYWRtaW4xIiwiZW1haWwiOiJhZG1pbjFAZ21haWwuY29tIiwiaWQiOiI2Njc3MGVjY2IyYjNkNzg0MDAyZGI5YWYiLCJ1c2VyU3RhdHVzIjoiYWRtaW4ifSwiaWF0IjoxNzIyMDQ0NTQ0LCJleHAiOjE3MjIzMDM3NDR9.h7FL8jXRjqyqLdSi89nIGgTYyB_4M8A0DyEmuB4QyKs"
     // const token = localStorage.getItem('token');
 
     useEffect(() => {
@@ -111,6 +111,11 @@ export default function Admin() {
                 </h1>
                 <div className="grid gap-12">
                     <SectionTitle mb="mb-12">Memberships</SectionTitle>
+                    {users.length > 0 && (
+                        <div className="flex flex-wrap justify-center gap-8 3xs:gap-12 xl:gap-20">
+                            <AdminUsersTableCard users={users} onAction={fetchUsers} />
+                        </div>
+                    )}
                     <div className="flex flex-col gap-5 sm:flex-row sm:justify-center sm:gap-12">
                         <Button
                             type="button"
@@ -176,16 +181,9 @@ export default function Admin() {
                                 text="sm:text-lg 2xl:text-xl"
                                 padding="py-3 sm:px-7 sm:py-4"
                                 rounded="rounded-lg"
-                                onClick={() => {fetchUsers(); setShowResetSearch(false)}}>
+                                onClick={() => { fetchUsers(); setShowResetSearch(false) }}>
                                 Reset
                             </Button>
-                        </div>
-                    )}
-                    {users.length > 0 && (
-                        <div className="flex flex-wrap justify-center gap-8 3xs:gap-12 xl:gap-20">
-                            {users.map((user) => (
-                                <AdminUserCard userData={user} onAction={fetchUsers} key={user._id} />
-                            ))}
                         </div>
                     )}
                 </div>
