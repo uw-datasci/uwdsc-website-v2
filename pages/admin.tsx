@@ -22,10 +22,6 @@ export default function Admin() {
     const token = useSelector((state: RootState) => state.loginToken.value);
     const baseURL = process.env.NEXT_PUBLIC_UWDSC_WEBSITE_SERVER_URL
 
-    // TODO: remove before public
-    console.log("token",token)
-    console.log("baseURL",baseURL)
-
     useEffect(() => {
         fetchUsers();
     }, []);
