@@ -3,7 +3,13 @@ import Button from "@/components/UI/Button";
 import AdminUsersTableCard from "@/components/cards/AdminUsersTableCard";
 import UserFormCard from "@/components/cards/UserFormCard";
 import { type User } from "@/types/types";
+
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store"; 
+
+
+require('dotenv').config()
 
 export default function Admin() {
     const [users, setUsers] = useState<User[]>([]);
@@ -13,8 +19,8 @@ export default function Admin() {
     const [showResetSearch, setShowResetSearch] = useState(false);
 
     // to test this separately, run a sign-in call manually and copy the token here
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJuYW1lIjoiYWRtaW4xIiwiZW1haWwiOiJhZG1pbjFAZ21haWwuY29tIiwiaWQiOiI2Njc3MGVjY2IyYjNkNzg0MDAyZGI5YWYiLCJ1c2VyU3RhdHVzIjoiYWRtaW4ifSwiaWF0IjoxNzIyMDQ0NTQ0LCJleHAiOjE3MjIzMDM3NDR9.h7FL8jXRjqyqLdSi89nIGgTYyB_4M8A0DyEmuB4QyKs"
-    // const token = localStorage.getItem('token');
+    const token = useSelector((state: RootState) => state.loginToken.value);
+    const baseURL = process.env.NEXT_PUBLIC_UWDSC_WEBSITE_SERVER_URL
 
     useEffect(() => {
         fetchUsers();
@@ -22,7 +28,7 @@ export default function Admin() {
 
     const createUser = async (newUser: User) => {
         try {
-            const response = await fetch('http://localhost:5001/api/admin/createUser', {
+            const response = await fetch(process.env.NEXT_PUBLIC_UWDSC_WEBSITE_SERVER_URL + '/api/admin/createUser', {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -49,7 +55,7 @@ export default function Admin() {
 
     const fetchUsers = async () => {
         try {
-            const response = await fetch('http://localhost:5001/api/admin/getAllUsers', {
+            const response = await fetch((process.env.NEXT_PUBLIC_UWDSC_WEBSITE_SERVER_URL + '/api/admin/getAllUsers'), {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -76,7 +82,7 @@ export default function Admin() {
     const searchUserByEmail = async (event: React.FormEvent) => {
         event.preventDefault();
         try {
-            const response = await fetch(`http://localhost:5001/api/admin/getUserByEmail/${searchEmail}`, {
+            const response = await fetch(process.env.NEXT_PUBLIC_UWDSC_WEBSITE_SERVER_URL + `/api/admin/getUserByEmail/${searchEmail}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -94,8 +100,6 @@ export default function Admin() {
             } else {
                 setUsers([]);
             }
-            console.log(data);
-            console.log(users);
             setShowSearchUserForm(false);
             setShowResetSearch(true);
         } catch (error) {

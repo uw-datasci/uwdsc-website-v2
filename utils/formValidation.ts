@@ -74,3 +74,17 @@ export const validateSignUpFormPart2 = (values: Record<string, string>) => {
   
   return errors;
 };
+
+export const validateSignInForm = (values: Record<string, string>) => {
+  const errors: Record<string, string> = {};
+
+  if (!values.email) {
+    errors.email = "Please enter your email.";
+  }
+
+  if (!values.password) {
+    errors.password = "Please enter your password.";
+  }
+
+  return errors;
+};
