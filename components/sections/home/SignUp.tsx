@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
-import { moveDown } from "@/store/slices/signUpPageSlice";
+import { moveDown as signUpMoveDown } from "@/store/slices/signUpPageSlice";
+import { moveUp as signInMoveUp } from "@/store/slices/signInPageSlice";
 
 import Button from "@/components/UI/Button";
 import GradientBorder from "@/components/UI/GradientBorder";
@@ -50,7 +51,7 @@ export default function SignUpPage() {
               font="font-bold"
               rounded="rounded-[15px]"
               classes="w-full"
-              onClick={() => {dispatch(moveDown())}}
+              onClick={() => {dispatch(signUpMoveDown())}}
             >
               Close
             </Button>
@@ -91,7 +92,10 @@ export default function SignUpPage() {
                         >
                           Sign Up!
                         </Button>
-                        <p className="text-s text-grey3 p-2 hover:underline cursor-pointer" onClick={()=>{}}>Already a member? Sign in here.</p>
+                        <p className="text-s text-grey3 p-2 hover:underline cursor-pointer" onClick={()=>{
+                          dispatch(signUpMoveDown());  // hide sign-up
+                          dispatch(signInMoveUp());   // show sign-in
+                        }}>Already a member? Sign in here.</p>
                       </>
                     }
                   />

@@ -12,3 +12,12 @@ export const sendSponsorEmail = async (values: Record<string, string>) => {
 export const sendSignUpInfo = async (values: Record<string, string>) => {
   await axios.post("/api/send/sign-up", values);
 }
+
+export const sendSignInInfo = async (values: Record<string, string>) => {
+  try {
+    const response = await axios.post("/api/send/sign-in", values);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}

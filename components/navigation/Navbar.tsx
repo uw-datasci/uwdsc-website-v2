@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { moveUp } from "@/store/slices/signUpPageSlice";
+import { moveUp as signUpMoveUp } from "@/store/slices/signUpPageSlice";
+import { moveUp as signInMoveUp } from "@/store/slices/signInPageSlice";
+
 import Link from "next/link";
 import { Instagram, Linkedin, Mail, Youtube } from "react-feather";
 
@@ -84,16 +86,35 @@ export default function Navbar() {
             }`}
           />
         </button>
-        <Button
-          type="button"
-          hierarchy="primary"
-          font="font-bold"
-          rounded="rounded-md"
-          classes="hidden lg:block"
-          onClick={() => {dispatch(moveUp())}}
-        >
-          Join Us
-        </Button>
+
+{/* ========= Login/Signup ========= */}
+
+        <div className="hidden lg:flex lg:gap-4">
+          <GradientBorder rounded="rounded-lg">
+            <Button
+              type="button"
+              hierarchy="secondary"
+              font="font-bold"
+              rounded="rounded-[15px]"
+              classes="lg:block"
+              onClick={() => { dispatch(signInMoveUp()) }}
+            >
+              Log in
+            </Button>
+          </GradientBorder>
+          <Button
+            type="button"
+            hierarchy="primary"
+            font="font-bold"
+            rounded="rounded-md"
+            classes="lg:block"
+            onClick={() => { dispatch(signUpMoveUp()) }}
+          >
+            Join Us
+          </Button>
+        </div>
+
+
       </header>
       <div
         className={`transition-300 fixed inset-0 z-40 bg-black lg:hidden ${

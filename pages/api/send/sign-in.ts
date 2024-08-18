@@ -11,34 +11,15 @@ export default async function handler(
 ) {
   try {
     const { name, WatIAM, email, password, faculty, term, advert, ideas } = req.body;
-    //console.log(`${name} ${WatIAM} ${email} ${password} ${faculty} ${term} ${advert} ${ideas}`);
-    
-    const adminLogin = (await axios({
+    const response = await axios({
       url: process.env.NEXT_PUBLIC_UWDSC_WEBSITE_SERVER_URL + '/api/users/login',
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
       data: JSON.stringify({
-        email: "admin1@gmail.com",
-        password: "123",
-      })
-    })).data; // There exists a circular structure within the response. Error when : JSON.stringify(response);
-    
-    const token = adminLogin.accessToken;
-    
-    await axios({
-      url: process.env.NEXT_PUBLIC_UWDSC_WEBSITE_SERVER_URL + '/api/admin/createUser',
-      method: "POST",
-      headers: {
-        "Authorization": `Bearer ${token}`,
-        "Content-Type": "application/json"
-      },
-      data: JSON.stringify({
-        username: name,
         email: email,
         password: password,
-        userStatus: "member"
       })
     }); 
 
@@ -58,13 +39,17 @@ export default async function handler(
         dispatch(logout());
       **When logged out, the redux state would just be an empty string**
     */
-    res.status(200).json({ success: true });
+    res.status(200).json({ success: true, accessToken: response.data.accessToken });
   } catch (error:any) {
     let customMessage = false;
-    console.error(error);
+    console.error(error.response.data.message);
 
-    if (error.response.data.message == "User already registered!") {
-      error = { message: "The email you used is already a member!" };
+    if (error.response.data.message == "All fields are mandatory!") {
+      error = { message: "All fields are mandatory!" };
+      customMessage = true;
+    } 
+    else if (error.response.data.message == "email or password is not valid") {
+      error = { message: "email or password is not valid" };
       customMessage = true;
     }
     res.status(500).json({ success: false, customErrorMessage: customMessage, error });
