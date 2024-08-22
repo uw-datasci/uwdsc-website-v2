@@ -128,3 +128,12 @@ export const SIGN_IN_FORM_FIELDS: ContactField[] = [
     placeholder: "Your DSC account password (ex. d0ubl3_d3sc3nt)",
   },
 ];
+
+export const FORGOT_PASSWORD_FORM_FIELDS: ContactField[] = [
+  {
+    id: "email",
+    name: "email",
+    type: "input",
+    placeholder: "Waterloo Email (ex. slchow@uwaterloo.ca)",
+  },
+];

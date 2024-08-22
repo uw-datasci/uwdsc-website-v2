@@ -10,7 +10,7 @@ export default async function handler(
   res: NextApiResponse,
 ) {
   try {
-    const { name, WatIAM, email, password, faculty, term, advert, ideas } = req.body;
+    const {email, password} = req.body;
     const response = await axios({
       url: process.env.NEXT_PUBLIC_UWDSC_WEBSITE_SERVER_URL + '/api/users/login',
       method: "POST",
@@ -44,14 +44,6 @@ export default async function handler(
     let customMessage = false;
     console.error(error.response.data.message);
 
-    if (error.response.data.message == "All fields are mandatory!") {
-      error = { message: "All fields are mandatory!" };
-      customMessage = true;
-    } 
-    else if (error.response.data.message == "email or password is not valid") {
-      error = { message: "email or password is not valid" };
-      customMessage = true;
-    }
-    res.status(500).json({ success: false, customErrorMessage: customMessage, error });
+    res.status(500).json({ success: false });
   }
 }

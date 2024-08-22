@@ -34,6 +34,7 @@ const CHIPS = [
 type ContactProps = {
   title: string;
   id: string;
+  getFormik?: (formik: any) => void;
   includeSideInfo: boolean;
   description: React.ReactNode;
   fields: ContactField[];
@@ -41,6 +42,7 @@ type ContactProps = {
   onSubmit: (values: Record<string, string>) => Promise<void>;
   errorMessage: string;
   successMessage: string;
+  successCallback?: () => void;
   resetForm: boolean;
   formClasses?: string;
   inputFeedbackClasses?: string;
@@ -50,6 +52,7 @@ type ContactProps = {
 export default function ContactForm({
   title,
   id,
+  getFormik,
   includeSideInfo,
   description,
   fields,
@@ -57,6 +60,7 @@ export default function ContactForm({
   onSubmit,
   errorMessage,
   successMessage,
+  successCallback,
   resetForm,
   formClasses,
   inputFeedbackClasses,
@@ -80,6 +84,7 @@ export default function ContactForm({
       try {
         await onSubmit(values);
         resetForm ? formik.resetForm(): null;
+        successCallback ? successCallback(): null;
         setSuccess(true);
       } catch (error: any) {
         console.error(error);
@@ -96,6 +101,10 @@ export default function ContactForm({
       }
     },
   });
+
+  if (getFormik){
+    getFormik(formik);
+  }
 
   const submitMessage = (
     <>
@@ -143,6 +152,7 @@ export default function ContactForm({
         <form
           className={`${loading ? "pointer-events-none opacity-0" : ""}`}
           onSubmit={formik.handleSubmit}
+          autoComplete="Off"
         >
           {fields.map((field, i) => {
             switch (field.type) {

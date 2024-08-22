@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { moveUp as signUpMoveUp } from "@/store/slices/signUpPageSlice";
 import { moveUp as signInMoveUp } from "@/store/slices/signInPageSlice";
+import { RootState } from "@/store/store";
 
 import Link from "next/link";
 import { Instagram, Linkedin, Mail, Youtube } from "react-feather";
@@ -9,6 +10,7 @@ import { Instagram, Linkedin, Mail, Youtube } from "react-feather";
 import Button from "@/components/UI/Button";
 import GradientBorder from "@/components/UI/GradientBorder";
 import Logo from "@/components/UI/Logo";
+import { logout } from "@/store/slices/loginTokenSlice";
 
 const ROUTES = [
   {
@@ -51,6 +53,7 @@ const SOCIALS = [
 export default function Navbar() {
   let dispatch = useDispatch();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
+  const signedIn = useSelector((state: RootState) => state.loginToken.id);
 
   return (
     <>
@@ -90,28 +93,48 @@ export default function Navbar() {
 {/* ========= Login/Signup ========= */}
 
         <div className="hidden lg:flex lg:gap-4">
-          <GradientBorder rounded="rounded-lg">
+        {!signedIn ? 
+          <>
+            <GradientBorder rounded="rounded-lg">
+              <Button
+                type="button"
+                hierarchy="secondary"
+                font="font-bold"
+                rounded="rounded-[15px]"
+                classes="lg:block"
+                onClick={() => { dispatch(signInMoveUp()) }}
+              >
+                Log in
+              </Button>
+            </GradientBorder>
             <Button
               type="button"
-              hierarchy="secondary"
+              hierarchy="primary"
               font="font-bold"
-              rounded="rounded-[15px]"
+              rounded="rounded-md"
               classes="lg:block"
-              onClick={() => { dispatch(signInMoveUp()) }}
+              onClick={() => { dispatch(signUpMoveUp()) }}
             >
-              Log in
+              Join Us
             </Button>
-          </GradientBorder>
-          <Button
-            type="button"
-            hierarchy="primary"
-            font="font-bold"
-            rounded="rounded-md"
-            classes="lg:block"
-            onClick={() => { dispatch(signUpMoveUp()) }}
-          >
-            Join Us
-          </Button>
+          </>
+        :
+          <>
+            <p className="text-s text-grey3 p-2">Logged in as <b>{signedIn}</b></p>
+            <GradientBorder rounded="rounded-lg">
+              <Button
+                type="button"
+                hierarchy="secondary"
+                font="font-bold"
+                rounded="rounded-[15px]"
+                classes="lg:block"
+                onClick={() => { dispatch(logout()) }}
+              >
+                Log out
+              </Button>
+            </GradientBorder>
+          </>
+        }
         </div>
 
 

@@ -19,7 +19,7 @@ export default function Admin() {
     const [showResetSearch, setShowResetSearch] = useState(false);
 
     // to test this separately, run a sign-in call manually and copy the token here
-    const token = useSelector((state: RootState) => state.loginToken.value);
+    const token = useSelector((state: RootState) => state.loginToken.token);
     const baseURL = process.env.NEXT_PUBLIC_UWDSC_WEBSITE_SERVER_URL
 
     useEffect(() => {
@@ -115,9 +115,9 @@ export default function Admin() {
                 </h1>
                 <div className="grid gap-12">
                     <SectionTitle mb="mb-12">Memberships</SectionTitle>
-                    {users.length > 0 && (
+                    {token && users.length > 0 && (
                         <div className="flex flex-wrap justify-center gap-8 3xs:gap-12 xl:gap-20">
-                            <AdminUsersTableCard users={users} onAction={fetchUsers} />
+                            <AdminUsersTableCard users={users} token={token} onAction={fetchUsers} />
                         </div>
                     )}
                     <div className="flex flex-col gap-5 sm:flex-row sm:justify-center sm:gap-12">

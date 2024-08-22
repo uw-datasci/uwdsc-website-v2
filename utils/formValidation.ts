@@ -88,3 +88,13 @@ export const validateSignInForm = (values: Record<string, string>) => {
 
   return errors;
 };
+
+export const validateForgotPasswordForm = (values: Record<string, string>) => {
+  const errors: Record<string, string> = {};
+
+  if (!values.email) {
+    errors.email = "Please enter your email.";
+  }
+
+  return errors;
+};

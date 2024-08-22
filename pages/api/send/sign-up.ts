@@ -1,6 +1,4 @@
 import { type NextApiRequest, type NextApiResponse } from "next";
-import { store } from "@/store/store";
-import { login } from "@/store/slices/loginTokenSlice";
 import axios, { Axios, AxiosError } from "axios";
 
 require('dotenv').config()
@@ -13,6 +11,7 @@ export default async function handler(
     const { name, WatIAM, email, password, faculty, term, advert, ideas } = req.body;
     //console.log(`${name} ${WatIAM} ${email} ${password} ${faculty} ${term} ${advert} ${ideas}`);
     
+    console.log();
     const adminLogin = (await axios({
       url: process.env.NEXT_PUBLIC_UWDSC_WEBSITE_SERVER_URL + '/api/users/login',
       method: "POST",

@@ -3,15 +3,15 @@ import { User } from "@/types/types";
 
 interface AdminUserTableProps {
     users: User[];
+    token: string;
     onAction: () => void;
 }
 
 const headers = ["Username", "Email", "Status", "Created At", "Updated At", "Actions"];
 // to test this separately, run a sign-in call manually and copy the token here
-const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJuYW1lIjoiYWRtaW4xIiwiZW1haWwiOiJhZG1pbjFAZ21haWwuY29tIiwiaWQiOiI2Njc3MGVjY2IyYjNkNzg0MDAyZGI5YWYiLCJ1c2VyU3RhdHVzIjoiYWRtaW4ifSwiaWF0IjoxNzIyMDQ0NTQ0LCJleHAiOjE3MjIzMDM3NDR9.h7FL8jXRjqyqLdSi89nIGgTYyB_4M8A0DyEmuB4QyKs"
-// const token = localStorage.getItem('token');
 
-export default function AdminUserTable({ users, onAction }: AdminUserTableProps) {
+
+export default function AdminUserTable({ users, token, onAction }: AdminUserTableProps) {
     const [editingUserId, setEditingUserId] = useState<string | null>(null);
     const [editFormData, setEditFormData] = useState<User | null>(null);
 
