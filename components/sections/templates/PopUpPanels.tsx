@@ -69,7 +69,6 @@ export default function PopUpPanels ({
         </ChevronDown>
       </div>
       <div className={"duration-1000 transition-opacity ease-in-out lg:mx-[10%] mt-[2%] mb-[1%] overflow-hidden h-full " + (isPopUp?"opacity-100":"opacity-0")}>
-          // Need to pre-render CSS attributes for tailwind to be dynamically assigned, currently supports up to 3 panels
           <div className={width + " h-full flex flex-row duration-500 transition-transform ease-in-out " + translate}>
             {panels.map((panel) => (panel))}
           </div>

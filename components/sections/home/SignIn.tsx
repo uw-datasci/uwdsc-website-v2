@@ -112,7 +112,7 @@ export default function SignInPage() {
             <div className="w-full flex my-auto 3xs:flex-col lg:flex-row overflow-auto no-scrollbar lg:overflow-hidden">
               <div className="w-full h-fit border-r lg:border-grey3 lg:p-8 lg:my-auto">
                 <h1 className={headings}>Forgot your password?</h1>
-                <p className={subTexts}>Simply enter your uwaterloo.ca email that you used to sign up. A verifcation email will be sent to the email you provided.<br/><br/>If you still can't get hold of your account, please email us at PLACEHOLDER</p>
+                <p className={subTexts}>Simply enter your uwaterloo.ca email that you used to sign up. A verifcation email will be sent to the email you provided.<br/><br/>If you still can&apos;t get hold of your account, please email us at PLACEHOLDER</p>
               </div>
               <div className="w-full max-h-full py-10 lg:p-8 flex flex-col justify-center lg:overflow-auto">
                 <div className="w-full">
