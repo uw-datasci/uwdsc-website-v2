@@ -1,6 +1,8 @@
 import React, { useState, ChangeEvent } from "react";
 import { User } from "@/types/types";
 
+require('dotenv').config()
+
 interface AdminUserTableProps {
     users: User[];
     token: string;
@@ -20,7 +22,7 @@ export default function AdminUserTable({ users, token, onAction }: AdminUserTabl
         if (!isConfirmed) return;
 
         try {
-            const response = await fetch(`http://localhost:5001/api/admin/deleteUserById/${userId}`, {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_UWDSC_WEBSITE_SERVER_URL}/api/admin/deleteUserById/${userId}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -41,7 +43,7 @@ export default function AdminUserTable({ users, token, onAction }: AdminUserTabl
 
     const editUser = async (userId: string, newUser: User, onAction: () => void) => {
         try {
-            const response = await fetch(`http://localhost:5001/api/admin/updateUserById/${userId}`, {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_UWDSC_WEBSITE_SERVER_URL}/api/admin/updateUserById/${userId}`, {
                 method: 'PUT',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -50,7 +52,7 @@ export default function AdminUserTable({ users, token, onAction }: AdminUserTabl
                 body: JSON.stringify({
                     username: newUser.username,
                     email: newUser.email,
-                    password: newUser.password,
+                    //password: newUser.password,
                     userStatus: newUser.userStatus
                 })
             });
