@@ -103,7 +103,7 @@ export const SIGN_UP_FORM_FIELDS_PART2: ContactField[] = [
     id: "advert",
     name: "advert",
     type: "input",
-    placeholder: "Where did you find this form ?",
+    placeholder: "Where did you hear about us?",
   },
   {
     id: "ideas",
