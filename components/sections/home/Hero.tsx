@@ -53,7 +53,20 @@ export default function Hero() {
               >
                 Log out
               </Button>
-            </>}
+              <Button
+                type="route"
+                hierarchy="primary"
+                href="/qrPage"
+                font="font-bold"
+                text="sm:text-lg 2xl:text-xl"
+                padding="py-3 sm:px-7 sm:py-4"
+                rounded="rounded-lg"
+              >
+                QR Code
+              </Button>
+            </>
+            
+            }
           <GradientBorder rounded="rounded-lg">
             <Button
               type="route"

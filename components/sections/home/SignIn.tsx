@@ -13,7 +13,7 @@ import PopUpPanels from "../templates/PopUpPanels";
 import ContactForm from "../templates/ContactForm";
 import { SIGN_IN_FORM_FIELDS, FORGOT_PASSWORD_FORM_FIELDS } from "@/constants/forms";
 import { validateSignInForm, validateForgotPasswordForm } from "@/utils/formValidation";
-import { sendSignInInfo } from "@/utils/emails";
+import { sendSignInInfo } from "@/utils/api-calls";
 import { ChevronDown } from "react-feather";
 import { clear } from "console";
 

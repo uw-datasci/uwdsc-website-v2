@@ -21,3 +21,12 @@ export const sendSignInInfo = async (values: Record<string, string>) => {
     throw error;
   }
 }
+
+export const getQrCode = async (values: Record<string, string>) => {
+  try {
+    const response = await axios.post("/api/send/qr-code", values);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}

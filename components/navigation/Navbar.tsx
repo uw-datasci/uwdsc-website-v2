@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { moveUp as signUpMoveUp } from "@/store/slices/signUpPageSlice";
 import { moveUp as signInMoveUp } from "@/store/slices/signInPageSlice";
@@ -12,7 +12,12 @@ import GradientBorder from "@/components/UI/GradientBorder";
 import Logo from "@/components/UI/Logo";
 import { logout } from "@/store/slices/loginTokenSlice";
 
-const ROUTES = [
+type nav_obj = {
+  label: string;
+  route: string;
+}
+
+const DEFAULT_ROUTES = [
   {
     label: "Home",
     route: "/",
@@ -52,15 +57,31 @@ const SOCIALS = [
 
 export default function Navbar() {
   let dispatch = useDispatch();
+  const [routes, setRoutes] = useState<nav_obj[]>(DEFAULT_ROUTES);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
   const signedIn = useSelector((state: RootState) => state.loginToken.id);
+
+  useEffect(() => {
+    if (signedIn && routes.length == 4) {
+      setRoutes(routes.concat(
+        {
+          label: "QR Code",
+          route: "/qrPage",
+        })
+      )
+    } 
+    if (!signedIn && routes.length == 5){
+      setRoutes(routes.filter((nav) => {return nav.label != "QR Code"}))
+    }
+    console.log(routes);
+  }, [signedIn]); 
 
   return (
     <>
       <header className="mx-nav relative z-50 mt-8 flex items-center justify-between lg:mt-12">
         <Logo classes="w-11.5 lg:w-13.5"/>
         <nav className="hidden gap-16 lg:flex">
-          {ROUTES.map((route) => {
+          {routes.map((route) => {
             return (
               <Link
                 href={route.route}
@@ -146,7 +167,7 @@ export default function Navbar() {
       >
         <div className="bg-gradient pointer-events-none absolute inset-0 opacity-10" />
         <nav className="mx-container mt-36 grid gap-8">
-          {ROUTES.map((route) => {
+          {routes.map((route) => {
             return (
               <Link
                 href={route.route}

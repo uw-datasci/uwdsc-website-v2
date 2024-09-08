@@ -3,7 +3,7 @@ import { Fragment } from "react";
 import ContactForm from "@/components/sections/templates/ContactForm";
 
 import { validateContactForm } from "@/utils/formValidation";
-import { sendContactEmail } from "@/utils/emails";
+import { sendContactEmail } from "@/utils/api-calls";
 import { CONTACT_FORM_FIELDS } from "@/constants/forms";
 
 export default function ContactUs() {

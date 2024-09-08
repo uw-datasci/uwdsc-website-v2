@@ -1,7 +1,5 @@
 import { type NextApiRequest, type NextApiResponse } from "next";
-import { store } from "@/store/store";
-import { login } from "@/store/slices/loginTokenSlice";
-import axios, { Axios, AxiosError } from "axios";
+import axios from "axios";
 
 require('dotenv').config()
 
