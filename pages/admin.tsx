@@ -27,6 +27,7 @@ export default function Admin() {
     }, []);
 
     const createUser = async (newUser: User) => {
+        console.log('New User:', newUser);
         try {
             const response = await fetch(process.env.NEXT_PUBLIC_UWDSC_WEBSITE_SERVER_URL + '/api/admin/createUser', {
                 method: 'POST',
@@ -38,9 +39,17 @@ export default function Admin() {
                     username: newUser.username,
                     email: newUser.email,
                     password: newUser.password,
-                    userStatus: newUser.userStatus
+                    userStatus: newUser.userStatus,
+                    paymentStatus: newUser.paymentStatus,
+                    paymentSource: newUser.paymentSource,
+                    verifiedBy: newUser.verifiedBy,
+                    paymentType: newUser.paymentType
                 })
             });
+            
+            console.log('Response status:', response.status);
+            const responseData = await response.json();
+            console.log('Response data:', responseData);
 
             if (!response.ok) {
                 throw new Error('Failed to create user');
@@ -71,7 +80,11 @@ export default function Admin() {
                 password: user.password,
                 userStatus: user.userStatus,
                 createdAt: new Date(user.createdAt),
-                updatedAt: new Date(user.updatedAt)
+                updatedAt: new Date(user.updatedAt),
+                paymentStatus: user.paymentStatus,
+                paymentSource: user.paymentSource,
+                verifiedBy: user.verifiedBy,
+                paymentType: user.paymentType
             }));
             setUsers(mappedUsers);
         } catch (error) {

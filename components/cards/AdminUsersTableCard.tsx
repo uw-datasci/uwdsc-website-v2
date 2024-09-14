@@ -9,9 +9,10 @@ interface AdminUserTableProps {
     onAction: () => void;
 }
 
-const headers = ["Username", "Email", "Status", "Created At", "Updated At", "Actions"];
-// to test this separately, run a sign-in call manually and copy the token here
-
+const headers = [
+    "Username", "Email", "Status", "Created At", "Updated At",
+    "Payment Status", "Payment Source", "Verified By", "Payment Type", "Actions"
+];
 
 export default function AdminUserTable({ users, token, onAction }: AdminUserTableProps) {
     const [editingUserId, setEditingUserId] = useState<string | null>(null);
@@ -52,10 +53,15 @@ export default function AdminUserTable({ users, token, onAction }: AdminUserTabl
                 body: JSON.stringify({
                     username: newUser.username,
                     email: newUser.email,
-                    //password: newUser.password,
-                    userStatus: newUser.userStatus
+                    userStatus: newUser.userStatus,
+                    paymentStatus: newUser.paymentStatus,    
+                    paymentSource: newUser.paymentSource,
+                    verifiedBy: newUser.verifiedBy,
+                    paymentType: newUser.paymentType
                 })
             });
+            const responseData = await response.json();  
+            console.log("Server response:", responseData);
 
             if (!response.ok) {
                 throw new Error('Failed to edit user');
@@ -92,8 +98,8 @@ export default function AdminUserTable({ users, token, onAction }: AdminUserTabl
 
     return (
         <>
-            <div className="overflow-x-auto">
-                <table className="min-w-full divide-y divide-gray-200">
+            <div className="overflow-x-auto mx-auto px-4 max-w-screen-xl">
+                <table className="min-w-full divide-y divide-gray-200 mx-auto">
                     <thead>
                         <tr>
                             {headers.map((header) => (
@@ -154,6 +160,60 @@ export default function AdminUserTable({ users, token, onAction }: AdminUserTabl
                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                     {user.updatedAt && new Date(user.updatedAt).toLocaleDateString()}
                                 </td>
+
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                    {editingUserId === user._id ? (
+                                        <input
+                                            type="text"
+                                            name="paymentStatus"
+                                            value={editFormData?.paymentStatus || ""}
+                                            onChange={handleInputChange}
+                                            className="w-full border border-gray-300 rounded"
+                                        />
+                                    ) : (
+                                        user.paymentStatus
+                                    )}
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                    {editingUserId === user._id ? (
+                                        <input
+                                            type="text"
+                                            name="paymentSource"
+                                            value={editFormData?.paymentSource || ""}
+                                            onChange={handleInputChange}
+                                            className="w-full border border-gray-300 rounded"
+                                        />
+                                    ) : (
+                                        user.paymentSource
+                                    )}
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                    {editingUserId === user._id ? (
+                                        <input
+                                            type="text"
+                                            name="verifiedBy"
+                                            value={editFormData?.verifiedBy || ""}
+                                            onChange={handleInputChange}
+                                            className="w-full border border-gray-300 rounded"
+                                        />
+                                    ) : (
+                                        user.verifiedBy
+                                    )}
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                    {editingUserId === user._id ? (
+                                        <input
+                                            type="text"
+                                            name="paymentType"
+                                            value={editFormData?.paymentType || ""}
+                                            onChange={handleInputChange}
+                                            className="w-full border border-gray-300 rounded"
+                                        />
+                                    ) : (
+                                        user.paymentType
+                                    )}
+                                </td>
+
                                 <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                     {editingUserId === user._id ? (
                                         <>
