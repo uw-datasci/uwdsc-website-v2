@@ -46,6 +46,7 @@ export type ContactField = {
   type: "input" | "textarea" | "dropdown";
   placeholder: string;
   options?: string[];
+  classes?: string;
 };
 
 export type QandA = {
@@ -90,4 +91,15 @@ export type Sponsor = {
   logo: StaticImageData;
   type?: string;
   link?: string;
+}
+
+export type User = {
+  _id: string;
+  username: string;
+  email: string;
+  password: string;
+  userStatus: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+  __v?: number;
 }
