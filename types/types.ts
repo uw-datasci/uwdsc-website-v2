@@ -103,3 +103,8 @@ export type User = {
   updatedAt?: Date;
   __v?: number;
 }
+
+export type QRCodeData = {
+  id: string;
+  event: string;
+}
