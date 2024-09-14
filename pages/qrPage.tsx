@@ -5,7 +5,9 @@ import { RootState } from "@/store/store";
 import { QRCodeData } from "@/types/types";
 
 export default function QR () {
-  const [imageSourceUrl, setImageSourceUrl] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
+  const [generated, setGenerated] = useState(false)
+
   const data : QRCodeData = {
     id: useSelector((state: RootState) => state.loginToken.id),
     event: "BOT Fall 2024" // ???
@@ -18,12 +20,11 @@ export default function QR () {
   const generateQRCode = async () => {
     try {
       const response = await axios.post("/api/send/qr-code", data)
-      console.log(response.data)
-      // const url = URL.createObjectURL(response.data);
-      // console.log(url);
-      setImageSourceUrl(response.data.dataUrl);
+      setImageUrl(response.data.dataUrl);
+      setGenerated(true)
     } catch (error) {
       console.log("Error generating QR Code:", error)
+      setGenerated(false)
     }
   }
 
@@ -33,8 +34,11 @@ export default function QR () {
         <h1 className="mb-14 text-center text-3xl font-bold text-white 3xs:text-6xl sm:text-8xl lg:text-10xl 2xl:text-12xl">
           QR Check-in
         </h1>
-        <img src={ imageSourceUrl } alt="QR Code"/>
-        {/* Display QR Code Here */}
+        { generated && (
+          <div className="w-full flex justify-center">
+            <img className="w-80 h-80" src={ imageUrl } alt="QR Code"/>
+          </div>
+        )}
       </section>
     </>
   )
