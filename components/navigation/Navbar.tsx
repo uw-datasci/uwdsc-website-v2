@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { moveUp as signUpMoveUp } from "@/store/slices/signUpPageSlice";
 import { moveUp as signInMoveUp } from "@/store/slices/signInPageSlice";
@@ -60,6 +61,7 @@ export default function Navbar() {
   const [routes, setRoutes] = useState<nav_obj[]>(DEFAULT_ROUTES);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
   const signedIn = useSelector((state: RootState) => state.loginToken.id);
+  const router = useRouter();
 
   useEffect(() => {
     if (signedIn && routes.length == 4) {
@@ -70,11 +72,26 @@ export default function Navbar() {
         })
       )
     } 
+    
     if (!signedIn && routes.length == 5){
       setRoutes(routes.filter((nav) => {return nav.label != "QR Code"}))
     }
+
+    if (router.pathname === "/admin" && !routes.some((nav) => nav.label ==="QR Scanner")){
+      setRoutes(routes.concat({
+        label: "QR Scanner",
+        route: "/qrScanner",
+      })
+    );
+    }
+
+    if(router.pathname!== "/admin"  && routes.some((nav) => nav.label ==="QR Scanner")){
+      setRoutes(
+      routes.filter((nav) => {return nav.label != "QR Scanner"})
+    );
+    }
     console.log(routes);
-  }, [signedIn]); 
+  }, [signedIn, router.pathname]); 
 
   return (
     <>
