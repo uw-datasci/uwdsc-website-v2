@@ -1,11 +1,7 @@
 import { type NextApiRequest, type NextApiResponse } from "next";
-import { useSelector } from "react-redux/es/hooks/useSelector";
-import { RootState } from "@/store/store";
 import axios from "axios";
 
 require('dotenv').config()
-
-const token = useSelector((state: RootState) => state.loginToken.token);
 
 export default async function handler(
   req: NextApiRequest,
