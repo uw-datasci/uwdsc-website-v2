@@ -77,7 +77,7 @@ export default function Navbar() {
       setRoutes(routes.filter((nav) => {return nav.label != "QR Code"}))
     }
 
-    if (router.pathname === "/admin" && !routes.some((nav) => nav.label ==="QR Scanner")){
+    if ((router.pathname === "/admin" || router.pathname === "/qrScanner") &&  !routes.some((nav) => nav.label ==="QR Scanner")){
       setRoutes(routes.concat({
         label: "QR Scanner",
         route: "/qrScanner",
@@ -85,7 +85,7 @@ export default function Navbar() {
     );
     }
 
-    if(router.pathname!== "/admin"  && routes.some((nav) => nav.label ==="QR Scanner")){
+    if(router.pathname !== "/admin" &&  routes.some((nav) => nav.label ==="QR Scanner")){
       setRoutes(
       routes.filter((nav) => {return nav.label != "QR Scanner"})
     );
