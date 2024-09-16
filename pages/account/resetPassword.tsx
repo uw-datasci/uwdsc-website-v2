@@ -11,10 +11,11 @@ export default function forgotPassword () {
   const newPass = "testtest";
   
 
-  const resetPass = async () => {
-    const values: Record<string, string> = { id: (params.get("id") || ""), token: (params.get("token") || "") , newPass: newPass}
+  const resetPass = async (values: Record<string, string>) => {
+    const newValues: Record<string, string> = { id: (params.get("id") || ""), token: (params.get("token") || "") , newPass: values.newPass || ""} // Need to prevent pass from sending if newPass is empty
+    console.log(values.newPass);
     try {
-      await sendResetPassRequest(values);
+      await sendResetPassRequest(newValues);
     } catch (error) {
       console.error('Error:', error); // Handle any errors
       throw error;
