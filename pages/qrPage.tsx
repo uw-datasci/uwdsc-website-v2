@@ -7,8 +7,8 @@ export default function QR () {
           QR Check-in
         </h1>
 
-        //Display the QR code here. Below might be useful
-        //https://stackoverflow.com/questions/50248329/fetch-image-from-api
+        {/*Display the QR code here. Below might be useful*/}
+        {/*https://stackoverflow.com/questions/50248329/fetch-image-from-api*/}
       </section>
     </>
   )

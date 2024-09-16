@@ -98,3 +98,13 @@ export const validateForgotPasswordForm = (values: Record<string, string>) => {
 
   return errors;
 };
+
+export const validateResetPasswordForm = (values: Record<string, string>) => {
+  const errors: Record<string, string> = {};
+
+  if (!values.newPass || values.newPass.length < 8) {
+    errors.newPass = "Your password needs to be at least 8 characters long.";
+  }
+
+  return errors;
+};

@@ -137,3 +137,12 @@ export const FORGOT_PASSWORD_FORM_FIELDS: ContactField[] = [
     placeholder: "Waterloo Email (ex. slchow@uwaterloo.ca)",
   },
 ];
+
+export const RESET_PASSWORD_FORM_FIELDS: ContactField[] = [
+  {
+    id: "newPass",
+    name: "newPass",
+    type: "input",
+    placeholder: "A new DSC account password (ex. R4nd0M_f0R3sT)",
+  },
+];

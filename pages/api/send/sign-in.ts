@@ -42,6 +42,11 @@ export default async function handler(
     let customMessage = false;
     console.error(error.response.data.message);
 
-    res.status(500).json({ success: false });
+    if (error.response.data.message == "The email for this account has not been verified.") {
+      error = { message: error.response.data.message };
+      customMessage = true;
+    }
+
+    res.status(500).json({ success: false, customErrorMessage: customMessage, error });
   }
 }
