@@ -59,7 +59,7 @@ export default function Navbar() {
   let dispatch = useDispatch();
   const [routes, setRoutes] = useState<nav_obj[]>(DEFAULT_ROUTES);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
-  const signedIn = useSelector((state: RootState) => state.loginToken.id);
+  const signedIn = useSelector((state: RootState) => state.loginToken.name);
 
   useEffect(() => {
     if (signedIn && routes.length == 4) {
