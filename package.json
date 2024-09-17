@@ -21,9 +21,9 @@
     "eslint-config-next": "13.4.12",
     "formik": "^2.4.3",
     "heroicons": "^2.1.1",
-    "html5-qrcode": "^2.3.8",
     "next": "13.4.12",
     "postcss": "8.4.27",
+    "qr-scanner": "^1.4.2",
     "react": "^18.2.0",
     "react-animate-height": "^3.2.2",
     "react-dom": "^18.2.0",
@@ -40,6 +40,7 @@
     "yet-another-react-lightbox": "^3.16.0"
   },
   "devDependencies": {
+    "html5-qrcode": "^2.3.8",
     "prettier": "^3.0.1",
     "prettier-plugin-tailwindcss": "^0.4.1"
   }
