@@ -10,7 +10,8 @@ export default function QR () {
 
   const data : QRCodeData = {
     id: useSelector((state: RootState) => state.loginToken.id),
-    event: "BOT Fall 2024" // ???
+    event: "BOT Fall 2024", // Get info from DB
+    checkedIn: false // Get info from DB
   }
 
   useEffect(() => {

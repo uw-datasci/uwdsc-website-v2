@@ -9,7 +9,8 @@ export default async function handler(
 ) {
   const id = await bcrypt.hash(req.body.id, 10);
   const event = await bcrypt.hash(req.body.event, 10);
-  const dataString = JSON.stringify({ id, event })
+  const checkedIn = req.body.checkedIn;
+  const dataString = JSON.stringify({ id, event, checkedIn })
   const image = await qr.toDataURL(dataString)
   res.status(200).json({ success: true, dataUrl: image }); // accessToken: response.data.accessToken ???
 }

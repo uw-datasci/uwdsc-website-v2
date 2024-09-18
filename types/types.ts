@@ -107,4 +107,5 @@ export type User = {
 export type QRCodeData = {
   id: string;
   event: string;
+  checkedIn: boolean;
 }
