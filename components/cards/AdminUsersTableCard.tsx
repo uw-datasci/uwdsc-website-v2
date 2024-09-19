@@ -11,7 +11,7 @@ interface AdminUserTableProps {
 
 const headers = [
     "Username", "Email", "Status", "Created At", "Updated At",
-    "Payment Status", "Payment Source", "Verified By", "Payment Type", "Actions"
+    "Payment Status", "Payment Method", "Verified By", "Payment Type", "Email Verified", "Actions"
 ];
 
 export default function AdminUserTable({ users, token, onAction }: AdminUserTableProps) {
@@ -54,10 +54,11 @@ export default function AdminUserTable({ users, token, onAction }: AdminUserTabl
                     username: newUser.username,
                     email: newUser.email,
                     userStatus: newUser.userStatus,
-                    paymentStatus: newUser.paymentStatus,    
-                    paymentSource: newUser.paymentSource,
-                    verifiedBy: newUser.verifiedBy,
-                    paymentType: newUser.paymentType
+                    hasPaid: newUser.hasPaid,    
+                    paymentMethod: newUser.paymentMethod,
+                    verifier: newUser.verifier,
+                    paymentLocation: newUser.paymentLocation,
+                    isEmailVerified: newUser.isEmailVerified
                 })
             });
             const responseData = await response.json();  
@@ -145,6 +146,19 @@ export default function AdminUserTable({ users, token, onAction }: AdminUserTabl
                                     {editingUserId === user._id ? (
                                         <input
                                             type="text"
+                                            name="password"
+                                            value={editFormData?.password || ""}
+                                            onChange={handleInputChange}
+                                            className="w-full border border-gray-300 rounded input-fixed-width"
+                                        />
+                                    ) : (
+                                        user.password
+                                    )}
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 fixed-width">
+                                    {editingUserId === user._id ? (
+                                        <input
+                                            type="text"
                                             name="userStatus"
                                             value={editFormData?.userStatus || ""}
                                             onChange={handleInputChange}
@@ -165,52 +179,65 @@ export default function AdminUserTable({ users, token, onAction }: AdminUserTabl
                                     {editingUserId === user._id ? (
                                         <input
                                             type="text"
-                                            name="paymentStatus"
-                                            value={editFormData?.paymentStatus || ""}
+                                            name="hasPaid"
+                                            value={editFormData?.hasPaid || ""}
                                             onChange={handleInputChange}
                                             className="w-full border border-gray-300 rounded"
                                         />
                                     ) : (
-                                        user.paymentStatus
+                                        user.hasPaid
                                     )}
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                     {editingUserId === user._id ? (
                                         <input
                                             type="text"
-                                            name="paymentSource"
-                                            value={editFormData?.paymentSource || ""}
+                                            name="paymentMethod"
+                                            value={editFormData?.paymentMethod || ""}
                                             onChange={handleInputChange}
                                             className="w-full border border-gray-300 rounded"
                                         />
                                     ) : (
-                                        user.paymentSource
+                                        user.paymentMethod
                                     )}
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                     {editingUserId === user._id ? (
                                         <input
                                             type="text"
-                                            name="verifiedBy"
-                                            value={editFormData?.verifiedBy || ""}
+                                            name="verifier"
+                                            value={editFormData?.verifier || ""}
                                             onChange={handleInputChange}
                                             className="w-full border border-gray-300 rounded"
                                         />
                                     ) : (
-                                        user.verifiedBy
+                                        user.verifier
                                     )}
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                     {editingUserId === user._id ? (
                                         <input
                                             type="text"
-                                            name="paymentType"
-                                            value={editFormData?.paymentType || ""}
+                                            name="paymentLocation"
+                                            value={editFormData?.paymentLocation || ""}
                                             onChange={handleInputChange}
                                             className="w-full border border-gray-300 rounded"
                                         />
                                     ) : (
-                                        user.paymentType
+                                        user.paymentLocation
+                                    )}
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                    {editingUserId === user._id ? (
+                                        <input
+                                            type="text"
+                                            name="paymentLocation"
+                                            value={editFormData?.isEmailVerified || ""}
+                                            onChange={handleInputChange}
+                                            className="w-full border border-gray-300 rounded"
+                                        />
+                                    ) : (
+                                        user.isEmailVerified
                                     )}
                                 </td>
 

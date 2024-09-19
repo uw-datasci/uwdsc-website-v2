@@ -40,10 +40,10 @@ export default function Admin() {
                     email: newUser.email,
                     password: newUser.password,
                     userStatus: newUser.userStatus,
-                    paymentStatus: newUser.paymentStatus,
-                    paymentSource: newUser.paymentSource,
-                    verifiedBy: newUser.verifiedBy,
-                    paymentType: newUser.paymentType
+                    hasPaid: newUser.hasPaid,
+                    paymentMethod: newUser.paymentMethod,
+                    verifier: newUser.verifier,
+                    paymentLocation: newUser.paymentLocation
                 })
             });
             
@@ -81,10 +81,10 @@ export default function Admin() {
                 userStatus: user.userStatus,
                 createdAt: new Date(user.createdAt),
                 updatedAt: new Date(user.updatedAt),
-                paymentStatus: user.paymentStatus,
-                paymentSource: user.paymentSource,
-                verifiedBy: user.verifiedBy,
-                paymentType: user.paymentType
+                hasPaid: user.hasPaid,
+                paymentMethod: user.paymentMethod,
+                verifier: user.verifier,
+                paymentLocation: user.paymentLocation
             }));
             setUsers(mappedUsers);
         } catch (error) {

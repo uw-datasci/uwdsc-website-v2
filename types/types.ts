@@ -101,9 +101,10 @@ export type User = {
   userStatus: string;
   createdAt?: Date;
   updatedAt?: Date;
-  paymentStatus: string;  
-  paymentSource: string;  
-  verifiedBy: string;     
-  paymentType: string;    
+  hasPaid: string;  
+  paymentMethod: string;  
+  verifier: string;     
+  paymentLocation: string;    
+  isEmailVerified: string;
   __v?: number;
 }
