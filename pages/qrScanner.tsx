@@ -4,7 +4,7 @@ import QrScanner from "qr-scanner";
 import Button from "@/components/UI/Button";
 import GradientBorder from "@/components/UI/GradientBorder";
 import { useRouter } from "next/router";
-import { getUserbyId } from "@/utils/api-calls";
+import { checkInById, getUserbyId } from "@/utils/api-calls";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import UserCheckInCard from "@/components/cards/UserCheckInDetails";
@@ -24,6 +24,8 @@ const qrScanner = () => {
   const router = useRouter();
   const token = useSelector((state: RootState) => state.loginToken.token);
   const [userInfo, setUserInfo] = useState({
+    id: "",
+    event: "",
     username: "",
     uwEmail: "",
     faculty: "",
@@ -41,24 +43,35 @@ const qrScanner = () => {
     console.log(result);
     setScannedResult(result?.data);
     const data: ScannedResult = JSON.parse(result?.data);
-    const response = await getUserbyId({ id: data.id, token: token });
+    const id = data.id;
+    const event = data.event;
+    const response = await getUserbyId({ id: id, token: token });
     const { username, uwEmail, faculty, hasPaid, isCheckedIn } = response.data;
     setUserInfo({
+      id,
+      event,
       username,
       uwEmail,
       faculty,
       hasPaid,
       isCheckedIn,
     });
-    console.log({ username, uwEmail, faculty, hasPaid, isCheckedIn });
+    console.log({ id, username, uwEmail, faculty, hasPaid, isCheckedIn });
   };
 
   const reScan = () => {
     router.reload();
   };
 
-  const checkIn = () => {
+  const checkIn = async () => {
     // check in user
+    const response = await checkInById({
+      id: userInfo.id,
+      token: token,
+      eventName: userInfo.event,
+    });
+    alert("Logged In Successfully");
+    console.log(response.data.success);
   };
 
   // Fail
@@ -126,7 +139,7 @@ const qrScanner = () => {
               hasPaid={userInfo.hasPaid}
               isCheckedIn={userInfo.isCheckedIn}
             />
-            <div className="flex">
+            <div className="mt-6 flex justify-center gap-6">
               <GradientBorder
                 rounded="rounded-lg"
                 classes="w-auto inline-block items-center"

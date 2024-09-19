@@ -66,3 +66,12 @@ export const getUserbyId = async (values: Record<string, string>) => {
     throw error;
   }
 };
+
+export const checkInById = async (values: Record<string, string>) => {
+  try {
+    const response = await axios.post(`/api/send/check-in`, values);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
