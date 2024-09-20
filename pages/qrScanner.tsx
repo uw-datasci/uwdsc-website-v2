@@ -1,22 +1,30 @@
 import { useEffect, useRef, useState } from "react";
 
 import QrScanner from "qr-scanner";
+import { setConfig } from "next/config";
 const qrScanner = () => {
   // QR States
   const scanner = useRef<QrScanner>();
   const videoEl = useRef<HTMLVideoElement>(null);
   const qrBoxEl = useRef<HTMLDivElement>(null);
   const [qrOn, setQrOn] = useState<boolean>(true);
+  const [camOn, setcamOn] = useState<boolean>(true);
 
   // Result
-  const [scannedResult, setScannedResult] = useState<string | undefined>("");
-
+  //const [scannedResult, setScannedResult] = useState<{id:string}| undefined>(undefined);
+  const [scannedResult, setScannedResult] = useState({
+    id: "string",
+    event: "string"
+  });
   // Success
   const onScanSuccess = (result: QrScanner.ScanResult) => {
       // Print the "result" to browser console.
       console.log(result);
-  
-      setScannedResult(result?.data);
+
+      const parsedResult = JSON.parse(result.data);
+      setScannedResult(parsedResult);
+      setcamOn(false);
+      
   };
 
   // Fail
@@ -56,7 +64,7 @@ const qrScanner = () => {
               scanner?.current?.stop();
           }
       };
-  }, []);
+  }, [camOn]);
 
   // If "camera" is not allowed in browser permissions, show an alert.
   useEffect(() => {
@@ -73,14 +81,15 @@ const qrScanner = () => {
       <h1 className="mb-14 text-center text-3xl font-bold text-white 3xs:text-6xl sm:text-8xl lg:text-10xl 2xl:text-12xl">
         QR Scanner
       </h1>
-      <video ref={videoEl} style={{ width: '60%' }} />
       
-      {scannedResult && (
-        <div>
-          <h2>Scanned Result:</h2>
-          <p>{scannedResult}</p>
-        </div>
-      )}
+      {(camOn )? 
+        <>
+          <video ref={videoEl} style={{ width: '60%' }} />
+        </> :
+        <>
+          
+        </>}
+      
     </section>
     </>
     
