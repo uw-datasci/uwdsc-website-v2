@@ -43,8 +43,8 @@
     "yet-another-react-lightbox": "^3.16.0"
   },
   "devDependencies": {
-    "html5-qrcode": "^2.3.8",
     "@types/qrcode": "^1.5.5",
+    "html5-qrcode": "^2.3.8",
     "prettier": "^3.0.1",
     "prettier-plugin-tailwindcss": "^0.4.1"
   }
