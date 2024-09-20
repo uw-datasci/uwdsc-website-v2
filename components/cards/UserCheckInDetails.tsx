@@ -27,15 +27,25 @@ export default function UserCheckInCard({
           <strong>Faculty: </strong>
           {faculty}
         </div>
-        <div className="flex items-center">
-          <strong>Payment Status: </strong>
-          {hasPaid ? <HiCheckCircle /> : <HiXCircle />}
-          {hasPaid ? "Paid" : "Not Paid"}
-        </div>
-        <div className="flex items-center">
-          <strong>Check-in Status: </strong>
-          {isCheckedIn ? <HiCheckCircle /> : <HiXCircle />}
-          {isCheckedIn ? "Checked In" : "Not Checked In"}
+        <div className="flex flex-row gap-6 justify-center">
+            <div className="flex items-center">
+              <div
+                className={`flex h-12 w-32 items-center justify-center rounded-sm text-xs font-medium ${
+                  hasPaid ? "bg-[#4ADE80] text-black" : "bg-[#EF4444] text-black"
+                }`}
+              >
+                {hasPaid ? "Paid" : "Unpaid"}
+              </div>
+            </div>
+            <div className="flex items-center">
+              <div
+                className={`flex h-12 w-32 items-center justify-center rounded-sm text-xs font-medium ${
+                    isCheckedIn ? "bg-[#4ADE80] text-black" : "bg-[#EF4444] text-black"
+                }`}
+              >
+                {isCheckedIn ? "Checked In" : "Not Checked In"}
+              </div>
+            </div>
         </div>
       </div>
     </div>

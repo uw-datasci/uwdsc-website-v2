@@ -126,7 +126,7 @@ const qrScanner = () => {
               hasPaid={userInfo.hasPaid}
               isCheckedIn={userInfo.isCheckedIn}
             />
-            <div className="flex">
+            <div className="flex justify-center gap-6 mt-6">
               <GradientBorder
                 rounded="rounded-lg"
                 classes="w-auto inline-block items-center"
