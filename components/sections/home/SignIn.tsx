@@ -26,11 +26,11 @@ export default function SignInPage() {
   }
 
   const signIn = async (values: Record<string, string>) => {
-    const id = values.email.replace(/@uwaterloo\.ca/g,"");
     try {
       const res = await sendSignInInfo(values);
       const accessToken = res.data.accessToken;
-      dispatch(login({token: accessToken, id : id}));
+      const name = res.data.name;
+      dispatch(login({token: accessToken, name : name}));
     } catch (error) {
       console.error('Error:', error); // Handle any errors
       throw error;
