@@ -20,7 +20,6 @@ export default function Admin() {
 
     // to test this separately, run a sign-in call manually and copy the token here
     const token = useSelector((state: RootState) => state.loginToken.token);
-    const baseURL = process.env.NEXT_PUBLIC_UWDSC_WEBSITE_SERVER_URL
 
     useEffect(() => {
         fetchUsers();

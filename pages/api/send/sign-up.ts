@@ -50,11 +50,11 @@ export default async function handler(
     let customMessage = false;
     console.error(error);
 
-    if (error.response.data.message == "User already registered!") {
+    if (error.response.data.message && error.response.data.message == "User already registered!") {
       error = { message: "The email you used is already a member!" };
       customMessage = true;
     }
-    
+
     res.status(500).json({ success: false, customErrorMessage: customMessage, error });
   }
 }
