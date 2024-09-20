@@ -13,7 +13,7 @@ const qrScanner = () => {
 
   // Success
   const onScanSuccess = (result: QrScanner.ScanResult) => {
-      // 🖨 Print the "result" to browser console.
+      // Print the "result" to browser console.
       console.log(result);
   
       setScannedResult(result?.data);
@@ -74,7 +74,13 @@ const qrScanner = () => {
         QR Scanner
       </h1>
       <video ref={videoEl} style={{ width: '60%' }} />
-      {scannedResult && <p>Scanned Result: {scannedResult}</p>}
+      
+      {scannedResult && (
+        <div>
+          <h2>Scanned Result:</h2>
+          <p>{scannedResult}</p>
+        </div>
+      )}
     </section>
     </>
     
