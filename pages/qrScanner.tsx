@@ -4,6 +4,16 @@ import QrScanner from "qr-scanner";
 import Button from "@/components/UI/Button";
 import GradientBorder from "@/components/UI/GradientBorder";
 import { useRouter } from "next/router";
+import { getUserbyId } from "@/utils/api-calls";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
+import UserCheckInCard from "@/components/cards/UserCheckInDetails";
+
+interface ScannedResult {
+  id: string;
+  event: string;
+}
+
 const qrScanner = () => {
   // QR States
   const scanner = useRef<QrScanner>();
@@ -12,17 +22,35 @@ const qrScanner = () => {
   const [qrOn, setQrOn] = useState<boolean>(true);
   const [scanSuccess, setScanSuccess] = useState<boolean>(false);
   const router = useRouter();
+  const token = useSelector((state: RootState) => state.loginToken.token);
+  const [userInfo, setUserInfo] = useState({
+    username: "",
+    uwEmail: "",
+    faculty: "",
+    hasPaid: false,
+    isCheckedIn: false,
+  });
 
   // Result
   const [scannedResult, setScannedResult] = useState<string | undefined>("");
 
   // Success
-  const onScanSuccess = (result: QrScanner.ScanResult) => {
-    scanner?.current?.stop();
+  const onScanSuccess = async (result: QrScanner.ScanResult) => {
     setScanSuccess(true);
+    scanner.current?.stop();
     console.log(result);
-
     setScannedResult(result?.data);
+    const data: ScannedResult = JSON.parse(result?.data);
+    const response = await getUserbyId({ id: data.id, token: token });
+    const { username, uwEmail, faculty, hasPaid, isCheckedIn } = response.data;
+    setUserInfo({
+      username,
+      uwEmail,
+      faculty,
+      hasPaid,
+      isCheckedIn,
+    });
+    console.log({ username, uwEmail, faculty, hasPaid, isCheckedIn });
   };
 
   const reScan = () => {
@@ -86,64 +114,61 @@ const qrScanner = () => {
           QR Scanner
         </h1>
         {!scanSuccess && (
-            <video ref={videoEl} className="h-full w-full rounded-md" />
+          <video ref={videoEl} className="h-full w-full rounded-md" />
         )}
 
-        {scanSuccess && <div>
+        {scanSuccess && (
+          <div>
+            <UserCheckInCard
+              username={userInfo.username}
+              uwEmail={userInfo.uwEmail}
+              faculty={userInfo.faculty}
+              hasPaid={userInfo.hasPaid}
+              isCheckedIn={userInfo.isCheckedIn}
+            />
             <div className="flex">
-                <GradientBorder rounded="rounded-lg" classes="w-auto inline-block items-center"  >
-                    <Button
-                      type="button"
-                      hierarchy="secondary"
-                      font="font-bold"
-                      text="sm:text-lg 2xl:text-xl"
-                      padding="py-3 sm:px-7 sm:py-4"
-                      rounded="rounded-[15px]"
-                      onClick={() => {reScan()}}
-                    >
-                      Re Scan
-                    </Button>
-                  </GradientBorder>
-                  <GradientBorder rounded="rounded-lg" classes="w-auto inline-block items-center"  >
-                    <Button
-                      type="submit"
-                      hierarchy="secondary"
-                      font="font-bold"
-                      text="sm:text-lg 2xl:text-xl"
-                      padding="py-3 sm:px-7 sm:py-4"
-                      rounded="rounded-[15px]"
-                      onClick={() => {checkIn()}}
-                    >
-                      Check In
-                    </Button>
-                  </GradientBorder>
+              <GradientBorder
+                rounded="rounded-lg"
+                classes="w-auto inline-block items-center"
+              >
+                <Button
+                  type="button"
+                  hierarchy="secondary"
+                  font="font-bold"
+                  text="sm:text-lg 2xl:text-xl"
+                  padding="py-3 sm:px-7 sm:py-4"
+                  rounded="rounded-[15px]"
+                  onClick={() => {
+                    reScan();
+                  }}
+                >
+                  Re Scan
+                </Button>
+              </GradientBorder>
+              <GradientBorder
+                rounded="rounded-lg"
+                classes="w-auto inline-block items-center"
+              >
+                <Button
+                  type="submit"
+                  hierarchy="secondary"
+                  font="font-bold"
+                  text="sm:text-lg 2xl:text-xl"
+                  padding="py-3 sm:px-7 sm:py-4"
+                  rounded="rounded-[15px]"
+                  onClick={() => {
+                    checkIn();
+                  }}
+                >
+                  Check In
+                </Button>
+              </GradientBorder>
             </div>
-            {scannedResult && (
-          <p className="text-white">Scanned Result: {scannedResult}</p>
+          </div>
         )}
-        </div>}
-
-        
-        
       </section>
     </>
   );
 };
 
 export default qrScanner;
-
-
-{/* <GradientBorder rounded="rounded-lg">
-              <Button
-                type="button"
-                href="#contact"
-                hierarchy="secondary"
-                font="font-bold"
-                text="sm:text-lg 2xl:text-xl"
-                padding="py-3 sm:px-7 sm:py-4"
-                rounded="rounded-[15px]"
-                classes=""
-              >
-                Scan QR Code
-              </Button>
-            </GradientBorder> */}
