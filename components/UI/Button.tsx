@@ -13,6 +13,7 @@ type ButtonProps = {
   padding?: string;
   classes?: string;
   children: React.ReactNode;
+  disabled?: boolean; // Add this line
 };
 
 const EMBED_BASE_URL =
@@ -33,6 +34,7 @@ export default function Button({
   padding = "py-3 px-5",
   classes,
   children,
+  disabled, // Add this line
 }: ButtonProps) {
   switch (hierarchy) {
     case "primary":

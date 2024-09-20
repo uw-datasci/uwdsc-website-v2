@@ -15,6 +15,7 @@ import ContactForm from "../templates/ContactForm";
 import { SIGN_UP_FORM_FIELDS_PART1, SIGN_UP_FORM_FIELDS_PART2 } from "@/constants/forms";
 import { validateSignUpFormPart1, validateSignUpFormPart2 } from "@/utils/formValidation";
 import { sendSignUpInfo } from "@/utils/api-calls";
+import ResendVerificationPage from "./resendVerification"; 
 
 export default function SignUpPage() {
   const [panelIndex, setPanelIndex] = useState<number>(0);
@@ -139,12 +140,12 @@ export default function SignUpPage() {
               </div>
             </div>
           </>,
-          <>
-            <div className="w-full flex flex-col lg:flex-row overflow-auto no-scrollbar lg:overflow-hidden">
-              {/*Resend verification page here*/}
-              <p className="text-s text-grey3 p-2 hover:underline cursor-pointer" onClick={()=>{setPanelIndex(0)}}>Go back</p>
-            </div>
-          </>
+         <>
+         <div className="w-full flex flex-col lg:flex-row overflow-auto no-scrollbar lg:overflow-hidden">
+           <ResendVerificationPage />
+         </div>
+       </>
+       
         ]}
     />
   );
