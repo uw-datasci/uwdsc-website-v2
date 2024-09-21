@@ -75,15 +75,13 @@ export default function Admin() {
             const mappedUsers: User[] = data.map((user: any) => ({
                 _id: user._id,
                 username: user.username,
-                email: user.email,
-                password: user.password,
+                email: user.uwEmail,
                 userStatus: user.userStatus,
-                createdAt: new Date(user.createdAt),
-                updatedAt: new Date(user.updatedAt),
-                hasPaid: user.hasPaid,
+                hasPaid: (user.hasPaid? "True" : "False"),
                 paymentMethod: user.paymentMethod,
                 verifier: user.verifier,
-                paymentLocation: user.paymentLocation
+                paymentLocation: user.paymentLocation,
+                isEmailVerified: (user.isEmailVerified? "True" : "False")
             }));
             setUsers(mappedUsers);
         } catch (error) {

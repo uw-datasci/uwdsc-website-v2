@@ -99,8 +99,6 @@ export type User = {
   email: string;
   password: string;
   userStatus: string;
-  createdAt?: Date;
-  updatedAt?: Date;
   hasPaid: string;  
   paymentMethod: string;  
   verifier: string;     

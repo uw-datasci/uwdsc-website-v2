@@ -10,8 +10,7 @@ interface AdminUserTableProps {
 }
 
 const headers = [
-    "Username", "Email", "Status", "Created At", "Updated At",
-    "Payment Status", "Payment Method", "Verified By", "Payment Type", "Email Verified", "Actions"
+    "Email", "Password", "Status", "Email Verified", "Paid Member", "Payment Method", "Verified By", "Payment Location",  "Actions"
 ];
 
 export default function AdminUserTable({ users, token, onAction }: AdminUserTableProps) {
@@ -44,6 +43,7 @@ export default function AdminUserTable({ users, token, onAction }: AdminUserTabl
 
     const editUser = async (userId: string, newUser: User, onAction: () => void) => {
         try {
+            console.log(newUser.isEmailVerified);
             const response = await fetch(`${process.env.NEXT_PUBLIC_UWDSC_WEBSITE_SERVER_URL}/api/admin/updateUserById/${userId}`, {
                 method: 'PUT',
                 headers: {
@@ -51,14 +51,13 @@ export default function AdminUserTable({ users, token, onAction }: AdminUserTabl
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    username: newUser.username,
                     email: newUser.email,
                     userStatus: newUser.userStatus,
-                    hasPaid: newUser.hasPaid,    
+                    isEmailVerified: (newUser.isEmailVerified == "True"? true : false),
+                    hasPaid: (newUser.hasPaid == "True"? true : false),    
                     paymentMethod: newUser.paymentMethod,
                     verifier: newUser.verifier,
-                    paymentLocation: newUser.paymentLocation,
-                    isEmailVerified: newUser.isEmailVerified
+                    paymentLocation: newUser.paymentLocation
                 })
             });
             const responseData = await response.json();  
@@ -80,7 +79,7 @@ export default function AdminUserTable({ users, token, onAction }: AdminUserTabl
         setEditFormData(user);
     };
 
-    const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const handleInputChange = (e: ChangeEvent<any>) => {
         const { name, value } = e.target;
         setEditFormData((prevData) => (prevData ? { ...prevData, [name]: value } : null));
     };
@@ -99,7 +98,7 @@ export default function AdminUserTable({ users, token, onAction }: AdminUserTabl
 
     return (
         <>
-            <div className="overflow-x-auto mx-auto px-4 max-w-screen-xl">
+            <div className="overflow-x-auto mx-auto px-4 max-w-screen-xxl">
                 <table className="min-w-full divide-y divide-gray-200 mx-auto">
                     <thead>
                         <tr>
@@ -119,19 +118,6 @@ export default function AdminUserTable({ users, token, onAction }: AdminUserTabl
                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 fixed-width">
                                     {editingUserId === user._id ? (
                                         <input
-                                            type="text"
-                                            name="username"
-                                            value={editFormData?.username || ""}
-                                            onChange={handleInputChange}
-                                            className="w-full border border-gray-300 rounded input-fixed-width"
-                                        />
-                                    ) : (
-                                        user.username
-                                    )}
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 fixed-width">
-                                    {editingUserId === user._id ? (
-                                        <input
                                             type="email"
                                             name="email"
                                             value={editFormData?.email || ""}
@@ -142,17 +128,17 @@ export default function AdminUserTable({ users, token, onAction }: AdminUserTabl
                                         user.email
                                     )}
                                 </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 fixed-width">
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 w-10">
                                     {editingUserId === user._id ? (
                                         <input
                                             type="text"
                                             name="password"
-                                            value={editFormData?.password || ""}
+                                            value={""}
                                             onChange={handleInputChange}
                                             className="w-full border border-gray-300 rounded input-fixed-width"
                                         />
                                     ) : (
-                                        user.password
+                                        "********"
                                     )}
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 fixed-width">
@@ -169,34 +155,47 @@ export default function AdminUserTable({ users, token, onAction }: AdminUserTabl
                                     )}
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                    {user.createdAt && new Date(user.createdAt).toLocaleDateString()}
+                                    {editingUserId === user._id ? (
+                                        <select
+                                            name="isEmailVerified"
+                                            value={editFormData?.isEmailVerified || ""}
+                                            onChange={handleInputChange}
+                                            className="w-full border border-gray-300 rounded"
+                                        >
+                                            <option value="True">True</option>
+                                            <option value="False">False</option>
+                                        </select>
+                                    ) : (
+                                        user.isEmailVerified
+                                    )}
                                 </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                    {user.updatedAt && new Date(user.updatedAt).toLocaleDateString()}
-                                </td>
-
                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                     {editingUserId === user._id ? (
-                                        <input
-                                            type="text"
+                                        <select
                                             name="hasPaid"
                                             value={editFormData?.hasPaid || ""}
                                             onChange={handleInputChange}
                                             className="w-full border border-gray-300 rounded"
-                                        />
+                                        >
+                                            <option value="True">True</option>
+                                            <option value="False">False</option>
+                                        </select>
                                     ) : (
                                         user.hasPaid
                                     )}
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                     {editingUserId === user._id ? (
-                                        <input
-                                            type="text"
+                                        <select
                                             name="paymentMethod"
                                             value={editFormData?.paymentMethod || ""}
                                             onChange={handleInputChange}
                                             className="w-full border border-gray-300 rounded"
-                                        />
+                                        >
+                                            <option value="Cash">Cash</option>
+                                            <option value="Online">Online</option>
+                                            <option value="MathSoc">MathSoc</option>
+                                        </select>
                                     ) : (
                                         user.paymentMethod
                                     )}
@@ -225,19 +224,6 @@ export default function AdminUserTable({ users, token, onAction }: AdminUserTabl
                                         />
                                     ) : (
                                         user.paymentLocation
-                                    )}
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                    {editingUserId === user._id ? (
-                                        <input
-                                            type="text"
-                                            name="paymentLocation"
-                                            value={editFormData?.isEmailVerified || ""}
-                                            onChange={handleInputChange}
-                                            className="w-full border border-gray-300 rounded"
-                                        />
-                                    ) : (
-                                        user.isEmailVerified
                                     )}
                                 </td>
 
