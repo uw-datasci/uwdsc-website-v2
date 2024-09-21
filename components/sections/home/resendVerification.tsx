@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import Button from "@/components/UI/Button";
-import { sendVerificationEmail } from "@/pages/api/send/sendVerificationEmail"; 
+import { resendVerification } from "@/utils/api-calls";
 import { moveDown as signUpMoveDown } from "@/store/slices/signUpPageSlice";
 
 export default function ResendVerificationPage() {
@@ -13,7 +13,7 @@ export default function ResendVerificationPage() {
   const handleResend = async () => {
     setIsSubmitting(true);
     try {
-      await sendVerificationEmail(email); // API call to trigger email resend
+      await resendVerification({email}); // API call to trigger email resend
       setStatusMessage("A new verification email has been sent!");
     } catch (error) {
       setStatusMessage("Failed to send verification email. Please try again later.");
