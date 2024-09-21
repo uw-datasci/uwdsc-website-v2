@@ -158,7 +158,7 @@ const qrScanner = () => {
                   Re Scan
                 </Button>
               </GradientBorder>
-              <GradientBorder
+              {!userInfo.isCheckedIn && <GradientBorder
                 rounded="rounded-lg"
                 classes="w-auto inline-block items-center"
               >
@@ -175,7 +175,7 @@ const qrScanner = () => {
                 >
                   Check In
                 </Button>
-              </GradientBorder>
+              </GradientBorder>}
             </div>
           </div>
         )}
