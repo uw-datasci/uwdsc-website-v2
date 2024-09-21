@@ -1,19 +1,27 @@
+import React, { useState } from 'react';
 import Button from "@/components/UI/Button";
-import ContactForm from "@/components/sections/templates/ContactForm";
 import { sendResetPassRequest } from "@/utils/api-calls";
 
-import { RESET_PASSWORD_FORM_FIELDS } from "@/constants/forms";
-import { validateResetPasswordForm } from "@/utils/formValidation";
+export default function ForgotPassword() {
+  const [password, setPassword] = useState<string>('');
+  const [confirmPassword, setConfirmPassword] = useState<string>('');
+  const [passwordsMatch, setPasswordsMatch] = useState<boolean>(true);
 
-export default function forgotPassword () {
-  // Add loading spinner to wait until promise is received
   const params = new URL(document.location.toString()).searchParams;
-  const newPass = "testtest";
-  
 
-  const resetPass = async (values: Record<string, string>) => {
-    const newValues: Record<string, string> = { id: (params.get("id") || ""), token: (params.get("token") || "") , newPass: values.newPass || ""} // Need to prevent pass from sending if newPass is empty
-    console.log(values.newPass);
+  const resetPass = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (password !== confirmPassword) {
+      setPasswordsMatch(false);
+      return;
+    }
+
+    const newValues: Record<string, string> = { 
+      id: params.get("id") || "", 
+      token: params.get("token") || "", 
+      newPass: password
+    };
+
     try {
       await sendResetPassRequest(newValues);
     } catch (error) {
@@ -22,48 +30,67 @@ export default function forgotPassword () {
     }
   }
 
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
+    setPasswordsMatch(e.target.value === confirmPassword);
+  }
+
+  const handleConfirmPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setConfirmPassword(e.target.value);
+    setPasswordsMatch(e.target.value === password);
+  }
+
   return (
-    <>
-      <section className="mx-container mb-section mt-14 lg:mt-20">
-        <h1 className="mb-14 text-center text-3xl font-bold text-white 3xs:text-6xl sm:text-8xl lg:text-10xl 2xl:text-12xl">
-          id: {params.get("id")}
+    <section className="mx-container mb-section mt-14 lg:mt-20">
+      <div className="bg-white rounded-lg shadow-lg p-8">
+        <h1 className="mb-6 text-center text-3xl font-bold text-gray-800 3xs:text-4xl sm:text-5xl lg:text-6xl">
+          Reset Password
         </h1>
-        <h1 className="mb-14 text-center text-3xl font-bold text-white 3xs:text-6xl sm:text-8xl lg:text-10xl 2xl:text-12xl">
-        token: {params.get("token")}
-        </h1>
-        <h1 className="mb-14 text-center text-3xl font-bold text-white 3xs:text-6xl sm:text-8xl lg:text-10xl 2xl:text-12xl">
-        New password: {newPass}
-        </h1>
-          <ContactForm
-            title=""
-            id=""
-            includeSideInfo={false}
-            description={<></>}
-            fields={RESET_PASSWORD_FORM_FIELDS}
-            validate={validateResetPasswordForm}
-            onSubmit={resetPass}
-            errorMessage="Something went wrong. Please let us know and try again later."
-            successMessage="Successfully registered. Check your email!"
-            resetForm={true}
-            formClasses="mx-container "
-            inputFeedbackClasses="mt-1 pl-1 leading-relaxed text-s "
-            customButton={
-              <>
-                <Button
-                  type="submit"
-                  hierarchy="primary"
-                  font="font-bold"
-                  text="lg:text-lg"
-                  padding="py-3 sm:px-7"
-                  rounded="rounded-lg"
-                  classes="w-full"
-                >
-                  Submit
-                </Button>
-              </>
-            }
-          />
-      </section>
-    </>
-  )
+        <div className="mb-6 text-center text-gray-600">
+          <p>ID: {params.get("id")}</p>
+          <p>Token: {params.get("token")}</p>
+        </div>
+        <form onSubmit={resetPass} className="mx-auto max-w-md">
+          <div className="mb-4">
+            <label htmlFor="password" className="block text-sm font-medium text-gray-700">New Password</label>
+            <input
+              type="password"
+              id="password"
+              value={password}
+              onChange={handlePasswordChange}
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">Confirm Password</label>
+            <input
+              type="password"
+              id="confirmPassword"
+              value={confirmPassword}
+              onChange={handleConfirmPasswordChange}
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+              required
+            />
+            <div className="h-5 mt-1">
+              {!passwordsMatch && (
+                <p className="text-sm text-red-600">Passwords do not match.</p>
+              )}
+            </div>
+          </div>
+          <Button
+            type="submit"
+            hierarchy="primary"
+            font="font-bold"
+            text="lg:text-lg"
+            padding="py-3 px-6"
+            rounded="rounded-lg"
+            classes="w-full bg-blue-600 hover:bg-blue-700 text-white transition-colors duration-300"
+          >
+            Reset Password
+          </Button>
+        </form>
+      </div>
+    </section>
+  );
 }
