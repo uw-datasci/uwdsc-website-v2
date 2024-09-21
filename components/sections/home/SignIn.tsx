@@ -6,18 +6,13 @@ import { moveUp as signUpMoveUp } from "@/store/slices/signUpPageSlice";
 import { login } from "@/store/slices/loginTokenSlice";
 
 import Button from "@/components/UI/Button";
-import GradientBorder from "@/components/UI/GradientBorder";
 import Logo from "@/components/UI/Logo";
 
 import PopUpPanels from "../templates/PopUpPanels";
 import ContactForm from "../templates/ContactForm";
 import { SIGN_IN_FORM_FIELDS, FORGOT_PASSWORD_FORM_FIELDS } from "@/constants/forms";
 import { validateSignInForm, validateForgotPasswordForm } from "@/utils/formValidation";
-import { sendSignInInfo } from "@/utils/api-calls";
-import { ChevronDown } from "react-feather";
-import { clear } from "console";
-
-const opacityTrans = "duration-1000 transition-opacity ease-in-out ";
+import { sendSignInInfo, sendForgotPassRequest } from "@/utils/api-calls";
 
 export default function SignInPage() {
   const [panelIndex, setPanelIndex] = useState<number>(0);
@@ -31,12 +26,11 @@ export default function SignInPage() {
   }
 
   const signIn = async (values: Record<string, string>) => {
-    const id = values.email.replace(/@uwaterloo\.ca/g,"");
     try {
       const res = await sendSignInInfo(values);
       const accessToken = res.data.accessToken;
-      dispatch(login({token: accessToken, id : id}));
-      return accessToken;
+      const name = res.data.name;
+      dispatch(login({token: accessToken, name : name}));
     } catch (error) {
       console.error('Error:', error); // Handle any errors
       throw error;
@@ -48,8 +42,13 @@ export default function SignInPage() {
     dispatch(signInMoveDown());
   }
 
-  const resetPass = async (values: Record<string, string>) => {
-    // To be implemented
+  const forgotPass = async (values: Record<string, string>) => {
+    try {
+      await sendForgotPassRequest(values);
+    } catch (error) {
+      console.error('Error:', error); // Handle any errors
+      throw error;
+    }
   }
 
   return (
@@ -123,10 +122,10 @@ export default function SignInPage() {
                     description={<></>}
                     fields={FORGOT_PASSWORD_FORM_FIELDS}
                     validate={validateForgotPasswordForm}
-                    onSubmit={resetPass}
-                    successMessage=""
-                    errorMessage=""
-                    resetForm={false}
+                    onSubmit={forgotPass}
+                    successMessage="Forgot password email sent! Check your inbox/spam."
+                    errorMessage="Something went wrong, please contact us."
+                    resetForm={true}
                     formClasses="mx-container "
                     inputFeedbackClasses="mt-1 pl-6 mb-[-0.5rem] leading-relaxed text-s "
                     customButton={

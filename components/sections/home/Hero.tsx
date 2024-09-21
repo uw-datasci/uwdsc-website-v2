@@ -11,7 +11,7 @@ import { logout } from "@/store/slices/loginTokenSlice";
 
 export default function Hero() {
   const dispatch = useDispatch();
-  const signedIn = useSelector((state: RootState) => state.loginToken.id);
+  const signedIn = useSelector((state: RootState) => state.loginToken.name);
 
   return (
     <section className="mb-section mx-container mt-14 grid gap-16 lg:mt-24 lg:grid-cols-[minmax(0,5fr)_minmax(0,3fr)] ">
@@ -61,6 +61,7 @@ export default function Hero() {
                 text="sm:text-lg 2xl:text-xl"
                 padding="py-3 sm:px-7 sm:py-4"
                 rounded="rounded-lg"
+                classes="hidden lg:block"
               >
                 QR Code
               </Button>

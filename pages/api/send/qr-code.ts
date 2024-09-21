@@ -1,29 +1,24 @@
 import { type NextApiRequest, type NextApiResponse } from "next";
-import { useSelector } from "react-redux/es/hooks/useSelector";
-import { RootState } from "@/store/store";
 import axios from "axios";
 
 require('dotenv').config()
-
-const token = useSelector((state: RootState) => state.loginToken.token);
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
   try {
-    const {whatever_info_you_need} = req.body; //Info passed from moment of request
+    const {token} = req.body;
     const response = await axios({
-      url: process.env.NEXT_PUBLIC_UWDSC_WEBSITE_SERVER_URL + '/api/users/', //Add your API endpoint here (should be under users)
-      method: "POST",
+      url: process.env.NEXT_PUBLIC_UWDSC_WEBSITE_SERVER_URL + '/api/users/getQr', 
+      method: "GET",
       headers: {
-        "Content-Type": "application/json" //Might want to change for .png
-      },
-      // If you need to pass body data
-      //data:
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json"
+      }
     }); 
 
-    res.status(200).json({ success: true, accessToken: response.data.accessToken });
+    res.status(200).json({ success: true, id: response.data.id, event: response.data.eventName });
   } catch (error:any) {
     console.error(error.response.data.message);
 

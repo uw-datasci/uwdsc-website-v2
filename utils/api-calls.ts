@@ -22,6 +22,33 @@ export const sendSignInInfo = async (values: Record<string, string>) => {
   }
 }
 
+export const sendVerificationInfo = async (values: Record<string, string>) => {
+  try {
+    const response = await axios.post("/api/send/verify-user", values);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export const sendForgotPassRequest = async (values: Record<string, string>) => {
+  try {
+    const response = await axios.post("/api/send/forgot-pass", values);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export const sendResetPassRequest = async (values: Record<string, string>) => {
+  try {
+    const response = await axios.post("/api/send/reset-pass", values);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
 export const getQrCode = async (values: Record<string, string>) => {
   try {
     const response = await axios.post("/api/send/qr-code", values);

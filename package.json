@@ -15,14 +15,17 @@
     "@types/react": "18.2.18",
     "@types/react-dom": "18.2.7",
     "autoprefixer": "10.4.14",
-    "axios": "^1.4.0",
+    "axios": "^1.7.7",
+    "babel": "^6.23.0",
+    "braces": "^3.0.3",
     "dotenv": "^16.4.5",
     "eslint": "8.46.0",
     "eslint-config-next": "13.4.12",
     "formik": "^2.4.3",
     "heroicons": "^2.1.1",
-    "next": "13.4.12",
+    "next": "^13.4.12",
     "postcss": "8.4.27",
+    "qrcode": "^1.5.4",
     "react": "^18.2.0",
     "react-animate-height": "^3.2.2",
     "react-dom": "^18.2.0",
@@ -39,6 +42,7 @@
     "yet-another-react-lightbox": "^3.16.0"
   },
   "devDependencies": {
+    "@types/qrcode": "^1.5.5",
     "prettier": "^3.0.1",
     "prettier-plugin-tailwindcss": "^0.4.1"
   }

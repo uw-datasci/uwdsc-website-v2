@@ -42,6 +42,7 @@ export default function SignUpPage() {
 
   const part2SuccessCallback = () => {
     part1Formik.resetForm();
+    setPanelIndex(2);
   }
 
   return (
@@ -85,8 +86,8 @@ export default function SignUpPage() {
                           Sign Up!
                         </Button>
                         <p className="text-s text-grey3 p-2 hover:underline cursor-pointer" onClick={()=>{
-                          dispatch(signUpMoveDown());  // hide sign-up
-                          dispatch(signInMoveUp());   // show sign-in
+                          dispatch(signUpMoveDown());  {/*hide sign-up*/}
+                          dispatch(signInMoveUp());   {/*show sign-in*/}
                         }}>Already a member? Sign in here.</p>
                       </>
                     }
@@ -137,95 +138,14 @@ export default function SignUpPage() {
                 </div>
               </div>
             </div>
+          </>,
+          <>
+            <div className="w-full flex flex-col lg:flex-row overflow-auto no-scrollbar lg:overflow-hidden">
+              {/*Resend verification page here*/}
+              <p className="text-s text-grey3 p-2 hover:underline cursor-pointer" onClick={()=>{setPanelIndex(0)}}>Go back</p>
+            </div>
           </>
         ]}
     />
   );
 }
-
-// <div className="w-full flex flex-col lg:flex-row overflow-auto no-scrollbar lg:overflow-hidden">  
-//                 <div className="w-full h-fit border-r lg:border-grey3 lg:p-8 lg:my-auto">
-//                   <Logo classes="3xs:hidden lg:block lg:min-w-[70px] w-[30%]"/>
-//                   <h1 className={headings}>Join Us !</h1>
-//                   <p className={subTexts}>Become a part of a growing community of data science enthusiasts and participate in engaging discussions, hands-on projects, and networking opportunities.</p>
-//                 </div>
-//                 <div className="w-full max-h-full py-10 lg:p-8 flex flex-col justify-center lg:overflow-auto">
-//                   <div className="w-full">
-//                     <ContactForm
-//                       title=""
-//                       id=""
-//                       getFormik={getFormik}
-//                       includeSideInfo={false}
-//                       description={<></>}
-//                       fields={SIGN_UP_FORM_FIELDS_PART1}
-//                       validate={validateSignUpFormPart1}
-//                       onSubmit={updatePart1Field}
-//                       successMessage=""
-//                       errorMessage=""
-//                       resetForm={false}
-//                       formClasses="mx-container "
-//                       inputFeedbackClasses="mt-1 pl-6 mb-[-0.5rem] leading-relaxed text-s "
-//                       customButton={
-//                         <>
-//                           <Button
-//                             type="submit"
-//                             hierarchy="primary"
-//                             font="font-bold"
-//                             text="lg:text-lg"
-//                             padding="py-3 sm:px-7"
-//                             rounded="rounded-lg"
-//                             classes="w-full"
-//                           >
-//                             Sign Up!
-//                           </Button>
-//                           <p className="text-s text-grey3 p-2 hover:underline cursor-pointer" onClick={()=>{
-//                             dispatch(signUpMoveDown());  // hide sign-up
-//                             dispatch(signInMoveUp());   // show sign-in
-//                           }}>Already a member? Sign in here.</p>
-//                         </>
-//                       }
-//                     />
-//                   </div>
-//                 </div>
-//               </div>
-              // <div className="w-full flex flex-col lg:flex-row overflow-auto no-scrollbar lg:overflow-hidden">  
-              //   <div className="w-full h-fit border-r lg:border-grey3 lg:p-8 lg:my-auto" >
-              //     <h1 className={headings}>Almost There !</h1>
-              //     <p className={subTexts}>Once you have submitted, you should receive a confirmation email to your uwaterloo email account.<br/><br/>And after all that hard work ... <br/> Welcome to the club !</p>
-              //   </div>
-              //   <div className="w-full max-h-full py-10 lg:p-8 flex flex-col justify-center lg:overflow-auto" >
-              //     <div className="w-full">
-              //       <ContactForm
-              //           title=""
-              //           id=""
-              //           includeSideInfo={false}
-              //           description={<></>}
-              //           fields={SIGN_UP_FORM_FIELDS_PART2}
-              //           validate={validateSignUpFormPart2}
-              //           onSubmit={updatePart2Field}
-              //           errorMessage="Something went wrong. Please let us know and try again later."
-              //           successMessage="Successfully registered. Check your email!"
-              //           successCallback={part2SuccessCallback}
-              //           resetForm={true}
-              //           formClasses="mx-container "
-              //           inputFeedbackClasses="mt-1 pl-1 leading-relaxed text-s "
-              //           customButton={
-              //             <>
-              //               <Button
-              //                 type="submit"
-              //                 hierarchy="primary"
-              //                 font="font-bold"
-              //                 text="lg:text-lg"
-              //                 padding="py-3 sm:px-7"
-              //                 rounded="rounded-lg"
-              //                 classes="w-full"
-              //               >
-              //                 Submit
-              //               </Button>
-              //               <p className="text-s text-grey3 p-2 hover:underline cursor-pointer" onClick={()=>{setSignUpPart2(!setSignUpPart2)}}>Go back</p>
-              //             </>
-              //           }
-              //         />
-              //     </div>
-              //   </div>
-              // </div>
