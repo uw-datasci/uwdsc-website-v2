@@ -163,7 +163,7 @@ const QrScannerPage = () => {
                   Re Scan
                 </Button>
               </GradientBorder>
-                {userInfo.isCheckedIn? <></> :
+                {userInfo.isCheckedIn || !userInfo.hasPaid? <></> :
                   <GradientBorder
                     rounded="rounded-lg"
                     classes="w-auto inline-block items-center"
