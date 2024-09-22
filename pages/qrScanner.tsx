@@ -69,9 +69,14 @@ const qrScanner = () => {
       id: userInfo.id,
       token: token,
       eventName: userInfo.event,
-    });
-    alert("Logged In Successfully");
-    console.log(response.data.success);
+    }).catch((err) => {
+      console.log(err)
+      alert(err.response.data.message);
+    })
+
+    if (response && response.data.success) {
+      alert("User is checked in !");
+    }
   };
 
   // Fail
@@ -158,24 +163,26 @@ const qrScanner = () => {
                   Re Scan
                 </Button>
               </GradientBorder>
-              <GradientBorder
-                rounded="rounded-lg"
-                classes="w-auto inline-block items-center"
-              >
-                <Button
-                  type="submit"
-                  hierarchy="secondary"
-                  font="font-bold"
-                  text="sm:text-lg 2xl:text-xl"
-                  padding="py-3 sm:px-7 sm:py-4"
-                  rounded="rounded-[15px]"
-                  onClick={() => {
-                    checkIn();
-                  }}
-                >
-                  Check In
-                </Button>
-              </GradientBorder>
+                {userInfo.isCheckedIn? <></> :
+                  <GradientBorder
+                    rounded="rounded-lg"
+                    classes="w-auto inline-block items-center"
+                  >
+                    <Button
+                      type="submit"
+                      hierarchy="secondary"
+                      font="font-bold"
+                      text="sm:text-lg 2xl:text-xl"
+                      padding="py-3 sm:px-7 sm:py-4"
+                      rounded="rounded-[15px]"
+                      onClick={() => {
+                        checkIn();
+                      }}
+                    >
+                      Check In
+                    </Button>
+                  </GradientBorder> 
+                }
             </div>
           </div>
         )}
