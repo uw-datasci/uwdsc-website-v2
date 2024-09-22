@@ -86,6 +86,7 @@ export default function ContactForm({
         resetForm ? formik.resetForm(): null;
         successCallback ? successCallback(): null;
         setSuccess(true);
+        setError(false);
       } catch (error: any) {
         console.error(error);
 
@@ -95,6 +96,7 @@ export default function ContactForm({
         } else {
           setErrorMessageOveride("");
         }
+        setSuccess(false);
         setError(true);
       } finally {
         setLoading(false);
