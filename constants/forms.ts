@@ -145,4 +145,10 @@ export const RESET_PASSWORD_FORM_FIELDS: ContactField[] = [
     type: "input",
     placeholder: "A new DSC account password (ex. R4nd0M_f0R3sT)",
   },
+  {
+    id: "confrimPass",
+    name: "confirmPass",
+    type: "input",
+    placeholder: "The same password as above (ex. R4nd0M_f0R3sT)",
+  },
 ];
