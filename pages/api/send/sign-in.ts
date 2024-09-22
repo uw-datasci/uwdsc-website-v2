@@ -16,7 +16,7 @@ export default async function handler(
         "Content-Type": "application/json"
       },
       data: JSON.stringify({
-        email: email,
+        email: email.toLowerCase(),
         password: password,
       })
     }); 

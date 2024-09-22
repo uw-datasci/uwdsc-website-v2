@@ -19,9 +19,9 @@ export default async function handler(
       },
       data: JSON.stringify({
         username: name,
-        email: email,
+        email: email.toLowerCase(),
         password: password,
-        watIAM: WatIAM,
+        watIAM: WatIAM.toLowerCase(),
         faculty: faculty,
         term: term,
         heardFromWhere: advert,
