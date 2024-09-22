@@ -106,5 +106,9 @@ export const validateResetPasswordForm = (values: Record<string, string>) => {
     errors.newPass = "Your password needs to be at least 8 characters long.";
   }
 
+  if (values.newPass != values.confirmPass) {
+    errors.confirmPass = "Your passwords do not match";
+  }
+
   return errors;
 };
