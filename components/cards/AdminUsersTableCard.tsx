@@ -52,6 +52,7 @@ export default function AdminUserTable({ users, token, onAction }: AdminUserTabl
                 },
                 body: JSON.stringify({
                     email: newUser.email,
+                    password: newUser.password,
                     userStatus: newUser.userStatus,
                     isEmailVerified: (newUser.isEmailVerified == "True"? true : false),
                     hasPaid: (newUser.hasPaid == "True"? true : false),    
@@ -98,7 +99,7 @@ export default function AdminUserTable({ users, token, onAction }: AdminUserTabl
 
     return (
         <>
-            <div className="overflow-x-auto mx-auto px-4 max-w-screen-xxl">
+            <div className="overflow-x-auto mx-auto min-w-[110%]">
                 <table className="min-w-full divide-y divide-gray-200 mx-auto">
                     <thead>
                         <tr>
@@ -133,7 +134,7 @@ export default function AdminUserTable({ users, token, onAction }: AdminUserTabl
                                         <input
                                             type="text"
                                             name="password"
-                                            value={""}
+                                            value={editFormData?.password || ""}
                                             onChange={handleInputChange}
                                             className="w-full border border-gray-300 rounded input-fixed-width"
                                         />
@@ -143,13 +144,15 @@ export default function AdminUserTable({ users, token, onAction }: AdminUserTabl
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 fixed-width">
                                     {editingUserId === user._id ? (
-                                        <input
-                                            type="text"
+                                        <select
                                             name="userStatus"
                                             value={editFormData?.userStatus || ""}
                                             onChange={handleInputChange}
                                             className="w-full border border-gray-300 rounded input-fixed-width"
-                                        />
+                                        >
+                                            <option value="admin">admin</option>
+                                            <option value="member">member</option>
+                                        </select>
                                     ) : (
                                         user.userStatus
                                     )}
@@ -192,6 +195,7 @@ export default function AdminUserTable({ users, token, onAction }: AdminUserTabl
                                             onChange={handleInputChange}
                                             className="w-full border border-gray-300 rounded"
                                         >
+                                            <option value="">N/A</option>
                                             <option value="Cash">Cash</option>
                                             <option value="Online">Online</option>
                                             <option value="MathSoc">MathSoc</option>

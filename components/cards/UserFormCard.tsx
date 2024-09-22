@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, ChangeEvent } from 'react';
 import Button from '@/components/UI/Button';
 import Dropdown from '@/components/UI/Dropdown';
 import { User } from '@/types/types';
@@ -10,39 +10,25 @@ type UserFormProps = {
 };
 
 export default function UserFormCard({ initialUserData, onFormSubmit, onCancel }: UserFormProps) {
-    const [_id, setUserId] = useState('');
-    const [username, setUsername] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [userStatus, setUserStatus] = useState("member");
-    const [hasPaid, setHasPaid] = useState('');
-    const [paymentMethod, setPaymentMethod] = useState('');
-    const [paymentLocation, setPaymentLocation] = useState('');
-    const [verifier, setVerifier] = useState('');
-    const [isEmailVerified, setIsEmailVerified] = useState('');
+    const [newUser, setNewUser] = useState<User | null>(null);
 
     const resetValues = () => {
         if (initialUserData) {
-            setUserId(initialUserData._id)
-            setUsername(initialUserData.username);
-            setEmail(initialUserData.email);
-            setPassword(initialUserData.password);
-            setUserStatus(initialUserData.userStatus);
-            setHasPaid(initialUserData.hasPaid);
-            setPaymentMethod(initialUserData.paymentMethod);
-            setPaymentLocation(initialUserData.paymentLocation);
-            setVerifier(initialUserData.verifier);
-            setIsEmailVerified(initialUserData.isEmailVerified);
-
+            setNewUser(initialUserData);
         } else {
-            setUsername('');
-            setEmail('');
-            setPassword('');
-            setUserStatus("member");
-            setHasPaid('');
-            setPaymentMethod('');
-            setPaymentLocation('');
-            setVerifier('');
+            setNewUser({
+                _id: "",
+                watIAM: "",
+                username: "",
+                email: "",
+                password: "",
+                userStatus: "",
+                isEmailVerified: "",
+                hasPaid: "",
+                paymentMethod: "",
+                verifier: "",
+                paymentLocation: ""
+            })
         }
 
     }
@@ -51,26 +37,19 @@ export default function UserFormCard({ initialUserData, onFormSubmit, onCancel }
         resetValues();
     }, [initialUserData]);
 
-    const handleUserStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        setUserStatus(e.target.value);
-    };
-    const handleHasPaidChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        setHasPaid(e.target.value);
-    };
-    const handlePaymentMethodChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        setPaymentMethod(e.target.value);
-    };
-    const handleIsEmailVerifiedChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        setPaymentMethod(e.target.value);
+    const handleInputChange = (e: ChangeEvent<any>) => {
+        const { name, value } = e.target;
+        setNewUser((prevData) => (prevData ? { ...prevData, [name]: value } : null));
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-
-        const newUser: User = { _id, username, email, password, userStatus, paymentMethod, hasPaid, paymentLocation, verifier, isEmailVerified };
-        console.log('Form Submitted', newUser);
-        onFormSubmit(newUser);
-        resetValues();
+        if (newUser) {
+            onFormSubmit(newUser);
+            resetValues();
+        } else {
+            console.log("error creating user");
+        }
     };
 
     return (
@@ -81,9 +60,23 @@ export default function UserFormCard({ initialUserData, onFormSubmit, onCancel }
                         <p className="font-medium text-grey2 xl:text-lg">Username</p>
                         <input
                             type="text"
+                            name="username"
                             placeholder="Username"
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
+                            value={newUser?.username || ""}
+                            onChange={handleInputChange}
+                            className="input w-full"
+                            required
+                            autoComplete="off"
+                        />
+                    </div>
+                    <div className="flex flex-col mb-4 w-full">
+                        <p className="font-medium text-grey2 xl:text-lg">WatIAM</p>
+                        <input
+                            type="text"
+                            name="watIAM"
+                            placeholder="watIAM"
+                            value={newUser?.watIAM || ""}
+                            onChange={handleInputChange}
                             className="input w-full"
                             required
                             autoComplete="off"
@@ -93,9 +86,10 @@ export default function UserFormCard({ initialUserData, onFormSubmit, onCancel }
                         <p className="font-medium text-grey2 xl:text-lg">Email</p>
                         <input
                             type="email"
+                            name="email"
                             placeholder="Email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
+                            value={newUser?.email || ""}
+                            onChange={handleInputChange}
                             className="input w-full"
                             required
                             autoComplete="off"
@@ -105,9 +99,10 @@ export default function UserFormCard({ initialUserData, onFormSubmit, onCancel }
                         <p className="font-medium text-grey2 xl:text-lg">Password</p>
                         <input
                             type="password"
+                            name="password"
                             placeholder="Password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
+                            value={newUser?.password || ""}
+                            onChange={handleInputChange}
                             className="input w-full"
                             required
                             autoComplete="off"
@@ -120,8 +115,8 @@ export default function UserFormCard({ initialUserData, onFormSubmit, onCancel }
                             name="userStatus"
                             placeholder="Select User Status"
                             options={['Member', 'Admin']}
-                            value={userStatus}
-                            onChange={handleUserStatusChange}
+                            value={newUser?.userStatus || ""}
+                            onChange={handleInputChange}
                             classes="w-full"
                         />
                     </div>
@@ -132,8 +127,8 @@ export default function UserFormCard({ initialUserData, onFormSubmit, onCancel }
                             name="hasPaid"
                             placeholder="Select"
                             options={['True', 'False']}
-                            value={hasPaid}
-                            onChange={handleHasPaidChange}
+                            value={newUser?.hasPaid || ""}
+                            onChange={handleInputChange}
                             classes="w-full"
                         />
                     </div>
@@ -144,30 +139,32 @@ export default function UserFormCard({ initialUserData, onFormSubmit, onCancel }
                             name="paymentMethod"
                             placeholder="Select"
                             options={['Cash', 'Online', 'MathSoc']}
-                            value={paymentMethod}
-                            onChange={handlePaymentMethodChange}
+                            value={newUser?.paymentMethod || ""}
+                            onChange={handleInputChange}
                             classes="w-full"
-                        />
-                    </div>
-                    <div className="flex flex-col mb-4 w-full">
-                        <p className="font-medium text-grey2 xl:text-lg">Payment Type</p>
-                        <input
-                            type="text"
-                            placeholder="Select"
-                            value={paymentLocation}
-                            onChange={(e) => setPaymentLocation(e.target.value)}
-                            className="input w-full"
-                            required
-                            autoComplete="off"
                         />
                     </div>
                     <div className="flex flex-col mb-4 w-full">
                         <p className="font-medium text-grey2 xl:text-lg">Verified By</p>
                         <input
                             type="text"
+                            name="verifier"
                             placeholder="Verifier's Name"
-                            value={verifier}
-                            onChange={(e) => setVerifier(e.target.value)}
+                            value={newUser?.verifier || ""}
+                            onChange={handleInputChange}
+                            className="input w-full"
+                            required
+                            autoComplete="off"
+                        />
+                    </div>
+                    <div className="flex flex-col mb-4 w-full">
+                        <p className="font-medium text-grey2 xl:text-lg">Payment Location</p>
+                        <input
+                            type="text"
+                            name="paymentLocation"
+                            placeholder="Select"
+                            value={newUser?.paymentLocation || ""}
+                            onChange={handleInputChange}
                             className="input w-full"
                             required
                             autoComplete="off"
@@ -180,8 +177,8 @@ export default function UserFormCard({ initialUserData, onFormSubmit, onCancel }
                             name="isEmailVerified"
                             placeholder="Select"
                             options={['True', 'False']}
-                            value={isEmailVerified}
-                            onChange={handleIsEmailVerifiedChange}
+                            value={newUser?.isEmailVerified || ""}
+                            onChange={handleInputChange}
                             classes="w-full"
                         />
                     </div>

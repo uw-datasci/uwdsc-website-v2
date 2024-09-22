@@ -95,6 +95,7 @@ export type Sponsor = {
 
 export type User = {
   _id: string;
+  watIAM: string;
   username: string;
   email: string;
   password: string;

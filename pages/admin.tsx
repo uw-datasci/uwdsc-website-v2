@@ -3,8 +3,9 @@ import Button from "@/components/UI/Button";
 import AdminUsersTableCard from "@/components/cards/AdminUsersTableCard";
 import UserFormCard from "@/components/cards/UserFormCard";
 import { type User } from "@/types/types";
+import Fuse from "fuse.js"
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, ChangeEvent} from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store"; 
 
@@ -13,10 +14,10 @@ require('dotenv').config()
 
 export default function Admin() {
     const [users, setUsers] = useState<User[]>([]);
+    const [result, setResult] = useState<User[]>([]);
     const [showAddUserForm, setShowAddUserForm] = useState(false);
-    const [showSearchUserForm, setShowSearchUserForm] = useState(false);
-    const [searchEmail, setSearchEmail] = useState('');
-    const [showResetSearch, setShowResetSearch] = useState(false);
+    const [searchEmail, setSearchEmail] = useState("");
+    const fuse = new Fuse(users, {keys: ["email", "username"]});
 
     // to test this separately, run a sign-in call manually and copy the token here
     const token = useSelector((state: RootState) => state.loginToken.token);
@@ -36,13 +37,18 @@ export default function Admin() {
                 },
                 body: JSON.stringify({
                     username: newUser.username,
+                    watIAM: newUser.watIAM,
                     email: newUser.email,
                     password: newUser.password,
+                    term: "1A",
+                    faculty: "Math",
+                    heardFromWhere: "Placeholder",
                     userStatus: newUser.userStatus,
                     hasPaid: newUser.hasPaid,
                     paymentMethod: newUser.paymentMethod,
                     verifier: newUser.verifier,
-                    paymentLocation: newUser.paymentLocation
+                    paymentLocation: newUser.paymentLocation,
+                    isEmailVerified: newUser.isEmailVerified
                 })
             });
             
@@ -74,6 +80,7 @@ export default function Admin() {
             const data = await response.json();
             const mappedUsers: User[] = data.map((user: any) => ({
                 _id: user._id,
+                watIAM: user.watIAM,
                 username: user.username,
                 email: user.uwEmail,
                 userStatus: user.userStatus,
@@ -89,33 +96,30 @@ export default function Admin() {
         }
     };
 
-    const searchUserByEmail = async (event: React.FormEvent) => {
-        event.preventDefault();
-        try {
-            const response = await fetch(process.env.NEXT_PUBLIC_UWDSC_WEBSITE_SERVER_URL + `/api/admin/getUserByEmail/${searchEmail}`, {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
+    const searchUserByEmail = async (event: ChangeEvent<HTMLInputElement>) => {
+        setSearchEmail(event.target.value);
+        if (event.target.value) {
+            const searchResults = fuse.search(event.target.value).map(
+                (searchResult) => {
+                    const user:User = searchResult.item;
+                    return user;
                 }
-            });
-
-            if (!response.ok) {
-                throw new Error('Failed to create user');
-            }
-
-            const data = await response.json();
-            if (data) {
-                setUsers([data]);
-            } else {
-                setUsers([]);
-            }
-            setShowSearchUserForm(false);
-            setShowResetSearch(true);
-        } catch (error) {
-            console.log('Error creating user:', error);
+            );
+            setResult(searchResults);
+        } else {
+            setResult(users);
         }
     };
+
+    const refresh = async () => {
+        const searchResults = fuse.search(searchEmail).map(
+            (searchResult) => {
+                const user:User = searchResult.item;
+                return user;
+            }
+        );
+        setResult(searchResults);
+    }
 
     return (
         <>
@@ -123,14 +127,34 @@ export default function Admin() {
                 <h1 className="mb-14 text-center text-3xl font-bold text-white 3xs:text-6xl sm:text-8xl lg:text-10xl 2xl:text-12xl">
                     Admin
                 </h1>
-                <div className="grid gap-12">
+                <div className="flex flex-col overflow-visible gap-2">
                     <SectionTitle mb="mb-12">Memberships</SectionTitle>
+                    <Button
+                            type="button"
+                            onClick={refresh}
+                            hierarchy="primary"
+                            font="font-bold"
+                            text="sm:text-lg 2xl:text-xl"
+                            padding="py-3 sm:px-7 sm:py-4"
+                            rounded="rounded-lg"
+                        >
+                            Refresh
+                        </Button>
+                    <input
+                        type="text"
+                        placeholder="Email"
+                        value={searchEmail}
+                        onChange={e => searchUserByEmail(e)}
+                        className="input w-full"
+                        required
+                        autoComplete="off"
+                    />
                     {token && users.length > 0 && (
                         <div className="flex flex-wrap justify-center gap-8 3xs:gap-12 xl:gap-20">
-                            <AdminUsersTableCard users={users} token={token} onAction={fetchUsers} />
+                            <AdminUsersTableCard users={result} token={token} onAction={fetchUsers} />
                         </div>
                     )}
-                    <div className="flex flex-col gap-5 sm:flex-row sm:justify-center sm:gap-12">
+                    {/* {<div className="flex flex-col gap-5 sm:flex-row sm:justify-center sm:gap-12">
                         <Button
                             type="button"
                             onClick={() => setShowAddUserForm(true)}
@@ -142,62 +166,10 @@ export default function Admin() {
                         >
                             Add Membership
                         </Button>
-                    </div>
+                    </div>} */}
                     {showAddUserForm && (
                         <div className="flex justify-center">
                             <UserFormCard onFormSubmit={createUser} onCancel={() => setShowAddUserForm(false)} />
-                        </div>
-                    )}
-                    <div className="flex flex-col gap-5 sm:flex-row sm:justify-center sm:gap-12">
-                        <Button
-                            type="button"
-                            onClick={() => setShowSearchUserForm(true)}
-                            hierarchy="primary"
-                            font="font-bold"
-                            text="sm:text-lg 2xl:text-xl"
-                            padding="py-3 sm:px-7 sm:py-4"
-                            rounded="rounded-lg"
-                        >
-                            Search Member By Email
-                        </Button>
-                    </div>
-                    {showSearchUserForm && (
-                        <form onSubmit={searchUserByEmail} className="flex flex-col gap-4 sm:flex-row sm:justify-center sm:gap-12">
-                            <div className="flex flex-col mb-4 w-full">
-                                <p className="font-medium text-grey2 xl:text-lg">Email</p>
-                                <input
-                                    type="text"
-                                    placeholder="Email"
-                                    value={searchEmail}
-                                    onChange={(e) => setSearchEmail(e.target.value)}
-                                    className="input w-full"
-                                    required
-                                    autoComplete="off"
-                                />
-                            </div>
-                            <Button
-                                type="submit"
-                                hierarchy="primary"
-                                font="font-bold"
-                                text="sm:text-lg 2xl:text-xl"
-                                padding="py-3 sm:px-7 sm:py-4"
-                                rounded="rounded-lg">
-                                Search
-                            </Button>
-                        </form>
-                    )}
-                    {showResetSearch && (
-                        <div className="flex flex-col gap-5 sm:flex-row sm:justify-center sm:gap-12">
-                            <Button
-                                type="submit"
-                                hierarchy="primary"
-                                font="font-bold"
-                                text="sm:text-lg 2xl:text-xl"
-                                padding="py-3 sm:px-7 sm:py-4"
-                                rounded="rounded-lg"
-                                onClick={() => { fetchUsers(); setShowResetSearch(false) }}>
-                                Reset
-                            </Button>
                         </div>
                     )}
                 </div>
