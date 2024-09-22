@@ -2,7 +2,7 @@ import { sendVerificationInfo } from "@/utils/api-calls";
 import Button from "@/components/UI/Button";
 import { useState } from "react";
 
-export default function verification () {
+export default function Verification () {
   const [loading, setLoading] = useState(false);
   const [res, setRes] = useState("");
   const params = new URL(document.location.toString()).searchParams;

@@ -14,7 +14,7 @@ interface ScannedResult {
   event: string;
 }
 
-const qrScanner = () => {
+const QrScannerPage = () => {
   // QR States
   const scanner = useRef<QrScanner>();
   const videoEl = useRef<HTMLVideoElement>(null);
@@ -191,4 +191,4 @@ const qrScanner = () => {
   );
 };
 
-export default qrScanner;
+export default QrScannerPage;
