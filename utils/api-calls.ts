@@ -11,7 +11,7 @@ export const sendSponsorEmail = async (values: Record<string, string>) => {
 
 export const sendSignUpInfo = async (values: Record<string, string>) => {
   await axios.post("/api/send/sign-up", values);
-}
+};
 
 export const sendSignInInfo = async (values: Record<string, string>) => {
   try {
@@ -20,7 +20,7 @@ export const sendSignInInfo = async (values: Record<string, string>) => {
   } catch (error) {
     throw error;
   }
-}
+};
 
 export const sendVerificationInfo = async (values: Record<string, string>) => {
   try {
@@ -29,7 +29,7 @@ export const sendVerificationInfo = async (values: Record<string, string>) => {
   } catch (error) {
     throw error;
   }
-}
+};
 
 export const sendForgotPassRequest = async (values: Record<string, string>) => {
   try {
@@ -38,7 +38,7 @@ export const sendForgotPassRequest = async (values: Record<string, string>) => {
   } catch (error) {
     throw error;
   }
-}
+};
 
 export const sendResetPassRequest = async (values: Record<string, string>) => {
   try {
@@ -47,7 +47,7 @@ export const sendResetPassRequest = async (values: Record<string, string>) => {
   } catch (error) {
     throw error;
   }
-}
+};
 
 export const getQrCode = async (values: Record<string, string>) => {
   try {
@@ -56,7 +56,26 @@ export const getQrCode = async (values: Record<string, string>) => {
   } catch (error) {
     throw error;
   }
-}
+};
+
+export const getUserbyId = async (values: Record<string, string>) => {
+  try {
+    const response = await axios.post(`/api/send/get-user`, values);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const checkInById = async (values: Record<string, string>) => {
+  try {
+    const response = await axios.post(`/api/send/check-in`, values);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
 
 export const resendVerification = async (values: Record<string, string>) => {
   try {

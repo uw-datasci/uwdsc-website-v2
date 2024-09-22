@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { moveUp as signUpMoveUp } from "@/store/slices/signUpPageSlice";
 import { moveUp as signInMoveUp } from "@/store/slices/signInPageSlice";
@@ -11,11 +12,12 @@ import Button from "@/components/UI/Button";
 import GradientBorder from "@/components/UI/GradientBorder";
 import Logo from "@/components/UI/Logo";
 import { logout } from "@/store/slices/loginTokenSlice";
+import { unstable_renderSubtreeIntoContainer } from "react-dom";
 
 type nav_obj = {
   label: string;
   route: string;
-}
+};
 
 const DEFAULT_ROUTES = [
   {
@@ -60,26 +62,55 @@ export default function Navbar() {
   const [routes, setRoutes] = useState<nav_obj[]>(DEFAULT_ROUTES);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
   const signedIn = useSelector((state: RootState) => state.loginToken.name);
+  const router = useRouter();
 
   useEffect(() => {
     if (signedIn && routes.length == 4) {
-      setRoutes(routes.concat(
-        {
+      setRoutes(
+        routes.concat({
           label: "QR Code",
           route: "/qrPage",
-        })
-      )
-    } 
-    if (!signedIn && routes.length == 5){
-      setRoutes(routes.filter((nav) => {return nav.label != "QR Code"}))
+        }),
+      );
+    }
+
+    if (!signedIn && routes.length == 5) {
+      setRoutes(
+        routes.filter((nav) => {
+          return nav.label != "QR Code";
+        }),
+      );
+    }
+
+    if (
+      (router.pathname === "/admin" || router.pathname === "/qrScanner") &&
+      !routes.some((nav) => nav.label === "QR Scanner")
+    ) {
+      setRoutes(
+        routes.concat({
+          label: "QR Scanner",
+          route: "/qrScanner",
+        }),
+      );
+    }
+
+    if (
+      router.pathname !== "/admin" &&
+      routes.some((nav) => nav.label === "QR Scanner")
+    ) {
+      setRoutes(
+        routes.filter((nav) => {
+          return nav.label != "QR Scanner";
+        }),
+      );
     }
     console.log(routes);
-  }, [signedIn]); 
+  }, [signedIn, router.pathname]);
 
   return (
     <>
       <header className="mx-nav relative z-50 mt-8 flex items-center justify-between lg:mt-12">
-        <Logo classes="w-11.5 lg:w-13.5"/>
+        <Logo classes="w-11.5 lg:w-13.5" />
         <nav className="hidden gap-16 lg:flex">
           {routes.map((route) => {
             return (
@@ -111,54 +142,60 @@ export default function Navbar() {
           />
         </button>
 
-{/* ========= Login/Signup ========= */}
+        {/* ========= Login/Signup ========= */}
 
         <div className="hidden lg:flex lg:gap-4">
-        {!signedIn ? 
-          <>
-            <GradientBorder rounded="rounded-lg">
+          {!signedIn ? (
+            <>
+              <GradientBorder rounded="rounded-lg">
+                <Button
+                  type="button"
+                  hierarchy="secondary"
+                  font="font-bold"
+                  rounded="rounded-[15px]"
+                  classes="lg:block"
+                  onClick={() => {
+                    dispatch(signInMoveUp());
+                  }}
+                >
+                  Log in
+                </Button>
+              </GradientBorder>
               <Button
                 type="button"
-                hierarchy="secondary"
+                hierarchy="primary"
                 font="font-bold"
-                rounded="rounded-[15px]"
+                rounded="rounded-md"
                 classes="lg:block"
-                onClick={() => { dispatch(signInMoveUp()) }}
+                onClick={() => {
+                  dispatch(signUpMoveUp());
+                }}
               >
-                Log in
+                Join Us
               </Button>
-            </GradientBorder>
-            <Button
-              type="button"
-              hierarchy="primary"
-              font="font-bold"
-              rounded="rounded-md"
-              classes="lg:block"
-              onClick={() => { dispatch(signUpMoveUp()) }}
-            >
-              Join Us
-            </Button>
-          </>
-        :
-          <>
-            <p className="text-s text-grey3 p-2">Logged in as <b>{signedIn}</b></p>
-            <GradientBorder rounded="rounded-lg">
-              <Button
-                type="button"
-                hierarchy="secondary"
-                font="font-bold"
-                rounded="rounded-[15px]"
-                classes="lg:block"
-                onClick={() => { dispatch(logout()) }}
-              >
-                Log out
-              </Button>
-            </GradientBorder>
-          </>
-        }
+            </>
+          ) : (
+            <>
+              <p className="text-s p-2 text-grey3">
+                Logged in as <b>{signedIn}</b>
+              </p>
+              <GradientBorder rounded="rounded-lg">
+                <Button
+                  type="button"
+                  hierarchy="secondary"
+                  font="font-bold"
+                  rounded="rounded-[15px]"
+                  classes="lg:block"
+                  onClick={() => {
+                    dispatch(logout());
+                  }}
+                >
+                  Log out
+                </Button>
+              </GradientBorder>
+            </>
+          )}
         </div>
-
-
       </header>
       <div
         className={`transition-300 fixed inset-0 z-40 bg-black lg:hidden ${
