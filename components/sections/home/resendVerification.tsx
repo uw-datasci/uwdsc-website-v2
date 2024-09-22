@@ -13,7 +13,7 @@ export default function ResendVerificationPage({ email, setPanelIndex } : resend
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const dispatch = useDispatch();
   const headings = "mt-0 text-2xl text-center font-bold text-white 3xs:text-3xl 2xs:text-4xl xs:text-5xl sm:text-6xl md:text-7xl lg:mt-10 lg:mx-0 lg:mb-7 lg:max-w-[500px] lg:text-6xl xl:max-w-[540px] xl:text-9xl 2xl:max-w-[580px] 2xl:text-11xl 3xl:max-w-none 3xl:text-13xl";
-  const subTexts = "mt-2 text-center leading-loose text-white  sm:text-lg lg:mx-0 lg:mb-14  lg:text-md xl:text-lg 2xl:text-xl";
+  const subTexts = "mt-2 text-center leading-loose text-white  sm:text-lg lg:mx-0 lg:text-md xl:text-lg 2xl:text-xl";
   const [seconds, setSeconds] = useState(60);
   const [isActive, setIsActive] = useState(true);
 
