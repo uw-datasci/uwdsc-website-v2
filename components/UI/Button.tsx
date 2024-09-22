@@ -48,13 +48,13 @@ export default function Button({
   switch (type) {
     case "button":
       return (
-        <button type="button" onClick={onClick} className={`${classes}`}>
+        <button type="button" onClick={disabled? ()=>{} : onClick} className={`${classes}`}>
           {children}
         </button>
       );
     case "submit":
       return (
-        <button type="submit" onClick={onClick} className={`${classes}`}>
+        <button type="submit" onClick={disabled? ()=>{} : onClick} className={`${classes}`}>
           {children}
         </button>
       );

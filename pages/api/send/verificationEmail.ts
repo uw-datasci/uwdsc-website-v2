@@ -7,7 +7,7 @@ export default async function handler(
 ) {
   try {
     const {email} = req.body;
-    const response = await axios({
+    await axios({
       url: process.env.NEXT_PUBLIC_UWDSC_WEBSITE_SERVER_URL + '/api/resend-verification/',
       method: "POST",
       headers: {
@@ -17,7 +17,7 @@ export default async function handler(
         email: email
       })
     }); 
-    res.status(200).json({ success: true, response });
+    res.status(200).json({ success: true });
   } catch (error) {
     console.error(error);
     res.status(500).json({ success: false, customErrorMessage: false, error });
