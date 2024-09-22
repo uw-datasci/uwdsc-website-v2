@@ -57,3 +57,12 @@ export const getQrCode = async (values: Record<string, string>) => {
     throw error;
   }
 }
+
+export const resendVerification = async (values: Record<string, string>) => {
+  try {
+    const response = await axios.post("/api/send/verificationEmail", values);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}

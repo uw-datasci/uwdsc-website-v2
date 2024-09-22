@@ -15,10 +15,12 @@ import ContactForm from "../templates/ContactForm";
 import { SIGN_UP_FORM_FIELDS_PART1, SIGN_UP_FORM_FIELDS_PART2 } from "@/constants/forms";
 import { validateSignUpFormPart1, validateSignUpFormPart2 } from "@/utils/formValidation";
 import { sendSignUpInfo } from "@/utils/api-calls";
+import ResendVerificationPage from "./resendVerification"; 
 
 export default function SignUpPage() {
   const [panelIndex, setPanelIndex] = useState<number>(0);
   const [fields, setFields] = useState<Record<string,string>|null>(null);
+  const [email, setEmail] = useState<string>("");
   const signUpPage = useSelector((state: RootState) => state.signUpPage.value);
   const dispatch = useDispatch();
   const headings = "mt-0 text-2xl font-bold text-white 3xs:text-3xl 2xs:text-4xl xs:text-5xl sm:text-6xl md:text-7xl lg:mt-10 lg:mx-0 lg:mb-7 lg:max-w-[500px] 3xs:text-center lg:text-left lg:text-6xl xl:max-w-[540px] xl:text-9xl 2xl:max-w-[580px] 2xl:text-11xl 3xl:max-w-none 3xl:text-13xl";
@@ -28,6 +30,7 @@ export default function SignUpPage() {
 
   const updatePart1Field = async (values: Record<string, string>) => {
     setFields({...values});
+    setEmail(values.email);
     setPanelIndex(1);
   }
 
@@ -139,12 +142,12 @@ export default function SignUpPage() {
               </div>
             </div>
           </>,
-          <>
-            <div className="w-full flex flex-col lg:flex-row overflow-auto no-scrollbar lg:overflow-hidden">
-              {/*Resend verification page here*/}
-              <p className="text-s text-grey3 p-2 hover:underline cursor-pointer" onClick={()=>{setPanelIndex(0)}}>Go back</p>
-            </div>
-          </>
+         <>
+         <div className="w-full overflow-auto no-scrollbar lg:overflow-hidden">
+           <ResendVerificationPage email={email} setPanelIndex={setPanelIndex}/>
+         </div>
+       </>
+       
         ]}
     />
   );
