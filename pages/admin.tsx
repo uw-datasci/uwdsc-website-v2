@@ -112,13 +112,18 @@ export default function Admin() {
     };
 
     const refresh = async () => {
+        fetchUsers();
         const searchResults = fuse.search(searchEmail).map(
             (searchResult) => {
                 const user:User = searchResult.item;
                 return user;
             }
         );
-        setResult(searchResults);
+        if (searchResults.length != 0) {
+            setResult(searchResults);
+        } else {
+            setResult(users);
+        }
     }
 
     return (
