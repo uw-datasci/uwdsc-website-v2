@@ -1,7 +1,8 @@
 import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
-import { moveUp } from "@/store/slices/signUpPageSlice";
+import { moveUp as moveUpSignUp } from "@/store/slices/signUpPageSlice";
+import { moveUp as moveUpSignIn} from "@/store/slices/signInPageSlice";
 
 import Button from "@/components/UI/Button";
 import GradientBorder from "@/components/UI/GradientBorder";
@@ -34,9 +35,22 @@ export default function Hero() {
                 text="sm:text-lg 2xl:text-xl"
                 padding="py-3 sm:px-7 sm:py-4"
                 rounded="rounded-lg"
-                onClick={() => {dispatch(moveUp())}}
+                classes="hidden lg:block"
+                onClick={() => {dispatch(moveUpSignUp())}}
               >
                 Join Us
+              </Button>
+              <Button
+                type="button"
+                hierarchy="primary"
+                font="font-bold"
+                text="sm:text-lg 2xl:text-xl"
+                padding="py-3 sm:px-7 sm:py-4"
+                rounded="rounded-lg"
+                classes="lg:hidden"
+                onClick={() => {dispatch(moveUpSignIn())}}
+              >
+                Log in
               </Button>
             </>
           : <>

@@ -54,7 +54,7 @@ export default function ResendVerificationPage({ email, setPanelIndex } : resend
   return (
     <div className="flex flex-col items-center justify-center h-full">
       <h1 className={headings}>Verification email sent to : <u>{email}</u></h1>
-      <p className={subTexts}>It usually takes about 30 seconds to arrive, please be sure to check your spam !<br/>You may try again in {seconds} seconds:</p>
+      <p className={subTexts}>It usually takes about 1-2 minutes to arrive, please be sure to check your spam !<br/>You may try again in {seconds} seconds:</p>
       
       <Button
         onClick={handleResend}
