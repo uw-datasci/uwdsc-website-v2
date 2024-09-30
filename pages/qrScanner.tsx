@@ -8,6 +8,7 @@ import { checkInById, getUserbyId } from "@/utils/api-calls";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import UserCheckInCard from "@/components/cards/UserCheckInDetails";
+import { AxiosError, isAxiosError } from "axios";
 
 interface ScannedResult {
   id: string;
@@ -45,18 +46,22 @@ const QrScannerPage = () => {
     const data: ScannedResult = JSON.parse(result?.data);
     const id = data.id;
     const event = data.event;
-    const response = await getUserbyId({ id: id, token: token });
-    const { username, uwEmail, faculty, hasPaid, isCheckedIn } = response.data;
-    setUserInfo({
-      id,
-      event,
-      username,
-      uwEmail,
-      faculty,
-      hasPaid,
-      isCheckedIn,
-    });
-    console.log({ id, username, uwEmail, faculty, hasPaid, isCheckedIn });
+    try {
+      const response = await getUserbyId({ id: id, token: token });
+      const { username, uwEmail, faculty, hasPaid, isCheckedIn } = response.data;
+      setUserInfo({
+        id,
+        event,
+        username,
+        uwEmail,
+        faculty,
+        hasPaid,
+        isCheckedIn,
+      });
+      console.log({ id, username, uwEmail, faculty, hasPaid, isCheckedIn });
+    } catch (err : any | AxiosError) {
+      alert("Scan failed, you are not authorized");
+    }
   };
 
   const reScan = () => {

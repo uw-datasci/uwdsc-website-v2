@@ -21,6 +21,7 @@ export default function Admin() {
 
     // to test this separately, run a sign-in call manually and copy the token here
     const token = useSelector((state: RootState) => state.loginToken.token);
+    const name = useSelector((state: RootState) => state.loginToken.name);
 
     useEffect(() => {
         fetchUsers();
@@ -85,9 +86,9 @@ export default function Admin() {
                 email: user.uwEmail,
                 userStatus: user.userStatus,
                 hasPaid: (user.hasPaid? "True" : "False"),
-                paymentMethod: user.paymentMethod,
-                verifier: user.verifier,
-                paymentLocation: user.paymentLocation,
+                paymentMethod: (user.paymentMethod? user.paymentMethod : ""),
+                verifier: (user.verifier? user.verifier : ""),
+                paymentLocation: (user.paymentLocation? user.paymentLocation : ""),
                 isEmailVerified: (user.isEmailVerified? "True" : "False")
             }));
             setUsers(mappedUsers);
@@ -156,7 +157,7 @@ export default function Admin() {
                     />
                     {token && users.length > 0 && (
                         <div className="flex flex-wrap justify-center gap-8 3xs:gap-12 xl:gap-20">
-                            <AdminUsersTableCard users={result} token={token} onAction={fetchUsers} />
+                            <AdminUsersTableCard users={result} token={token} name={name} onAction={fetchUsers} />
                         </div>
                     )}
                     {/* {<div className="flex flex-col gap-5 sm:flex-row sm:justify-center sm:gap-12">
