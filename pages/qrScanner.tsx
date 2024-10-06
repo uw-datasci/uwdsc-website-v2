@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import UserCheckInCard from "@/components/cards/UserCheckInDetails";
 import { AxiosError, isAxiosError } from "axios";
+import isAdmin from "@/components/permissions/isAdmin";
 
 interface ScannedResult {
   id: string;
@@ -48,7 +49,8 @@ const QrScannerPage = () => {
     const event = data.event;
     try {
       const response = await getUserbyId({ id: id, token: token });
-      const { username, uwEmail, faculty, hasPaid, isCheckedIn } = response.data;
+      const { username, uwEmail, faculty, hasPaid, isCheckedIn } =
+        response.data;
       setUserInfo({
         id,
         event,
@@ -59,7 +61,7 @@ const QrScannerPage = () => {
         isCheckedIn,
       });
       console.log({ id, username, uwEmail, faculty, hasPaid, isCheckedIn });
-    } catch (err : any | AxiosError) {
+    } catch (err: any | AxiosError) {
       alert("Scan failed, you are not authorized");
     }
   };
@@ -75,9 +77,9 @@ const QrScannerPage = () => {
       token: token,
       eventName: userInfo.event,
     }).catch((err) => {
-      console.log(err)
+      console.log(err);
       alert(err.response.data.message);
-    })
+    });
 
     if (response && response.data.success) {
       alert("User is checked in !");
@@ -149,7 +151,7 @@ const QrScannerPage = () => {
               hasPaid={userInfo.hasPaid}
               isCheckedIn={userInfo.isCheckedIn}
             />
-            <div className="flex justify-center gap-6 mt-6">
+            <div className="mt-6 flex justify-center gap-6">
               <GradientBorder
                 rounded="rounded-lg"
                 classes="w-auto inline-block items-center"
@@ -168,26 +170,28 @@ const QrScannerPage = () => {
                   Re Scan
                 </Button>
               </GradientBorder>
-                {userInfo.isCheckedIn || !userInfo.hasPaid? <></> :
-                  <GradientBorder
-                    rounded="rounded-lg"
-                    classes="w-auto inline-block items-center"
+              {userInfo.isCheckedIn || !userInfo.hasPaid ? (
+                <></>
+              ) : (
+                <GradientBorder
+                  rounded="rounded-lg"
+                  classes="w-auto inline-block items-center"
+                >
+                  <Button
+                    type="submit"
+                    hierarchy="secondary"
+                    font="font-bold"
+                    text="sm:text-lg 2xl:text-xl"
+                    padding="py-3 sm:px-7 sm:py-4"
+                    rounded="rounded-[15px]"
+                    onClick={() => {
+                      checkIn();
+                    }}
                   >
-                    <Button
-                      type="submit"
-                      hierarchy="secondary"
-                      font="font-bold"
-                      text="sm:text-lg 2xl:text-xl"
-                      padding="py-3 sm:px-7 sm:py-4"
-                      rounded="rounded-[15px]"
-                      onClick={() => {
-                        checkIn();
-                      }}
-                    >
-                      Check In
-                    </Button>
-                  </GradientBorder> 
-                }
+                    Check In
+                  </Button>
+                </GradientBorder>
+              )}
             </div>
           </div>
         )}
@@ -196,4 +200,4 @@ const QrScannerPage = () => {
   );
 };
 
-export default QrScannerPage;
+export default isAdmin(QrScannerPage);
