@@ -8,7 +8,9 @@ import { checkInById, getUserbyId } from "@/utils/api-calls";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import UserCheckInCard from "@/components/cards/UserCheckInDetails";
+import LoadingSpinner from "@/components/UI/LoadingSpinner";
 import { AxiosError, isAxiosError } from "axios";
+import React from "react";
 
 interface ScannedResult {
   id: string;
@@ -22,6 +24,9 @@ const QrScannerPage = () => {
   const qrBoxEl = useRef<HTMLDivElement>(null);
   const [qrOn, setQrOn] = useState<boolean>(true);
   const [scanSuccess, setScanSuccess] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [QrError, setQrError] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>("");
   const router = useRouter();
   const token = useSelector((state: RootState) => state.loginToken.token);
   const [userInfo, setUserInfo] = useState({
@@ -47,6 +52,7 @@ const QrScannerPage = () => {
     const id = data.id;
     const event = data.event;
     try {
+      setLoading(true);
       const response = await getUserbyId({ id: id, token: token });
       const { username, uwEmail, faculty, hasPaid, isCheckedIn } = response.data;
       setUserInfo({
@@ -59,9 +65,12 @@ const QrScannerPage = () => {
         isCheckedIn,
       });
       console.log({ id, username, uwEmail, faculty, hasPaid, isCheckedIn });
+      setQrError(false);
     } catch (err : any | AxiosError) {
-      alert("Scan failed, you are not authorized");
+      setErrorMessage("Scan failed, you are not authorized");
+      setQrError(true);
     }
+    setLoading(false);
   };
 
   const reScan = () => {
@@ -141,55 +150,66 @@ const QrScannerPage = () => {
         )}
 
         {scanSuccess && (
-          <div>
-            <UserCheckInCard
-              username={userInfo.username}
-              uwEmail={userInfo.uwEmail}
-              faculty={userInfo.faculty}
-              hasPaid={userInfo.hasPaid}
-              isCheckedIn={userInfo.isCheckedIn}
+          loading ? 
+          (
+            <LoadingSpinner
+              size={100}
+              classes="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
             />
-            <div className="flex justify-center gap-6 mt-6">
-              <GradientBorder
-                rounded="rounded-lg"
-                classes="w-auto inline-block items-center"
-              >
-                <Button
-                  type="button"
-                  hierarchy="secondary"
-                  font="font-bold"
-                  text="sm:text-lg 2xl:text-xl"
-                  padding="py-3 sm:px-7 sm:py-4"
-                  rounded="rounded-[15px]"
-                  onClick={() => {
-                    reScan();
-                  }}
+          ) :
+          (
+            <div>
+              <UserCheckInCard
+                username={userInfo.username}
+                uwEmail={userInfo.uwEmail}
+                faculty={userInfo.faculty}
+                hasPaid={userInfo.hasPaid}
+                isCheckedIn={userInfo.isCheckedIn}
+                error={QrError}
+                errorMessage={errorMessage}
+              />
+              <div className="flex justify-center gap-6 mt-6">
+                <GradientBorder
+                  rounded="rounded-lg"
+                  classes="w-auto inline-block items-center"
                 >
-                  Re Scan
-                </Button>
-              </GradientBorder>
-                {userInfo.isCheckedIn || !userInfo.hasPaid? <></> :
-                  <GradientBorder
-                    rounded="rounded-lg"
-                    classes="w-auto inline-block items-center"
+                  <Button
+                    type="button"
+                    hierarchy="secondary"
+                    font="font-bold"
+                    text="sm:text-lg 2xl:text-xl"
+                    padding="py-3 sm:px-7 sm:py-4"
+                    rounded="rounded-[15px]"
+                    onClick={() => {
+                      reScan();
+                    }}
                   >
-                    <Button
-                      type="submit"
-                      hierarchy="secondary"
-                      font="font-bold"
-                      text="sm:text-lg 2xl:text-xl"
-                      padding="py-3 sm:px-7 sm:py-4"
-                      rounded="rounded-[15px]"
-                      onClick={() => {
-                        checkIn();
-                      }}
+                    Re Scan
+                  </Button>
+                </GradientBorder>
+                  {userInfo.isCheckedIn || !userInfo.hasPaid? <></> :
+                    <GradientBorder
+                      rounded="rounded-lg"
+                      classes="w-auto inline-block items-center"
                     >
-                      Check In
-                    </Button>
-                  </GradientBorder> 
-                }
+                      <Button
+                        type="submit"
+                        hierarchy="secondary"
+                        font="font-bold"
+                        text="sm:text-lg 2xl:text-xl"
+                        padding="py-3 sm:px-7 sm:py-4"
+                        rounded="rounded-[15px]"
+                        onClick={() => {
+                          checkIn();
+                        }}
+                      >
+                        Check In
+                      </Button>
+                    </GradientBorder> 
+                  }
+              </div>
             </div>
-          </div>
+          )
         )}
       </section>
     </>
