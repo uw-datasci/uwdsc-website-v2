@@ -38,9 +38,8 @@ export default function SignInPage() {
       const res = await sendSignInInfo(values);
       const accessToken = res.data.accessToken;
       const name = res.data.name;
-      dispatch(
-        login({ token: accessToken, name: name, isAdmin: res.data.isAdmin }),
-      );
+      const role = res.data.role;
+      dispatch(login({ token: accessToken, name: name, role: role }));
     } catch (error) {
       console.error("Error:", error); // Handle any errors
       throw error;

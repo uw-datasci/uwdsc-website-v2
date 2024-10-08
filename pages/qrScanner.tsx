@@ -9,7 +9,8 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import UserCheckInCard from "@/components/cards/UserCheckInDetails";
 import { AxiosError, isAxiosError } from "axios";
-import isAdmin from "@/components/permissions/isAdmin";
+import isAdmin from "@/components/permissions/authPage";
+import authPage from "@/components/permissions/authPage";
 
 interface ScannedResult {
   id: string;
@@ -200,4 +201,4 @@ const QrScannerPage = () => {
   );
 };
 
-export default isAdmin(QrScannerPage);
+export default authPage(QrScannerPage, ["admin"]);

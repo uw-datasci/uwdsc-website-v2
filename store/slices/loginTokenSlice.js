@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   name: "",
   token: "",
-  isAdmin: false,
+  role: "",
 };
 
 const loginTokenSlice = createSlice({
@@ -13,12 +13,12 @@ const loginTokenSlice = createSlice({
     login: (state, action) => {
       state.name = action.payload.name;
       state.token = action.payload.token;
-      state.isAdmin = action.payload.isAdmin;
+      state.role = action.payload.role;
     },
     logout: (state) => {
       state.name = "";
       state.token = "";
-      state.isAdmin = false;
+      state.role = "";
     },
   },
 });
