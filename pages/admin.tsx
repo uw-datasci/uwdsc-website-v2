@@ -8,8 +8,7 @@ import Fuse from "fuse.js";
 import { useEffect, useState, ChangeEvent } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
-import isAdmin from "@/components/permissions/authPage";
-import authPage from "@/components/permissions/authPage";
+import withAuth from "@/components/permissions/authPage";
 
 require("dotenv").config();
 
@@ -199,4 +198,4 @@ function Admin() {
   );
 }
 
-export default authPage(Admin, ["admin"]);
+export default withAuth(Admin, ["admin"]);

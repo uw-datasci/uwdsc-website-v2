@@ -8,9 +8,8 @@ import { checkInById, getUserbyId } from "@/utils/api-calls";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import UserCheckInCard from "@/components/cards/UserCheckInDetails";
-import { AxiosError, isAxiosError } from "axios";
-import isAdmin from "@/components/permissions/authPage";
-import authPage from "@/components/permissions/authPage";
+import { AxiosError} from "axios";
+import withAuth from "@/components/permissions/authPage";
 
 interface ScannedResult {
   id: string;
@@ -201,4 +200,4 @@ const QrScannerPage = () => {
   );
 };
 
-export default authPage(QrScannerPage, ["admin"]);
+export default withAuth(QrScannerPage, ["admin"]);
