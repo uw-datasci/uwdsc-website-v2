@@ -1,12 +1,25 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import { useDispatch, useSelector } from "react-redux";
+import { moveUp as signUpMoveUp } from "@/store/slices/signUpPageSlice";
+import { moveUp as signInMoveUp } from "@/store/slices/signInPageSlice";
+import { RootState } from "@/store/store";
+
 import Link from "next/link";
 import { Instagram, Linkedin, Mail, Youtube } from "react-feather";
 
 import Button from "@/components/UI/Button";
 import GradientBorder from "@/components/UI/GradientBorder";
 import Logo from "@/components/UI/Logo";
+import { logout } from "@/store/slices/loginTokenSlice";
+import { unstable_renderSubtreeIntoContainer } from "react-dom";
 
-const ROUTES = [
+type nav_obj = {
+  label: string;
+  route: string;
+};
+
+const DEFAULT_ROUTES = [
   {
     label: "Home",
     route: "/",
@@ -45,14 +58,61 @@ const SOCIALS = [
 ];
 
 export default function Navbar() {
+  let dispatch = useDispatch();
+  const [routes, setRoutes] = useState<nav_obj[]>(DEFAULT_ROUTES);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
+  const signedIn = useSelector((state: RootState) => state.loginToken.name);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (signedIn && routes.length == 4) {
+      setRoutes(
+        routes.concat({
+          label: "QR Code",
+          route: "/qrPage",
+        }),
+      );
+    }
+
+    if (!signedIn && routes.length == 5) {
+      setRoutes(
+        routes.filter((nav) => {
+          return nav.label != "QR Code";
+        }),
+      );
+    }
+
+    if (
+      (router.pathname === "/admin" || router.pathname === "/qrScanner") &&
+      !routes.some((nav) => nav.label === "QR Scanner")
+    ) {
+      setRoutes(
+        routes.concat({
+          label: "QR Scanner",
+          route: "/qrScanner",
+        }),
+      );
+    }
+
+    if (
+      router.pathname !== "/admin" &&
+      routes.some((nav) => nav.label === "QR Scanner")
+    ) {
+      setRoutes(
+        routes.filter((nav) => {
+          return nav.label != "QR Scanner";
+        }),
+      );
+    }
+    console.log(routes);
+  }, [signedIn, router.pathname]);
 
   return (
     <>
       <header className="mx-nav relative z-50 mt-8 flex items-center justify-between lg:mt-12">
-        <Logo />
+        <Logo classes="w-11.5 lg:w-13.5" />
         <nav className="hidden gap-16 lg:flex">
-          {ROUTES.map((route) => {
+          {routes.map((route) => {
             return (
               <Link
                 href={route.route}
@@ -81,16 +141,61 @@ export default function Navbar() {
             }`}
           />
         </button>
-        <Button
-          type="link"
-          href="https://forms.gle/tDGHayEDwWUjzgXY6"
-          hierarchy="primary"
-          font="font-bold"
-          rounded="rounded-md"
-          classes="hidden lg:block"
-        >
-          Join Us
-        </Button>
+
+        {/* ========= Login/Signup ========= */}
+
+        <div className="hidden lg:flex lg:gap-4">
+          {!signedIn ? (
+            <>
+              <GradientBorder rounded="rounded-lg">
+                <Button
+                  type="button"
+                  hierarchy="secondary"
+                  font="font-bold"
+                  rounded="rounded-[15px]"
+                  classes="lg:block"
+                  onClick={() => {
+                    dispatch(signInMoveUp());
+                  }}
+                >
+                  Log in
+                </Button>
+              </GradientBorder>
+              <Button
+                type="button"
+                hierarchy="primary"
+                font="font-bold"
+                rounded="rounded-md"
+                classes="lg:block"
+                onClick={() => {
+                  dispatch(signUpMoveUp());
+                }}
+              >
+                Join Us
+              </Button>
+            </>
+          ) : (
+            <>
+              <p className="text-s p-2 text-grey3">
+                Logged in as <b>{signedIn}</b>
+              </p>
+              <GradientBorder rounded="rounded-lg">
+                <Button
+                  type="button"
+                  hierarchy="secondary"
+                  font="font-bold"
+                  rounded="rounded-[15px]"
+                  classes="lg:block"
+                  onClick={() => {
+                    dispatch(logout());
+                  }}
+                >
+                  Log out
+                </Button>
+              </GradientBorder>
+            </>
+          )}
+        </div>
       </header>
       <div
         className={`transition-300 fixed inset-0 z-40 bg-black lg:hidden ${
@@ -99,7 +204,7 @@ export default function Navbar() {
       >
         <div className="bg-gradient pointer-events-none absolute inset-0 opacity-10" />
         <nav className="mx-container mt-36 grid gap-8">
-          {ROUTES.map((route) => {
+          {routes.map((route) => {
             return (
               <Link
                 href={route.route}

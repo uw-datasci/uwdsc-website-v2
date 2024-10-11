@@ -28,7 +28,7 @@ export default function TextArea({
       onChange={onChange}
       onBlur={onBlur}
       value={value}
-      className={`transition-300 w-full rounded-md border border-grey1 bg-black px-4.5 py-3.5 text-white outline-none placeholder:text-grey1 focus:border-white xl:rounded-lg xl:px-6 xl:py-4.5 ${classes}`}
+      className={`${classes? "max-h-[7rem]":""/*Tailwind not rendering the class otherwise (To be fixed)*/} transition-300 w-full rounded-md border border-grey1 bg-black px-4.5 py-3.5 text-white outline-none placeholder:text-grey1 focus:border-white xl:rounded-lg xl:px-6 xl:py-4.5`}
     />
   );
 }

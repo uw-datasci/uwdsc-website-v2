@@ -9,8 +9,8 @@ type LogoProps = {
 
 export default function Logo({ classes }: LogoProps) {
   return (
-    <Link href="/" className={`block ${classes}`}>
-      <Image src={dsc} alt="logo" className="w-10 lg:w-12" />
+    <Link href="/" className={`block w-11.5 lg:w-13.5 ${classes}`}>
+      <Image src={dsc} alt="logo" className="w-full" />
     </Link>
   );
 }

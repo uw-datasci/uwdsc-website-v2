@@ -94,6 +94,28 @@ module.exports = {
         5.5: '22px',
         18: '72px',
       },
+      keyframes: {
+        typing: {
+          "0%": {
+            width: "0%",
+            visibility: "hidden"
+          },
+          "100%": {
+            width: "100%"
+          }  
+        },
+        blink: {
+          "50%": {
+            borderColor: "transparent"
+          },
+          "100%": {
+            borderColor: "white"
+          }  
+        }
+      },
+      animation: {
+        typing: "typing 1s steps(20) forwards, blink .9s infinite"
+      },
     },
   },
   plugins: [],

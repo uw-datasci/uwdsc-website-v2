@@ -33,22 +33,43 @@ const CHIPS = [
 
 type ContactProps = {
   title: string;
+  id: string;
+  getFormik?: (formik: any) => void;
+  includeSideInfo: boolean;
   description: React.ReactNode;
   fields: ContactField[];
   validate: (values: Record<string, string>) => Record<string, string>;
   onSubmit: (values: Record<string, string>) => Promise<void>;
+  errorMessage: string;
+  successMessage: string;
+  successCallback?: () => void;
+  resetForm: boolean;
+  formClasses?: string;
+  inputFeedbackClasses?: string;
+  customButton?: React.ReactNode;
 };
 
 export default function ContactForm({
   title,
+  id,
+  getFormik,
+  includeSideInfo,
   description,
   fields,
   validate,
   onSubmit,
+  errorMessage,
+  successMessage,
+  successCallback,
+  resetForm,
+  formClasses,
+  inputFeedbackClasses,
+  customButton,
 }: ContactProps) {
   const [loading, setLoading] = useState<boolean>(false);
   const [success, setSuccess] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
+  const [errorMessageOveride, setErrorMessageOveride] = useState<string>("");
 
   const formik = useFormik({
     initialValues: fields.reduce((acc: Record<string, string>, field) => {
@@ -62,10 +83,20 @@ export default function ContactForm({
       setError(false);
       try {
         await onSubmit(values);
-        formik.resetForm();
+        resetForm ? formik.resetForm(): null;
+        successCallback ? successCallback(): null;
         setSuccess(true);
-      } catch (error) {
+        setError(false);
+      } catch (error: any) {
         console.error(error);
+
+        const errorData = error.response.data;
+        if (errorData.hasOwnProperty("customErrorMessage") && errorData.customErrorMessage) {
+          setErrorMessageOveride(errorData.error.message);
+        } else {
+          setErrorMessageOveride("");
+        }
+        setSuccess(false);
         setError(true);
       } finally {
         setLoading(false);
@@ -73,17 +104,20 @@ export default function ContactForm({
     },
   });
 
+  if (getFormik){
+    getFormik(formik);
+  }
+
   const submitMessage = (
     <>
       {success && (
-        <InputFeedback state="success">
-          Your message has been sent! We will get back to you ASAP.
+        <InputFeedback state="success" classes={inputFeedbackClasses}>
+          {successMessage}
         </InputFeedback>
       )}
       {error && (
-        <InputFeedback state="error">
-          There was an error sending your message. Please refresh this page and
-          try again.
+        <InputFeedback state="error" classes={inputFeedbackClasses}>
+          {errorMessageOveride? errorMessageOveride:errorMessage}
         </InputFeedback>
       )}
     </>
@@ -91,24 +125,25 @@ export default function ContactForm({
 
   return (
     <section
-      id="contact"
-      className="mb-section mx-container grid gap-10 lg:grid-cols-2 lg:gap-16"
+      id={id}
+      className={formClasses ? formClasses : "mb-section mx-container grid gap-10 lg:grid-cols-2 lg:gap-16"}
     >
-      <div>
-        <h2 className="mb-3 text-4xl font-bold text-white md:text-8xl lg:-mt-3 xl:text-8xl">
-          {title}
-        </h2>
-        <p className="leading-loose text-white md:text-lg lg:mb-12 lg:text-md xl:text-lg">
-          {description}
-        </p>
-        <div className="hidden flex-wrap gap-6 lg:flex">
-          {CHIPS.map((chip, i) => (
-            <Chip icon={chip.icon} href={chip.href} key={`chip-${i}`}>
-              {chip.label}
-            </Chip>
-          ))}
-        </div>
-      </div>
+      {includeSideInfo ? 
+        <div>
+          <h2 className="mb-3 text-4xl font-bold text-white md:text-8xl lg:-mt-3 xl:text-8xl">
+            {title}
+          </h2>
+          <p className="leading-loose text-white md:text-lg lg:mb-12 lg:text-md xl:text-lg">
+            {description}
+          </p>
+          <div className="hidden flex-wrap gap-6 lg:flex">
+            {CHIPS.map((chip, i) => (
+              <Chip icon={chip.icon} href={chip.href} key={`chip-${i}`}>
+                {chip.label}
+              </Chip>
+            ))}
+          </div>
+        </div> : <></>}
       <div className="relative">
         {loading && (
           <LoadingSpinner
@@ -119,6 +154,7 @@ export default function ContactForm({
         <form
           className={`${loading ? "pointer-events-none opacity-0" : ""}`}
           onSubmit={formik.handleSubmit}
+          autoComplete="Off"
         >
           {fields.map((field, i) => {
             switch (field.type) {
@@ -139,7 +175,7 @@ export default function ContactForm({
                     />
                     {formik.touched[field.name] &&
                       formik.errors[field.name] && (
-                        <InputFeedback state="error">
+                        <InputFeedback state="error" classes={inputFeedbackClasses}>
                           {formik.errors[field.name]}
                         </InputFeedback>
                       )}
@@ -159,10 +195,11 @@ export default function ContactForm({
                       value={formik.values[field.name]}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
+                      classes={field.classes}
                     />
                     {formik.touched[field.name] &&
                       formik.errors[field.name] && (
-                        <InputFeedback state="error">
+                        <InputFeedback state="error" classes={inputFeedbackClasses}>
                           {formik.errors[field.name]}
                         </InputFeedback>
                       )}
@@ -182,10 +219,11 @@ export default function ContactForm({
                       options={field.options as string[]}
                       value={formik.values[field.name]}
                       onChange={formik.handleChange}
+                      classes={field.classes as string}
                     />
                     {formik.touched[field.name] &&
                       formik.errors[field.name] && (
-                        <InputFeedback state="error">
+                        <InputFeedback state="error" classes={inputFeedbackClasses}>
                           {formik.errors[field.name]}
                         </InputFeedback>
                       )}
@@ -194,17 +232,19 @@ export default function ContactForm({
                 );
             }
           })}
-          <Button
-            type="submit"
-            hierarchy="primary"
-            font="font-bold"
-            text="lg:text-lg"
-            padding="py-3 sm:px-7"
-            rounded="rounded-lg"
-            classes="w-full sm:w-auto"
-          >
-            Submit
-          </Button>
+          {customButton ? customButton : 
+            <Button
+              type="submit"
+              hierarchy="primary"
+              font="font-bold"
+              text="lg:text-lg"
+              padding="py-3 sm:px-7"
+              rounded="rounded-lg"
+              classes="w-full sm:w-auto"
+            >
+              Submit
+            </Button>
+          }
         </form>
       </div>
     </section>

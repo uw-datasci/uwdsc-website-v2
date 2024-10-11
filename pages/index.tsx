@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import SEO from "@/components/SEO/SEO";
 import Hero from "@/components/sections/home/Hero";
 import WhatWeDo from "@/components/sections/home/WhatWeDo";
