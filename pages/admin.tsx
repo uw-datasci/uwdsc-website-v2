@@ -27,6 +27,7 @@ function Admin() {
     fetchUsers();
   }, []);
 
+  // also in create-user.ts
   const createUser = async (newUser: User) => {
     console.log("New User:", newUser);
     try {
@@ -72,6 +73,7 @@ function Admin() {
     }
   };
 
+  // fetch-users.ts
   const fetchUsers = async () => {
     try {
       const response = await fetch(
