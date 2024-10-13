@@ -1,5 +1,6 @@
 import axios from "axios";
 import { promises } from "dns";
+import { type User } from "@/types/types";
 
 export const sendContactEmail = async (values: Record<string, string>) => {
   await axios.post("/api/utils/contact", values);
@@ -84,3 +85,22 @@ export const checkInById = async (values: Record<string, string>) => {
     throw error;
   }
 };
+
+export const createUser = async (newUser: User) => {
+  try {
+    const response = await axios.post(`/api/admin/create-user`, newUser);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
+// how do i give it the token?
+export const fetchUsers = async () => {
+  try {
+    const response = await axios.get(`/api/admin/fetch-users`);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
