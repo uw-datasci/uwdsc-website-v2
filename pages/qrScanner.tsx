@@ -9,8 +9,10 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import UserCheckInCard from "@/components/cards/UserCheckInDetails";
 import LoadingSpinner from "@/components/UI/LoadingSpinner";
+import withAuth from "@/components/permissions/authPage";
 import { AxiosError, isAxiosError } from "axios";
 import React from "react";
+
 
 interface ScannedResult {
   id: string;
@@ -54,7 +56,8 @@ const QrScannerPage = () => {
     try {
       setLoading(true);
       const response = await getUserbyId({ id: id, token: token });
-      const { username, uwEmail, faculty, hasPaid, isCheckedIn } = response.data;
+      const { username, uwEmail, faculty, hasPaid, isCheckedIn } =
+        response.data;
       setUserInfo({
         id,
         event,
@@ -84,9 +87,9 @@ const QrScannerPage = () => {
       token: token,
       eventName: userInfo.event,
     }).catch((err) => {
-      console.log(err)
+      console.log(err);
       alert(err.response.data.message);
-    })
+    });
 
     if (response && response.data.success) {
       alert("User is checked in !");
@@ -216,4 +219,4 @@ const QrScannerPage = () => {
   );
 };
 
-export default QrScannerPage;
+export default withAuth(QrScannerPage, ["admin"]);
