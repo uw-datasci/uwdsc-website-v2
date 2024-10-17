@@ -76,7 +76,6 @@ export const checkInById = async (values: Record<string, string>) => {
   }
 };
 
-
 export const resendVerification = async (values: Record<string, string>) => {
   try {
     const response = await axios.post("/api/send/verificationEmail", values);
@@ -84,4 +83,40 @@ export const resendVerification = async (values: Record<string, string>) => {
   } catch (error) {
     throw error;
   }
-}
+};
+
+export const fetchUsers = async (values: Record<string, string>) => {
+  try {
+    const response = await axios.post("/api/send/admin-fetch-users", values);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const createUser = async (values: Record<string, any>) => {
+  try {
+    const response = await axios.post("/api/send/admin-create-user", values);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const editUser = async (values: Record<string, any>) => {
+  try {
+    const response = await axios.post("/api/send/admin-edit-user", values);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const deleteUser = async (values: Record<string, string>) => {
+  try {
+    const response = await axios.post("/api/send/admin-delete-user", values);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
