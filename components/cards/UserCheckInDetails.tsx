@@ -3,7 +3,7 @@ import { HiCheckCircle, HiXCircle } from "react-icons/hi";
 
 type UserCheckInProps = {
   username: string;
-  uwEmail: string;
+  email: string;
   faculty: string;
   hasPaid: boolean;
   isCheckedIn: boolean;
@@ -13,7 +13,7 @@ type UserCheckInProps = {
 
 export default function UserCheckInCard({
   username,
-  uwEmail,
+  email,
   faculty,
   hasPaid,
   isCheckedIn,
@@ -42,7 +42,7 @@ export default function UserCheckInCard({
           <>
             <div>
               <strong>UW Email: </strong>
-              {uwEmail}
+              {email}
             </div><div>
               <strong>Faculty: </strong>
               {faculty}

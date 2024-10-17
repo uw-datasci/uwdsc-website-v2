@@ -22,12 +22,12 @@ export default async function handler(
         Authorization: `Bearer ${token}`,
       },
     });
-    const { username, uwEmail, faculty, hasPaid, isCheckedIn } = response.data;
+    const { username, email, faculty, hasPaid, isCheckedIn } = response.data;
     res
       .status(200)
       .json({
         username,
-        uwEmail,
+        email,
         faculty,
         hasPaid,
         isCheckedIn,

@@ -35,7 +35,7 @@ const QrScannerPage = () => {
     id: "",
     event: "",
     username: "",
-    uwEmail: "",
+    email: "",
     faculty: "",
     hasPaid: false,
     isCheckedIn: false,
@@ -56,18 +56,18 @@ const QrScannerPage = () => {
     try {
       setLoading(true);
       const response = await getUserbyId({ id: id, token: token });
-      const { username, uwEmail, faculty, hasPaid, isCheckedIn } =
+      const { username, email, faculty, hasPaid, isCheckedIn } =
         response.data;
       setUserInfo({
         id,
         event,
         username,
-        uwEmail,
+        email,
         faculty,
         hasPaid,
         isCheckedIn,
       });
-      console.log({ id, username, uwEmail, faculty, hasPaid, isCheckedIn });
+      console.log({ id, username, email, faculty, hasPaid, isCheckedIn });
       setQrError(false);
     } catch (err : any | AxiosError) {
       setErrorMessage("Scan failed, you are not authorized");
@@ -164,7 +164,7 @@ const QrScannerPage = () => {
             <div>
               <UserCheckInCard
                 username={userInfo.username}
-                uwEmail={userInfo.uwEmail}
+                email={userInfo.email}
                 faculty={userInfo.faculty}
                 hasPaid={userInfo.hasPaid}
                 isCheckedIn={userInfo.isCheckedIn}
