@@ -60,7 +60,7 @@ export default function ResendVerificationPage({ email, setPanelIndex } : resend
         <br/>3. Online <a className="bold uppercase underline" href="https://wusa.ca/product/uw-data-science-club-membership/" target="_blank">here</a> and email the receipt to membership@uwdatascience.ca
       </p>
       <hr className="border-grey3 border-[0.5px] border-b w-full lg:w-[80%] m-4 lg:m-8"></hr>
-      <p className={"text-center " + subTexts}>Your verification email sent to : <u>{email}</u>
+      <p className={"text-center " + subTexts}>Your verification email was sent to : <u>{email}</u>
         <br/>It usually takes about 1-2 minutes to arrive, please be sure to check your spam !
         <br/>You may try again in {seconds} seconds:
       </p>
