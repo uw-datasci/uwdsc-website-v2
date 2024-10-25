@@ -5,6 +5,7 @@ import AdminTable from "@/components/tables/AdminTable";
 require("dotenv").config();
 
 function Admin() {
+
   return (
     <>
       <section className="mx-container mb-section mt-14 lg:mt-20">
