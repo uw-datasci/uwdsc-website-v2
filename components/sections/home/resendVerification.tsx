@@ -11,9 +11,8 @@ type resendVerificationProps = {
 export default function ResendVerificationPage({ email, setPanelIndex } : resendVerificationProps) {
   const [statusMessage, setStatusMessage] = useState<string|null>(null);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-  const dispatch = useDispatch();
-  const headings = "mt-0 text-2xl text-center font-bold text-white 3xs:text-3xl 2xs:text-4xl xs:text-5xl sm:text-6xl md:text-7xl lg:mt-10 lg:mx-0 lg:mb-7 lg:max-w-[500px] lg:text-6xl xl:max-w-[540px] xl:text-9xl 2xl:max-w-[580px] 2xl:text-11xl 3xl:max-w-none 3xl:text-13xl";
-  const subTexts = "mt-2 text-center leading-loose text-white  sm:text-lg lg:mx-0 lg:text-md xl:text-lg 2xl:text-xl";
+  const headings = "mt-0 text-2xl text-center font-bold text-white 3xs:text-3xl 2xs:text-4xl xs:text-5xl sm:text-6xl md:text-7xl lg:mx-0 lg:mb-2 lg:max-w-[500px] lg:text-6xl xl:max-w-[540px] xl:text-9xl 2xl:max-w-[580px] 2xl:text-11xl 3xl:max-w-none 3xl:text-13xl";
+  const subTexts = "leading-loose text-white  sm:text-lg lg:text-md xl:text-lg 2xl:text-xl";
   const [seconds, setSeconds] = useState(60);
   const [isActive, setIsActive] = useState(true);
 
@@ -53,8 +52,18 @@ export default function ResendVerificationPage({ email, setPanelIndex } : resend
 
   return (
     <div className="flex flex-col items-center justify-center h-full">
-      <h1 className={headings}>Verification email sent to : <u>{email}</u></h1>
-      <p className={subTexts}>It usually takes about 1-2 minutes to arrive, please be sure to check your spam !<br/>You may try again in {seconds} seconds:</p>
+      <h1 className={headings}><u>Verify and Pay</u></h1>
+      <p className={"text-left mt-4 lg:mt-6 " + subTexts}>You will have to pay a $4 CAD membership fee through on of the following methods:</p>
+      <p className={"text-left ml-4 lg:ml-6" + subTexts}>
+        1. Cash at any our our in-person event or office hours
+        <br/>2. Credit/Debit at the MathSoc office
+        <br/>3. Online <a className="bold uppercase underline" href="https://wusa.ca/product/uw-data-science-club-membership/" target="_blank">here</a> and email the receipt to membership@uwdatascience.ca
+      </p>
+      <hr className="border-grey3 border-[0.5px] border-b w-full lg:w-[80%] m-4 lg:m-8"></hr>
+      <p className={"text-center " + subTexts}>Your verification email sent to : <u>{email}</u>
+        <br/>It usually takes about 1-2 minutes to arrive, please be sure to check your spam !
+        <br/>You may try again in {seconds} seconds:
+      </p>
       
       <Button
         onClick={handleResend}

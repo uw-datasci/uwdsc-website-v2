@@ -59,7 +59,7 @@ export default function SignUpPage() {
                 <h1 className={headings}>Join Us !</h1>
                 <p className={subTexts}>Become a part of a growing community of data science enthusiasts and participate in engaging discussions, hands-on projects, and networking opportunities.</p>
               </div>
-              <div className="w-full max-h-full py-10 lg:p-8 flex flex-col justify-center lg:overflow-auto">
+              <div className="w-full max-h-full py-10 lg:p-8 flex flex-col justify-center lg:overflow-auto-x">
                 <div className="w-full">
                   <ContactForm
                     title=""
@@ -100,7 +100,7 @@ export default function SignUpPage() {
             </div>
           </>,
           <>
-            <div className="w-full flex flex-col lg:flex-row overflow-auto no-scrollbar lg:overflow-hidden">  
+            <div className="w-full flex flex-col lg:flex-row overflow-auto no-scrollbar lg:overflow-hidden-x">  
               <div className="w-full h-fit border-r lg:border-grey3 lg:p-8 lg:my-auto" >
                 <h1 className={headings}>Almost There !</h1>
                 <p className={subTexts}>Once you have submitted, you should receive a confirmation email to your uwaterloo email account.<br/><br/>And after all that hard work ... <br/> Welcome to the club !</p>
@@ -143,7 +143,7 @@ export default function SignUpPage() {
             </div>
           </>,
          <>
-         <div className="w-full overflow-auto no-scrollbar lg:overflow-hidden">
+         <div className="w-full overflow-auto no-scrollbar lg:overflow-hidden-x">
            <ResendVerificationPage email={email} setPanelIndex={setPanelIndex}/>
          </div>
        </>
