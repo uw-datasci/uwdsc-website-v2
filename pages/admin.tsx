@@ -93,7 +93,7 @@ function Admin() {
         _id: user._id,
         watIAM: user.watIAM,
         username: user.username,
-        email: user.uwEmail,
+        email: user.email,
         userStatus: user.userStatus,
         hasPaid: user.hasPaid ? "True" : "False",
         paymentMethod: user.paymentMethod ? user.paymentMethod : "",
