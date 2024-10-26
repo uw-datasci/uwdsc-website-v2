@@ -69,7 +69,7 @@ export default function SignInPage() {
       panelIndex={panelIndex}
       panels={[
         <>
-          <div className="no-scrollbar my-auto flex w-full flex-col overflow-auto lg:flex-row lg:overflow-hidden">
+          <div className="no-scrollbar my-auto flex w-full flex-col overflow-auto lg:flex-row lg:overflow-hidden-x">
             <div className="h-fit w-full border-r lg:my-auto lg:border-grey3 lg:p-8">
               <Logo classes="3xs:hidden lg:block lg:min-w-[70px] w-[30%]" />
               <h1 className={headings}>Sign in</h1>
@@ -134,7 +134,7 @@ export default function SignInPage() {
           </div>
         </>,
         <>
-          <div className="no-scrollbar my-auto flex w-full overflow-auto 3xs:flex-col lg:flex-row lg:overflow-hidden">
+          <div className="no-scrollbar my-auto flex w-full overflow-auto 3xs:flex-col lg:flex-row lg:overflow-hidden-x">
             <div className="h-fit w-full border-r lg:my-auto lg:border-grey3 lg:p-8">
               <h1 className={headings}>Forgot your password?</h1>
               <p className={subTexts}>
