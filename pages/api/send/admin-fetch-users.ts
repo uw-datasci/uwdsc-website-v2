@@ -26,7 +26,7 @@ export default async function handler(
       _id: user._id,
       watIAM: user.watIAM,
       username: user.username,
-      email: user.uwEmail,
+      email: user.email,
       password: "********", // Password is default set to "********" while querying
       userStatus: user.userStatus,
       hasPaid: user.hasPaid ? "True" : "False", // TODO: maybe change to Paid/Unpaid but that would cause filtering issues
