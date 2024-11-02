@@ -2,6 +2,8 @@ import React, { useState, useEffect, ChangeEvent } from "react";
 import { CellContext, Column } from "@tanstack/react-table";
 import { User } from "@/types/types";
 import { ColumnType } from "./AdminTable";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
 
 interface TableCellProps<TData> extends CellContext<TData, unknown> {
   column: Column<TData, unknown>;
@@ -17,6 +19,7 @@ const TableCell = <TData,>({
   const columnMeta = column.columnDef.meta;
   const tableMeta = table.options.meta as any;
   const [value, setValue] = useState<any>(initialValue);
+  const adminName = useSelector((state: RootState) => state.loginToken.name);
 
   useEffect(() => {
     if (column.id === "password") {
@@ -42,10 +45,11 @@ const TableCell = <TData,>({
             ? {
                 ...prevData,
                 ["hasPaid"]: newValue,
-                ["verifier"]: name,
+                ["verifier"]: adminName,
               }
             : null,
         );
+        tableMeta.updateCellData(row.id, "verifier", adminName);
       } else if (newValue == "True") {
         tableMeta.setEditFormData((prevData: User | null) =>
           prevData ? { ...prevData, ["hasPaid"]: newValue } : null,
@@ -62,12 +66,14 @@ const TableCell = <TData,>({
               }
             : null,
         );
+        tableMeta.updateCellData(row.id, "paymentMethod", "");
+        tableMeta.updateCellData(row.id, "verifier", "");
+        tableMeta.updateCellData(row.id, "paymentLocation", "");
       }
     } else {
       tableMeta.setEditFormData((prevData: User | null) =>
         prevData ? { ...prevData, [column.id]: newValue } : null,
       );
-      console.log("Edit Form Data:", tableMeta.editFormData);
     }
   };
 

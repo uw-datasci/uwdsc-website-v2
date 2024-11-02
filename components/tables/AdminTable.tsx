@@ -44,6 +44,7 @@ declare module "@tanstack/react-table" {
     handleSaveClick?: () => Promise<void>;
     handleCancelClick?: () => void;
     handleDeleteClick?: (user: User) => Promise<any>;
+    updateCellData: (rowId: string, colId: string, value: any) => void;
   }
 }
 
@@ -114,6 +115,7 @@ const AdminTable = () => {
   const [showAddUserForm, setShowAddUserForm] = useState<boolean>(false);
   const [editedRowId, setEditedRowId] = useState<string | null>(null);
   const [globalFilter, setGlobalFilter] = useState<string>("");
+  const [autoResetPageIndex, skipAutoResetPageIndex] = useSkipper();
 
   const handleSaveClick = async () => {
     if (!editFormData) {
@@ -174,6 +176,15 @@ const AdminTable = () => {
         setLoading(false);
       }
     }
+  };
+
+  const updateCellData = (rowId: string, colId: string, value: any) => {
+    skipAutoResetPageIndex();
+    setData((prevData) =>
+      prevData.map((row, index) =>
+        index === Number(rowId) ? { ...row, [colId]: value } : row,
+      ),
+    );
   };
 
   const columns = React.useMemo<ColumnDef<User>[]>(
@@ -277,6 +288,7 @@ const AdminTable = () => {
       pagination,
       globalFilter,
     },
+    autoResetPageIndex,
     getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     onPaginationChange: setPagination,
@@ -297,6 +309,7 @@ const AdminTable = () => {
       handleSaveClick,
       handleCancelClick,
       handleDeleteClick,
+      updateCellData,
     },
     filterFns: {
       fuzzy: fuzzyFilter,
@@ -352,9 +365,9 @@ const AdminTable = () => {
     <div>
       {showAddUserForm && (
         <UserFormCard
-        onFormSubmit={handleCreateUser}
-        onCancel={() => setShowAddUserForm(false)}
-      />
+          onFormSubmit={handleCreateUser}
+          onCancel={() => setShowAddUserForm(false)}
+        />
       )}
       {/* Filter + Refresh + Add */}
       <div className="mb-5 flex w-full justify-between gap-3">
@@ -462,20 +475,20 @@ function Filter({ column }: { column: Column<any, unknown> }) {
 }
 
 // Used to skip pagination reset temporarily
-// function useSkipper() {
-//   const shouldSkipRef = React.useRef(true);
-//   const shouldSkip = shouldSkipRef.current;
+function useSkipper() {
+  const shouldSkipRef = React.useRef(true);
+  const shouldSkip = shouldSkipRef.current;
 
-//   const skip = React.useCallback(() => {
-//     shouldSkipRef.current = false;
-//   }, []);
+  const skip = React.useCallback(() => {
+    shouldSkipRef.current = false;
+  }, []);
 
-//   React.useEffect(() => {
-//     shouldSkipRef.current = true;
-//   });
+  React.useEffect(() => {
+    shouldSkipRef.current = true;
+  });
 
-//   return [shouldSkip, skip] as const;
-// }
+  return [shouldSkip, skip] as const;
+}
 
 function DebouncedInput({
   value: initialValue,
