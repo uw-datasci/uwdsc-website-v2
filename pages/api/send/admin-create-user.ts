@@ -10,9 +10,6 @@ export default async function handler(
   try {
     const { token, newUser } = req.body;
 
-    console.log("Token:", token);
-    console.log("New User:", newUser);
-
     const response = await axios({
       url:
         process.env.NEXT_PUBLIC_UWDSC_WEBSITE_SERVER_URL +
@@ -40,10 +37,7 @@ export default async function handler(
       }),
     });
 
-    console.log("Response status:", response.status);
     const responseData = await response.data();
-    console.log("Response data:", responseData);
-
     return res.status(200).json({ success: true, message: "User created" });
   } catch (error: any) {
     console.log("Error creating user:", error);
