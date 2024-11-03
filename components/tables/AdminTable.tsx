@@ -40,6 +40,8 @@ declare module "@tanstack/react-table" {
     setTestToggle?: (toggle: boolean) => void;
     editFormData?: User | null;
     setEditFormData?: (data: User | null) => void;
+    oldEditFormData?: User | null;
+    setOldEditFormData?: (data: User | null) => void;
     handleSaveClick?: () => Promise<void>;
     handleCancelClick?: () => void;
     handleDeleteClick?: (user: User) => Promise<any>;
@@ -111,6 +113,7 @@ const AdminTable = () => {
     pageSize: 10,
   });
   const [editFormData, setEditFormData] = useState<User | null>(null);
+  const [oldEditFormData, setOldEditFormData] = useState<User | null>(null);
   const [showAddUserForm, setShowAddUserForm] = useState<boolean>(false);
   const [editedRowId, setEditedRowId] = useState<string | null>(null);
   const [globalFilter, setGlobalFilter] = useState<string>("");
@@ -147,12 +150,22 @@ const AdminTable = () => {
     });
     setEditedRowId(null);
     setEditFormData(null);
+    setOldEditFormData(null);
     fetchUserData();
   };
 
+  const restoreOriginalUser = () => {
+    // only restore fields that were previously updated for the table in edit
+    updateCellData(editedRowId!, "paymentMethod", oldEditFormData?.paymentMethod || "");
+    updateCellData(editedRowId!, "verifier", oldEditFormData?.verifier || "");
+    updateCellData(editedRowId!, "paymentLocation", oldEditFormData?.paymentLocation || "");
+  }
+
   const handleCancelClick = () => {
+    restoreOriginalUser();
     setEditedRowId(null);
     setEditFormData(null);
+    setOldEditFormData(null);
   };
 
   const handleDeleteClick = async (user: User) => {
@@ -305,6 +318,8 @@ const AdminTable = () => {
       setEditedRowId,
       editFormData,
       setEditFormData,
+      oldEditFormData,
+      setOldEditFormData,
       handleSaveClick,
       handleCancelClick,
       handleDeleteClick,

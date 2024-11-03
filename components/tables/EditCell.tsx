@@ -14,6 +14,7 @@ const EditCell = <TData,>({ row, table }: EditCellProps<TData>) => {
   const handleEdit = () => {
     tableMeta.setEditedRowId(row.id);
     tableMeta.setEditFormData(user);
+    tableMeta.setOldEditFormData(user);
   };
 
   const handleSave = async (): Promise<void> => {
@@ -24,10 +25,9 @@ const EditCell = <TData,>({ row, table }: EditCellProps<TData>) => {
       console.log("Error during save:", error);
     }
   };
-
+  
   const handleCancel = () => {
-    tableMeta.setEditedRowId(null);
-    tableMeta.setEditFormData(null);
+    tableMeta.handleCancelClick();
   };
 
   const handleDelete = () => {
