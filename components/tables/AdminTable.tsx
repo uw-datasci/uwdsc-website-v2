@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ChangeEvent, CSSProperties } from "react";
+import React, { useState, useEffect, CSSProperties } from "react";
 import { User } from "@/types/types";
 import {
   Column,
@@ -16,7 +16,6 @@ import {
 } from "@tanstack/react-table";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
-import Button from "../UI/Button";
 import UserFormCard from "../cards/UserFormCard";
 import {
   deleteUser,

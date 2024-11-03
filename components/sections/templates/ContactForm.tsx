@@ -172,6 +172,7 @@ export default function ContactForm({
                       value={formik.values[field.name]}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
+                      autoCap={field.autoCap}
                     />
                     {formik.touched[field.name] &&
                       formik.errors[field.name] && (

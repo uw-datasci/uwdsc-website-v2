@@ -79,6 +79,7 @@ export const SIGN_UP_FORM_FIELDS_PART1: ContactField[] = [
     name: "password",
     type: "input",
     placeholder: "Your DSC account password (ex. d0ubl3_d3sc3nt)",
+    autoCap: "off",
   },
 ];
 
@@ -126,6 +127,7 @@ export const SIGN_IN_FORM_FIELDS: ContactField[] = [
     name: "password",
     type: "input",
     placeholder: "Your DSC account password (ex. d0ubl3_d3sc3nt)",
+    autoCap: "off",
   },
 ];
 
@@ -144,11 +146,13 @@ export const RESET_PASSWORD_FORM_FIELDS: ContactField[] = [
     name: "newPass",
     type: "input",
     placeholder: "A new DSC account password (ex. R4nd0M_f0R3sT)",
+    autoCap: "off",
   },
   {
     id: "confrimPass",
     name: "confirmPass",
     type: "input",
     placeholder: "The same password as above (ex. R4nd0M_f0R3sT)",
+    autoCap: "off",
   },
 ];

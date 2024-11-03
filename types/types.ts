@@ -47,6 +47,7 @@ export type ContactField = {
   placeholder: string;
   options?: string[];
   classes?: string;
+  autoCap?: string;
 };
 
 export type QandA = {

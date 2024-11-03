@@ -1,8 +1,7 @@
 import { useEffect, useState, ChangeEvent } from "react";
 import Button from "@/components/UI/Button";
-import Dropdown from "@/components/UI/Dropdown";
 import { User } from "@/types/types";
-import { MdCancel, MdOutlineCancel, MdRefresh } from "react-icons/md";
+import { MdOutlineCancel, MdRefresh } from "react-icons/md";
 
 type UserFormProps = {
   initialUserData?: User;
