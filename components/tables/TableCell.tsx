@@ -77,8 +77,6 @@ const TableCell = <TData,>({
     }
   };
 
-  const user = row.original as User;
-
   if (tableMeta?.editedRowId === row.id) {
     return columnMeta?.type === ColumnType.Select ? (
       <select
