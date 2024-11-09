@@ -25,6 +25,7 @@ module.exports = {
       green: '#76CE7A',
       transparent: 'transparent',
       lightGreen: '#89C66D',
+      pureWhite: '#FFFFFF',
     },
     fontFamily: {
       sans: ['Satoshi-Variable', 'sans-serif'],
