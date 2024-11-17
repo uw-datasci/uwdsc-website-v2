@@ -71,8 +71,8 @@ export default function Navbar() {
       <header className="mx-nav relative z-50 mt-8 flex items-center justify-between lg:mt-12">
         <Logo classes="w-11.5 lg:w-13.5" />
         <nav className="hidden gap-12 font-semibold text-white lg:flex">
-          {routes.map((item) => (
-            <DropdownNavbarTitle item={item} />
+          {routes.map((item, index) => (
+            <DropdownNavbarTitle key={index} item={item} />
           ))}
         </nav>
         <button
@@ -156,8 +156,8 @@ export default function Navbar() {
         <div className="bg-gradient pointer-events-none absolute inset-0 opacity-10" />
         <nav className="mx-container mt-36 grid">
           <hr className="mb-4 border-t-2 border-white" />
-          {routes.map((item) => {
-            return <DropdownNavbarTitleCollapse item={item} />;
+          {routes.map((item, index) => {
+            return <DropdownNavbarTitleCollapse key={index} item={item} />;
           })}
         </nav>
         <div className="absolute inset-x-0 bottom-12 flex justify-center gap-4">
