@@ -9,9 +9,11 @@ const signUpPageSlice = createSlice({
   initialState,
   reducers : {
     moveUp : (state) => {
+      document.body.style.overflow = "hidden";
       state.value = true;
     },
     moveDown : (state) => {
+      document.body.style.overflow = "";
       state.value = false;
     }
   }
