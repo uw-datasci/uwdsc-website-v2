@@ -65,6 +65,14 @@ export default function Navbar() {
     }
   }, [signedIn, router.pathname]);
 
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+  }, [isMobileMenuOpen]);
+
   return (
     <>
       <header className="mx-nav relative z-50 mt-8 flex items-center justify-between lg:mt-12">
@@ -148,7 +156,7 @@ export default function Navbar() {
         </div>
       </header>
       <div
-        className={`transition-300 fixed inset-0 z-40 bg-black lg:hidden ${
+        className={`transition-300 fixed inset-0 z-40 bg-black lg:hidden overflow-hidden ${
           isMobileMenuOpen ? "" : "translate-x-full"
         }`}
       >
