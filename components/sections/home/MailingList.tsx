@@ -25,7 +25,7 @@ export default function MailingList() {
       setSuccess(false);
       setError(false);
       try {
-        await axios.post("/api/send/mailing-list", values);
+        await axios.post("/api/other/mailing-list", values);
         setSuccess(true);
       } catch (err) {
         console.error(err);

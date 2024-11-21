@@ -12,7 +12,7 @@ export default async function handler(
     const response = await axios({
       url:
         process.env.NEXT_PUBLIC_UWDSC_WEBSITE_SERVER_URL + "/api/users/login",
-      method: "GET",
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },

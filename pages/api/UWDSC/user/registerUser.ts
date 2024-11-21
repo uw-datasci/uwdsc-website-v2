@@ -12,7 +12,7 @@ export default async function handler(
     //console.log(`${name} ${WatIAM} ${email} ${password} ${faculty} ${term} ${advert} ${ideas}`);
     
     await axios({
-      url: process.env.NEXT_PUBLIC_UWDSC_WEBSITE_SERVER_URL + '/api/users/register',
+      url: process.env.NEXT_PUBLIC_UWDSC_WEBSITE_SERVER_URL + '/api/users/user',
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -45,7 +45,7 @@ export default async function handler(
         dispatch(logout());
       **When logged out, the redux state would just be an empty string**
     */
-    res.status(200).json({ success: true });
+    res.status(200).json({ success: true, email: email });
   } catch (error:any) {
     let customMessage = false;
     console.error(error);

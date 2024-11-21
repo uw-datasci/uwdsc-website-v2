@@ -18,7 +18,7 @@ import {
   validateSignInForm,
   validateForgotPasswordForm,
 } from "@/utils/formValidation";
-import { sendSignInInfo, sendForgotPassRequest } from "@/utils/api-calls";
+import { sendSignInInfo, sendForgotPassRequest } from "@/utils/apiCalls";
 
 export default function SignInPage() {
   const [panelIndex, setPanelIndex] = useState<number>(0);

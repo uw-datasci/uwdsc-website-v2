@@ -22,7 +22,7 @@ import {
   fetchUsers,
   createUser,
   editUser,
-} from "@/utils/api-calls";
+} from "@/utils/apiCalls";
 import TableCell from "./TableCell";
 import EditCell from "./EditCell";
 import Pagination from "./Pagination";

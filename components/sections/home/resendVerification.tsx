@@ -1,7 +1,7 @@
 import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import { useDispatch } from "react-redux";
 import Button from "@/components/UI/Button";
-import { resendVerification } from "@/utils/api-calls";
+import { resendVerification } from "@/utils/apiCalls";
 import { moveDown as signUpMoveDown } from "@/store/slices/signUpPageSlice";
 type resendVerificationProps = {
   email: string,

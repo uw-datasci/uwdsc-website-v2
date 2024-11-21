@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Button from "@/components/UI/Button";
-import { sendResetPassRequest } from "@/utils/api-calls";
+import { sendResetPassRequest } from "@/utils/apiCalls";
 import ContactForm from '@/components/sections/templates/ContactForm';
 import { RESET_PASSWORD_FORM_FIELDS } from '@/constants/forms';
 import { validateResetPasswordForm } from '@/utils/formValidation';

@@ -13,9 +13,9 @@ export default async function handler(
     await axios({
       url:
         process.env.NEXT_PUBLIC_UWDSC_WEBSITE_SERVER_URL +
-        "/api/admin/checkInById/" +
+        "/api/admin/users/checkIn/" +
         id,
-      method: "PUT",
+      method: "PATCH",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,

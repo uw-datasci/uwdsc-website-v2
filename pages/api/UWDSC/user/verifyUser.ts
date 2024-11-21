@@ -1,26 +1,29 @@
 import { type NextApiRequest, type NextApiResponse } from "next";
 import axios from "axios";
 
+require('dotenv').config()
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
   try {
-    const {email} = req.body;
+    const { id, token } = req.body;
     await axios({
-      url: process.env.NEXT_PUBLIC_UWDSC_WEBSITE_SERVER_URL + '/api/resend-verification/',
-      method: "POST",
+      url: process.env.NEXT_PUBLIC_UWDSC_WEBSITE_SERVER_URL + '/api/users/verifyUser',
+      method: "PATCH",
       headers: {
         "Content-Type": "application/json"
       },
       data: JSON.stringify({
-        email: email
+        id: id,
+        token: token
       })
     }); 
+    
     res.status(200).json({ success: true });
-  } catch (error) {
+  } catch (error:any) {
     console.error(error);
-    res.status(500).json({ success: false, customErrorMessage: false, error });
+    res.status(500).json({ success: false, customErrorMessage: true, message: error.response.data.message });
   }
 }
-  

@@ -14,7 +14,7 @@ import { moveUp as signInMoveUp } from "@/store/slices/signInPageSlice";
 import ContactForm from "../templates/ContactForm";
 import { SIGN_UP_FORM_FIELDS_PART1, SIGN_UP_FORM_FIELDS_PART2 } from "@/constants/forms";
 import { validateSignUpFormPart1, validateSignUpFormPart2 } from "@/utils/formValidation";
-import { sendSignUpInfo } from "@/utils/api-calls";
+import { sendSignUpInfo } from "@/utils/apiCalls";
 import ResendVerificationPage from "./resendVerification"; 
 
 export default function SignUpPage() {
