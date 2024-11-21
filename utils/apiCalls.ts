@@ -41,7 +41,7 @@ export const checkInById = async (values: Record<string, string>) => {
 //User
 export const sendSignUpInfo = async (values: Record<string, string>) => {
   console.log("test")
-  const response =  await axios.post("/api/UWDSC/user/registerUser", values);
+  const response =  await axios.post("/api/UWDSC/user/registerUser", values); 
   return await axios.post("/api/UWDSC/user/sendVerificationEmail", {email: response.data.email});
 };
 

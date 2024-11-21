@@ -36,7 +36,7 @@ export default function SignUpPage() {
 
   const updatePart2Field = async (values: Record<string, string>) => {
     const combined: Record<string, string> = {...fields, ...values};
-    return sendSignUpInfo(combined);
+    await sendSignUpInfo(combined);
   }
 
   const getFormik = (formik: any) => {
