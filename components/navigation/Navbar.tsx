@@ -5,7 +5,6 @@ import { moveUp as signUpMoveUp } from "@/store/slices/signUpPageSlice";
 import { moveUp as signInMoveUp } from "@/store/slices/signInPageSlice";
 import { RootState } from "@/store/store";
 
-import Link from "next/link";
 import { Instagram, Linkedin, Mail, Youtube } from "react-feather";
 
 import Button from "@/components/UI/Button";
@@ -154,7 +153,7 @@ export default function Navbar() {
         }`}
       >
         <div className="bg-gradient pointer-events-none absolute inset-0 opacity-10" />
-        <nav className="mx-container mt-36 grid">
+        <nav className="mx-container mt-36 grid h-[calc(100vh-15rem)] overflow-y-auto">
           <hr className="mb-4 border-t-2 border-white" />
           {routes.map((item, index) => {
             return <DropdownNavbarTitleCollapse key={index} item={item} />;
