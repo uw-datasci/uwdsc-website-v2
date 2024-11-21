@@ -1,4 +1,4 @@
-import { getQrCode } from "@/utils/api-calls";
+import { getQrCode } from "@/utils/apiCalls";
 import QRCode from "qrcode";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";

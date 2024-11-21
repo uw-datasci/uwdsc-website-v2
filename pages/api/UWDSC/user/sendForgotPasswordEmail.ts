@@ -11,8 +11,8 @@ export default async function handler(
     const { email } = req.body;
     
     await axios({
-      url: process.env.NEXT_PUBLIC_UWDSC_WEBSITE_SERVER_URL + '/api/users/forgotPass',
-      method: "PUT",
+      url: process.env.NEXT_PUBLIC_UWDSC_WEBSITE_SERVER_URL + '/api/users/sendForgotPassword',
+      method: "POST",
       headers: {
         "Content-Type": "application/json"
       },

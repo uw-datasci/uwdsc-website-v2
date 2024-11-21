@@ -18,7 +18,7 @@ export default async function handler(
         .json({ success: false, message: "Token and userId are required" });
     }
     const response = await axios({
-      url: `${process.env.NEXT_PUBLIC_UWDSC_WEBSITE_SERVER_URL}/api/admin/deleteUserById/${userId}`,
+      url: `${process.env.NEXT_PUBLIC_UWDSC_WEBSITE_SERVER_URL}/api/admin/users/${userId}`,
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,

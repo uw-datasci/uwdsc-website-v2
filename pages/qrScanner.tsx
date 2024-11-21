@@ -4,7 +4,7 @@ import QrScanner from "qr-scanner";
 import Button from "@/components/UI/Button";
 import GradientBorder from "@/components/UI/GradientBorder";
 import { useRouter } from "next/router";
-import { checkInById, getUserbyId } from "@/utils/api-calls";
+import { checkInById, getUserbyId } from "@/utils/apiCalls";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import UserCheckInCard from "@/components/cards/UserCheckInDetails";
