@@ -4,11 +4,11 @@ import { promises } from "dns";
 
 //Other
 export const sendContactEmail = async (values: Record<string, string>) => {
-  return await axios.post("/api/other/contact", values);
+  await axios.post("/api/other/contact", values);
 };
 
 export const sendSponsorEmail = async (values: Record<string, string>) => {
-  return await axios.post("/api/other/sponsor", values);
+  await axios.post("/api/other/sponsor", values);
 };
 
 
