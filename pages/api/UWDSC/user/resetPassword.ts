@@ -12,7 +12,7 @@ export default async function handler(
     
     await axios({
       url: process.env.NEXT_PUBLIC_UWDSC_WEBSITE_SERVER_URL + '/api/users/resetPass',
-      method: "PUT",
+      method: "PATCH",
       headers: {
         "Content-Type": "application/json"
       },

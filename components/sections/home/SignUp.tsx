@@ -144,7 +144,7 @@ export default function SignUpPage() {
           </>,
          <>
          <div className="w-full overflow-auto no-scrollbar lg:overflow-hidden-x">
-           <ResendVerificationPage email={email} setPanelIndex={setPanelIndex}/>
+           <ResendVerificationPage email={email} panelIndex={panelIndex} setPanelIndex={setPanelIndex}/>
          </div>
        </>
        

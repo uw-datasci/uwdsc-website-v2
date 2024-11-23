@@ -362,6 +362,7 @@ const AdminTable = () => {
       return response;
     } catch (error) {
       console.error("Error Creating user:", error);
+      alert(error)
     } finally {
       setLoading(false);
     }

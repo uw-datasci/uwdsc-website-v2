@@ -55,6 +55,11 @@ export default async function handler(
       customMessage = true;
     }
 
+    if (error.response.data.message && error.response.data.message == "User already registered, but email is not verified.") {
+      error = { message: "The email you used is already a member, but we'll send you another verification email." };
+      customMessage = true;
+    }
+
     res.status(500).json({ success: false, customErrorMessage: customMessage, error });
   }
 }

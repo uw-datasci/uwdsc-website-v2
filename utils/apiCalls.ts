@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { promises } from "dns";
 
 
@@ -40,9 +40,16 @@ export const checkInById = async (values: Record<string, string>) => {
 
 //User
 export const sendSignUpInfo = async (values: Record<string, string>) => {
-  console.log("test")
-  const response =  await axios.post("/api/UWDSC/user/registerUser", values); 
-  return await axios.post("/api/UWDSC/user/sendVerificationEmail", {email: response.data.email});
+  try {
+    const response =  await axios.post("/api/UWDSC/user/registerUser", values); 
+    return await axios.post("/api/UWDSC/user/sendVerificationEmail", {email: response.data.email});
+  } catch (err : any) {
+    const response = err.response.data;
+    if (response.customErrorMessage && response.error.message == "The email you used is already a member, but we'll send you another verification email.") {
+      await axios.post("/api/UWDSC/user/sendVerificationEmail", {email: values.email});
+    }
+    throw err
+  }
 };
 
 export const sendSignInInfo = async (values: Record<string, string>) => {
