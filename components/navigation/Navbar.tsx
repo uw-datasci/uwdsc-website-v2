@@ -5,38 +5,15 @@ import { moveUp as signUpMoveUp } from "@/store/slices/signUpPageSlice";
 import { moveUp as signInMoveUp } from "@/store/slices/signInPageSlice";
 import { RootState } from "@/store/store";
 
-import Link from "next/link";
 import { Instagram, Linkedin, Mail, Youtube } from "react-feather";
 
 import Button from "@/components/UI/Button";
 import GradientBorder from "@/components/UI/GradientBorder";
 import Logo from "@/components/UI/Logo";
 import { logout } from "@/store/slices/loginTokenSlice";
-import { unstable_renderSubtreeIntoContainer } from "react-dom";
-
-type nav_obj = {
-  label: string;
-  route: string;
-};
-
-const DEFAULT_ROUTES = [
-  {
-    label: "Home",
-    route: "/",
-  },
-  {
-    label: "CxC",
-    route: "/cxc",
-  },
-  {
-    label: "Team",
-    route: "/team",
-  },
-  {
-    label: "Contact",
-    route: "/#contact",
-  },
-];
+import DropdownNavbarTitle from "./DropdownNavbarTitle";
+import { NAVBAR_ROUTES } from "./navbarPermissions";
+import DropdownNavbarTitleCollapse from "./DropdownNavbarTitleCollapse";
 
 const SOCIALS = [
   {
@@ -57,72 +34,53 @@ const SOCIALS = [
   },
 ];
 
+type NavItem = {
+  label: string;
+  route?: string;
+  subNavItems?: SubNavItem[];
+};
+
+type SubNavItem = {
+  label: string;
+  route: string;
+};
+
 export default function Navbar() {
   let dispatch = useDispatch();
-  const [routes, setRoutes] = useState<nav_obj[]>(DEFAULT_ROUTES);
+  const [routes, setRoutes] = useState<NavItem[]>([]);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
   const signedIn = useSelector((state: RootState) => state.loginToken.name);
+  const userRole = useSelector((state: RootState) => state.loginToken.role);
   const router = useRouter();
 
   useEffect(() => {
-    if (signedIn && routes.length == 4) {
-      setRoutes(
-        routes.concat({
-          label: "QR Code",
-          route: "/qrPage",
-        }),
-      );
+    if (signedIn) {
+      if (userRole === "admin") {
+        setRoutes(NAVBAR_ROUTES.ADMIN);
+      } else {
+        setRoutes(NAVBAR_ROUTES.USER);
+      }
+    } else {
+      setRoutes(NAVBAR_ROUTES.NOT_LOGGED_IN);
     }
-
-    if (!signedIn && routes.length == 5) {
-      setRoutes(
-        routes.filter((nav) => {
-          return nav.label != "QR Code";
-        }),
-      );
-    }
-
-    if (
-      (router.pathname === "/admin" || router.pathname === "/qrScanner") &&
-      !routes.some((nav) => nav.label === "QR Scanner")
-    ) {
-      setRoutes(
-        routes.concat({
-          label: "QR Scanner",
-          route: "/qrScanner",
-        }),
-      );
-    }
-
-    if (
-      router.pathname !== "/admin" &&
-      routes.some((nav) => nav.label === "QR Scanner")
-    ) {
-      setRoutes(
-        routes.filter((nav) => {
-          return nav.label != "QR Scanner";
-        }),
-      );
-    }
-    console.log(routes);
   }, [signedIn, router.pathname]);
+
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+  }, [isMobileMenuOpen]);
 
   return (
     <>
       <header className="mx-nav relative z-50 mt-8 flex items-center justify-between lg:mt-12">
         <Logo classes="w-11.5 lg:w-13.5" />
-        <nav className="hidden gap-16 lg:flex">
-          {routes.map((route) => {
-            return (
-              <Link
-                href={route.route}
-                className="font-semibold text-white"
-                key={route.label}
-              >
-                {route.label}
-              </Link>
-            );
-          })}
+        <nav className="hidden gap-12 font-semibold text-white lg:flex">
+          {routes.map((item, index) => (
+            <DropdownNavbarTitle key={index} item={item} />
+          ))}
         </nav>
         <button
           type="button"
@@ -198,23 +156,15 @@ export default function Navbar() {
         </div>
       </header>
       <div
-        className={`transition-300 fixed inset-0 z-40 bg-black lg:hidden ${
+        className={`transition-300 fixed inset-0 z-40 bg-black lg:hidden overflow-hidden ${
           isMobileMenuOpen ? "" : "translate-x-full"
         }`}
       >
         <div className="bg-gradient pointer-events-none absolute inset-0 opacity-10" />
-        <nav className="mx-container mt-36 grid gap-8">
-          {routes.map((route) => {
-            return (
-              <Link
-                href={route.route}
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="text-5xl font-bold text-white"
-                key={route.label}
-              >
-                {route.label}
-              </Link>
-            );
+        <nav className="mx-container mt-36 grid h-[calc(100vh-15rem)] overflow-y-auto">
+          <hr className="mb-4 border-t-2 border-white" />
+          {routes.map((item, index) => {
+            return <DropdownNavbarTitleCollapse key={index} item={item} />;
           })}
         </nav>
         <div className="absolute inset-x-0 bottom-12 flex justify-center gap-4">
