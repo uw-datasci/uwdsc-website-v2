@@ -1,14 +1,15 @@
 import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import { useDispatch } from "react-redux";
 import Button from "@/components/UI/Button";
-import { resendVerification } from "@/utils/api-calls";
+import { resendVerification } from "@/utils/apiCalls";
 import { moveDown as signUpMoveDown } from "@/store/slices/signUpPageSlice";
 type resendVerificationProps = {
   email: string,
+  panelIndex: number,
   setPanelIndex: Dispatch<SetStateAction<number>>,
 };
 
-export default function ResendVerificationPage({ email, setPanelIndex } : resendVerificationProps) {
+export default function ResendVerificationPage({ email, panelIndex, setPanelIndex } : resendVerificationProps) {
   const [statusMessage, setStatusMessage] = useState<string|null>(null);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const headings = "mt-0 text-2xl text-center font-bold text-white 3xs:text-3xl 2xs:text-4xl xs:text-5xl sm:text-6xl md:text-7xl lg:mx-0 lg:mb-2 lg:max-w-[500px] lg:text-6xl xl:max-w-[540px] xl:text-9xl 2xl:max-w-[580px] 2xl:text-11xl 3xl:max-w-none 3xl:text-13xl";
@@ -31,6 +32,12 @@ export default function ResendVerificationPage({ email, setPanelIndex } : resend
       if (interval) clearInterval(interval);
     };
   }, [isActive, seconds]);
+
+  useEffect(() => {
+    if (panelIndex == 2) {
+      restartTimer();
+    }
+  }, [panelIndex])
 
   const restartTimer = () => {
     setSeconds(60);

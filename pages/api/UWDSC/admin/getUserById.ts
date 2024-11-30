@@ -14,7 +14,7 @@ export default async function handler(
     const response = await axios({
       url:
         process.env.NEXT_PUBLIC_UWDSC_WEBSITE_SERVER_URL +
-        "/api/admin/getUserById/" +
+        "/api/admin/users/" +
         id,
       method: "GET",
       headers: {

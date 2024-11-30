@@ -10,7 +10,7 @@ export default async function handler(
   try {
     const {token} = req.body;
     const response = await axios({
-      url: process.env.NEXT_PUBLIC_UWDSC_WEBSITE_SERVER_URL + '/api/users/getQr', 
+      url: process.env.NEXT_PUBLIC_UWDSC_WEBSITE_SERVER_URL + '/api/users/qr', 
       method: "GET",
       headers: {
         "Authorization": `Bearer ${token}`,

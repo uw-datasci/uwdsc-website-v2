@@ -1,7 +1,7 @@
 import ContactForm from "@/components/sections/templates/ContactForm";
 
 import { validateSponsorForm } from "@/utils/formValidation";
-import { sendSponsorEmail } from "@/utils/api-calls";
+import { sendSponsorEmail } from "@/utils/apiCalls";
 import { SPONSOR_FORM_FIELDS } from "@/constants/forms";
 
 export default function SponsorForm() {

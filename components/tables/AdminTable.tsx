@@ -22,7 +22,7 @@ import {
   fetchUsers,
   createUser,
   editUser,
-} from "@/utils/api-calls";
+} from "@/utils/apiCalls";
 import TableCell from "./TableCell";
 import EditCell from "./EditCell";
 import Pagination from "./Pagination";
@@ -362,6 +362,7 @@ const AdminTable = () => {
       return response;
     } catch (error) {
       console.error("Error Creating user:", error);
+      alert(error)
     } finally {
       setLoading(false);
     }

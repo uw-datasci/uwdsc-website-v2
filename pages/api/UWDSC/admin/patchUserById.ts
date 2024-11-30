@@ -17,8 +17,8 @@ export default async function handler(
     }
 
     const response = await axios({
-      url: `${process.env.NEXT_PUBLIC_UWDSC_WEBSITE_SERVER_URL}/api/admin/updateUserById/${userId}`,
-      method: "PUT",
+      url: `${process.env.NEXT_PUBLIC_UWDSC_WEBSITE_SERVER_URL}/api/admin/users/${userId}`,
+      method: "PATCH",
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
@@ -30,9 +30,9 @@ export default async function handler(
         userStatus: newUser.userStatus,
         isEmailVerified: newUser.isEmailVerified === "True",
         hasPaid: newUser.hasPaid === "True",
-        paymentMethod: newUser.paymentMethod || "EMPTY_FIELD",
-        verifier: newUser.verifier || "EMPTY_FIELD",
-        paymentLocation: newUser.paymentLocation || "EMPTY_FIELD",
+        paymentMethod: newUser.paymentMethod,
+        verifier: newUser.verifier,
+        paymentLocation: newUser.paymentLocation,
       },
     });
 

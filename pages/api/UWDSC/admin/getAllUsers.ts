@@ -12,7 +12,7 @@ export default async function handler(
     const response = await axios({
       url:
         process.env.NEXT_PUBLIC_UWDSC_WEBSITE_SERVER_URL +
-        "/api/admin/getAllUsers",
+        "/api/admin/users",
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
