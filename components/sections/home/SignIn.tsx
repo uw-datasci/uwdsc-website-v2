@@ -15,8 +15,8 @@ import {
   FORGOT_PASSWORD_FORM_FIELDS,
 } from "@/constants/forms";
 import {
-  validateSignInForm,
-  validateForgotPasswordForm,
+  SignInFormSchema,
+  ForgotPasswordFormSchema,
 } from "@/utils/formValidation";
 import { sendSignInInfo, sendForgotPassRequest } from "@/utils/apiCalls";
 
@@ -69,7 +69,7 @@ export default function SignInPage() {
       panelIndex={panelIndex}
       panels={[
         <>
-          <div className="no-scrollbar my-auto flex w-full flex-col overflow-auto lg:flex-row lg:overflow-hidden-x">
+          <div className="no-scrollbar lg:overflow-hidden-x my-auto flex w-full flex-col overflow-auto lg:flex-row">
             <div className="h-fit w-full border-r lg:my-auto lg:border-grey3 lg:p-8">
               <Logo classes="3xs:hidden lg:block lg:min-w-[70px] w-[30%]" />
               <h1 className={headings}>Sign in</h1>
@@ -86,7 +86,7 @@ export default function SignInPage() {
                   includeSideInfo={false}
                   description={<></>}
                   fields={SIGN_IN_FORM_FIELDS}
-                  validate={validateSignInForm}
+                  validationSchema={SignInFormSchema}
                   onSubmit={signIn}
                   successMessage="Signed in !"
                   successCallback={signInSuccessful}
@@ -134,7 +134,7 @@ export default function SignInPage() {
           </div>
         </>,
         <>
-          <div className="no-scrollbar my-auto flex w-full overflow-auto 3xs:flex-col lg:flex-row lg:overflow-hidden-x">
+          <div className="no-scrollbar lg:overflow-hidden-x my-auto flex w-full overflow-auto 3xs:flex-col lg:flex-row">
             <div className="h-fit w-full border-r lg:my-auto lg:border-grey3 lg:p-8">
               <h1 className={headings}>Forgot your password?</h1>
               <p className={subTexts}>
@@ -155,7 +155,7 @@ export default function SignInPage() {
                   includeSideInfo={false}
                   description={<></>}
                   fields={FORGOT_PASSWORD_FORM_FIELDS}
-                  validate={validateForgotPasswordForm}
+                  validationSchema={ForgotPasswordFormSchema}
                   onSubmit={forgotPass}
                   successMessage="Forgot password email sent! Check your inbox/spam."
                   errorMessage="Something went wrong, please contact us."

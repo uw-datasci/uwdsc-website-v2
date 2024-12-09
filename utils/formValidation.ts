@@ -1,114 +1,63 @@
-export const validateContactForm = (values: Record<string, string>) => {
-  const errors: Record<string, string> = {};
+import { string, object, ref } from "yup";
 
-  if (!values.name) {
-    errors.name = "Please enter your name.";
-  }
+export const ContactFormSchema = object({
+  name: string().required("Please enter your name."),
+  email: string()
+    .email("Please enter a valid email.")
+    .required("Please enter your email."),
+  purpose: string().required("Please select the purpose of your contact."),
+});
 
-  if (!values.email) {
-    errors.email = "Please enter your email.";
-  }
+export const SponsorFormSchema = object({
+  name: string().required("Please enter your name."),
+  email: string()
+    .email("Please enter a valid email.")
+    .required("Please enter your work email."),
+  company: string().required("Please enter your company or organization name."),
+});
 
-  if (!values.purpose) {
-    errors.purpose = "Please select the purpose of your contact.";
-  }
+export const SignUpFormPart1Schema = object({
+  name: string().required("Please enter your name."),
+  WatIAM: string().required("Please enter your WatIAM ID."),
+  email: string()
+    .test(
+      "is-uwaterloo-email",
+      "Please enter your UWaterloo email.",
+      (value) =>
+        !!value &&
+        value.toLowerCase().endsWith("@uwaterloo.ca") &&
+        value.length > 13,
+    )
+    .required("Please enter your UWaterloo email."),
+  password: string()
+    .min(8, "Your password needs to be at least 8 characters long.")
+    .required("Your password is required."),
+});
 
-  return errors;
-};
+export const SignUpFormPart2Schema = object({
+  faculty: string().required("Please select your faculty."),
+  term: string().required("Please select your current/last completed term."),
+  advert: string().required("Let us know where you heard about us!"),
+});
 
-export const validateSponsorForm = (values: Record<string, string>) => {
-  const errors: Record<string, string> = {};
+export const SignInFormSchema = object({
+  email: string()
+    .required("Please enter your email.")
+    .email("Please enter a valid email."),
+  password: string().required("Please enter your password."),
+});
 
-  if (!values.name) {
-    errors.name = "Please enter your name.";
-  }
+export const ForgotPasswordFormSchema = object({
+  email: string()
+    .required("Please enter the email associated with your account.")
+    .email("Please enter a valid email."),
+});
 
-  if (!values.email) {
-    errors.email = "Please enter your work email.";
-  }
-
-  if (!values.company) {
-    errors.company = "Please enter your company or organization name.";
-  }
-
-  return errors;
-};
-
-export const validateSignUpFormPart1 = (values: Record<string, string>) => {
-  const errors: Record<string, string> = {};
-  const allowedEmail = "@uwaterloo.ca"
-
-  if (!values.name) {
-    errors.name = "Please enter your name.";
-  }
-
-  if (!values.WatIAM) {
-    errors.WatIAM = "Please enter your WatIAM ID.";
-  }
-
-  if (!values.email || !values.email.toLowerCase().includes(allowedEmail) || values.email.length < (allowedEmail.length + 1)) {
-    errors.email = "Please enter your UWaterloo email.";
-  }
-  
-  if (!values.password || values.password.length < 8) {
-    errors.password = "Your password needs to be at least 8 characters long.";
-  }
-
-  return errors;
-};
-
-export const validateSignUpFormPart2 = (values: Record<string, string>) => {
-  const errors: Record<string, string> = {};
-
-  if (!values.faculty) {
-    errors.faculty = "Please select your faculty.";
-  }
-
-  if (!values.term) {
-    errors.term = "Please select your current/last completed term.";
-  }
-
-  if (!values.advert) {
-    errors.advert = "Let us know where you heard about us!";
-  }
-  
-  return errors;
-};
-
-export const validateSignInForm = (values: Record<string, string>) => {
-  const errors: Record<string, string> = {};
-
-  if (!values.email) {
-    errors.email = "Please enter your email.";
-  }
-
-  if (!values.password) {
-    errors.password = "Please enter your password.";
-  }
-
-  return errors;
-};
-
-export const validateForgotPasswordForm = (values: Record<string, string>) => {
-  const errors: Record<string, string> = {};
-
-  if (!values.email) {
-    errors.email = "Please enter your email.";
-  }
-
-  return errors;
-};
-
-export const validateResetPasswordForm = (values: Record<string, string>) => {
-  const errors: Record<string, string> = {};
-
-  if (!values.newPass || values.newPass.length < 8) {
-    errors.newPass = "Your password needs to be at least 8 characters long.";
-  }
-
-  if (values.newPass != values.confirmPass) {
-    errors.confirmPass = "Your passwords do not match";
-  }
-
-  return errors;
-};
+export const ResetPasswordFormSchema = object({
+  newPass: string()
+    .min(8, "Your password needs to be at least 8 characters long.")
+    .required("New password is required."),
+  confirmPass: string()
+    .oneOf([ref("newPass"), undefined], "Passwords do not match.")
+    .required("Confirm Password is required."),
+});
