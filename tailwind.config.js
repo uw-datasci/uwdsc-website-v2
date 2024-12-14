@@ -30,6 +30,7 @@ module.exports = {
     fontFamily: {
       sans: ['Satoshi-Variable', 'sans-serif'],
       display: ['ClashDisplay-Variable', 'sans-serif'],
+      jersey: ['Jersey-10', 'sans-serif'],
     },
     fontSize: {
       '2xs': '10px',

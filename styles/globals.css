@@ -24,6 +24,13 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: 'Jersey-10';
+  src: url('/fonts/Jersey10-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 @layer components {
   .mx-container {
     @apply mx-5 xs:mx-7 sm:mx-9 xl:mx-12 3xl:mx-auto 3xl:max-w-[1200px];
