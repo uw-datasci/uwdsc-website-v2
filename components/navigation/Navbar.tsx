@@ -75,7 +75,7 @@ export default function Navbar() {
 
   return (
     <>
-      <header className="mx-nav relative z-50 mt-8 flex items-center justify-between lg:mt-12">
+      <header className="pb-6 mx-nav relative z-50 mt-8 flex items-center justify-between lg:mt-12">
         <Logo classes="w-11.5 lg:w-13.5" />
         <nav className="hidden gap-12 font-semibold text-white lg:flex">
           {routes.map((item, index) => (

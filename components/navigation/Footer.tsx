@@ -43,7 +43,8 @@ export default function Footer() {
   return (
     <>
       <hr className="border-b-1 border-grey3" />
-      <footer className="mx-container mb-12 mt-9 flex flex-col justify-between gap-8 sm:flex-row sm:items-center">
+      <footer className="bg-black relative z-10 w-full py-6">
+        <div className="mx-container mb-12 mt-9 flex flex-col justify-between gap-8 sm:flex-row sm:items-center">
         <div className="flex flex-col items-center sm:items-start">
           <Logo classes="w-11.5 lg:w-13.5 mb-4" />
           <a
@@ -52,6 +53,7 @@ export default function Footer() {
           >
             contact@uwdatascience.ca
           </a>
+        </div>
         </div>
         <div className="flex flex-wrap justify-center gap-5">
           {SOCIALS.map((social, i) => (

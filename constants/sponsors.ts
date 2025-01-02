@@ -13,7 +13,7 @@ import salesforce from "@/public/logos/cxc/salesforce.png";
 import databricks from "@/public/logos/cxc/databricks.png";
 import EY from "@/public/logos/cxc_2024/EY.png";
 import IIS from "@/public/logos/cxc_2024/IIS.png";
-import OwnersBox from "@/public/logos/cxc_2024/OwnersBox.png";
+import OwnersBox from "@/public/logos/cxc_2024/OwnersBox.png"; 
 import Quadreal from "@/public/logos/cxc_2024/Quadreal.png";
 import MEF from "@/public/logos/mef.png";
 import WUSA from "@/public/logos/cxc_2024/wusa.png";
@@ -25,6 +25,10 @@ import LiveAssets from "@/public/logos/cxc_2024/LiveAssets.png";
 import FluidAI from "@/public/logos/cxc_2024/FluidAI.svg";
 import Ecapital from "@/public/logos/cxc_2024/Ecapital.png";
 
+// 2025 New Sponsors
+import federato from "@/public/logos/cxc_2025/federato.png"
+import chapa from "@/public/logos/cxc_2025/chapa.png"
+import touchbistro from "@/public/logos/cxc_2025/touchbistro.png"
 
 /*
  * Constent data for SPONSORS lists, and SPONSOR_TIERS
@@ -38,25 +42,17 @@ export const CURRENT_SPONSORS: Sponsor[] = [
 
 export const CURRENT_CXC_SPONSORS: Sponsor[] = [
   // Top Sponsors
-  { name: "EY", logo: EY, type:"top" },
+  { name: "Federato", logo: federato, type:"top" },
   { name: "MEF", logo: MEF, type:"top" },
   { name: "WUSA", logo: WUSA, type:"top" },
+  { name: "Chapa", logo: chapa, type:"top" },
   
   // Dataset Sponsors
-  { name: "OwnersBox", logo: OwnersBox, type:"dataset" },
-  { name: "Infinite Investments", logo: IIS, type:"dataset"},
-  { name: "Quadreal", logo: Quadreal, type:"dataset" },
+  { name: "Touch Bistro", logo: touchbistro, type:"dataset" },
 
   // Gold Sponsors
-  { name: "Interac", logo: Interac, type:"gold" },
-  { name: "Fidelity", logo: Fidelity, type:"gold"},
-  { name: "Architech", logo: Architech, type:"gold" },
-  { name: "Boomerang", logo: Boomerang, type:"gold" },
-  { name: "LiveAssets", logo: LiveAssets, type:"gold" },
-
-  // Gold Sponsors
-  { name: "FluidAI", logo: FluidAI, type:"silver" },
-  { name: "Ecapital", logo: Ecapital, type:"silver"},
+  { name: "Intact", logo: intact, type:"gold" },
+  //{ name: "iMiller", logo: Fidelity, type:"gold"},
 ];
 
 export const PAST_SPONSORS: Sponsor[] = [

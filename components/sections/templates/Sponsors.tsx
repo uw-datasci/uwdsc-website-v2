@@ -35,8 +35,8 @@ export default function Sponsors({
             height = "h-15 md:h-16"
           } else if (type=="gold"){
             height = "h-12 md:h-11"
-            if (name == "Interac" || name == "LiveAssets"){
-              height = "h-14 md:h-16"
+            if (name == "Intact"){
+              height = "h-15 md:h-20"
             }
           } else if (type=="silver"){
             height = "h-8 md:h-8"
