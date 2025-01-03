@@ -94,6 +94,12 @@ export type Sponsor = {
   link?: string;
 }
 
+export type Partner = {
+  name: string;
+  logo: StaticImageData;
+  link?: string;
+}
+
 export type User = {
   _id: string;
   watIAM: string;

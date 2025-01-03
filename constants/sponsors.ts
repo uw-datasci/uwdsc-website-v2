@@ -1,5 +1,5 @@
 import { type SponsorTier } from "@/types/types";
-import { type Sponsor } from "@/types/types";
+import { type Sponsor, type Partner } from "@/types/types";
 
 import mathsoc from "@/public/logos/mathsoc.png";
 import mef from "@/public/logos/mef.png";
@@ -30,6 +30,9 @@ import federato from "@/public/logos/cxc_2025/federato.png"
 import chapa from "@/public/logos/cxc_2025/chapa.png"
 import touchbistro from "@/public/logos/cxc_2025/touchbistro.png"
 
+// 2025 CxC Partners
+import hackthe6ix from "@/public/logos/cxc_2025/HackThe6ixLogo.png"
+
 /*
  * Constent data for SPONSORS lists, and SPONSOR_TIERS
  */
@@ -53,6 +56,11 @@ export const CURRENT_CXC_SPONSORS: Sponsor[] = [
   // Gold Sponsors
   { name: "Intact", logo: intact, type:"gold" },
   //{ name: "iMiller", logo: Fidelity, type:"gold"},
+];
+
+export const CURRENT_CXC_PARTNERS: Partner[] = [
+  { name: "HackThe6ix", logo: hackthe6ix },
+  { name: "Techyon", logo: techyon }
 ];
 
 export const PAST_SPONSORS: Sponsor[] = [
