@@ -23,8 +23,17 @@ import statsheading from "@/public/cxc/graphics/StatsHeading.png"
 import pastcxcheading from "@/public/cxc/graphics/PastCxCHeading.png"
 import partnersheading from "@/public/cxc/graphics/PartnersHeading.png"
 import airplane from "@/public/cxc/graphics/Airplane.png"
+import smallcloud from "@/public/cxc/graphics/SmallCloud.png"
+import cloudcluster from "@/public/cxc/graphics/CloudCluster.png"
+
+import { useMediaQuery } from "react-responsive";
 
 export default function CxC() {
+  const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
+  const Star = ({ size = 5, top = 0, left = 0 }) => 
+    (<div className="z-[-1] absolute bg-white inline-block" 
+      style={{top: `${top}%`, left: `${left}%`, width: `${size}px`, height: `${size}px`,}}>
+    </div>)
   return (
     <>
       <SEO
@@ -37,16 +46,42 @@ export default function CxC() {
           backgroundSize: "cover",
           backgroundRepeat: "no-repeat",}}>
        
-       {/* UFO, airplane, and CxC Title */}
-        <div className="absolute left-[7%] top-[5%] w-[min(25%,200px)]">
-          <Image src={ufo} alt="UFO" />
-        </div>
-        <div className="absolute right-[7%] top-[50%] w-[min(50%,400px)]">
-          <Image src={airplane} alt="Airplane" />
-        </div>
-        <div className="absolute left-1/2 top-[3%] w-[75%] lg:w-[45%] -translate-x-1/2">
-          <Image src={cxctitle} alt="CxC Title" />
-        </div>
+       {/* UFO, airplane, clouds, and CxC Title */}
+       {/* UFO, airplane, and clouds only show for desktop and not mobile */}
+       <div className="absolute left-1/2 top-[3%] w-[75%] lg:w-[45%] -translate-x-1/2">
+            <Image src={cxctitle} alt="CxC Title" />
+          </div>
+       {!isMobile && 
+       <div>
+          <Star size={5} top={4} left={4}/>
+          <Star size={10} top={3} left={8}/>
+          <Star size={7} top={8} left={95}/>
+          <Star size={9} top={4} left={90}/>
+          <Star size={5} top={6} left={87}/>
+          <Star size={8} top={17} left={20}/>
+          <Star size={10} top={20} left={15}/>
+          <Star size={6} top={22} left={93}/>
+          <Star size={9} top={31} left={23}/>
+          <Star size={5} top={33} left={25}/>
+          <Star size={7} top={35} left={20}/>
+          <Star size={7} top={48} left={12}/>
+          <Star size={10} top={50} left={15}/>
+          <Star size={8} top={53} left={11}/>
+          <div className="z-[-1] absolute left-[7%] top-[5%] w-[min(25%,200px)]">
+            <Image src={ufo} alt="UFO" />
+          </div>
+          <div className="z-[-1] absolute right-[5%] top-[30%] w-[min(50%,400px)]">
+            <Image src={airplane} alt="Airplane" />
+          </div> 
+          <div className="z-[-1] absolute left-[5%] top-[32%] w-[min(50%,200px)]">
+            <Image src={smallcloud} alt="Small Cloud" />
+          </div> 
+          <div className="z-[-1] absolute right-0 top-[48%] w-[min(50%,400px)]">
+            <Image src={cloudcluster} alt="Cloud Cluster" />
+          </div> 
+        </div>}
+
+      
         
         {/* Hero Section */}
         <Hero />
