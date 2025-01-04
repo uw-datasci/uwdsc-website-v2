@@ -66,7 +66,7 @@ export default function CxC() {
             <Star size={8} top={17} left={20} />
             <Star size={10} top={20} left={15} />
             <Star size={6} top={22} left={93} />
-            <Star size={9} top={31} left={23} />
+            <Star size={9} top={38} left={23} />
             <Star size={5} top={33} left={25} />
             <Star size={7} top={35} left={20} />
             <Star size={7} top={48} left={12} />
@@ -75,13 +75,13 @@ export default function CxC() {
             <div className="absolute left-[7%] top-[5%] z-[-1] w-[min(25%,200px)] animate-bounce">
               <Image src={ufo} alt="UFO" />
             </div>
-            <div className="animate-plane absolute left-[-25%] top-[30%] z-[-1] w-[min(50%,400px)]">
+            <div className="absolute left-[75%] top-[35%] z-[-1] w-[min(50%,400px)]">
               <Image src={airplane} alt="Airplane" />
             </div>
-            <div className="absolute left-[5%] top-[32%] z-[-1] w-[min(50%,200px)]">
+            <div className="absolute left-[5%] top-[32%] z-[-1] w-[min(50%,200px)] animate-bounce">
               <Image src={smallcloud} alt="Small Cloud" />
             </div>
-            <div className="absolute right-0 top-[48%] z-[-1] w-[min(50%,400px)] animate-bounce">
+            <div className="absolute right-0 top-[52%] z-[-1] w-[min(50%,400px)] animate-bounce">
               <Image src={cloudcluster} alt="Cloud Cluster" />
             </div>
 
@@ -95,26 +95,15 @@ export default function CxC() {
                   transform: translateY(10px);
                 }
               }
-
-              @keyframes movePlaneLeft {
-                0% {
-                  transform: translateX(calc(150vw - 100%));
-                }
-              }
-
               .animate-bounce {
                 animation: bounceY 5s infinite;
-              }
-
-              .animate-plane {
-                animation: movePlaneLeft 40s linear infinite;
               }
             `}</style>
           </div>
         )}
-        <Hero />
 
         {/* Hero Section */}
+        <Hero />
 
         {/* CxC Stats Section */}
         <div className="py-[10%] lg:py-[5%]">
