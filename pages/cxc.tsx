@@ -5,89 +5,124 @@ import FrequentlyAskedQuestions from "@/components/sections/cxc/FrequentlyAskedQ
 import SponsorshipTiers from "@/components/sections/cxc/SponsorshipTiers";
 import SponsorshipInterest from "@/components/sections/cxc/SponsorshipInterest";
 import SponsorForm from "@/components/sections/cxc/SponsorForm";
-import PastEvents from "@/components/sections/home/PastEvents"
+import PastEvents from "@/components/sections/home/PastEvents";
 import PastCxC from "@/components/sections/cxc/PastCxC";
 import Sponsors from "@/components/sections/templates/Sponsors";
 import Partners from "@/components/sections/templates/Partners";
-import {CURRENT_CXC_SPONSORS, PAST_SPONSORS} from "@/constants/sponsors"
-import {CURRENT_CXC_PARTNERS} from "@/constants/sponsors"
+import { CURRENT_CXC_SPONSORS, PAST_SPONSORS } from "@/constants/sponsors";
+import { CURRENT_CXC_PARTNERS } from "@/constants/sponsors";
 
 import Image from "next/image";
-import { useEffect } from 'react';
-import cxcbackground from "@/public/cxc/graphics/CxC Background.png"
-import ufo from "@/public/cxc/graphics/UFO.png"
-import cxctitle from "@/public/cxc/graphics/CxCTitle.png"
-import cityskyline from "@/public/cxc/graphics/CitySkyline.png"
-import sponsorsheading from "@/public/cxc/graphics/SponsorsHeading.png"
-import statsheading from "@/public/cxc/graphics/StatsHeading.png"
-import pastcxcheading from "@/public/cxc/graphics/PastCxCHeading.png"
-import partnersheading from "@/public/cxc/graphics/PartnersHeading.png"
-import airplane from "@/public/cxc/graphics/Airplane.png"
-import smallcloud from "@/public/cxc/graphics/SmallCloud.png"
-import cloudcluster from "@/public/cxc/graphics/CloudCluster.png"
+import { useEffect } from "react";
+import cxcbackground from "@/public/cxc/graphics/CxC Background.png";
+import ufo from "@/public/cxc/graphics/UFO.png";
+import cxctitle from "@/public/cxc/graphics/CxCTitle.png";
+import cityskyline from "@/public/cxc/graphics/CitySkyline.png";
+import sponsorsheading from "@/public/cxc/graphics/SponsorsHeading.png";
+import statsheading from "@/public/cxc/graphics/StatsHeading.png";
+import pastcxcheading from "@/public/cxc/graphics/PastCxCHeading.png";
+import partnersheading from "@/public/cxc/graphics/PartnersHeading.png";
+import airplane from "@/public/cxc/graphics/Airplane.png";
+import smallcloud from "@/public/cxc/graphics/SmallCloud.png";
+import cloudcluster from "@/public/cxc/graphics/CloudCluster.png";
 
 import { useMediaQuery } from "react-responsive";
 
 export default function CxC() {
   const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
-  const Star = ({ size = 5, top = 0, left = 0 }) => 
-    (<div className="z-[-1] absolute bg-white inline-block" 
-      style={{top: `${top}%`, left: `${left}%`, width: `${size}px`, height: `${size}px`,}}>
-    </div>)
+  const Star = ({ size = 5, top = 0, left = 0 }) => (
+    <div
+      className="absolute z-[-1] inline-block bg-white"
+      style={{
+        top: `${top}%`,
+        left: `${left}%`,
+        width: `${size}px`,
+        height: `${size}px`,
+      }}
+    ></div>
+  );
   return (
     <>
       <SEO
         title="CxC | UWaterloo Data Science Club"
         description="Experience CxC, a hackathon that brings together students and companies to build projects that solve real-world problems."
       />
-      <div className="relative mx-auto my-0 min-h-screen py-10 z-10"
+      <div
+        className="relative z-10 mx-auto my-0 min-h-screen py-10"
         style={{
           background: "linear-gradient(to bottom, #000000, #03137c)",
           backgroundSize: "cover",
-          backgroundRepeat: "no-repeat",}}>
-       
-       {/* UFO, airplane, clouds, and CxC Title */}
-       {/* UFO, airplane, and clouds only show for desktop and not mobile */}
-       <div className="absolute left-1/2 top-[3%] w-[75%] lg:w-[45%] -translate-x-1/2">
-            <Image src={cxctitle} alt="CxC Title" />
-          </div>
-       {!isMobile && 
-       <div>
-          <Star size={5} top={4} left={4}/>
-          <Star size={10} top={3} left={8}/>
-          <Star size={7} top={8} left={95}/>
-          <Star size={9} top={4} left={90}/>
-          <Star size={5} top={6} left={87}/>
-          <Star size={8} top={17} left={20}/>
-          <Star size={10} top={20} left={15}/>
-          <Star size={6} top={22} left={93}/>
-          <Star size={9} top={31} left={23}/>
-          <Star size={5} top={33} left={25}/>
-          <Star size={7} top={35} left={20}/>
-          <Star size={7} top={48} left={12}/>
-          <Star size={10} top={50} left={15}/>
-          <Star size={8} top={53} left={11}/>
-          <div className="z-[-1] absolute left-[7%] top-[5%] w-[min(25%,200px)]">
-            <Image src={ufo} alt="UFO" />
-          </div>
-          <div className="z-[-1] absolute right-[5%] top-[30%] w-[min(50%,400px)]">
-            <Image src={airplane} alt="Airplane" />
-          </div> 
-          <div className="z-[-1] absolute left-[5%] top-[32%] w-[min(50%,200px)]">
-            <Image src={smallcloud} alt="Small Cloud" />
-          </div> 
-          <div className="z-[-1] absolute right-0 top-[48%] w-[min(50%,400px)]">
-            <Image src={cloudcluster} alt="Cloud Cluster" />
-          </div> 
-        </div>}
+          backgroundRepeat: "no-repeat",
+        }}
+      >
+        {/* UFO, airplane, clouds, and CxC Title */}
+        {/* UFO, airplane, and clouds only show for desktop and not mobile */}
+        <div className="absolute left-1/2 w-[75%] -translate-x-1/2 lg:w-[45%]">
+          <Image src={cxctitle} alt="CxC Title" />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black"></div>
+        </div>
+        {!isMobile && (
+          <div>
+            <Star size={5} top={4} left={4} />
+            <Star size={10} top={3} left={8} />
+            <Star size={7} top={8} left={95} />
+            <Star size={9} top={4} left={90} />
+            <Star size={5} top={6} left={87} />
+            <Star size={8} top={17} left={20} />
+            <Star size={10} top={20} left={15} />
+            <Star size={6} top={22} left={93} />
+            <Star size={9} top={31} left={23} />
+            <Star size={5} top={33} left={25} />
+            <Star size={7} top={35} left={20} />
+            <Star size={7} top={48} left={12} />
+            <Star size={10} top={50} left={15} />
+            <Star size={8} top={53} left={11} />
+            <div className="absolute left-[7%] top-[5%] z-[-1] w-[min(25%,200px)] animate-bounce">
+              <Image src={ufo} alt="UFO" />
+            </div>
+            <div className="animate-plane absolute left-[-25%] top-[30%] z-[-1] w-[min(50%,400px)]">
+              <Image src={airplane} alt="Airplane" />
+            </div>
+            <div className="absolute left-[5%] top-[32%] z-[-1] w-[min(50%,200px)]">
+              <Image src={smallcloud} alt="Small Cloud" />
+            </div>
+            <div className="absolute right-0 top-[48%] z-[-1] w-[min(50%,400px)] animate-bounce">
+              <Image src={cloudcluster} alt="Cloud Cluster" />
+            </div>
 
-      
-        
-        {/* Hero Section */}
+            <style jsx>{`
+              @keyframes bounceY {
+                0%,
+                100% {
+                  transform: translateY(-10px);
+                }
+                50% {
+                  transform: translateY(10px);
+                }
+              }
+
+              @keyframes movePlaneLeft {
+                0% {
+                  transform: translateX(calc(150vw - 100%));
+                }
+              }
+
+              .animate-bounce {
+                animation: bounceY 5s infinite;
+              }
+
+              .animate-plane {
+                animation: movePlaneLeft 40s linear infinite;
+              }
+            `}</style>
+          </div>
+        )}
         <Hero />
 
+        {/* Hero Section */}
+
         {/* CxC Stats Section */}
-        <div className="absolute left-1/2 w-[45%] lg:w-[37%] -translate-x-1/2 lg:translate-x-[-20%]">
+        <div className="absolute left-1/2 w-[45%] -translate-x-1/2 lg:w-[37%] lg:translate-x-[-20%]">
           <Image src={statsheading} alt="Stats Heading" />
         </div>
         <div className="py-[10%] lg:py-[5%]">
@@ -95,33 +130,41 @@ export default function CxC() {
         </div>
 
         {/* Sponsors Section */}
-        <div className="absolute left-1/2 w-[75%] lg:w-[46.5%] -translate-x-1/2 lg:translate-x-[-27.5%]">
+        <div className="absolute left-1/2 w-[75%] -translate-x-1/2 lg:w-[46.5%] lg:translate-x-[-27.5%]">
           <Image src={sponsorsheading} alt="Sponsors Heading" />
         </div>
         <div className="py-[20%] lg:py-[10%]">
-          <Sponsors sectionTitle="" className="gap-x-24 gap-y-20" sponsorList={CURRENT_CXC_SPONSORS}/>
+          <Sponsors
+            sectionTitle=""
+            className="gap-x-24 gap-y-20"
+            sponsorList={CURRENT_CXC_SPONSORS}
+          />
         </div>
 
         {/* Partners Section */}
-        <div className="absolute left-1/2 w-[75%] lg:w-[46.5%] -translate-x-1/2 lg:translate-x-[-26.5%]">
+        <div className="absolute left-1/2 w-[75%] -translate-x-1/2 lg:w-[46.5%] lg:translate-x-[-26.5%]">
           <Image src={partnersheading} alt="Partners Heading" />
         </div>
         <div className="py-[20%] lg:py-[10%]">
-          <Partners sectionTitle="" className="gap-x-24 gap-y-20" partnerList={CURRENT_CXC_PARTNERS}/>
+          <Partners
+            sectionTitle=""
+            className="gap-x-24 gap-y-20"
+            partnerList={CURRENT_CXC_PARTNERS}
+          />
         </div>
 
         {/* Past CxC Section */}
-        <div className="absolute left-1/2 w-[75%] lg:w-[46.5%] -translate-x-1/2 lg:translate-x-[-24%]">
+        <div className="absolute left-1/2 w-[75%] -translate-x-1/2 lg:w-[46.5%] lg:translate-x-[-24%]">
           <Image src={pastcxcheading} alt="Past CxC Heading" />
         </div>
         <div className="py-[20%] lg:py-[5%]">
-          <PastCxC/>
+          <PastCxC />
         </div>
 
         {/* City Skyline and Gradient Overlay */}
-        <div className="absolute bottom-0 h-min w-full z-[-1]">
+        <div className="absolute bottom-0 z-[-1] h-min w-full">
           <Image src={cityskyline} alt="City Skyline" />
-          <div className="absolute w-full inset-0 bg-gradient-to-t from-black to-transparent" />
+          <div className="absolute inset-0 w-full bg-gradient-to-t from-black to-transparent" />
         </div>
 
         {/* <SponsorshipTiers /> */}

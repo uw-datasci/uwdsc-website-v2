@@ -25,10 +25,10 @@ export default function Hero() {
     }, []);
 
   return (
-    <section className="mt-[7%] mx-container mb-section relative">
+    <section className="mt-[25%] mx-container mb-section relative">
       <div className="relative pt-44 text-center lg:pt-56">
         <p className="mx-auto mb-10 max-w-[350px] leading-loose text-white xs:max-w-[600px] xs:text-lg lg:mb-14 2xl:max-w-[640px] 2xl:text-xl">
-        Experience CxC, a datathon that brings together students and companies to build projects that solve real-world problems.
+        Experience CxC - Powered by Federato, Canada's <b>largest</b> student run hackathon. We bring together students and companies to build projects that solve real-world problems.
         </p>
         <div className="flex flex-col gap-5 sm:flex-row sm:justify-center sm:gap-12">
           <Button
