@@ -13,18 +13,13 @@ import { CURRENT_CXC_SPONSORS, PAST_SPONSORS } from "@/constants/sponsors";
 import { CURRENT_CXC_PARTNERS } from "@/constants/sponsors";
 
 import Image from "next/image";
-import { useEffect } from "react";
-import cxcbackground from "@/public/cxc/graphics/CxC Background.png";
-import ufo from "@/public/cxc/graphics/UFO.png";
-import cxctitle from "@/public/cxc/graphics/CxCTitle.png";
-import cityskyline from "@/public/cxc/graphics/CitySkyline.png";
-import sponsorsheading from "@/public/cxc/graphics/SponsorsHeading.png";
-import statsheading from "@/public/cxc/graphics/StatsHeading.png";
-import pastcxcheading from "@/public/cxc/graphics/PastCxCHeading.png";
-import partnersheading from "@/public/cxc/graphics/PartnersHeading.png";
-import airplane from "@/public/cxc/graphics/Airplane.png";
-import smallcloud from "@/public/cxc/graphics/SmallCloud.png";
-import cloudcluster from "@/public/cxc/graphics/CloudCluster.png";
+import { useEffect } from 'react';
+import ufo from "@/public/cxc/graphics/UFO.png"
+import cxctitle from "@/public/cxc/graphics/CxCTitle.png"
+import cityskyline from "@/public/cxc/graphics/CitySkyline.png"
+import airplane from "@/public/cxc/graphics/Airplane.png"
+import smallcloud from "@/public/cxc/graphics/SmallCloud.png"
+import cloudcluster from "@/public/cxc/graphics/CloudCluster.png"
 
 import { useMediaQuery } from "react-responsive";
 
@@ -122,17 +117,11 @@ export default function CxC() {
         {/* Hero Section */}
 
         {/* CxC Stats Section */}
-        <div className="absolute left-1/2 w-[45%] -translate-x-1/2 lg:w-[37%] lg:translate-x-[-20%]">
-          <Image src={statsheading} alt="Stats Heading" />
-        </div>
         <div className="py-[10%] lg:py-[5%]">
           <CxCStats />
         </div>
 
         {/* Sponsors Section */}
-        <div className="absolute left-1/2 w-[75%] -translate-x-1/2 lg:w-[46.5%] lg:translate-x-[-27.5%]">
-          <Image src={sponsorsheading} alt="Sponsors Heading" />
-        </div>
         <div className="py-[20%] lg:py-[10%]">
           <Sponsors
             sectionTitle=""
@@ -142,9 +131,6 @@ export default function CxC() {
         </div>
 
         {/* Partners Section */}
-        <div className="absolute left-1/2 w-[75%] -translate-x-1/2 lg:w-[46.5%] lg:translate-x-[-26.5%]">
-          <Image src={partnersheading} alt="Partners Heading" />
-        </div>
         <div className="py-[20%] lg:py-[10%]">
           <Partners
             sectionTitle=""
@@ -154,9 +140,6 @@ export default function CxC() {
         </div>
 
         {/* Past CxC Section */}
-        <div className="absolute left-1/2 w-[75%] -translate-x-1/2 lg:w-[46.5%] lg:translate-x-[-24%]">
-          <Image src={pastcxcheading} alt="Past CxC Heading" />
-        </div>
         <div className="py-[20%] lg:py-[5%]">
           <PastCxC />
         </div>

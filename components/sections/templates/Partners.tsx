@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { type Partner } from "@/types/types";
 import SectionTitle from "@/components/UI/SectionTitle";
+import partnersheading from "@/public/cxc/graphics/PartnersHeading.png"
 
 type PartnersProps = {
   sectionTitle: string;
@@ -25,6 +26,9 @@ export default function Partners({
   }
   return (
     <section className="mb-section mx-container">
+      <div className="mb-20 flex justify-center">
+        <Image src={partnersheading} alt="Partners Heading" />
+      </div>
       {/*<SectionTitle mb="mb-20">{sectionTitle}</SectionTitle>*/}
       <div className={`flex flex-wrap justify-center ${className}`}>
         {partnerList?.map(({ name, logo, link }) => {
