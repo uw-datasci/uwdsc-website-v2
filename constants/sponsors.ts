@@ -26,7 +26,7 @@ import FluidAI from "@/public/logos/cxc_2024/FluidAI.svg";
 import Ecapital from "@/public/logos/cxc_2024/Ecapital.png";
 
 // 2025 New Sponsors
-import federato from "@/public/logos/cxc_2025/federato.png"
+import federato from "@/public/logos/cxc_2025/federato.svg"
 import chapa from "@/public/logos/cxc_2025/chapa.png"
 import touchbistro from "@/public/logos/cxc_2025/touchbistro.png"
 
