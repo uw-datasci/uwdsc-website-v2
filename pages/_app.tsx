@@ -12,7 +12,11 @@ import "@/styles/globals.css";
 export default function App({ Component, pageProps }: AppProps) {
   // Very bad not good but will work for now, pls fix
   const router = useRouter();
-  const hideLayoutRoutes = ["/account/verification", "/account/resetPassword"];
+  const hideLayoutRoutes = [
+    "/account/verification",
+    "/account/resetPassword",
+    "/sandbox/input",
+  ];
   const shouldHideLayout = hideLayoutRoutes.includes(router.pathname);
   return (
     <ReduxProvider>
