@@ -64,7 +64,7 @@ export default function ResendVerificationPage({ email, panelIndex, setPanelInde
       <p className={"text-left ml-4 lg:ml-6" + subTexts}>
         1. Cash at any our our in-person event or office hours
         <br/>2. Credit/Debit at the MathSoc office
-        <br/>3. Online <a className="bold uppercase underline" href="https://wusa.ca/product/uw-data-science-club-membership/" target="_blank">here</a> and email the receipt to membership@uwdatascience.ca
+        <br/>3. Online <a className="bold uppercase underline" href="https://wusa.ca/product/uw-data-science-club-membership/" target="_blank">here</a> and email the receipt to dsc@uwaterloo.ca
       </p>
       <hr className="border-grey3 border-[0.5px] border-b w-full lg:w-[80%] m-4 lg:m-8"></hr>
       <p className={"text-center " + subTexts}>Your verification email was sent to : <u>{email}</u>
