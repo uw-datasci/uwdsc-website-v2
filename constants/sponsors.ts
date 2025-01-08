@@ -29,6 +29,7 @@ import Ecapital from "@/public/logos/cxc_2024/Ecapital.png";
 import federato from "@/public/logos/cxc_2025/federato.svg"
 import chapa from "@/public/logos/cxc_2025/chapa.png"
 import touchbistro from "@/public/logos/cxc_2025/touchbistro.png"
+import nomadfuturists from "@/public/logos/cxc_2025/NomadFuturistLogo.png"
 
 // 2025 CxC Partners
 import hackthe6ix from "@/public/logos/cxc_2025/HackThe6ixLogo.png"
@@ -45,22 +46,22 @@ export const CURRENT_SPONSORS: Sponsor[] = [
 
 export const CURRENT_CXC_SPONSORS: Sponsor[] = [
   // Top Sponsors
-  { name: "Federato", logo: federato, type:"top" },
-  { name: "MEF", logo: MEF, type:"top" },
-  { name: "WUSA", logo: WUSA, type:"top" },
-  { name: "Chapa", logo: chapa, type:"top" },
+  { name: "Federato", logo: federato, type:"top" , link:"https://www.federato.ai/"},
+  { name: "MEF", logo: MEF, type:"top", link:"https://uwaterloo.ca/math-endowment-fund/"},
+  { name: "WUSA", logo: WUSA, type:"top", link:"https://wusa.ca/"},
+  { name: "Chapa", logo: chapa, type:"top" , link:"https://chapa.co/"},
   
   // Dataset Sponsors
-  { name: "Touch Bistro", logo: touchbistro, type:"dataset" },
+  { name: "Touch Bistro", logo: touchbistro, type:"dataset", link:"https://www.touchbistro.com/" },
 
   // Gold Sponsors
-  { name: "Intact", logo: intact, type:"gold" },
-  //{ name: "iMiller", logo: Fidelity, type:"gold"},
+  { name: "Intact", logo: intact, type:"gold" , link:"https://www.intact.ca/en/personal-insurance"},
+  { name: "Nomad Futurists Foundation", logo: nomadfuturists, type:"gold", link:"https://nomadfuturist.org/"},
 ];
 
 export const CURRENT_CXC_PARTNERS: Partner[] = [
-  { name: "HackThe6ix", logo: hackthe6ix },
-  { name: "Techyon", logo: techyon }
+  { name: "HackThe6ix", logo: hackthe6ix, link:"https://hackthe6ix.com/"},
+  { name: "Techyon", logo: techyon, link: "https://techyon.org/"}
 ];
 
 export const PAST_SPONSORS: Sponsor[] = [

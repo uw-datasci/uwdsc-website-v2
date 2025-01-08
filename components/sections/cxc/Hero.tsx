@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { useEffect } from 'react';
+import { useRouter } from 'next/router';
 import CxcLogo from '@/public/cxc/cxc_logo.svg'
 
 
@@ -10,7 +11,7 @@ import officeArcade from "@/public/graphics/office-arcade.png";
 
 
 export default function Hero() {
-
+    const router = useRouter();
     // Add the Luma checkout script dynamically
     useEffect(() => {
       const script = document.createElement('script');
@@ -23,6 +24,7 @@ export default function Hero() {
         document.getElementById('luma-checkout')?.remove();
       };
     }, []);
+    const handleButtonClick=()=>{router.push('/registration/cxc')};
 
   return (
     <section className="mt-[25%] mx-container mb-section relative">
@@ -33,7 +35,7 @@ export default function Hero() {
         <div className="flex flex-col gap-5 sm:flex-row sm:justify-center sm:gap-12">
           <Button
             type="button"
-            href=""
+            onClick={handleButtonClick}
             classes="ease-in-out"
             hierarchy="primary"
             font="font-bold"

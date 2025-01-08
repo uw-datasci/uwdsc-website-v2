@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 import { type Sponsor } from "@/types/types";
 import SectionTitle from "@/components/UI/SectionTitle";
 import sponsorsheading from "@/public/cxc/graphics/SponsorsHeading.png"
@@ -24,6 +25,24 @@ export default function Sponsors({
   if (className == ""){
     className = "gap-x-40 gap-y-20"
   }
+  <style jsx>{`
+    .animate-popout {
+      animation: popout 1s ease;
+    }
+    .animate-popin {
+      animation: popin 1s ease;
+    }
+    @keyframes popout {
+      from{transform:scale(1)}
+      50%{transform:scale(1.1)}
+      to{transform:scale()}
+    }
+    @keyframes popin {
+      from{transform:scale(1.2)}
+      50%{transform:scale(1.1)}
+      to{transform:scale(1)}
+    }
+  `}</style>
   return (
     <section className="mb-section mx-container">
       <div className="mb-20 flex justify-center">
@@ -32,6 +51,8 @@ export default function Sponsors({
       {/*<SectionTitle mb="mb-20">{sectionTitle}</SectionTitle>*/}
       <div className={`flex flex-wrap justify-center ${className}`}>
         {sponsorList?.map(({ name, logo, type, link }) => {
+          const [hovered, setHovered] = useState(false);
+
           let height = "h-16 md:h-20"
           if (type=="top"){
             height = "h-24 md:h-22"
@@ -40,15 +61,23 @@ export default function Sponsors({
           } else if (type=="gold"){
             height = "h-12 md:h-11"
             if (name == "Intact"){
-              height = "h-15 md:h-20"
+              height = "h-15 md:h-24"
+            }
+            else if (name== "Nomad Futurists Foundation"){
+              height = "h-20 md:h-24"
             }
           } else if (type=="silver"){
             height = "h-8 md:h-8"
           }
 
+          const handleMouseEnter = () => setHovered(true);
+          const handleMouseLeave = () => setHovered(false);
+
+          const animationClass = hovered ? "animate-popout" : "animate-popin";
+
           return link 
             ? (
-              <Link href={link} passHref key={name}>
+              <Link href={link} rel="noopener noreferrer" target="_blank" key={name}>
                 <Image
                   src={logo}
                   alt={name}
@@ -59,8 +88,10 @@ export default function Sponsors({
               <Image
                 src={logo}
                 alt={name}
-                className={`w-auto ${height}`}
+                className={`w-auto ${height} ${animationClass}`}
                 key={name}
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
               />
             );
         })}
