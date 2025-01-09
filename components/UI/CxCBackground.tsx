@@ -11,6 +11,10 @@ import { useMediaQuery } from "react-responsive";
 export default function CxCBackground() {
    
     const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
+    // MARCUS TODO: 
+    //  Please refrain from useMediaQuery unless absolutely necessary, you can use tailwind props to accomplish this.
+    //  Put your tailwind prop as part of stars, and the remaining divs
+    //  once you've done that, remove the react-responsive module from npm
 
     return (
         <>

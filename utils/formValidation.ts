@@ -61,3 +61,5 @@ export const ResetPasswordFormSchema = object({
     .oneOf([ref("newPass"), undefined], "Passwords do not match.")
     .required("Confirm Password is required."),
 });
+
+export const CxCRegistrationSchema = object({});
