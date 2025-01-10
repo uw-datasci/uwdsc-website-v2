@@ -46,7 +46,7 @@ export default function TextInput({
       />
       {touched[name] && errors[name] && (
         <InputFeedback state="error">
-          {errors[name].toString()}
+          {errors[name]?.toString()}
         </InputFeedback>
       )}
     </>

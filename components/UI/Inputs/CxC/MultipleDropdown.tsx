@@ -104,7 +104,7 @@ export default function MultipleDropdown({
           }`}
         >
           {options.map((option, i) => {
-            const [checked, setChecked] = useState(value.includes(option));
+            let checked = value.includes(option);
             const svgStyle: React.CSSProperties = {
               strokeLinecap: "round",
               strokeLinejoin: "round",
@@ -125,7 +125,7 @@ export default function MultipleDropdown({
                   checked={checked}
                   onChange={(e) => {
                     if (value.length < maxSelection || checked) {
-                      setChecked(!checked);
+                      checked = !checked;
                       handleCheckboxChange(e);
                     }
                   }}
@@ -159,7 +159,7 @@ export default function MultipleDropdown({
         </div>
       </div>
       {touched[name] && errors[name] && (
-        <InputFeedback state="error">{errors[name].toString()}</InputFeedback>
+        <InputFeedback state="error">{errors[name]?.toString()}</InputFeedback>
       )}
     </>
   );

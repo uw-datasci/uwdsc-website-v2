@@ -65,14 +65,21 @@ export default function MultipleDropdown({
   }
 
   return (
-    <div id={`dropdown-${id}`} className={wrapperClasses? wrapperClasses : "relative cursor-pointer"}>
+    <div
+      id={`dropdown-${id}`}
+      className={wrapperClasses ? wrapperClasses : "relative cursor-pointer"}
+    >
       <div
         onClick={() => setIsOpen((prev) => !prev)}
         className={`transition-300 relative cursor-pointer rounded-md border px-4.5 py-3.5 xl:rounded-lg xl:px-6 xl:py-4.5 ${
           isOpen ? "border-white" : "border-grey1"
         }`}
       >
-        <p className={`transition-300 ${value.length > 0 ? "text-white" : "text-grey1"}`}>
+        <p
+          className={`transition-300 ${
+            value.length > 0 ? "text-white" : "text-grey1"
+          }`}
+        >
           {value.length > 0 ? value.sort().join(", ") : placeholder}
         </p>
         <ChevronDown
@@ -87,7 +94,7 @@ export default function MultipleDropdown({
         }`}
       >
         {options.map((option, i) => {
-          const [checked, setChecked] = useState(value.includes(option));
+          let checked = value.includes(option);
           const svgStyle: React.CSSProperties = {
             strokeLinecap: "round",
             strokeLinejoin: "round",
@@ -107,19 +114,23 @@ export default function MultipleDropdown({
                 value={option}
                 checked={checked}
                 onChange={(e) => {
-                  setChecked(!checked);
-                  handleCheckboxChange(e);                
+                  checked = !checked;
+                  handleCheckboxChange(e);
                 }}
                 className="peer absolute appearance-none opacity-0"
               />
               <label
                 htmlFor={option}
-                className={`block h-[1.2rem] w-[1.2rem] cursor-pointer rounded-xs border-[1px]  transition-transform duration-200 ease-in-out peer-hover:scale-[1.03] peer-active:scale-[1.05] peer-active:rounded-[0.4rem] ${checked? "border-white" : "border-grey1"}`}
+                className={`block h-[1.2rem] w-[1.2rem] cursor-pointer rounded-xs border-[1px]  transition-transform duration-200 ease-in-out peer-hover:scale-[1.03] peer-active:scale-[1.05] peer-active:rounded-[0.4rem] ${
+                  checked ? "border-white" : "border-grey1"
+                }`}
               >
                 <svg viewBox="0,0,50,50" className="pointer-events-none p-[5%]">
                   <path
                     d="M5 30 L 20 45 L 45 5"
-                    className={`[cubic-bezier(1,0,.37,.91)] fill-none stroke-[4px] transition-all duration-[250ms] ${checked? "stroke-white" : "stroke-grey1"}`}
+                    className={`[cubic-bezier(1,0,.37,.91)] fill-none stroke-[4px] transition-all duration-[250ms] ${
+                      checked ? "stroke-white" : "stroke-grey1"
+                    }`}
                     style={svgStyle}
                   ></path>
                 </svg>

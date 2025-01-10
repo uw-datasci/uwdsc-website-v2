@@ -49,7 +49,7 @@ export default function TextArea({
         maxLength={maxLength}
       />
       {touched[name] && errors[name] && (
-        <InputFeedback state="error">{errors[name].toString()}</InputFeedback>
+        <InputFeedback state="error">{errors[name]?.toString()}</InputFeedback>
       )}
     </>
   );

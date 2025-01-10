@@ -1,7 +1,6 @@
 // Before user can access registration page, user must be logged in. User will be redirected to login page if not logged in
 // Use hooks and useState to check if user is logged in
 
-import { useEffect, useState } from "react";
 import Image from "next/image";
 
 import CxCBackground from "@/components/UI/CxCBackground";
@@ -12,12 +11,12 @@ import SingleDropdown from "@/components/UI/Inputs/CxC/SingleDropdown";
 import MultipleDropdown from "@/components/UI/Inputs/CxC/MultipleDropdown";
 import TextArea from "@/components/UI/Inputs/CxC/TextArea";
 import Checkbox from "@/components/UI/Inputs/CxC/Checkbox";
-import Submit from "@/components/UI/Inputs/CxC/Submit";
 import { useFormik } from "formik";
 import { CxCRegistrationSchema } from "@/utils/formValidation";
 import Button from "@/components/UI/Button";
+import withAuth from "@/components/permissions/authPage";
 
-export default function cxcregistrationpage() {
+function CxCRegistrationpage() {
   const formik = useFormik({
     initialValues: {
       firstName: "",
@@ -46,10 +45,6 @@ export default function cxcregistrationpage() {
       resetForm();
     },
   });
-
-  useEffect(() => {
-    console.log(formik);
-  }, [formik]);
 
   const termOptions = [
     "1A",
@@ -450,3 +445,5 @@ export default function cxcregistrationpage() {
     </div>
   );
 }
+
+export default withAuth(CxCRegistrationpage, []);

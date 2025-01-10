@@ -67,7 +67,7 @@ export default function Checkbox({
         </span>
       </div>
       {touched[name] && errors[name] && (
-        <InputFeedback state="error">{errors[name].toString()}</InputFeedback>
+        <InputFeedback state="error">{errors[name]?.toString()}</InputFeedback>
       )}
     </>
   );

@@ -96,7 +96,7 @@ export default function SingleDropdown({
         </div>
       </div>
       {touched[name] && errors[name] && (
-        <InputFeedback state="error">{errors[name].toString()}</InputFeedback>
+        <InputFeedback state="error">{errors[name]?.toString()}</InputFeedback>
       )}
     </>
   );
