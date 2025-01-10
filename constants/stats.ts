@@ -49,7 +49,7 @@ export const CXC_STATS: Stat[] = [
   {
     id: "in-prizes",
     title: "In Prizes",
-    stat: 5000,
+    stat: 20000,
     prefix: "$",
     suffix: "+",
   },

@@ -2,7 +2,7 @@ import { Fragment } from "react";
 
 import ContactForm from "@/components/sections/templates/ContactForm";
 
-import { validateContactForm } from "@/utils/formValidation";
+import { ContactFormSchema } from "@/utils/formValidation";
 import { sendContactEmail } from "@/utils/apiCalls";
 import { CONTACT_FORM_FIELDS } from "@/constants/forms";
 
@@ -21,7 +21,7 @@ export default function ContactUs() {
         </Fragment>
       }
       fields={CONTACT_FORM_FIELDS}
-      validate={validateContactForm}
+      validationSchema={ContactFormSchema}
       onSubmit={sendContactEmail}
       successMessage="Your message has been sent! We will get back to you ASAP."
       errorMessage="There was an error sending your message. Please refresh this page and\ntry again."

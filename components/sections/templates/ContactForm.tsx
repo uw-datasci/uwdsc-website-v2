@@ -1,7 +1,11 @@
-import { useState } from "react";
+import {
+  DO_NOT_USE_OR_YOU_WILL_BE_FIRED_EXPERIMENTAL_FORM_ACTIONS,
+  useState,
+} from "react";
 import { useFormik } from "formik";
 import { Mail, Instagram } from "react-feather";
 import { RxDiscordLogo } from "react-icons/rx";
+import { ObjectSchema } from "yup";
 
 import TextInput from "@/components/UI/TextInput";
 import Dropdown from "@/components/UI/Dropdown";
@@ -38,7 +42,7 @@ type ContactProps = {
   includeSideInfo: boolean;
   description: React.ReactNode;
   fields: ContactField[];
-  validate: (values: Record<string, string>) => Record<string, string>;
+  validationSchema: ObjectSchema<any>;
   onSubmit: (values: Record<string, string>) => Promise<void>;
   errorMessage: string;
   successMessage: string;
@@ -56,7 +60,7 @@ export default function ContactForm({
   includeSideInfo,
   description,
   fields,
-  validate,
+  validationSchema,
   onSubmit,
   errorMessage,
   successMessage,
@@ -76,22 +80,25 @@ export default function ContactForm({
       acc[field.name] = "";
       return acc;
     }, {}),
-    validate,
+    validationSchema,
     onSubmit: async (values) => {
       setLoading(true);
       setSuccess(false);
       setError(false);
       try {
         await onSubmit(values);
-        resetForm ? formik.resetForm(): null;
-        successCallback ? successCallback(): null;
+        resetForm ? formik.resetForm() : null;
+        successCallback ? successCallback() : null;
         setSuccess(true);
         setError(false);
       } catch (error: any) {
         console.error(error);
 
         const errorData = error.response.data;
-        if (errorData.hasOwnProperty("customErrorMessage") && errorData.customErrorMessage) {
+        if (
+          errorData.hasOwnProperty("customErrorMessage") &&
+          errorData.customErrorMessage
+        ) {
           setErrorMessageOveride(errorData.error.message);
         } else {
           setErrorMessageOveride("");
@@ -104,7 +111,7 @@ export default function ContactForm({
     },
   });
 
-  if (getFormik){
+  if (getFormik) {
     getFormik(formik);
   }
 
@@ -117,7 +124,7 @@ export default function ContactForm({
       )}
       {error && (
         <InputFeedback state="error" classes={inputFeedbackClasses}>
-          {errorMessageOveride? errorMessageOveride:errorMessage}
+          {errorMessageOveride ? errorMessageOveride : errorMessage}
         </InputFeedback>
       )}
     </>
@@ -126,9 +133,13 @@ export default function ContactForm({
   return (
     <section
       id={id}
-      className={formClasses ? formClasses : "mb-section mx-container grid gap-10 lg:grid-cols-2 lg:gap-16"}
+      className={
+        formClasses
+          ? formClasses
+          : "mb-section mx-container grid gap-10 lg:grid-cols-2 lg:gap-16"
+      }
     >
-      {includeSideInfo ? 
+      {includeSideInfo ? (
         <div>
           <h2 className="mb-3 text-4xl font-bold text-white md:text-8xl lg:-mt-3 xl:text-8xl">
             {title}
@@ -143,7 +154,10 @@ export default function ContactForm({
               </Chip>
             ))}
           </div>
-        </div> : <></>}
+        </div>
+      ) : (
+        <></>
+      )}
       <div className="relative">
         {loading && (
           <LoadingSpinner
@@ -176,7 +190,10 @@ export default function ContactForm({
                     />
                     {formik.touched[field.name] &&
                       formik.errors[field.name] && (
-                        <InputFeedback state="error" classes={inputFeedbackClasses}>
+                        <InputFeedback
+                          state="error"
+                          classes={inputFeedbackClasses}
+                        >
                           {formik.errors[field.name]}
                         </InputFeedback>
                       )}
@@ -200,7 +217,10 @@ export default function ContactForm({
                     />
                     {formik.touched[field.name] &&
                       formik.errors[field.name] && (
-                        <InputFeedback state="error" classes={inputFeedbackClasses}>
+                        <InputFeedback
+                          state="error"
+                          classes={inputFeedbackClasses}
+                        >
                           {formik.errors[field.name]}
                         </InputFeedback>
                       )}
@@ -224,7 +244,10 @@ export default function ContactForm({
                     />
                     {formik.touched[field.name] &&
                       formik.errors[field.name] && (
-                        <InputFeedback state="error" classes={inputFeedbackClasses}>
+                        <InputFeedback
+                          state="error"
+                          classes={inputFeedbackClasses}
+                        >
                           {formik.errors[field.name]}
                         </InputFeedback>
                       )}
@@ -233,7 +256,9 @@ export default function ContactForm({
                 );
             }
           })}
-          {customButton ? customButton : 
+          {customButton ? (
+            customButton
+          ) : (
             <Button
               type="submit"
               hierarchy="primary"
@@ -245,7 +270,7 @@ export default function ContactForm({
             >
               Submit
             </Button>
-          }
+          )}
         </form>
       </div>
     </section>

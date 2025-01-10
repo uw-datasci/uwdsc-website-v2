@@ -1,114 +1,134 @@
-export const validateContactForm = (values: Record<string, string>) => {
-  const errors: Record<string, string> = {};
+import { string, object, ref, boolean } from "yup";
 
-  if (!values.name) {
-    errors.name = "Please enter your name.";
+require("dotenv").config();
+
+function extractFileId(driveUrl: string) {
+  const match =
+    driveUrl.match(/\/file\/d\/([a-zA-Z0-9_-]+)/) ||
+    driveUrl.match(/id=([a-zA-Z0-9_-]+)/);
+  return match ? match[1] : null;
+}
+
+async function isPublicDriveFile(fileId: string) {
+  try {
+    const response = await fetch(`/api/other/google-drive?fileId=${fileId}`);
+    return true;
+  } catch (error) {
+    console.error("Error:", error);
+    return false;
   }
+}
 
-  if (!values.email) {
-    errors.email = "Please enter your email.";
-  }
+export const ContactFormSchema = object({
+  name: string().required("Please enter your name."),
+  email: string()
+    .email("Please enter a valid email.")
+    .required("Please enter your email."),
+  purpose: string().required("Please select the purpose of your contact."),
+});
 
-  if (!values.purpose) {
-    errors.purpose = "Please select the purpose of your contact.";
-  }
+export const SponsorFormSchema = object({
+  name: string().required("Please enter your name."),
+  email: string()
+    .email("Please enter a valid email.")
+    .required("Please enter your work email."),
+  company: string().required("Please enter your company or organization name."),
+});
 
-  return errors;
-};
+export const SignUpFormPart1Schema = object({
+  name: string().required("Please enter your name."),
+  WatIAM: string().required("Please enter your WatIAM ID."),
+  email: string()
+    .test(
+      "is-uwaterloo-email",
+      "Please enter your UWaterloo email.",
+      (value) =>
+        !!value &&
+        value.toLowerCase().endsWith("@uwaterloo.ca") &&
+        value.length > 13,
+    )
+    .required("Please enter your UWaterloo email."),
+  password: string()
+    .min(8, "Your password needs to be at least 8 characters long.")
+    .required("Your password is required."),
+});
 
-export const validateSponsorForm = (values: Record<string, string>) => {
-  const errors: Record<string, string> = {};
+export const SignUpFormPart2Schema = object({
+  faculty: string().required("Please select your faculty."),
+  term: string().required("Please select your current/last completed term."),
+  advert: string().required("Let us know where you heard about us!"),
+});
 
-  if (!values.name) {
-    errors.name = "Please enter your name.";
-  }
+export const SignInFormSchema = object({
+  email: string()
+    .required("Please enter your email.")
+    .email("Please enter a valid email."),
+  password: string().required("Please enter your password."),
+});
 
-  if (!values.email) {
-    errors.email = "Please enter your work email.";
-  }
+export const ForgotPasswordFormSchema = object({
+  email: string()
+    .required("Please enter the email associated with your account.")
+    .email("Please enter a valid email."),
+});
 
-  if (!values.company) {
-    errors.company = "Please enter your company or organization name.";
-  }
+export const ResetPasswordFormSchema = object({
+  newPass: string()
+    .min(8, "Your password needs to be at least 8 characters long.")
+    .required("New password is required."),
+  confirmPass: string()
+    .oneOf([ref("newPass"), undefined], "Passwords do not match.")
+    .required("Confirm Password is required."),
+});
 
-  return errors;
-};
-
-export const validateSignUpFormPart1 = (values: Record<string, string>) => {
-  const errors: Record<string, string> = {};
-  const allowedEmail = "@uwaterloo.ca"
-
-  if (!values.name) {
-    errors.name = "Please enter your name.";
-  }
-
-  if (!values.WatIAM) {
-    errors.WatIAM = "Please enter your WatIAM ID.";
-  }
-
-  if (!values.email || !values.email.toLowerCase().includes(allowedEmail) || values.email.length < (allowedEmail.length + 1)) {
-    errors.email = "Please enter your UWaterloo email.";
-  }
-  
-  if (!values.password || values.password.length < 8) {
-    errors.password = "Your password needs to be at least 8 characters long.";
-  }
-
-  return errors;
-};
-
-export const validateSignUpFormPart2 = (values: Record<string, string>) => {
-  const errors: Record<string, string> = {};
-
-  if (!values.faculty) {
-    errors.faculty = "Please select your faculty.";
-  }
-
-  if (!values.term) {
-    errors.term = "Please select your current/last completed term.";
-  }
-
-  if (!values.advert) {
-    errors.advert = "Let us know where you heard about us!";
-  }
-  
-  return errors;
-};
-
-export const validateSignInForm = (values: Record<string, string>) => {
-  const errors: Record<string, string> = {};
-
-  if (!values.email) {
-    errors.email = "Please enter your email.";
-  }
-
-  if (!values.password) {
-    errors.password = "Please enter your password.";
-  }
-
-  return errors;
-};
-
-export const validateForgotPasswordForm = (values: Record<string, string>) => {
-  const errors: Record<string, string> = {};
-
-  if (!values.email) {
-    errors.email = "Please enter your email.";
-  }
-
-  return errors;
-};
-
-export const validateResetPasswordForm = (values: Record<string, string>) => {
-  const errors: Record<string, string> = {};
-
-  if (!values.newPass || values.newPass.length < 8) {
-    errors.newPass = "Your password needs to be at least 8 characters long.";
-  }
-
-  if (values.newPass != values.confirmPass) {
-    errors.confirmPass = "Your passwords do not match";
-  }
-
-  return errors;
-};
+export const CxCRegistrationSchema = object({
+  firstName: string().required("First name is required"),
+  lastName: string().required("Last name is required"),
+  pronoun: string().required("Please select your pronouns"),
+  ethnicity: string().required("Please select your ethnicity"),
+  phoneNumber: string()
+    .required("Phone number is required")
+    .matches(
+      /^(\+1|1)?\s?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/,
+      "Phone number is not valid. Eg. +1 (123) 456 7890",
+    ),
+  email: string()
+    .email("Please enter a valid email.")
+    .required("Please enter your email."),
+  discordUsername: string().required("Please enter your Discord Name."),
+  term: string().required("Please select your current/last completed term."),
+  faculty: string().required("Please select your faculty."),
+  program: string().required("Please specify your program"),
+  tshirtSize: string().required("Please select your T-Shirt size"),
+  resumeLink: string()
+    .required("Please enter a Google Drive link to your resume.")
+    .matches(
+      /https?:\/\/(?:drive\.google\.com\/(?:file\/d\/|drive\/folders\/|open\?id=|uc\?id=)[^\/\&\?]+)/,
+      "Please provide a valid Google drive link.",
+    )
+    .test("is-public", "Please provide a publicaly shared link.", (url) => {
+      const fileId: string | null = extractFileId(url);
+      if (fileId) {
+        return isPublicDriveFile(fileId);
+      } else {
+        return false;
+      }
+    }),
+  githubLink: string().matches(
+    /^https?:\/\/(?:www\.)?github\.com\/(?=.{1,39}$)(?!-)(?!.*--)[A-Za-z0-9-]+(?<!-)\/?$/,
+    "Please provide a valid GitHub profile",
+  ),
+  linkedInLink: string().matches(
+    /^https?:\/\/(?:www\.)?linkedin\.com\/in\/[A-Za-z0-9._-]{3,100}\/?$/,
+    "Please provide a valid LinkedIn profile",
+  ),
+  anyLink: string(),
+  hackathonNum: string().required(
+    "Please select how many hackathons you've attended",
+  ),
+  cxcGoals: string().required("Please fill out this field."),
+  ambitions: string().required("Please fill out this field."),
+  consent: boolean()
+    .oneOf([true], "This field must be true.")
+    .required("Required"),
+});

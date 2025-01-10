@@ -1,14 +1,20 @@
 import SEO from "@/components/SEO/SEO";
 import Hero from "@/components/sections/cxc/Hero";
+import Image from "next/image";
 import CxCStats from "@/components/sections/cxc/CxCStats";
 import FrequentlyAskedQuestions from "@/components/sections/cxc/FrequentlyAskedQuestions";
 import SponsorshipTiers from "@/components/sections/cxc/SponsorshipTiers";
 import SponsorshipInterest from "@/components/sections/cxc/SponsorshipInterest";
 import SponsorForm from "@/components/sections/cxc/SponsorForm";
-import PastEvents from "@/components/sections/home/PastEvents"
+import PastEvents from "@/components/sections/home/PastEvents";
 import PastCxC from "@/components/sections/cxc/PastCxC";
 import Sponsors from "@/components/sections/templates/Sponsors";
-import {CURRENT_CXC_SPONSORS, PAST_SPONSORS} from "@/constants/sponsors"
+import Partners from "@/components/sections/templates/Partners";
+import { CURRENT_CXC_SPONSORS, PAST_SPONSORS } from "@/constants/sponsors";
+import { CURRENT_CXC_PARTNERS } from "@/constants/sponsors";
+import cxctitle from "@/public/cxc/graphics/CxCTitle.png";
+
+import CxCBackground from "@/components/UI/CxCBackground";
 
 export default function CxC() {
   return (
@@ -17,14 +23,55 @@ export default function CxC() {
         title="CxC | UWaterloo Data Science Club"
         description="Experience CxC, a hackathon that brings together students and companies to build projects that solve real-world problems."
       />
-      <Hero />
-      <CxCStats />
-      <Sponsors sectionTitle="THIS YEAR&apos;S SPONSORS" className="gap-x-24 gap-y-20" sponsorList={CURRENT_CXC_SPONSORS}/>
-      <PastCxC/>
-      {/* <SponsorshipTiers /> */}
-      {/* <SponsorshipInterest /> */}
-      {/* <SponsorForm /> */}
-      {/* <Sponsors sectionTitle="THIS YEAR&apos;S SPONSORS" className="" sponsorList={PAST_SPONSORS}/> */}
+      <div
+        className="relative z-10 mx-auto my-0 min-h-screen py-10"
+        style={{
+          background: "linear-gradient(to bottom, #000000, #03137c)",
+          backgroundSize: "cover",
+          backgroundRepeat: "no-repeat",
+        }}
+      >
+        <div className="absolute left-1/2 w-[75%] -translate-x-1/2 lg:w-[45%]">
+          <Image src={cxctitle} alt="CxC Title" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black"></div>
+        </div>
+        <CxCBackground />
+        {/* Hero Section */}
+        <Hero />
+
+        {/* CxC Stats Section */}
+        <div className="py-[10%] lg:py-[5%]">
+          <CxCStats />
+        </div>
+
+        {/* Sponsors Section */}
+        <div className="py-[20%] lg:py-[10%]">
+          <Sponsors
+            sectionTitle=""
+            className="gap-x-24 gap-y-20"
+            sponsorList={CURRENT_CXC_SPONSORS}
+          />
+        </div>
+
+        {/* Partners Section */}
+        <div className="py-[20%] lg:py-[10%]">
+          <Partners
+            sectionTitle=""
+            className="gap-x-24 gap-y-20"
+            partnerList={CURRENT_CXC_PARTNERS}
+          />
+        </div>
+
+        {/* Past CxC Section */}
+        <div className="py-[20%] lg:py-[5%]">
+          <PastCxC />
+        </div>
+
+        {/* <SponsorshipTiers /> */}
+        {/* <SponsorshipInterest /> */}
+        {/* <SponsorForm /> */}
+        {/* <Sponsors sectionTitle="THIS YEAR&apos;S SPONSORS" className="" sponsorList={PAST_SPONSORS}/> */}
+      </div>
     </>
   );
 }

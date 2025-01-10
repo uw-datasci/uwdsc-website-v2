@@ -1,31 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import Button from "@/components/UI/Button";
 import { sendResetPassRequest } from "@/utils/apiCalls";
-import ContactForm from '@/components/sections/templates/ContactForm';
-import { RESET_PASSWORD_FORM_FIELDS } from '@/constants/forms';
-import { validateResetPasswordForm } from '@/utils/formValidation';
+import ContactForm from "@/components/sections/templates/ContactForm";
+import { RESET_PASSWORD_FORM_FIELDS } from "@/constants/forms";
+import { ResetPasswordFormSchema } from "@/utils/formValidation";
 
 export default function ForgotPassword() {
   const params = new URL(document.location.toString()).searchParams;
 
   const resetPass = async (values: Record<string, string>) => {
-    const newValues: Record<string, string> = { 
-      id: params.get("id") || "", 
-      token: params.get("token") || "", 
-      newPass: values.newPass
+    const newValues: Record<string, string> = {
+      id: params.get("id") || "",
+      token: params.get("token") || "",
+      newPass: values.newPass,
     };
 
     try {
       await sendResetPassRequest(newValues);
     } catch (error) {
-      console.error('Error:', error); // Handle any errors
+      console.error("Error:", error); // Handle any errors
       throw error;
     }
-  }
+  };
 
   return (
-    <section className="mx-container mb-section mt-14 lg:mt-20 text-white">
-      <h1 className="mb-6 text-center text-3xl font-bold text-gray-800 3xs:text-4xl sm:text-5xl lg:text-6xl">
+    <section className="mx-container mb-section mt-14 text-white lg:mt-20">
+      <h1 className="text-gray-800 mb-6 text-center text-3xl font-bold 3xs:text-4xl sm:text-5xl lg:text-6xl">
         Reset Password
       </h1>
 
@@ -35,7 +35,7 @@ export default function ForgotPassword() {
         includeSideInfo={false}
         description={<></>}
         fields={RESET_PASSWORD_FORM_FIELDS}
-        validate={validateResetPasswordForm}
+        validationSchema={ResetPasswordFormSchema}
         onSubmit={resetPass}
         errorMessage="Something went wrong. Please let us know and try again later."
         successMessage="Successfully reset your password!"
