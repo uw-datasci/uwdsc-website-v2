@@ -58,7 +58,7 @@ export const CURRENT_CXC_SPONSORS: Sponsor[] = [
   { name: "Touch Bistro", logo: touchbistro, type:"dataset", link:"https://www.touchbistro.com/" },
   
   // Gold Sponsors
-  { name: "Nomad Futurists Foundation", logo: nomadfuturists, type:"gold", link:"https://nomadfuturist.org/"},
+  { name: "Nomad Futurists Foundation", logo: nomadfuturists, type:"gold", link:"https://nomadfuturist.org/"}
 ];
 
 export const CURRENT_CXC_PARTNERS: Partner[] = [

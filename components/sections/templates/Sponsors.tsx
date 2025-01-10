@@ -63,7 +63,7 @@ export default function Sponsors({
             if (name == "Intact"){
               height = "h-15 md:h-24"
             }
-            else if (name== "Nomad Futurists Foundation"){
+            else if (name=="Nomad Futurists Foundation"  || name=="Telus"){
               height = "h-20 md:h-24"
             }
           } else if (type=="silver"){
@@ -85,14 +85,14 @@ export default function Sponsors({
                 />
               </Link>
             ) : (
-              <Image
-                src={logo}
-                alt={name}
-                className={`w-auto ${height} ${animationClass}`}
-                key={name}
-                onMouseEnter={handleMouseEnter}
-                onMouseLeave={handleMouseLeave}
-              />
+                <Image
+                  src={logo}
+                  alt={name}
+                  className={`w-auto ${height} ${animationClass}`}
+                  key={name}
+                  onMouseEnter={handleMouseEnter}
+                  onMouseLeave={handleMouseLeave}
+                />
             );
         })}
       </div>
