@@ -1,4 +1,4 @@
-import { FormikErrors, FormikTouched } from "formik";
+import { Formik, FormikErrors, FormikTouched } from "formik";
 import { useEffect, useState } from "react";
 import { ChevronDown } from "react-feather";
 import InputFeedback from "./InputFeedback";
@@ -11,6 +11,7 @@ type SingleDropdownProps = {
   value: string;
   errors: FormikErrors<any>;
   touched: FormikTouched<any>;
+  setTouched: (touched: FormikTouched<any>, shouldValidate?: boolean) => void;
   onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   wrapperClasses?: string;
 };
@@ -24,9 +25,11 @@ export default function SingleDropdown({
   onChange,
   errors,
   touched,
+  setTouched,
   wrapperClasses,
 }: SingleDropdownProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isTouched, setIsTouched] = useState<boolean>(false);
 
   useEffect(() => {
     function handleOutsideClick(e: MouseEvent) {
@@ -42,6 +45,10 @@ export default function SingleDropdown({
 
     document.addEventListener("click", handleOutsideClick);
 
+    if (!isOpen && isTouched) {
+      setTouched({ ...touched, [name]: true }, true);
+    }
+
     return () => {
       document.removeEventListener("click", handleOutsideClick);
     };
@@ -52,7 +59,10 @@ export default function SingleDropdown({
       <div className={`relative ${wrapperClasses}`}>
         <div
           id={`dropdown-${id}`}
-          onClick={() => setIsOpen((prev) => !prev)}
+          onClick={() => {
+            setIsTouched(true);
+            setIsOpen((prev) => !prev);
+          }}
           className={`transition-300 relative cursor-pointer rounded-md border px-4.5 py-3.5 xl:rounded-lg xl:px-6 xl:py-4.5 ${
             isOpen ? "border-white" : "border-grey1"
           }`}

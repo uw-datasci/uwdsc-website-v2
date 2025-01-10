@@ -15,8 +15,9 @@ import { useFormik } from "formik";
 import { CxCRegistrationSchema } from "@/utils/formValidation";
 import Button from "@/components/UI/Button";
 import withAuth from "@/components/permissions/authPage";
+import { useEffect } from "react";
 
-function CxCRegistrationpage() {
+export default function CxCRegistrationpage() {
   const formik = useFormik({
     initialValues: {
       firstName: "",
@@ -29,11 +30,14 @@ function CxCRegistrationpage() {
       term: "",
       faculty: [],
       program: "",
+      dietaryRestrictions: [],
+      specificAllergies: "",
       tshirtSize: "",
       resumeLink: "",
       githubLink: "",
       linkedInLink: "",
       anyLink: "",
+      hackathonRole: [],
       hackathonNum: "",
       cxcGoals: "",
       ambitions: "",
@@ -47,6 +51,7 @@ function CxCRegistrationpage() {
   });
 
   const termOptions = [
+    "Not currently a student",
     "1A",
     "1B",
     "2A",
@@ -55,6 +60,7 @@ function CxCRegistrationpage() {
     "3B",
     "4A",
     "4B",
+    "5A+",
     "Masters",
     "PHD",
   ];
@@ -96,15 +102,24 @@ function CxCRegistrationpage() {
     "Science",
   ];
 
+  const dietaryRestrictionsOptions = [
+    "Halal",
+    "Vegan",
+    "Vegetarian",
+    "Gluten-Free",
+    "Dairy-Free",
+    "None",
+  ];
+
   const sizeOptions = ["XS", "S", "M", "L", "XL"];
 
-  const hackathonNumOptions = [
-    "This will be my first!",
-    "1",
-    "2",
-    "3",
-    "4",
-    "5+",
+  const hackathonRoleOptions = [
+    "Hacker",
+    "Volunteer",
+    "Mentor",
+    "Judge",
+    "Organizer",
+    "Never been to a hackathon previously",
   ];
 
   return (
@@ -204,6 +219,7 @@ function CxCRegistrationpage() {
                     onChange={formik.handleChange}
                     errors={formik.errors}
                     touched={formik.touched}
+                    setTouched={formik.setTouched}
                   />
                   <p className="text-left text-xl font-thin tracking-widest">
                     Ethnicities
@@ -217,6 +233,7 @@ function CxCRegistrationpage() {
                     onChange={formik.handleChange}
                     errors={formik.errors}
                     touched={formik.touched}
+                    setTouched={formik.setTouched}
                   />
                   <p className="text-left text-xl font-thin tracking-widest">
                     Phone Number
@@ -272,6 +289,7 @@ function CxCRegistrationpage() {
                     onChange={formik.handleChange}
                     errors={formik.errors}
                     touched={formik.touched}
+                    setTouched={formik.setTouched}
                   />
                   <p className="text-left text-xl font-thin tracking-widest">
                     Faculty
@@ -286,6 +304,7 @@ function CxCRegistrationpage() {
                     maxSelection={2}
                     errors={formik.errors}
                     touched={formik.touched}
+                    setTouched={formik.setTouched}
                   />
                   <p className="text-left text-xl font-thin tracking-widest">
                     Program
@@ -296,6 +315,35 @@ function CxCRegistrationpage() {
                     type={"text"}
                     placeholder="Enter Program Name"
                     value={formik.values.program}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    errors={formik.errors}
+                    touched={formik.touched}
+                  />
+                  <p className="text-left text-xl font-thin tracking-widest">
+                    Dietary Restrictions
+                  </p>
+                  <MultipleDropdown
+                    id={"dietaryRestrictions"}
+                    name={"dietaryRestrictions"}
+                    options={dietaryRestrictionsOptions}
+                    placeholder="Select Restrictions"
+                    value={formik.values.dietaryRestrictions}
+                    onChange={formik.handleChange}
+                    maxSelection={10}
+                    errors={formik.errors}
+                    touched={formik.touched}
+                    setTouched={formik.setTouched}
+                  />
+                  <p className="text-left text-xl font-thin tracking-widest">
+                    Specific Allergies
+                  </p>
+                  <TextInput
+                    id={"specificAllergies"}
+                    name={"specificAllergies"}
+                    type={"text"}
+                    placeholder="List specific allergies (if any)"
+                    value={formik.values.specificAllergies}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     errors={formik.errors}
@@ -313,6 +361,7 @@ function CxCRegistrationpage() {
                     onChange={formik.handleChange}
                     errors={formik.errors}
                     touched={formik.touched}
+                    setTouched={formik.setTouched}
                   />
                   <p className="text-left text-xl font-thin tracking-widest">
                     Resume (Publicly Accessible Link)
@@ -371,15 +420,31 @@ function CxCRegistrationpage() {
                     touched={formik.touched}
                   />
                   <p className="text-left text-xl font-thin tracking-widest">
-                    Number of Hackathons Attended as a Hacker
+                    Have you attended a hackathon before?
                   </p>
-                  <SingleDropdown
+                  <MultipleDropdown
+                    id={"hackathonRole"}
+                    name={"hackathonRole"}
+                    options={hackathonRoleOptions}
+                    placeholder="Select roles"
+                    value={formik.values.hackathonRole}
+                    onChange={formik.handleChange}
+                    maxSelection={10}
+                    errors={formik.errors}
+                    touched={formik.touched}
+                    setTouched={formik.setTouched}
+                  />
+                  <p className="text-left text-xl font-thin tracking-widest">
+                    Number of Hackathons Attended
+                  </p>
+                  <TextInput
                     id={"hackathonNum"}
                     name={"hackathonNum"}
-                    options={hackathonNumOptions}
-                    placeholder="Select number of hackthons attended"
+                    type={"number"}
+                    placeholder="Enter number of hackthons attended"
                     value={formik.values.hackathonNum}
                     onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
                     errors={formik.errors}
                     touched={formik.touched}
                   />
@@ -446,4 +511,4 @@ function CxCRegistrationpage() {
   );
 }
 
-export default withAuth(CxCRegistrationpage, []);
+// export default withAuth(CxCRegistrationpage, []);

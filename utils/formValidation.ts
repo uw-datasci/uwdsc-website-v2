@@ -1,4 +1,4 @@
-import { string, object, ref, boolean } from "yup";
+import { string, object, ref, boolean, array } from "yup";
 
 require("dotenv").config();
 
@@ -96,9 +96,23 @@ export const CxCRegistrationSchema = object({
     .email("Please enter a valid email.")
     .required("Please enter your email."),
   discordUsername: string().required("Please enter your Discord Name."),
-  term: string().required("Please select your current/last completed term."),
-  faculty: string().required("Please select your faculty."),
+  term: string().required("Please select your current/last completed term"),
+  faculty: array()
+    .of(string().required("Each item must be a string"))
+    .min(1, "Please select at least 1 faculty")
+    .required("Please select your faculty."),
   program: string().required("Please specify your program"),
+  dietaryRestrictions: array()
+    .of(string().required("Each item must be a string"))
+    .min(1, "Please select at least 1 option")
+    .test("is-none", 'You can only select "None" exclusively', (selection) => {
+      if (selection) {
+        return !(selection.includes("None") && selection.length > 1);
+      }
+      return true;
+    })
+    .required("Please select your dietary restrictions."),
+  specificAllergies: string(),
   tshirtSize: string().required("Please select your T-Shirt size"),
   resumeLink: string()
     .required("Please enter a Google Drive link to your resume.")
@@ -123,6 +137,23 @@ export const CxCRegistrationSchema = object({
     "Please provide a valid LinkedIn profile",
   ),
   anyLink: string(),
+  hackathonRole: array()
+    .of(string().required("Each item must be a string"))
+    .min(1, "Please select at least 1 role")
+    .test(
+      "is-none",
+      'You can only select "Never been to a hackathon previously" exclusively',
+      (selection) => {
+        if (selection) {
+          return (
+            selection.includes("Never been to a hackathon previously") &&
+            selection.length > 1
+          );
+        }
+        return true;
+      },
+    )
+    .required("Please select a role"),
   hackathonNum: string().required(
     "Please select how many hackathons you've attended",
   ),

@@ -12,6 +12,7 @@ type MultipleDropdownProps = {
   onChange: (e: React.ChangeEvent<any>) => void;
   errors: FormikErrors<any>;
   touched: FormikTouched<any>;
+  setTouched: (touched: FormikTouched<any>, shouldValidate?: boolean) => void;
   maxSelection: number;
   wrapperClasses?: string;
 };
@@ -25,10 +26,12 @@ export default function MultipleDropdown({
   onChange,
   errors,
   touched,
+  setTouched,
   wrapperClasses,
   maxSelection,
 }: MultipleDropdownProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isTouched, setIsTouched] = useState<boolean>(false);
 
   useEffect(() => {
     function handleOutsideClick(e: MouseEvent) {
@@ -43,6 +46,10 @@ export default function MultipleDropdown({
     }
 
     document.addEventListener("click", handleOutsideClick);
+
+    if (!isOpen && isTouched) {
+      setTouched({ ...touched, [name]: true }, true);
+    }
 
     return () => {
       document.removeEventListener("click", handleOutsideClick);
@@ -80,6 +87,7 @@ export default function MultipleDropdown({
         <div
           onClick={(e) => {
             setIsOpen((prev) => !prev);
+            setIsTouched(true);
           }}
           className={`transition-300 relative cursor-pointer rounded-md border px-4.5 py-3.5 xl:rounded-lg xl:px-6 xl:py-4.5 ${
             isOpen ? "border-white" : "border-grey1"
