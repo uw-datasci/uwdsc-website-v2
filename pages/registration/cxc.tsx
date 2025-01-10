@@ -1,7 +1,7 @@
 // Before user can access registration page, user must be logged in. User will be redirected to login page if not logged in
 // Use hooks and useState to check if user is logged in
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 
 import CxCBackground from "@/components/UI/CxCBackground";
@@ -15,6 +15,7 @@ import Checkbox from "@/components/UI/Inputs/CxC/Checkbox";
 import Submit from "@/components/UI/Inputs/CxC/Submit";
 import { useFormik } from "formik";
 import { CxCRegistrationSchema } from "@/utils/formValidation";
+import Button from "@/components/UI/Button";
 
 export default function cxcregistrationpage() {
   const formik = useFormik({
@@ -45,21 +46,23 @@ export default function cxcregistrationpage() {
       resetForm();
     },
   });
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [email, setEmail] = useState("");
-  const [discordUsername, setDiscordUsername] = useState("");
-  const [studyTerm, setStudyTerm] = useState("");
-  const [programName, setProgramName] = useState("");
-  const [resumeLink, setResumeLink] = useState("");
-  const [githubLink, setGithubLink] = useState("");
-  const [linkedinLink, setLinkedinLink] = useState("");
-  const [anyLink, setAnyLink] = useState("");
-  const [hackathonNum, setHackathonNum] = useState("");
-  const [longAnswer1, setLongAnswer1] = useState("");
-  const [longAnswer2, setLongAnswer2] = useState("");
-  const [consentChecked, setConsentChecked] = useState(false);
+
+  useEffect(() => {
+    console.log(formik);
+  }, [formik]);
+
+  const termOptions = [
+    "1A",
+    "1B",
+    "2A",
+    "2B",
+    "3A",
+    "3B",
+    "4A",
+    "4B",
+    "Masters",
+    "PHD",
+  ];
 
   const pronounOptions = [
     "He/Him",
@@ -96,7 +99,6 @@ export default function cxcregistrationpage() {
     "Environment",
     "Health",
     "Science",
-    "Other",
   ];
 
   const sizeOptions = ["XS", "S", "M", "L", "XL"];
@@ -159,30 +161,41 @@ export default function cxcregistrationpage() {
                 <h1 className="mb-8 text-center text-5xl font-thin tracking-widest md:text-9xl">
                   Application Form
                 </h1>
-                <form className="mx-auto max-w-xl space-y-4">
+                <form
+                  onSubmit={formik.handleSubmit}
+                  className="mx-auto max-w-xl space-y-4"
+                >
                   {/* First Name and Last Name */}
                   <p className="text-left text-xl font-thin tracking-widest">
                     Name
                   </p>
                   <div className="flex gap-4">
-                    <TextInput
-                      id={"firstName"}
-                      name={"firstName"}
-                      type={"text"}
-                      placeholder={"Enter First Name"}
-                      value={formik.values.firstName}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                    />
-                    <TextInput
-                      id={"lastName"}
-                      name={"lastName"}
-                      type={"text"}
-                      placeholder={"Enter Last Name"}
-                      value={formik.values.lastName}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                    />
+                    <div className="w-[50%] flex-col">
+                      <TextInput
+                        id={"firstName"}
+                        name={"firstName"}
+                        type={"text"}
+                        placeholder={"Enter First Name"}
+                        value={formik.values.firstName}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        errors={formik.errors}
+                        touched={formik.touched}
+                      />
+                    </div>
+                    <div className="w-[50%] flex-col">
+                      <TextInput
+                        id={"lastName"}
+                        name={"lastName"}
+                        type={"text"}
+                        placeholder={"Enter Last Name"}
+                        value={formik.values.lastName}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        errors={formik.errors}
+                        touched={formik.touched}
+                      />
+                    </div>
                   </div>
                   <p className="text-left text-xl font-thin tracking-widest">
                     Pronouns
@@ -194,6 +207,8 @@ export default function cxcregistrationpage() {
                     placeholder="Select Pronouns"
                     value={formik.values.pronoun}
                     onChange={formik.handleChange}
+                    errors={formik.errors}
+                    touched={formik.touched}
                   />
                   <p className="text-left text-xl font-thin tracking-widest">
                     Ethnicities
@@ -205,6 +220,8 @@ export default function cxcregistrationpage() {
                     placeholder="Select Ethnicities"
                     value={formik.values.ethnicity}
                     onChange={formik.handleChange}
+                    errors={formik.errors}
+                    touched={formik.touched}
                   />
                   <p className="text-left text-xl font-thin tracking-widest">
                     Phone Number
@@ -217,6 +234,8 @@ export default function cxcregistrationpage() {
                     value={formik.values.phoneNumber}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
+                    errors={formik.errors}
+                    touched={formik.touched}
                   />
                   <p className="text-left text-xl font-thin tracking-widest">
                     Email
@@ -229,6 +248,8 @@ export default function cxcregistrationpage() {
                     value={formik.values.email}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
+                    errors={formik.errors}
+                    touched={formik.touched}
                   />
                   <p className="text-left text-xl font-thin tracking-widest">
                     Discord Username
@@ -241,30 +262,35 @@ export default function cxcregistrationpage() {
                     value={formik.values.discordUsername}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
+                    errors={formik.errors}
+                    touched={formik.touched}
                   />
                   <p className="text-left text-xl font-thin tracking-widest">
                     Current or Most Recent Study Term (e.g. 1B)
                   </p>
-                  <TextInput
-                    id={"term"}
+                  <SingleDropdown
+                    id={"studyTerm"}
                     name={"term"}
-                    type={"text"}
-                    placeholder="Enter Study Term"
+                    options={termOptions}
+                    placeholder="Select Study Term"
                     value={formik.values.term}
                     onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
+                    errors={formik.errors}
+                    touched={formik.touched}
                   />
                   <p className="text-left text-xl font-thin tracking-widest">
                     Faculty
                   </p>
                   <MultipleDropdown
-                    id={"faculty"}
+                    id={"selectFaculty"}
                     name={"faculty"}
                     options={facultyOptions}
                     placeholder="Select Faculties"
                     value={formik.values.faculty}
                     onChange={formik.handleChange}
                     maxSelection={2}
+                    errors={formik.errors}
+                    touched={formik.touched}
                   />
                   <p className="text-left text-xl font-thin tracking-widest">
                     Program
@@ -277,6 +303,8 @@ export default function cxcregistrationpage() {
                     value={formik.values.program}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
+                    errors={formik.errors}
+                    touched={formik.touched}
                   />
                   <p className="text-left text-xl font-thin tracking-widest">
                     T-Shirt Size
@@ -288,6 +316,8 @@ export default function cxcregistrationpage() {
                     placeholder="Select T-Shirt Size"
                     value={formik.values.tshirtSize}
                     onChange={formik.handleChange}
+                    errors={formik.errors}
+                    touched={formik.touched}
                   />
                   <p className="text-left text-xl font-thin tracking-widest">
                     Resume (Publicly Accessible Link)
@@ -300,18 +330,22 @@ export default function cxcregistrationpage() {
                     value={formik.values.resumeLink}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
+                    errors={formik.errors}
+                    touched={formik.touched}
                   />
                   <p className="text-left text-xl font-thin tracking-widest">
                     GitHub (Profile Link)
                   </p>
                   <TextInput
                     id={"githubLink"}
-                    name={"gitHubLink"}
+                    name={"githubLink"}
                     type={"text"}
                     placeholder="Enter GitHub Link"
                     value={formik.values.githubLink}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
+                    errors={formik.errors}
+                    touched={formik.touched}
                   />
                   <p className="text-left text-xl font-thin tracking-widest">
                     LinkedIn (Profile Link)
@@ -324,6 +358,8 @@ export default function cxcregistrationpage() {
                     value={formik.values.linkedInLink}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
+                    errors={formik.errors}
+                    touched={formik.touched}
                   />
                   <p className="text-left text-xl font-thin tracking-widest">
                     Any Other Link (Portfolio, Personal Website, etc.)
@@ -336,6 +372,8 @@ export default function cxcregistrationpage() {
                     value={formik.values.anyLink}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
+                    errors={formik.errors}
+                    touched={formik.touched}
                   />
                   <p className="text-left text-xl font-thin tracking-widest">
                     Number of Hackathons Attended as a Hacker
@@ -347,6 +385,8 @@ export default function cxcregistrationpage() {
                     placeholder="Select number of hackthons attended"
                     value={formik.values.hackathonNum}
                     onChange={formik.handleChange}
+                    errors={formik.errors}
+                    touched={formik.touched}
                   />
                   <p className="text-left text-xl font-thin tracking-widest">
                     What do you hope to see and gain from CxC? Specific
@@ -359,21 +399,25 @@ export default function cxcregistrationpage() {
                     value={formik.values.cxcGoals}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
+                    errors={formik.errors}
+                    touched={formik.touched}
                     maxLength={500}
                   />
                   <p className="text-left text-xl font-thin tracking-widest">
                     What are your long-term future ambitions? (500 characters)
                   </p>
                   <TextArea
-                    id={"Ambitions"}
-                    name={"Ambitions"}
+                    id={"ambitions"}
+                    name={"ambitions"}
                     placeholder="Enter Response"
                     value={formik.values.ambitions}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
+                    errors={formik.errors}
+                    touched={formik.touched}
                     maxLength={500}
                   />
-                  <div className="flex justify-start">
+                  <div className="flex-col justify-start">
                     <Checkbox
                       id={"consent"}
                       name={"consent"}
@@ -382,9 +426,21 @@ export default function cxcregistrationpage() {
                       }
                       value={formik.values.consent}
                       onChange={formik.handleChange}
+                      errors={formik.errors}
+                      touched={formik.touched}
                     />
                   </div>
-                  <Submit text="Submit" />
+                  <Button
+                    type="submit"
+                    hierarchy="primary"
+                    font="font-bold"
+                    text="lg:text-lg"
+                    padding="py-3 sm:px-7"
+                    rounded="rounded-lg"
+                    classes="w-full sm:w-auto"
+                  >
+                    Submit
+                  </Button>
                 </form>
               </div>
             </div>

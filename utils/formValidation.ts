@@ -1,4 +1,23 @@
-import { string, object, ref } from "yup";
+import { string, object, ref, boolean } from "yup";
+
+require("dotenv").config();
+
+function extractFileId(driveUrl: string) {
+  const match =
+    driveUrl.match(/\/file\/d\/([a-zA-Z0-9_-]+)/) ||
+    driveUrl.match(/id=([a-zA-Z0-9_-]+)/);
+  return match ? match[1] : null;
+}
+
+async function isPublicDriveFile(fileId: string) {
+  try {
+    const response = await fetch(`/api/other/google-drive?fileId=${fileId}`);
+    return true;
+  } catch (error) {
+    console.error("Error:", error);
+    return false;
+  }
+}
 
 export const ContactFormSchema = object({
   name: string().required("Please enter your name."),
@@ -62,4 +81,54 @@ export const ResetPasswordFormSchema = object({
     .required("Confirm Password is required."),
 });
 
-export const CxCRegistrationSchema = object({});
+export const CxCRegistrationSchema = object({
+  firstName: string().required("First name is required"),
+  lastName: string().required("Last name is required"),
+  pronoun: string().required("Please select your pronouns"),
+  ethnicity: string().required("Please select your ethnicity"),
+  phoneNumber: string()
+    .required("Phone number is required")
+    .matches(
+      /^(\+1|1)?\s?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/,
+      "Phone number is not valid. Eg. +1 (123) 456 7890",
+    ),
+  email: string()
+    .email("Please enter a valid email.")
+    .required("Please enter your email."),
+  discordUsername: string().required("Please enter your Discord Name."),
+  term: string().required("Please select your current/last completed term."),
+  faculty: string().required("Please select your faculty."),
+  program: string().required("Please specify your program"),
+  tshirtSize: string().required("Please select your T-Shirt size"),
+  resumeLink: string()
+    .required("Please enter a Google Drive link to your resume.")
+    .matches(
+      /https?:\/\/(?:drive\.google\.com\/(?:file\/d\/|drive\/folders\/|open\?id=|uc\?id=)[^\/\&\?]+)/,
+      "Please provide a valid Google drive link.",
+    )
+    .test("is-public", "Please provide a publicaly shared link.", (url) => {
+      const fileId: string | null = extractFileId(url);
+      if (fileId) {
+        return isPublicDriveFile(fileId);
+      } else {
+        return false;
+      }
+    }),
+  githubLink: string().matches(
+    /^https?:\/\/(?:www\.)?github\.com\/(?=.{1,39}$)(?!-)(?!.*--)[A-Za-z0-9-]+(?<!-)\/?$/,
+    "Please provide a valid GitHub profile",
+  ),
+  linkedInLink: string().matches(
+    /^https?:\/\/(?:www\.)?linkedin\.com\/in\/[A-Za-z0-9._-]{3,100}\/?$/,
+    "Please provide a valid LinkedIn profile",
+  ),
+  anyLink: string(),
+  hackathonNum: string().required(
+    "Please select how many hackathons you've attended",
+  ),
+  cxcGoals: string().required("Please fill out this field."),
+  ambitions: string().required("Please fill out this field."),
+  consent: boolean()
+    .oneOf([true], "This field must be true.")
+    .required("Required"),
+});

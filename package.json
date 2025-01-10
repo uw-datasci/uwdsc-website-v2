@@ -25,6 +25,7 @@
     "eslint-config-next": "13.4.12",
     "formik": "^2.4.3",
     "fuse.js": "^7.0.0",
+    "googleapis": "^144.0.0",
     "heroicons": "^2.1.1",
     "next": "^13.4.12",
     "postcss": "8.4.27",
