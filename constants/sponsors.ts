@@ -27,7 +27,6 @@ import Ecapital from "@/public/logos/cxc_2024/Ecapital.png";
 
 // 2025 New Sponsors
 import federato from "@/public/logos/cxc_2025/federato.svg"
-import chapa from "@/public/logos/cxc_2025/chapa.png"
 import touchbistro from "@/public/logos/cxc_2025/touchbistro.png"
 import nomadfuturists from "@/public/logos/cxc_2025/NomadFuturistLogo.png"
 import telus from "@/public/logos/cxc_2025/teluslogo.png"
@@ -54,7 +53,6 @@ export const CURRENT_CXC_SPONSORS: Sponsor[] = [
   { name: "Telus", logo: telus, type:"gold", link:"https://www.telus.com/en" },
 
   { name: "Intact", logo: intact, type:"gold" , link:"https://www.intact.ca/en/personal-insurance"},
-  { name: "Chapa", logo: chapa, type:"top" , link:"https://chapa.co/"},
   { name: "Touch Bistro", logo: touchbistro, type:"dataset", link:"https://www.touchbistro.com/" },
   
   // Gold Sponsors
