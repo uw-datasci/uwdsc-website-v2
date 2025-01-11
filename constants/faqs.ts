@@ -3,21 +3,63 @@ import { type QandA } from "@/types/types";
 export const CXC_FAQ: QandA[] = [
   {
     id: "1",
-    question: "What is CxC?",
+    question: "What’s a data hackathon?",
     answer:
-      "CxC is a Data Hackathon in which you (and your group) have the opportunity to work with company-provided problems.",
+      "An event where hackers work in teams to tackle data-related challenges, such as making predictions or classifications from preprepared data sets. You will receive a data set as well as some problem statements, and you will be judged on both your technical abilities as well as the business viability of your solution. At CxC, we will also be hosting social activities, introductory workshops, company booths, and more to help you connect with other participants, industry experts, and learn more about data science.",
   },
   {
     id: "2",
-    question: "Why is CxC 2 weeks long?",
+    question: "What if I have zero experience in data science?",
     answer:
-      "Cleaning data, training model and investigation take time. We are providing ample time for you to iterate and improve your solutions.",
+      "No worries! CxC is a beginner-friendly hackathon. We will host several workshops to help you acquire some useful skills for the challenges. We also have a team of experienced mentors ready to provide support on the CxC Discord.",
   },
   {
     id: "3",
-    question: "What are some previous company challenges?",
+    question: "How much does it cost?",
     answer:
-      "In CxC II, Intact provided a dataset to identify the specific field of medicine given medical reports. Cyclica (now under Recursion) extracted features of proteins to identify whether a site is drug-binding or not.",
+      "Nothing! Our sponsors allow us to give prizes, merch, meals, snacks, and more - all free of charge!",
+  },
+  {
+    id: "4",
+    question: "When is it?",
+    answer:
+      "Feb 8 - Feb 25. We will meet in-person on Feb 8th, Feb 9th, and Feb 25th.",
+  },
+  {
+    id: "5",
+    question: "Why is it 2 weeks long?",
+    answer:
+      "We want to provide participants with enough time to complete and finalize their submissions. Our timeline goes through reading week, so you will have some time to work while studying for midterms.",
+  },
+  {
+    id: "6",
+    question: "Will there be prizes?",
+    answer:
+      "Yes, CxC is offering $20k+ cash prizes and an interview with PearVC for winners!",
+  },
+  {
+    id: "7",
+    question: "Do I need a team of 4? How can I find one?",
+    answer:
+      "Not at all! Teams can have up to 4 people, and joining one offers more support and ideas for working with data. Prize money is the same whether you work alone or in a team. You can find teammates through our Discord introductions channel or in person at Saturday's opening ceremonies.",
+  },
+  {
+    id: "8",
+    question: "Who’s judging?",
+    answer:
+      "Company representatives from the dataset sponsors as well as executives from DSC’s Education team.",
+  },
+  {
+    id: "9",
+    question: "Do I need to be a UW student to participate?",
+    answer:
+      "No! We are open to ALL students from ALL universities. Note that you must be 18 years or older to participate in our event due to venue restrictions.",
+  },
+  {
+    id: "10",
+    question: "What if my question isn't answered here?",
+    answer:
+      "Feel free to reach out to us at contact@uwdatascience.ca with any questions.",
   },
 ];
 

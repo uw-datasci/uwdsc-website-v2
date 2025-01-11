@@ -33,7 +33,7 @@ export default function CxC() {
       >
         <div className="absolute left-1/2 w-[75%] -translate-x-1/2 lg:w-[45%]">
           <Image src={cxctitle} alt="CxC Title" />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black"></div>
         </div>
         <CxCBackground />
         {/* Hero Section */}
@@ -45,25 +45,22 @@ export default function CxC() {
         </div>
 
         {/* Sponsors Section */}
-        <div className="py-[20%] lg:py-[10%]">
-          <Sponsors
-            sectionTitle=""
-            className="gap-x-24 gap-y-20"
-            sponsorList={CURRENT_CXC_SPONSORS}
-          />
-        </div>
+        <Sponsors
+          sectionTitle=""
+          className="gap-x-24 gap-y-20"
+          sponsorList={CURRENT_CXC_SPONSORS}
+        />
 
         {/* Partners Section */}
-        <div className="py-[20%] lg:py-[10%]">
-          <Partners
-            sectionTitle=""
-            className="gap-x-24 gap-y-20"
-            partnerList={CURRENT_CXC_PARTNERS}
-          />
-        </div>
+        <Partners
+          sectionTitle=""
+          className="gap-x-24 gap-y-20"
+          partnerList={CURRENT_CXC_PARTNERS}
+        />
 
         {/* Past CxC Section */}
-        <div className="py-[20%] lg:py-[5%]">
+        <FrequentlyAskedQuestions />
+        <div className="py-[10%] lg:py-[5%]">
           <PastCxC />
         </div>
 
