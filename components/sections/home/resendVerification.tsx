@@ -96,7 +96,7 @@ export default function ResendVerificationPage({
       </p> */}
 
       <p className={"text-center " + subTexts}>
-        You can now log in using the credentials you&aposve set.
+        You can now log in using the credentials you&apos;ve set.
       </p>
 
       {/* <Button
