@@ -15,8 +15,24 @@ import { CURRENT_CXC_PARTNERS } from "@/constants/sponsors";
 import cxctitle from "@/public/cxc/graphics/CxCTitle.png";
 
 import CxCBackground from "@/components/UI/CxCBackground";
+import { useEffect, useState } from "react";
+import { getCurrentUserRegistrationByID } from "@/utils/apiCalls";
 
 export default function CxC() {
+  const [registered, setRegistered] = useState<boolean>(false);
+
+  useEffect(() => {
+    const checkRegistration = async () => {
+      try {
+        const response = await getCurrentUserRegistrationByID();
+        setRegistered(response.data.exist); // true or false
+      } catch (e) {
+        setRegistered(false);
+      }
+    };
+    checkRegistration();
+  }, []);
+
   return (
     <>
       <SEO
@@ -33,11 +49,11 @@ export default function CxC() {
       >
         <div className="absolute left-1/2 w-[75%] -translate-x-1/2 lg:w-[45%]">
           <Image src={cxctitle} alt="CxC Title" />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black"></div>
         </div>
         <CxCBackground />
         {/* Hero Section */}
-        <Hero />
+        <Hero registered={registered} />
 
         {/* CxC Stats Section */}
         <div className="py-[10%] lg:py-[5%]">

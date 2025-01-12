@@ -6,7 +6,7 @@ type TextInputProps = {
   name: string;
   type: string;
   placeholder: string;
-  value: string;
+  value: string | number;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onBlur: (e: React.FocusEvent<HTMLInputElement>) => void;
   errors: FormikErrors<any>;
@@ -45,9 +45,7 @@ export default function TextInput({
         autoCapitalize={autoCap || "on"}
       />
       {touched[name] && errors[name] && (
-        <InputFeedback state="error">
-          {errors[name]?.toString()}
-        </InputFeedback>
+        <InputFeedback state="error">{errors[name]?.toString()}</InputFeedback>
       )}
     </>
   );

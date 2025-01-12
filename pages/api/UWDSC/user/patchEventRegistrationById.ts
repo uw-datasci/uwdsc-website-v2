@@ -8,23 +8,24 @@ export default async function handler(
   res: NextApiResponse,
 ) {
   try {
-    const { token } = req.body;
+    const { token, additionalFields } = req.body;
     const response = await axios({
-      url: process.env.NEXT_PUBLIC_UWDSC_WEBSITE_SERVER_URL + "/api/users/qr",
-      method: "GET",
+      url:
+        process.env.NEXT_PUBLIC_UWDSC_WEBSITE_SERVER_URL +
+        "/api/users/events/" +
+        process.env.CURRENT_REGISTERED_EVENT_ID +
+        "/registrants",
+      method: "PATCH",
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
+      data: JSON.stringify({
+        additionalFields,
+      }),
     });
 
-    res
-      .status(200)
-      .json({
-        success: true,
-        id: response.data.id,
-        event: response.data.eventName,
-      });
+    res.status(200).json({ success: true });
   } catch (error: any) {
     console.error(error.response.data.message);
 

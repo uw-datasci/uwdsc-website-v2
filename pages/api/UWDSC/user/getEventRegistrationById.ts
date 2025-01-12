@@ -10,24 +10,25 @@ export default async function handler(
   try {
     const { token } = req.body;
     const response = await axios({
-      url: process.env.NEXT_PUBLIC_UWDSC_WEBSITE_SERVER_URL + "/api/users/qr",
+      url:
+        process.env.NEXT_PUBLIC_UWDSC_WEBSITE_SERVER_URL +
+        "/api/users/events/" +
+        process.env.CURRENT_REGISTERED_EVENT_ID +
+        "/registrants",
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
     });
-
-    res
-      .status(200)
-      .json({
-        success: true,
-        id: response.data.id,
-        event: response.data.eventName,
-      });
+    console.log(response.data);
+    res.status(200).json({
+      exist: true,
+      fields: response.data.registrant.additionalFields,
+    });
   } catch (error: any) {
     console.error(error.response.data.message);
 
-    res.status(500).json({ success: false });
+    res.status(500).json({ exists: false });
   }
 }

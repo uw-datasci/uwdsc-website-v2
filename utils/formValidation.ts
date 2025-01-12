@@ -1,4 +1,4 @@
-import { string, object, ref, boolean, array } from "yup";
+import { string, object, ref, boolean, array, number } from "yup";
 
 require("dotenv").config();
 
@@ -145,7 +145,7 @@ export const CxCRegistrationSchema = object({
       'You can only select "Never been to a hackathon previously" exclusively',
       (selection) => {
         if (selection) {
-          return (
+          return !(
             selection.includes("Never been to a hackathon previously") &&
             selection.length > 1
           );
@@ -154,9 +154,9 @@ export const CxCRegistrationSchema = object({
       },
     )
     .required("Please select a role"),
-  hackathonNum: string().required(
-    "Please select how many hackathons you've attended",
-  ),
+  hackathonNum: number()
+    .min(0, "You can't attend negative hackathons!")
+    .required("Please select how many hackathons you've attended"),
   cxcGoals: string().required("Please fill out this field."),
   ambitions: string().required("Please fill out this field."),
   consent: boolean()

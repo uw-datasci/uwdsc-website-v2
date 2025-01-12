@@ -1,12 +1,9 @@
 import { getQrCode } from "@/utils/apiCalls";
 import QRCode from "qrcode";
-import { useSelector } from "react-redux";
-import { RootState } from "@/store/store";
 import { useState } from "react";
 import { useEffect } from "react";
 
 export default function QR() {
-  const token = useSelector((state: RootState) => state.loginToken.token);
   const [src, setSrc] = useState<string>("");
 
   // Generate the QR code when the page loads in
@@ -15,9 +12,8 @@ export default function QR() {
   }, []);
 
   const generateQr = async () => {
-    console.log("called " + token);
     try {
-      const res = await getQrCode({ token: token });
+      const res = await getQrCode();
       console.log(res);
 
       QRCode.toDataURL(

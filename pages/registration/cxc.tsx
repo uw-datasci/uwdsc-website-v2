@@ -15,11 +15,61 @@ import { useFormik } from "formik";
 import { CxCRegistrationSchema } from "@/utils/formValidation";
 import Button from "@/components/UI/Button";
 import withAuth from "@/components/permissions/authPage";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import {
+  attachCurrentUserRegistrationByID,
+  getCurrentUserRegistrationByID,
+  patchCurrentUserRegistrationByID,
+} from "@/utils/apiCalls";
+import InputFeedback from "@/components/UI/Inputs/CxC/InputFeedback";
+
+type CxCFields = {
+  firstName: string;
+  lastName: string;
+  pronoun: string;
+  ethnicity: string;
+  phoneNumber: string;
+  email: string;
+  discordUsername: string;
+  term: string;
+  faculty: string[];
+  program: string;
+  dietaryRestrictions: string[];
+  specificAllergies: string;
+  tshirtSize: string;
+  resumeLink: string;
+  githubLink: string;
+  linkedInLink: string;
+  anyLink: string;
+  hackathonRole: string[];
+  hackathonNum: number;
+  cxcGoals: string;
+  ambitions: string;
+  consent: boolean;
+} | null;
 
 export default function CxCRegistrationpage() {
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [submitFeedback, setSubmitFeedback] = useState("");
+  const [isRegistered, setIsRegistered] = useState(false);
+  const [existingField, setExistingField] = useState<CxCFields>(null);
+
+  useEffect(() => {
+    const updateRegistrationFromDB = async () => {
+      try {
+        const response = await getCurrentUserRegistrationByID();
+        setIsRegistered(response.data.exist);
+        setExistingField(response.data.fields);
+      } catch (e) {
+        console.error(e);
+      }
+    };
+
+    updateRegistrationFromDB();
+  }, []);
+
   const formik = useFormik({
-    initialValues: {
+    initialValues: existingField ?? {
       firstName: "",
       lastName: "",
       pronoun: "",
@@ -38,15 +88,34 @@ export default function CxCRegistrationpage() {
       linkedInLink: "",
       anyLink: "",
       hackathonRole: [],
-      hackathonNum: "",
+      hackathonNum: 0,
       cxcGoals: "",
       ambitions: "",
       consent: false,
     },
+    enableReinitialize: true,
     validationSchema: CxCRegistrationSchema,
     onSubmit: (values, { resetForm }) => {
-      console.log("Form data:", values);
-      resetForm();
+      if (!isRegistered) {
+        try {
+          attachCurrentUserRegistrationByID(values);
+          setSubmitFeedback("Successfully registered!");
+          setSubmitSuccess(true);
+        } catch (e) {
+          setSubmitFeedback("Something went wrong, please try again later");
+          setSubmitSuccess(false);
+        }
+      } else {
+        try {
+          patchCurrentUserRegistrationByID(values);
+          setSubmitFeedback("Successfully updated registration!");
+          setSubmitSuccess(true);
+        } catch (e) {
+          setSubmitFeedback("Something went wrong, please try again later");
+          setSubmitSuccess(false);
+        }
+      }
+      // resetForm();
     },
   });
 
@@ -499,8 +568,11 @@ export default function CxCRegistrationpage() {
                     rounded="rounded-lg"
                     classes="w-full sm:w-auto"
                   >
-                    Submit
+                    {isRegistered ? "Update application" : "Submit application"}
                   </Button>
+                  <InputFeedback state={submitSuccess ? "success" : "error"}>
+                    {submitFeedback}
+                  </InputFeedback>
                 </form>
               </div>
             </div>
