@@ -61,25 +61,22 @@ export default function CxC() {
         </div>
 
         {/* Sponsors Section */}
-        <div className="py-[20%] lg:py-[10%]">
-          <Sponsors
-            sectionTitle=""
-            className="gap-x-24 gap-y-20"
-            sponsorList={CURRENT_CXC_SPONSORS}
-          />
-        </div>
+        <Sponsors
+          sectionTitle=""
+          className="gap-x-24 gap-y-20"
+          sponsorList={CURRENT_CXC_SPONSORS}
+        />
 
         {/* Partners Section */}
-        <div className="py-[20%] lg:py-[10%]">
-          <Partners
-            sectionTitle=""
-            className="gap-x-24 gap-y-20"
-            partnerList={CURRENT_CXC_PARTNERS}
-          />
-        </div>
+        <Partners
+          sectionTitle=""
+          className="gap-x-24 gap-y-20"
+          partnerList={CURRENT_CXC_PARTNERS}
+        />
 
         {/* Past CxC Section */}
-        <div className="py-[20%] lg:py-[5%]">
+        <FrequentlyAskedQuestions />
+        <div className="py-[10%] lg:py-[5%]">
           <PastCxC />
         </div>
 
