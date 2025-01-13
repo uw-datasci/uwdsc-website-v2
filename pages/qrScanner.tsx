@@ -4,7 +4,12 @@ import QrScanner from "qr-scanner";
 import Button from "@/components/UI/Button";
 import GradientBorder from "@/components/UI/GradientBorder";
 import { useRouter } from "next/router";
-import { checkInById, getUserbyId } from "@/utils/apiCalls";
+import {
+  checkInById,
+  getEvents,
+  getRegistrationByID,
+  getUserbyId,
+} from "@/utils/apiCalls";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import UserCheckInCard from "@/components/cards/UserCheckInDetails";
@@ -12,11 +17,17 @@ import LoadingSpinner from "@/components/UI/LoadingSpinner";
 import withAuth from "@/components/permissions/authPage";
 import { AxiosError, isAxiosError } from "axios";
 import React from "react";
-
+import SingleDropdown from "@/components/UI/Inputs/UWDSC/SingleDropdown";
+import InputFeedback from "@/components/UI/Inputs/UWDSC/InputFeedback";
 
 interface ScannedResult {
   id: string;
-  event: string;
+  eventArray: [
+    {
+      id: string;
+      secret: string;
+    },
+  ];
 }
 
 const QrScannerPage = () => {
@@ -31,46 +42,64 @@ const QrScannerPage = () => {
   const [errorMessage, setErrorMessage] = useState<string>("");
   const router = useRouter();
   const token = useSelector((state: RootState) => state.loginToken.token);
-  const [userInfo, setUserInfo] = useState({
-    id: "",
-    event: "",
-    username: "",
-    email: "",
-    faculty: "",
-    hasPaid: false,
-    isCheckedIn: false,
-  });
+
+  const [userInfo, setUserInfo] = useState<any>({});
+  const [registrationInfo, setRegistrationInfo] = useState<any>({});
+  const [isCheckedIn, setIsCheckedIn] = useState<boolean>(false);
+  const [isSelected, setIsSelected] = useState<boolean>(false);
+
+  const [events, setEvents] = useState<Array<any>>([]);
+  const [selectedEvent, setSelectedEvent] = useState<any>(null);
+  const [toDisplayBefore, setToDisplayBefore] = useState<any>(null);
+  const [toDisplayAfter, setToDisplayAfter] = useState<any>(null);
+
+  const [reqFeedback, setReqFeedback] = useState<string>("");
 
   // Result
   const [scannedResult, setScannedResult] = useState<string | undefined>("");
 
+  const selectedEventRef = useRef<any>(null);
+
+  useEffect(() => {
+    selectedEventRef.current = selectedEvent;
+  }, [selectedEvent]);
+
   // Success
   const onScanSuccess = async (result: QrScanner.ScanResult) => {
     setScanSuccess(true);
+    const currEvent = selectedEventRef.current;
+
+    if (!currEvent) {
+      setErrorMessage("Please select an event to scan for.");
+      setQrError(true);
+      return;
+    }
+
     scanner.current?.stop();
-    console.log(result);
     setScannedResult(result?.data);
     const data: ScannedResult = JSON.parse(result?.data);
     const id = data.id;
-    const event = data.event;
+    // const events = data.eventArray;
     try {
       setLoading(true);
-      const response = await getUserbyId({ id: id, token: token });
-      const { username, email, faculty, hasPaid, isCheckedIn } =
-        response.data;
-      setUserInfo({
-        id,
-        event,
-        username,
-        email,
-        faculty,
-        hasPaid,
-        isCheckedIn,
-      });
-      console.log({ id, username, email, faculty, hasPaid, isCheckedIn });
+      const response = await getRegistrationByID(currEvent.id, id);
+      console.log(response);
+      setUserInfo(response.data.registrant.user);
+      setRegistrationInfo(response.data.registrant.additionalFields ?? {});
+      setIsCheckedIn(response.data.registrant.checkedIn);
+      setIsSelected(response.data.registrant.selected);
+      setToDisplayBefore(currEvent.toDisplay.before);
+      setToDisplayAfter(currEvent.toDisplay.after);
+      console.log(userInfo);
+      console.log(registrationInfo);
       setQrError(false);
-    } catch (err : any | AxiosError) {
-      setErrorMessage("Scan failed, you are not authorized");
+    } catch (err: any | AxiosError) {
+      console.log(err);
+      if (err.status == 404) {
+        setErrorMessage("Scan failed, user is not registered for this event.");
+      } else {
+        setErrorMessage("Scan failed, something went wrong.");
+      }
       setQrError(true);
     }
     setLoading(false);
@@ -125,6 +154,17 @@ const QrScannerPage = () => {
         });
     }
 
+    const retrieveEvents = async () => {
+      const response = (await getEvents(new Date(), new Date(), true)).data
+        .events;
+      setEvents(response);
+      if (!selectedEvent) {
+        setSelectedEvent(response && response.length == 1 ? response[0] : null);
+      }
+    };
+
+    retrieveEvents();
+
     // Clean up on unmount.
     // This removes the QR Scanner from rendering and using camera when it is closed or removed from the UI.
     return () => {
@@ -134,6 +174,11 @@ const QrScannerPage = () => {
     };
   }, []);
 
+  useEffect(() => {
+    console.log("Changed");
+    console.log(selectedEvent);
+  }, [selectedEvent]);
+
   // If "camera" is not allowed in browser permissions, show an alert.
   useEffect(() => {
     if (!qrOn)
@@ -142,78 +187,182 @@ const QrScannerPage = () => {
       );
   }, [qrOn]);
 
+  const checkRequirements = (requirements: any, registrant: any) => {
+    const userReq = requirements.user;
+    const registrantReq = requirements.registrant;
+    const needToBeCheckedIn = requirements.checkedIn;
+    const needToBeSelected = requirements.selected;
+
+    let errMsg = "";
+
+    if (
+      needToBeCheckedIn != undefined &&
+      registrant.checkedIn != needToBeCheckedIn
+    ) {
+      errMsg += "'checkedIn' needs to be " + needToBeCheckedIn + "; ";
+    }
+
+    if (
+      needToBeSelected != undefined &&
+      registrant.selected != needToBeSelected
+    ) {
+      errMsg += "'selected' needs to be " + needToBeSelected + "; ";
+    }
+
+    if (userReq) {
+      Object.keys(userReq).forEach((key) => {
+        if (registrant.user[key] != userReq[key]) {
+          errMsg += `'${key}' needs to be ${userReq[key]}; `;
+        }
+      });
+    }
+
+    if (registrantReq) {
+      Object.keys(registrantReq).forEach((key) => {
+        if (registrant.registration[key] != registrantReq[key]) {
+          errMsg += `'${key}' needs to be ${registrantReq[key]}; `;
+        }
+      });
+    }
+
+    console.log(errMsg);
+    return errMsg;
+  };
+
+  useEffect(() => {
+    if (selectedEvent) {
+      setReqFeedback(
+        checkRequirements(selectedEvent.requirements, {
+          user: userInfo,
+          registration: registrationInfo,
+          checkedIn: isCheckedIn,
+          selected: isSelected,
+        }),
+      );
+    }
+  }, [userInfo]);
+
   return (
     <>
       <section className="mx-container mb-section mt-14 lg:mt-20">
-        <h1 className="mb-14 text-center text-3xl font-bold text-white 3xs:text-6xl sm:text-8xl lg:text-10xl 2xl:text-12xl">
+        <h1 className="mb-3 text-center text-3xl font-bold text-white 3xs:text-6xl sm:text-8xl lg:text-10xl 2xl:text-12xl">
           QR Scanner
         </h1>
+        {events ? (
+          <SingleDropdown
+            id="eventOption"
+            name="eventOption"
+            placeholder="Select event"
+            value={
+              selectedEvent ? `${selectedEvent.name} (${selectedEvent.id})` : ""
+            }
+            options={
+              events
+                ? events.map((event) => {
+                    return `${event.name} (${event.id})`;
+                  })
+                : []
+            }
+            onChange={(e) => {
+              setSelectedEvent(
+                events.filter((event) => {
+                  return event.id == e.target.value.split(" ")[1].slice(1, -1);
+                })[0],
+              );
+            }}
+            wrapperClasses="mb-14"
+          />
+        ) : (
+          <></>
+        )}
         {!scanSuccess && (
           <video ref={videoEl} className="h-full w-full rounded-md" />
         )}
 
-        {scanSuccess && (
-          loading ? 
-          (
+        {scanSuccess &&
+          (loading ? (
             <LoadingSpinner
               size={100}
               classes="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
             />
-          ) :
-          (
+          ) : (
             <div>
               <UserCheckInCard
-                username={userInfo.username}
-                email={userInfo.email}
-                faculty={userInfo.faculty}
-                hasPaid={userInfo.hasPaid}
-                isCheckedIn={userInfo.isCheckedIn}
+                toDisplay={isCheckedIn ? toDisplayAfter : toDisplayBefore}
+                userInfo={userInfo}
+                registrationInfo={registrationInfo}
+                isCheckedIn={isCheckedIn}
+                isSelected={isSelected}
                 error={QrError}
                 errorMessage={errorMessage}
               />
-              <div className="flex justify-center gap-6 mt-6">
-                <GradientBorder
-                  rounded="rounded-lg"
-                  classes="w-auto inline-block items-center"
-                >
-                  <Button
-                    type="button"
-                    hierarchy="secondary"
-                    font="font-bold"
-                    text="sm:text-lg 2xl:text-xl"
-                    padding="py-3 sm:px-7 sm:py-4"
-                    rounded="rounded-[15px]"
-                    onClick={() => {
-                      reScan();
-                    }}
+
+              {reqFeedback == "" ? (
+                <div className="mt-6 flex justify-center gap-6">
+                  <GradientBorder
+                    rounded="rounded-lg"
+                    classes="w-auto inline-block items-center"
                   >
-                    Re Scan
-                  </Button>
-                </GradientBorder>
-                  {userInfo.isCheckedIn || !userInfo.hasPaid? <></> :
-                    <GradientBorder
-                      rounded="rounded-lg"
-                      classes="w-auto inline-block items-center"
+                    <Button
+                      type="button"
+                      hierarchy="secondary"
+                      font="font-bold"
+                      text="sm:text-lg 2xl:text-xl"
+                      padding="py-3 sm:px-7 sm:py-4"
+                      rounded="rounded-[15px]"
+                      onClick={() => {
+                        reScan();
+                      }}
                     >
-                      <Button
-                        type="submit"
-                        hierarchy="secondary"
-                        font="font-bold"
-                        text="sm:text-lg 2xl:text-xl"
-                        padding="py-3 sm:px-7 sm:py-4"
-                        rounded="rounded-[15px]"
-                        onClick={() => {
-                          checkIn();
-                        }}
-                      >
-                        Check In
-                      </Button>
-                    </GradientBorder> 
-                  }
-              </div>
+                      Re Scan
+                    </Button>
+                  </GradientBorder>
+                  <GradientBorder
+                    rounded="rounded-lg"
+                    classes="w-auto inline-block items-center"
+                  >
+                    <Button
+                      type="submit"
+                      hierarchy="secondary"
+                      font="font-bold"
+                      text="sm:text-lg 2xl:text-xl"
+                      padding="py-3 sm:px-7 sm:py-4"
+                      rounded="rounded-[15px]"
+                      onClick={() => {
+                        checkIn();
+                      }}
+                    >
+                      Check In
+                    </Button>
+                  </GradientBorder>
+                </div>
+              ) : (
+                <div className="mt-4 flex flex-col items-center">
+                  <InputFeedback state="error" classes="w-fit">
+                    {reqFeedback}
+                  </InputFeedback>
+                  <GradientBorder
+                    rounded="rounded-lg"
+                    classes="w-fit inline-block items-center mt-4"
+                  >
+                    <Button
+                      type="button"
+                      hierarchy="secondary"
+                      font="font-bold"
+                      text="sm:text-lg 2xl:text-xl"
+                      padding="py-3 sm:px-7 sm:py-4"
+                      rounded="rounded-[15px]"
+                      onClick={() => {
+                        reScan();
+                      }}
+                    >
+                      Re Scan
+                    </Button>
+                  </GradientBorder>
+                </div>
+              )}
             </div>
-          )
-        )}
+          ))}
       </section>
     </>
   );

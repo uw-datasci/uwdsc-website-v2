@@ -107,3 +107,41 @@ export const patchCurrentUserRegistrationByID = async (
     additionalFields,
   });
 };
+
+export const getEvents = async (
+  fromDate?: Date,
+  upToDate?: Date,
+  buffered: boolean = false,
+) => {
+  return await axios.post("/api/UWDSC/public/getEvents", {
+    fromDate,
+    upToDate,
+    buffered,
+  });
+};
+
+export const patchRegistrationByID = async (
+  checkInById?: boolean,
+  selected?: boolean,
+  additionalFields?: Record<string, any>,
+) => {
+  return await axios.post("/api/UWDSC/admin/patchRegistrantById", {
+    token: store.getState().loginToken.token,
+    checkInById,
+    selected,
+    additionalFields,
+  });
+};
+
+export const getRegistrationByID = async (eventId: string, userId: string) => {
+  try {
+    return await axios.post("/api/UWDSC/admin/getRegistrantById", {
+      token: store.getState().loginToken.token,
+      eventId,
+      userId,
+    });
+  } catch (e) {
+    console.log(e);
+    throw e;
+  }
+};

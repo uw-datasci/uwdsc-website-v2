@@ -17,7 +17,7 @@ export default function QR() {
       console.log(res);
 
       QRCode.toDataURL(
-        JSON.stringify({ id: res.data.id, event: res.data.event }),
+        JSON.stringify({ id: res.data.id, eventArray: res.data.eventArray }),
       )
         .then(setSrc)
         .catch((err) => console.error("Failed to generate QR code:", err));

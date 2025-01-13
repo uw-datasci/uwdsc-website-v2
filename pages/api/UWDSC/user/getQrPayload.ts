@@ -18,13 +18,11 @@ export default async function handler(
       },
     });
 
-    res
-      .status(200)
-      .json({
-        success: true,
-        id: response.data.id,
-        event: response.data.eventName,
-      });
+    res.status(200).json({
+      success: true,
+      id: response.data.id,
+      eventArray: response.data.eventArray,
+    });
   } catch (error: any) {
     console.error(error.response.data.message);
 
