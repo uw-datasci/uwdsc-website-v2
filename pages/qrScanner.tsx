@@ -9,13 +9,15 @@ import {
   getEvents,
   getRegistrationByID,
   getUserbyId,
+  patchCheckInRegistrantById,
+  patchRegistrationByID,
 } from "@/utils/apiCalls";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import UserCheckInCard from "@/components/cards/UserCheckInDetails";
 import LoadingSpinner from "@/components/UI/LoadingSpinner";
 import withAuth from "@/components/permissions/authPage";
-import { AxiosError, isAxiosError } from "axios";
+import { AxiosError, AxiosResponse, isAxiosError } from "axios";
 import React from "react";
 import SingleDropdown from "@/components/UI/Inputs/UWDSC/SingleDropdown";
 import InputFeedback from "@/components/UI/Inputs/UWDSC/InputFeedback";
@@ -34,14 +36,11 @@ const QrScannerPage = () => {
   // QR States
   const scanner = useRef<QrScanner>();
   const videoEl = useRef<HTMLVideoElement>(null);
-  const qrBoxEl = useRef<HTMLDivElement>(null);
-  const [qrOn, setQrOn] = useState<boolean>(true);
-  const [scanSuccess, setScanSuccess] = useState<boolean>(false);
+  const [scannerRunning, setScannerRunning] = useState<boolean>(false);
+  const [cameraAllowed, setCameraAllowed] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(false);
   const [QrError, setQrError] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
-  const router = useRouter();
-  const token = useSelector((state: RootState) => state.loginToken.token);
 
   const [userInfo, setUserInfo] = useState<any>({});
   const [registrationInfo, setRegistrationInfo] = useState<any>({});
@@ -56,7 +55,9 @@ const QrScannerPage = () => {
   const [reqFeedback, setReqFeedback] = useState<string>("");
 
   // Result
-  const [scannedResult, setScannedResult] = useState<string | undefined>("");
+  const [scannedResult, setScannedResult] = useState<
+    ScannedResult | undefined
+  >();
 
   const selectedEventRef = useRef<any>(null);
 
@@ -66,32 +67,29 @@ const QrScannerPage = () => {
 
   // Success
   const onScanSuccess = async (result: QrScanner.ScanResult) => {
-    setScanSuccess(true);
     const currEvent = selectedEventRef.current;
 
     if (!currEvent) {
       setErrorMessage("Please select an event to scan for.");
       setQrError(true);
+      setScannerRunning(false);
       return;
     }
 
-    scanner.current?.stop();
-    setScannedResult(result?.data);
-    const data: ScannedResult = JSON.parse(result?.data);
-    const id = data.id;
+    const scannedResult: ScannedResult = await JSON.parse(result?.data);
+    setScannedResult(scannedResult);
     // const events = data.eventArray;
     try {
       setLoading(true);
-      const response = await getRegistrationByID(currEvent.id, id);
-      console.log(response);
-      setUserInfo(response.data.registrant.user);
-      setRegistrationInfo(response.data.registrant.additionalFields ?? {});
-      setIsCheckedIn(response.data.registrant.checkedIn);
-      setIsSelected(response.data.registrant.selected);
+      const registrant = (
+        await getRegistrationByID(currEvent.id, scannedResult.id)
+      ).data.registrant;
+      setUserInfo(registrant.user);
+      setRegistrationInfo(registrant.additionalFields ?? {});
+      setIsCheckedIn(registrant.checkedIn);
+      setIsSelected(registrant.selected);
       setToDisplayBefore(currEvent.toDisplay.before);
       setToDisplayAfter(currEvent.toDisplay.after);
-      console.log(userInfo);
-      console.log(registrationInfo);
       setQrError(false);
     } catch (err: any | AxiosError) {
       console.log(err);
@@ -102,58 +100,35 @@ const QrScannerPage = () => {
       }
       setQrError(true);
     }
+    setScannerRunning(false);
     setLoading(false);
   };
 
-  const reScan = () => {
-    router.reload();
-  };
-
   const checkIn = async () => {
-    // check in user
-    const response = await checkInById({
-      id: userInfo.id,
-      token: token,
-      eventName: userInfo.event,
-    }).catch((err) => {
-      console.log(err);
-      alert(err.response.data.message);
-    });
-
-    if (response && response.data.success) {
-      alert("User is checked in !");
+    if (scannedResult) {
+      const eventSecret = scannedResult.eventArray.filter((event) => {
+        event.id == selectedEvent.id;
+      })[0].secret;
+      await patchCheckInRegistrantById(
+        selectedEvent.id,
+        scannedResult.id,
+        eventSecret,
+      )
+        .catch((err) => {
+          console.log(err);
+          alert(err.response.data.message);
+        })
+        .then((response: any) => {
+          setUserInfo(response.data.registrant.user);
+          setRegistrationInfo(response.data.registrant.additionalFields ?? {});
+          setIsCheckedIn(response.data.registrant.checkedIn);
+          setIsSelected(response.data.registrant.selected);
+          alert("User is checked in!");
+        });
     }
-  };
-
-  // Fail
-  const onScanFail = (err: string | Error) => {
-    // 🖨 Print the "err" to browser console.
-    console.log(err);
   };
 
   useEffect(() => {
-    if (videoEl?.current && !scanner.current) {
-      scanner.current = new QrScanner(videoEl?.current, onScanSuccess, {
-        onDecodeError: onScanFail,
-
-        preferredCamera: "environment",
-
-        highlightScanRegion: true,
-        // This will produce a yellow (default color) outline around the qr code that we scan, showing a proof that our qr-scanner is scanning that qr code.
-        highlightCodeOutline: true,
-        // A custom div which will pair with "highlightScanRegion" option above 👆. This gives us full control over our scan region.
-        overlay: qrBoxEl?.current || undefined,
-      });
-
-      // Start QR Scanner
-      scanner?.current
-        ?.start()
-        .then(() => setQrOn(true))
-        .catch((err) => {
-          if (err) setQrOn(false);
-        });
-    }
-
     const retrieveEvents = async () => {
       const response = (await getEvents(new Date(), new Date(), true)).data
         .events;
@@ -164,28 +139,45 @@ const QrScannerPage = () => {
     };
 
     retrieveEvents();
-
-    // Clean up on unmount.
-    // This removes the QR Scanner from rendering and using camera when it is closed or removed from the UI.
-    return () => {
-      if (!videoEl?.current) {
-        scanner?.current?.stop();
-      }
-    };
   }, []);
 
   useEffect(() => {
-    console.log("Changed");
-    console.log(selectedEvent);
-  }, [selectedEvent]);
+    if (scannerRunning && videoEl.current) {
+      scanner.current = new QrScanner(videoEl?.current, onScanSuccess, {
+        onDecodeError: (err: string | Error) => {
+          console.log(err);
+        },
+
+        preferredCamera: "environment",
+
+        highlightScanRegion: true,
+        // This will produce a yellow (default color) outline around the qr code that we scan, showing a proof that our qr-scanner is scanning that qr code.
+        highlightCodeOutline: true,
+      });
+
+      // Start QR Scanner
+      scanner?.current
+        ?.start()
+        .then(() => setCameraAllowed(true))
+        .catch((err) => {
+          if (err) setCameraAllowed(false);
+        });
+    } else if (scanner) {
+      scanner?.current?.stop();
+    }
+  }, [scannerRunning, selectedEvent]);
 
   // If "camera" is not allowed in browser permissions, show an alert.
   useEffect(() => {
-    if (!qrOn)
+    if (!cameraAllowed)
       alert(
         "Camera is blocked or not accessible. Please allow camera in your browser permissions and Reload.",
       );
-  }, [qrOn]);
+  }, [cameraAllowed]);
+
+  useEffect(() => {
+    setScannerRunning(true);
+  }, [selectedEvent]);
 
   const checkRequirements = (requirements: any, registrant: any) => {
     const userReq = requirements.user;
@@ -199,14 +191,14 @@ const QrScannerPage = () => {
       needToBeCheckedIn != undefined &&
       registrant.checkedIn != needToBeCheckedIn
     ) {
-      errMsg += "'checkedIn' needs to be " + needToBeCheckedIn + "; ";
+      errMsg += "User is already checked in.";
     }
 
     if (
       needToBeSelected != undefined &&
       registrant.selected != needToBeSelected
     ) {
-      errMsg += "'selected' needs to be " + needToBeSelected + "; ";
+      errMsg += "User was not selected to participate.";
     }
 
     if (userReq) {
@@ -248,7 +240,7 @@ const QrScannerPage = () => {
         <h1 className="mb-3 text-center text-3xl font-bold text-white 3xs:text-6xl sm:text-8xl lg:text-10xl 2xl:text-12xl">
           QR Scanner
         </h1>
-        {events ? (
+        {events.length > 0 ? (
           <SingleDropdown
             id="eventOption"
             name="eventOption"
@@ -273,14 +265,17 @@ const QrScannerPage = () => {
             wrapperClasses="mb-14"
           />
         ) : (
-          <></>
+          <h4 className="mb-3 text-center text-l font-bold text-white underline 3xs:text-2xl sm:text-3xl lg:text-4xl 2xl:text-5xl">
+            No events right now
+          </h4>
         )}
-        {!scanSuccess && (
-          <video ref={videoEl} className="h-full w-full rounded-md" />
-        )}
-
-        {scanSuccess &&
-          (loading ? (
+        {scannerRunning && selectedEvent ? (
+          <div>
+            {/* div needed so that overlay is properly identified by QR Scanner */}
+            <video ref={videoEl} className="h-full w-full rounded-md" />
+          </div>
+        ) : scannedResult ? (
+          loading ? (
             <LoadingSpinner
               size={100}
               classes="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
@@ -311,7 +306,8 @@ const QrScannerPage = () => {
                       padding="py-3 sm:px-7 sm:py-4"
                       rounded="rounded-[15px]"
                       onClick={() => {
-                        reScan();
+                        setScannerRunning(true);
+                        setScannedResult(undefined);
                       }}
                     >
                       Re Scan
@@ -353,7 +349,8 @@ const QrScannerPage = () => {
                       padding="py-3 sm:px-7 sm:py-4"
                       rounded="rounded-[15px]"
                       onClick={() => {
-                        reScan();
+                        setScannerRunning(true);
+                        setScannedResult(undefined);
                       }}
                     >
                       Re Scan
@@ -362,7 +359,10 @@ const QrScannerPage = () => {
                 </div>
               )}
             </div>
-          ))}
+          )
+        ) : (
+          <></>
+        )}
       </section>
     </>
   );

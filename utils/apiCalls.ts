@@ -121,15 +121,28 @@ export const getEvents = async (
 };
 
 export const patchRegistrationByID = async (
-  checkInById?: boolean,
+  checkedIn?: boolean,
   selected?: boolean,
   additionalFields?: Record<string, any>,
 ) => {
   return await axios.post("/api/UWDSC/admin/patchRegistrantById", {
     token: store.getState().loginToken.token,
-    checkInById,
+    checkedIn,
     selected,
     additionalFields,
+  });
+};
+
+export const patchCheckInRegistrantById = async (
+  eventId: string,
+  userId: string,
+  eventSecret: string,
+) => {
+  return await axios.post("/api/UWDSC/admin/patchRegistrantById", {
+    token: store.getState().loginToken.token,
+    eventId,
+    userId,
+    eventSecret,
   });
 };
 

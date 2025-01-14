@@ -17,14 +17,16 @@ export default function App({ Component, pageProps }: AppProps) {
     "/account/resetPassword",
     "/sandbox/input",
   ];
+  const hideFooterRoutes = ["/qrScanner"];
   const shouldHideLayout = hideLayoutRoutes.includes(router.pathname);
+  const shouldHideFooter = hideFooterRoutes.includes(router.pathname);
   return (
     <ReduxProvider>
       {!shouldHideLayout && <Navbar />}
       {!shouldHideLayout && <SignUp />}
       {!shouldHideLayout && <SignIn />}
       <Component {...pageProps} />
-      {!shouldHideLayout && <Footer />}
+      {(!shouldHideLayout && !shouldHideFooter) && <Footer />}
     </ReduxProvider>
   );
 }
