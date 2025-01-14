@@ -39,11 +39,10 @@ export const checkInById = async (values: Record<string, string>) => {
 //User
 export const sendSignUpInfo = async (values: Record<string, string>) => {
   try {
-    const response = await axios.post("/api/UWDSC/user/registerUser", values);
-    return await axios.post("/api/UWDSC/user/sendVerificationEmail", {
-      email: response.data.email,
-    });
-  } catch (err: any) {
+    const response =  await axios.post("/api/UWDSC/user/registerUser", values); 
+    return await axios.post("/api/UWDSC/user/sendVerificationEmail", {email: response.data.email});
+    // return await axios.post("/api/UWDSC/user/registerUser", values); 
+  } catch (err : any) {
     const response = err.response.data;
     if (
       response.customErrorMessage &&

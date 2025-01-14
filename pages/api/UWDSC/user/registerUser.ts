@@ -1,21 +1,22 @@
 import { type NextApiRequest, type NextApiResponse } from "next";
 import axios, { Axios, AxiosError } from "axios";
 
-require('dotenv').config()
+require("dotenv").config();
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
   try {
-    const { name, WatIAM, email, password, faculty, term, advert, ideas } = req.body;
+    const { name, WatIAM, email, password, faculty, term, advert, ideas } =
+      req.body;
     //console.log(`${name} ${WatIAM} ${email} ${password} ${faculty} ${term} ${advert} ${ideas}`);
-    
+
     await axios({
-      url: process.env.NEXT_PUBLIC_UWDSC_WEBSITE_SERVER_URL + '/api/users/user',
+      url: process.env.NEXT_PUBLIC_UWDSC_WEBSITE_SERVER_URL + "/api/users/user",
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       data: JSON.stringify({
         username: name,
@@ -25,9 +26,9 @@ export default async function handler(
         faculty: faculty,
         term: term,
         heardFromWhere: advert,
-        memberIdeas: ideas
-      })
-    }); 
+        memberIdeas: ideas,
+      }),
+    });
 
     /*
     To use state anywhere in the app,
@@ -46,20 +47,31 @@ export default async function handler(
       **When logged out, the redux state would just be an empty string**
     */
     res.status(200).json({ success: true, email: email });
-  } catch (error:any) {
+  } catch (error: any) {
     let customMessage = false;
     console.error(error);
+    console.error(error);
 
-    if (error.response.data.message && error.response.data.message == "User already registered!") {
+    if (
+      error.response.data.message &&
+      error.response.data.message == "User already registered!"
+    ) {
       error = { message: "The email you used is already a member!" };
       customMessage = true;
-    }
-
-    if (error.response.data.message && error.response.data.message == "User already registered, but email is not verified.") {
-      error = { message: "The email you used is already a member, but we'll send you another verification email." };
+    } else if (
+      error.response.data.message &&
+      error.response.data.message ==
+        "User already registered, but email is not verified."
+    ) {
+      error = {
+        message:
+          "The email you used is already a member, but we'll send you another verification email.",
+      };
       customMessage = true;
     }
 
-    res.status(500).json({ success: false, customErrorMessage: customMessage, error });
+    res
+      .status(500)
+      .json({ success: false, customErrorMessage: customMessage, error });
   }
 }
