@@ -68,6 +68,14 @@ export default function CxCRegistrationpage() {
     updateRegistrationFromDB();
   }, []);
 
+  useEffect(() => {
+    document.getElementsByTagName("html")[0].classList.add("sleek-scrollbar");
+    return () =>
+      document
+        .getElementsByTagName("html")[0]
+        .classList.remove("sleek-scrollbar");
+  });
+
   const formik = useFormik({
     initialValues: existingField ?? {
       firstName: "",

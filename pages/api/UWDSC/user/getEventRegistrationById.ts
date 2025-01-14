@@ -27,7 +27,7 @@ export default async function handler(
       fields: response.data.registrant.additionalFields,
     });
   } catch (error: any) {
-    console.error(error.response.data.message);
+    console.error(error.message);
 
     res.status(500).json({ exists: false });
   }
