@@ -10,13 +10,13 @@ import MailingList from "@/components/sections/home/MailingList";
 import FrequentlyAskedQuestions from "@/components/sections/home/FrequentlyAskedQuestions";
 import Blogs from "@/components/sections/home/Blogs";
 import Sponsors from "@/components/sections/templates/Sponsors";
-import {CURRENT_SPONSORS} from "@/constants/sponsors"
+import { CURRENT_SPONSORS } from "@/constants/sponsors";
 import ContactUs from "@/components/sections/home/ContactUs";
-import PastEvents from "@/components/sections/home/PastEvents"
+import PastEvents from "@/components/sections/home/PastEvents";
 
 export default function Home() {
   return (
-    <>
+    <div>
       <SEO
         title="UWaterloo Data Science Club"
         description="Inspiring the data science leaders of the future by building an inclusive community at the University of Waterloo to bridge the gap between academics and the industry."
@@ -27,12 +27,16 @@ export default function Home() {
       <ClubStats />
       {/* <UpcomingEvents /> */}
       <PastEvents />
-      <Sponsors sectionTitle="OUR SPONSORS" className="" sponsorList={CURRENT_SPONSORS}/>
+      <Sponsors
+        sectionTitle="OUR SPONSORS"
+        className=""
+        sponsorList={CURRENT_SPONSORS}
+      />
       {/* <Resources /> */}
       <MailingList />
       <FrequentlyAskedQuestions />
       {/* <Blogs /> */}
       <ContactUs />
-    </>
+    </div>
   );
 }

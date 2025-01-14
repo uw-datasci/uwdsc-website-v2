@@ -3,22 +3,30 @@
 @tailwind utilities;
 
 @font-face {
-  font-family: 'Satoshi-Variable';
+  font-family: "Satoshi-Variable";
   src:
-    url('../public/fonts/Satoshi-Variable.woff2') format('woff2'),
-    url('../public/fonts/Satoshi-Variable.woff') format('woff'),
-    url('../public/fonts/Satoshi-Variable.ttf') format('truetype');
+    url("../public/fonts/Satoshi-Variable.woff2") format("woff2"),
+    url("../public/fonts/Satoshi-Variable.woff") format("woff"),
+    url("../public/fonts/Satoshi-Variable.ttf") format("truetype");
   font-weight: 200 700;
   font-display: swap;
   font-style: normal;
 }
 
+html,
+body {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
 @font-face {
-  font-family: 'ClashDisplay-Variable';
+  font-family: "ClashDisplay-Variable";
   src:
-    url('../public/fonts/ClashDisplay-Variable.woff2') format('woff2'),
-    url('../public/fonts/ClashDisplay-Variable.woff') format('woff'),
-    url('../public/fonts/ClashDisplay-Variable.ttf') format('truetype');
+    url("../public/fonts/ClashDisplay-Variable.woff2") format("woff2"),
+    url("../public/fonts/ClashDisplay-Variable.woff") format("woff"),
+    url("../public/fonts/ClashDisplay-Variable.ttf") format("truetype");
   font-weight: 200 700;
   font-display: swap;
   font-style: normal;
