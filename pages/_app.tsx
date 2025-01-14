@@ -17,7 +17,7 @@ export default function App({ Component, pageProps }: AppProps) {
     "/account/resetPassword",
     "/sandbox/input",
   ];
-  const hideFooterRoutes = ["/qrScanner"];
+  const hideFooterRoutes = ["/qrScanner", "/qrPage"];
   const shouldHideLayout = hideLayoutRoutes.includes(router.pathname);
   const shouldHideFooter = hideFooterRoutes.includes(router.pathname);
   return (
@@ -26,7 +26,7 @@ export default function App({ Component, pageProps }: AppProps) {
       {!shouldHideLayout && <SignUp />}
       {!shouldHideLayout && <SignIn />}
       <Component {...pageProps} />
-      {(!shouldHideLayout && !shouldHideFooter) && <Footer />}
+      {!shouldHideLayout && !shouldHideFooter && <Footer />}
     </ReduxProvider>
   );
 }

@@ -75,7 +75,7 @@ export default function Navbar() {
 
   return (
     <>
-      <header className="pb-6 mx-nav relative z-50 mt-8 flex items-center justify-between lg:mt-12">
+      <header className="mx-nav relative z-50 mt-8 flex items-center justify-between pb-6 lg:mt-12">
         <Logo classes="w-11.5 lg:w-13.5" />
         <nav className="hidden gap-12 font-semibold text-white lg:flex">
           {routes.map((item, index) => (
@@ -156,7 +156,7 @@ export default function Navbar() {
         </div>
       </header>
       <div
-        className={`transition-300 fixed inset-0 z-40 bg-black lg:hidden overflow-hidden ${
+        className={`transition-300 fixed inset-0 z-40 overflow-hidden bg-black lg:hidden ${
           isMobileMenuOpen ? "" : "translate-x-full"
         }`}
       >

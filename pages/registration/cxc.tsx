@@ -204,15 +204,15 @@ export default function CxCRegistrationpage() {
         <CxCBackground />
         <div className="relative z-20 flex min-h-screen flex-col items-center space-y-8">
           {/* CXC Title */}
-          <div className="font-jersey z-[-1] flex h-[calc(100vh-74px)] w-full items-center justify-center text-white">
+          <div className="font-jersey z-[-1] flex h-[30vh] w-full items-center justify-center text-white md:h-[calc(100vh-74px)]">
             <div className="mx-auto flex flex-col items-center justify-center text-center">
-              <div className="text-xl leading-none tracking-[0.05em] lg:text-3xl lg:tracking-[0.1em]">
+              <div className="text-sm leading-none tracking-[0.05em] sm:text-md md:text-lg lg:text-xl lg:tracking-[0.1em] xl:text-2xl 2xl:text-3xl">
                 UWDSC Presents
               </div>
-              <div className="leading-1 text-2xl tracking-[0.1em] lg:text-5xl lg:tracking-[0.2em]">
+              <div className="leading-1 text-sm tracking-[0.1em] sm:text-md  md:text-lg lg:text-xl lg:tracking-[0.2em] xl:text-2xl 2xl:text-3xl 3xl:text-5xl">
                 A DATA SCIENCE HACKATHON
               </div>
-              <div className="flex flex-row items-center justify-center gap-4 text-4xl lg:gap-8 lg:text-11xl">
+              <div className="sm:text-4xl flex flex-row items-center justify-center gap-4 text-lg md:text-3xl lg:gap-8 lg:text-5xl xl:text-10xl 2xl:text-15xl 3xl:text-20xl">
                 <span>2</span>
                 <span>0</span>
                 <Image
@@ -233,9 +233,9 @@ export default function CxCRegistrationpage() {
               </div>
             </div>
           </div>
-          <div className="flex w-[80%] flex-col items-center space-y-8">
+          <div className="flex w-[95%] flex-col  items-center space-y-8 md:w-[80%] xl:w-[70%]">
             {/* Application Form */}
-            <div className="font-jersey mx-auto mb-[200px] w-[100%] rounded-[30px] border-2 border-white bg-gradient-to-b from-[rgba(0,9,255,0.5)] to-[rgba(255,150,214,0.5)] p-4 text-center font-thin tracking-wider text-white">
+            <div className="font-jersey mx-auto mb-[200px] w-[100%] rounded-[30px] border-2 border-white  bg-gradient-to-b from-[rgba(0,9,255,0.5)] to-[rgba(255,150,214,0.5)] p-4 text-center font-thin tracking-wider text-white">
               <div className="min-h-screen px-5 py-10 text-white">
                 <h1 className="mb-8 text-center text-5xl font-thin tracking-widest md:text-9xl">
                   Application Form
