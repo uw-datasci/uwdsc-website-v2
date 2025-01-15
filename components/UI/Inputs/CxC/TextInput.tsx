@@ -40,7 +40,7 @@ export default function TextInput({
         value={value}
         className={
           classes ||
-          "transition-300 w-full rounded-md border border-grey1 bg-black px-4.5 py-3.5 text-white outline-none placeholder:text-grey1 focus:border-white xl:rounded-lg xl:px-6 xl:py-4.5"
+          "transition-300 w-full rounded-md border border-white bg-cxcGrey px-4.5 py-3 text-md text-white outline-none placeholder:text-cxcLightGrey focus:border-white lg:text-lg xl:rounded-lg xl:px-6 xl:py-3.5"
         }
         autoCapitalize={autoCap || "on"}
       />

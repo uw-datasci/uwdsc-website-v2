@@ -37,7 +37,7 @@ export default function CxCBackground() {
         <div className="absolute left-[7%] top-[5%] z-[-1] w-[min(25%,200px)] animate-bounce">
           <Image src={ufo} alt="UFO" />
         </div>
-        <div className="absolute left-[60%] top-[35%] z-[-1] w-[min(50%,400px)]">
+        <div className="absolute left-[70%] top-[35%] z-[-1] w-[min(50%,400px)]">
           <Image src={airplane} alt="Airplane" />
         </div>
         <div className="absolute left-[5%] top-[32%] z-[-1] w-[min(50%,200px)] animate-bounce">

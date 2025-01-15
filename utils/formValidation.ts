@@ -12,7 +12,7 @@ function extractFileId(driveUrl: string) {
 async function isPublicDriveFile(fileId: string) {
   try {
     const response = await fetch(`/api/other/google-drive?fileId=${fileId}`);
-    return true;
+    return response.ok;
   } catch (error) {
     console.error("Error:", error);
     return false;

@@ -70,3 +70,13 @@ body {
     scrollbar-width: none;
   }
 }
+
+@font-face {
+  font-family: 'Jersey-10';
+  src: 
+    url("../public/fonts/jersey-10.woff2") format("woff2"),
+    url("../public/fonts/jersey-10.woff") format("woff"),
+    url("../public/fonts/jersey-10.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}

@@ -31,7 +31,7 @@ export default function Checkbox({
   };
   return (
     <>
-      <div id={id} className={`flex items-center gap-4 ${wrapperClasses}`}>
+      <div id={id} className={`flex items-center gap-4 justify-center ${wrapperClasses}`}>
         <input
           id={`checkbox-${id}`}
           name={name}

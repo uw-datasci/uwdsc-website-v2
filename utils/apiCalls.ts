@@ -39,10 +39,12 @@ export const checkInById = async (values: Record<string, string>) => {
 //User
 export const sendSignUpInfo = async (values: Record<string, string>) => {
   try {
-    const response =  await axios.post("/api/UWDSC/user/registerUser", values); 
-    return await axios.post("/api/UWDSC/user/sendVerificationEmail", {email: response.data.email});
-    // return await axios.post("/api/UWDSC/user/registerUser", values); 
-  } catch (err : any) {
+    const response = await axios.post("/api/UWDSC/user/registerUser", values);
+    return await axios.post("/api/UWDSC/user/sendVerificationEmail", {
+      email: response.data.email,
+    });
+    // return await axios.post("/api/UWDSC/user/registerUser", values);
+  } catch (err: any) {
     const response = err.response.data;
     if (
       response.customErrorMessage &&
@@ -137,7 +139,7 @@ export const patchCheckInRegistrantById = async (
   userId: string,
   eventSecret: string,
 ) => {
-  return await axios.post("/api/UWDSC/admin/patchRegistrantById", {
+  return await axios.post("/api/UWDSC/admin/patchCheckInRegistrantById", {
     token: store.getState().loginToken.token,
     eventId,
     userId,
@@ -156,4 +158,10 @@ export const getRegistrationByID = async (eventId: string, userId: string) => {
     console.log(e);
     throw e;
   }
+};
+
+export const getCurrentUser = async () => {
+  return await axios.post("/api/UWDSC/user/getCurrentUser", {
+    token: store.getState().loginToken.token,
+  });
 };

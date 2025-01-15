@@ -18,10 +18,13 @@ import withAuth from "@/components/permissions/authPage";
 import { useEffect, useState } from "react";
 import {
   attachCurrentUserRegistrationByID,
+  getCurrentUser,
   getCurrentUserRegistrationByID,
   patchCurrentUserRegistrationByID,
 } from "@/utils/apiCalls";
 import InputFeedback from "@/components/UI/Inputs/CxC/InputFeedback";
+
+import {} from "next/font/google";
 
 type CxCFields = {
   firstName: string;
@@ -48,11 +51,12 @@ type CxCFields = {
   consent: boolean;
 } | null;
 
-export default function CxCRegistrationpage() {
+function CxCRegistrationpage() {
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [submitFeedback, setSubmitFeedback] = useState("");
   const [isRegistered, setIsRegistered] = useState(false);
   const [existingField, setExistingField] = useState<CxCFields>(null);
+  const [fromUserModel, setFromUserModel] = useState<CxCFields>(null);
 
   useEffect(() => {
     const updateRegistrationFromDB = async () => {
@@ -65,34 +69,71 @@ export default function CxCRegistrationpage() {
       }
     };
 
+    const attempToFillFromUser = async () => {
+      try {
+        const user = (await getCurrentUser()).data.user;
+        console.log(user);
+        const [firstName, ...lastNames] = user.username.split(" ");
+        const lastName = lastNames.join(" ");
+        setFromUserModel({
+          firstName: firstName,
+          lastName: lastName,
+          pronoun: "",
+          ethnicity: "",
+          phoneNumber: "",
+          email: user.email,
+          discordUsername: "",
+          term: user.term,
+          faculty: [],
+          program: "",
+          dietaryRestrictions: [],
+          specificAllergies: "",
+          tshirtSize: "",
+          resumeLink: "",
+          githubLink: "",
+          linkedInLink: "",
+          anyLink: "",
+          hackathonRole: [],
+          hackathonNum: 0,
+          cxcGoals: "",
+          ambitions: "",
+          consent: false,
+        });
+      } catch (e) {
+        console.error(e);
+      }
+    };
+
     updateRegistrationFromDB();
+    attempToFillFromUser();
   }, []);
 
   const formik = useFormik({
-    initialValues: existingField ?? {
-      firstName: "",
-      lastName: "",
-      pronoun: "",
-      ethnicity: "",
-      phoneNumber: "",
-      email: "",
-      discordUsername: "",
-      term: "",
-      faculty: [],
-      program: "",
-      dietaryRestrictions: [],
-      specificAllergies: "",
-      tshirtSize: "",
-      resumeLink: "",
-      githubLink: "",
-      linkedInLink: "",
-      anyLink: "",
-      hackathonRole: [],
-      hackathonNum: 0,
-      cxcGoals: "",
-      ambitions: "",
-      consent: false,
-    },
+    initialValues: existingField ??
+      fromUserModel ?? {
+        firstName: "",
+        lastName: "",
+        pronoun: "",
+        ethnicity: "",
+        phoneNumber: "",
+        email: "",
+        discordUsername: "",
+        term: "",
+        faculty: [],
+        program: "",
+        dietaryRestrictions: [],
+        specificAllergies: "",
+        tshirtSize: "",
+        resumeLink: "",
+        githubLink: "",
+        linkedInLink: "",
+        anyLink: "",
+        hackathonRole: [],
+        hackathonNum: 0,
+        cxcGoals: "",
+        ambitions: "",
+        consent: false,
+      },
     enableReinitialize: true,
     validationSchema: CxCRegistrationSchema,
     onSubmit: (values, { resetForm }) => {
@@ -204,15 +245,15 @@ export default function CxCRegistrationpage() {
         <CxCBackground />
         <div className="relative z-20 flex min-h-screen flex-col items-center space-y-8">
           {/* CXC Title */}
-          <div className="font-jersey z-[-1] flex h-[30vh] w-full items-center justify-center text-white md:h-[calc(100vh-74px)]">
+          <div className="z-[-1] flex h-[30vh] w-full items-center justify-center font-jersey text-white md:h-[calc(100vh-74px)]">
             <div className="mx-auto flex flex-col items-center justify-center text-center">
-              <div className="text-sm leading-none tracking-[0.05em] sm:text-md md:text-lg lg:text-xl lg:tracking-[0.1em] xl:text-2xl 2xl:text-3xl">
+              <div className="text-responsive-text leading-none tracking-[0.05em] lg:tracking-[0.1em]">
                 UWDSC Presents
               </div>
-              <div className="leading-1 text-sm tracking-[0.1em] sm:text-md  md:text-lg lg:text-xl lg:tracking-[0.2em] xl:text-2xl 2xl:text-3xl 3xl:text-5xl">
+              <div className="leading-1 text-responsive-subtitle tracking-[0.1em] lg:tracking-[0.2em]">
                 A DATA SCIENCE HACKATHON
               </div>
-              <div className="sm:text-4xl flex flex-row items-center justify-center gap-4 text-lg md:text-3xl lg:gap-8 lg:text-5xl xl:text-10xl 2xl:text-15xl 3xl:text-20xl">
+              <div className="flex flex-row items-center justify-center gap-4 text-responsive-title lg:gap-8">
                 <span>2</span>
                 <span>0</span>
                 <Image
@@ -233,319 +274,360 @@ export default function CxCRegistrationpage() {
               </div>
             </div>
           </div>
-          <div className="flex w-[95%] flex-col  items-center space-y-8 md:w-[80%] xl:w-[70%]">
+          <div className="flex w-[95%] flex-col items-center space-y-8 md:w-[80%] xl:w-[70%] 3xl:w-[60%]">
             {/* Application Form */}
-            <div className="font-jersey mx-auto mb-[200px] w-[100%] rounded-[30px] border-2 border-white  bg-gradient-to-b from-[rgba(0,9,255,0.5)] to-[rgba(255,150,214,0.5)] p-4 text-center font-thin tracking-wider text-white">
+            <div className="mx-auto mb-[200px] w-[100%] rounded-[30px] border-2 border-double border-white bg-gradient-to-b  from-[rgba(0,9,255,0.5)] to-[rgba(255,150,214,0.5)] p-4 text-center font-jersey font-thin tracking-wider text-white md:border-4">
               <div className="min-h-screen px-5 py-10 text-white">
-                <h1 className="mb-8 text-center text-5xl font-thin tracking-widest md:text-9xl">
+                <h1 className="mb-8 text-center text-responsive-subtitle font-thin tracking-widest">
                   Application Form
                 </h1>
                 <form
                   onSubmit={formik.handleSubmit}
-                  className="mx-auto max-w-xl space-y-4"
+                  className="mx-auto max-w-xl space-y-12"
                 >
                   {/* First Name and Last Name */}
-                  <p className="text-left text-xl font-thin tracking-widest">
-                    Name
-                  </p>
-                  <div className="flex gap-4">
-                    <div className="w-[50%] flex-col">
-                      <TextInput
-                        id={"firstName"}
-                        name={"firstName"}
-                        type={"text"}
-                        placeholder={"Enter First Name"}
-                        value={formik.values.firstName}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        errors={formik.errors}
-                        touched={formik.touched}
-                      />
-                    </div>
-                    <div className="w-[50%] flex-col">
-                      <TextInput
-                        id={"lastName"}
-                        name={"lastName"}
-                        type={"text"}
-                        placeholder={"Enter Last Name"}
-                        value={formik.values.lastName}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        errors={formik.errors}
-                        touched={formik.touched}
-                      />
+                  <div>
+                    <p className="mb-2 text-left text-xl font-thin tracking-widest">
+                      Name
+                    </p>
+                    <div className="flex gap-4">
+                      <div className="w-[50%] flex-col">
+                        <TextInput
+                          id={"firstName"}
+                          name={"firstName"}
+                          type={"text"}
+                          placeholder={"Enter First Name"}
+                          value={formik.values.firstName}
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          errors={formik.errors}
+                          touched={formik.touched}
+                        />
+                      </div>
+                      <div className="w-[50%] flex-col">
+                        <TextInput
+                          id={"lastName"}
+                          name={"lastName"}
+                          type={"text"}
+                          placeholder={"Enter Last Name"}
+                          value={formik.values.lastName}
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          errors={formik.errors}
+                          touched={formik.touched}
+                        />
+                      </div>
                     </div>
                   </div>
-                  <p className="text-left text-xl font-thin tracking-widest">
-                    Pronouns
-                  </p>
-                  <SingleDropdown
-                    id={"pronoun"}
-                    name={"pronoun"}
-                    options={pronounOptions}
-                    placeholder="Select Pronouns"
-                    value={formik.values.pronoun}
-                    onChange={formik.handleChange}
-                    errors={formik.errors}
-                    touched={formik.touched}
-                    setTouched={formik.setTouched}
-                  />
-                  <p className="text-left text-xl font-thin tracking-widest">
-                    Ethnicities
-                  </p>
-                  <SingleDropdown
-                    id={"ethnicity"}
-                    name={"ethnicity"}
-                    options={ethnicityOptions}
-                    placeholder="Select Ethnicities"
-                    value={formik.values.ethnicity}
-                    onChange={formik.handleChange}
-                    errors={formik.errors}
-                    touched={formik.touched}
-                    setTouched={formik.setTouched}
-                  />
-                  <p className="text-left text-xl font-thin tracking-widest">
-                    Phone Number
-                  </p>
-                  <TextInput
-                    id={"phoneNumber"}
-                    name={"phoneNumber"}
-                    type={"text"}
-                    placeholder={"Enter Phone Number"}
-                    value={formik.values.phoneNumber}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    errors={formik.errors}
-                    touched={formik.touched}
-                  />
-                  <p className="text-left text-xl font-thin tracking-widest">
-                    Email
-                  </p>
-                  <TextInput
-                    id={"email"}
-                    name={"email"}
-                    type={"text"}
-                    placeholder="Enter Email"
-                    value={formik.values.email}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    errors={formik.errors}
-                    touched={formik.touched}
-                  />
-                  <p className="text-left text-xl font-thin tracking-widest">
-                    Discord Username
-                  </p>
-                  <TextInput
-                    id={"discordUsername"}
-                    name={"discordUsername"}
-                    type={"text"}
-                    placeholder="Enter Discord Username"
-                    value={formik.values.discordUsername}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    errors={formik.errors}
-                    touched={formik.touched}
-                  />
-                  <p className="text-left text-xl font-thin tracking-widest">
-                    Current or Most Recent Study Term (e.g. 1B)
-                  </p>
-                  <SingleDropdown
-                    id={"studyTerm"}
-                    name={"term"}
-                    options={termOptions}
-                    placeholder="Select Study Term"
-                    value={formik.values.term}
-                    onChange={formik.handleChange}
-                    errors={formik.errors}
-                    touched={formik.touched}
-                    setTouched={formik.setTouched}
-                  />
-                  <p className="text-left text-xl font-thin tracking-widest">
-                    Faculty
-                  </p>
-                  <MultipleDropdown
-                    id={"selectFaculty"}
-                    name={"faculty"}
-                    options={facultyOptions}
-                    placeholder="Select Faculties"
-                    value={formik.values.faculty}
-                    onChange={formik.handleChange}
-                    maxSelection={2}
-                    errors={formik.errors}
-                    touched={formik.touched}
-                    setTouched={formik.setTouched}
-                  />
-                  <p className="text-left text-xl font-thin tracking-widest">
-                    Program
-                  </p>
-                  <TextInput
-                    id={"program"}
-                    name={"program"}
-                    type={"text"}
-                    placeholder="Enter Program Name"
-                    value={formik.values.program}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    errors={formik.errors}
-                    touched={formik.touched}
-                  />
-                  <p className="text-left text-xl font-thin tracking-widest">
-                    Dietary Restrictions
-                  </p>
-                  <MultipleDropdown
-                    id={"dietaryRestrictions"}
-                    name={"dietaryRestrictions"}
-                    options={dietaryRestrictionsOptions}
-                    placeholder="Select Restrictions"
-                    value={formik.values.dietaryRestrictions}
-                    onChange={formik.handleChange}
-                    maxSelection={10}
-                    errors={formik.errors}
-                    touched={formik.touched}
-                    setTouched={formik.setTouched}
-                  />
-                  <p className="text-left text-xl font-thin tracking-widest">
-                    Specific Allergies
-                  </p>
-                  <TextInput
-                    id={"specificAllergies"}
-                    name={"specificAllergies"}
-                    type={"text"}
-                    placeholder="List specific allergies (if any)"
-                    value={formik.values.specificAllergies}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    errors={formik.errors}
-                    touched={formik.touched}
-                  />
-                  <p className="text-left text-xl font-thin tracking-widest">
-                    T-Shirt Size
-                  </p>
-                  <SingleDropdown
-                    id={"tshirtSize"}
-                    name={"tshirtSize"}
-                    options={sizeOptions}
-                    placeholder="Select T-Shirt Size"
-                    value={formik.values.tshirtSize}
-                    onChange={formik.handleChange}
-                    errors={formik.errors}
-                    touched={formik.touched}
-                    setTouched={formik.setTouched}
-                  />
-                  <p className="text-left text-xl font-thin tracking-widest">
-                    Resume (Publicly Accessible Link)
-                  </p>
-                  <TextInput
-                    id={"resumeLink"}
-                    name={"resumeLink"}
-                    type={"text"}
-                    placeholder="Enter Resume Link"
-                    value={formik.values.resumeLink}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    errors={formik.errors}
-                    touched={formik.touched}
-                  />
-                  <p className="text-left text-xl font-thin tracking-widest">
-                    GitHub (Profile Link)
-                  </p>
-                  <TextInput
-                    id={"githubLink"}
-                    name={"githubLink"}
-                    type={"text"}
-                    placeholder="Enter GitHub Link"
-                    value={formik.values.githubLink}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    errors={formik.errors}
-                    touched={formik.touched}
-                  />
-                  <p className="text-left text-xl font-thin tracking-widest">
-                    LinkedIn (Profile Link)
-                  </p>
-                  <TextInput
-                    id={"linkedInLink"}
-                    name={"linkedInLink"}
-                    type={"text"}
-                    placeholder="Enter LinkedIn Link"
-                    value={formik.values.linkedInLink}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    errors={formik.errors}
-                    touched={formik.touched}
-                  />
-                  <p className="text-left text-xl font-thin tracking-widest">
-                    Any Other Link (Portfolio, Personal Website, etc.)
-                  </p>
-                  <TextInput
-                    id={"anyLink"}
-                    name={"anyLink"}
-                    type={"text"}
-                    placeholder="Enter Link"
-                    value={formik.values.anyLink}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    errors={formik.errors}
-                    touched={formik.touched}
-                  />
-                  <p className="text-left text-xl font-thin tracking-widest">
-                    Have you attended a hackathon before?
-                  </p>
-                  <MultipleDropdown
-                    id={"hackathonRole"}
-                    name={"hackathonRole"}
-                    options={hackathonRoleOptions}
-                    placeholder="Select roles"
-                    value={formik.values.hackathonRole}
-                    onChange={formik.handleChange}
-                    maxSelection={10}
-                    errors={formik.errors}
-                    touched={formik.touched}
-                    setTouched={formik.setTouched}
-                  />
-                  <p className="text-left text-xl font-thin tracking-widest">
-                    Number of Hackathons Attended
-                  </p>
-                  <TextInput
-                    id={"hackathonNum"}
-                    name={"hackathonNum"}
-                    type={"number"}
-                    placeholder="Enter number of hackthons attended"
-                    value={formik.values.hackathonNum}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    errors={formik.errors}
-                    touched={formik.touched}
-                  />
-                  <p className="text-left text-xl font-thin tracking-widest">
-                    What do you hope to see and gain from CxC? Specific
-                    workshops, games, activities, anything! (500 characters)
-                  </p>
-                  <TextArea
-                    id={"cxcGoals"}
-                    name={"cxcGoals"}
-                    placeholder="Enter Response"
-                    value={formik.values.cxcGoals}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    errors={formik.errors}
-                    touched={formik.touched}
-                    maxLength={500}
-                  />
-                  <p className="text-left text-xl font-thin tracking-widest">
-                    What are your long-term future ambitions? (500 characters)
-                  </p>
-                  <TextArea
-                    id={"ambitions"}
-                    name={"ambitions"}
-                    placeholder="Enter Response"
-                    value={formik.values.ambitions}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    errors={formik.errors}
-                    touched={formik.touched}
-                    maxLength={500}
-                  />
+                  <div>
+                    <p className="mb-2 text-left text-xl font-thin tracking-widest">
+                      Pronouns
+                    </p>
+                    <SingleDropdown
+                      id={"pronoun"}
+                      name={"pronoun"}
+                      options={pronounOptions}
+                      placeholder="Select Pronouns"
+                      value={formik.values.pronoun}
+                      onChange={formik.handleChange}
+                      errors={formik.errors}
+                      touched={formik.touched}
+                      setTouched={formik.setTouched}
+                    />
+                  </div>
+                  <div>
+                    <p className="mb-2 text-left text-xl font-thin tracking-widest">
+                      Ethnicities
+                    </p>
+                    <SingleDropdown
+                      id={"ethnicity"}
+                      name={"ethnicity"}
+                      options={ethnicityOptions}
+                      placeholder="Select Ethnicities"
+                      value={formik.values.ethnicity}
+                      onChange={formik.handleChange}
+                      errors={formik.errors}
+                      touched={formik.touched}
+                      setTouched={formik.setTouched}
+                    />
+                  </div>
+                  <div>
+                    <p className="mb-2 text-left text-xl font-thin tracking-widest">
+                      Phone Number
+                    </p>
+                    <TextInput
+                      id={"phoneNumber"}
+                      name={"phoneNumber"}
+                      type={"text"}
+                      placeholder={"Enter Phone Number"}
+                      value={formik.values.phoneNumber}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      errors={formik.errors}
+                      touched={formik.touched}
+                    />
+                  </div>
+                  <div>
+                    <p className="mb-2 text-left text-xl font-thin tracking-widest">
+                      Email
+                    </p>
+
+                    <TextInput
+                      id={"email"}
+                      name={"email"}
+                      type={"text"}
+                      placeholder="Enter Email"
+                      value={formik.values.email}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      errors={formik.errors}
+                      touched={formik.touched}
+                    />
+                  </div>
+                  <div>
+                    <p className="mb-2 text-left text-xl font-thin tracking-widest">
+                      Discord Username
+                    </p>
+                    <TextInput
+                      id={"discordUsername"}
+                      name={"discordUsername"}
+                      type={"text"}
+                      placeholder="Enter Discord Username"
+                      value={formik.values.discordUsername}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      errors={formik.errors}
+                      touched={formik.touched}
+                    />
+                  </div>
+                  <div>
+                    <p className="mb-2 text-left text-xl font-thin tracking-widest">
+                      Current or Most Recent Study Term (e.g. 1B)
+                    </p>
+                    <SingleDropdown
+                      id={"studyTerm"}
+                      name={"term"}
+                      options={termOptions}
+                      placeholder="Select Study Term"
+                      value={formik.values.term}
+                      onChange={formik.handleChange}
+                      errors={formik.errors}
+                      touched={formik.touched}
+                      setTouched={formik.setTouched}
+                    />
+                  </div>
+                  <div>
+                    <p className="mb-2 text-left text-xl font-thin tracking-widest">
+                      Faculty
+                    </p>
+                    <MultipleDropdown
+                      id={"selectFaculty"}
+                      name={"faculty"}
+                      options={facultyOptions}
+                      placeholder="Select Faculties"
+                      value={formik.values.faculty}
+                      onChange={formik.handleChange}
+                      maxSelection={2}
+                      errors={formik.errors}
+                      touched={formik.touched}
+                      setTouched={formik.setTouched}
+                    />
+                  </div>
+                  <div>
+                    <p className="mb-2 text-left text-xl font-thin tracking-widest">
+                      Program
+                    </p>
+                    <TextInput
+                      id={"program"}
+                      name={"program"}
+                      type={"text"}
+                      placeholder="Enter Program Name"
+                      value={formik.values.program}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      errors={formik.errors}
+                      touched={formik.touched}
+                    />
+                  </div>
+                  <div>
+                    <p className="mb-2 text-left text-xl font-thin tracking-widest">
+                      Dietary Restrictions
+                    </p>
+                    <MultipleDropdown
+                      id={"dietaryRestrictions"}
+                      name={"dietaryRestrictions"}
+                      options={dietaryRestrictionsOptions}
+                      placeholder="Select Restrictions"
+                      value={formik.values.dietaryRestrictions}
+                      onChange={formik.handleChange}
+                      maxSelection={10}
+                      errors={formik.errors}
+                      touched={formik.touched}
+                      setTouched={formik.setTouched}
+                    />
+                  </div>
+                  <div>
+                    <p className="mb-2 text-left text-xl font-thin tracking-widest">
+                      Specific Allergies
+                    </p>
+                    <TextInput
+                      id={"specificAllergies"}
+                      name={"specificAllergies"}
+                      type={"text"}
+                      placeholder="List specific allergies (if any)"
+                      value={formik.values.specificAllergies}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      errors={formik.errors}
+                      touched={formik.touched}
+                    />
+                  </div>
+                  <div>
+                    <p className="mb-2 text-left text-xl font-thin tracking-widest">
+                      T-Shirt Size
+                    </p>
+                    <SingleDropdown
+                      id={"tshirtSize"}
+                      name={"tshirtSize"}
+                      options={sizeOptions}
+                      placeholder="Select T-Shirt Size"
+                      value={formik.values.tshirtSize}
+                      onChange={formik.handleChange}
+                      errors={formik.errors}
+                      touched={formik.touched}
+                      setTouched={formik.setTouched}
+                    />
+                  </div>
+                  <div>
+                    <p className="mb-2 text-left text-xl font-thin tracking-widest">
+                      Resume (Publicly Accessible Link)
+                    </p>
+                    <TextInput
+                      id={"resumeLink"}
+                      name={"resumeLink"}
+                      type={"text"}
+                      placeholder="Enter Resume Link"
+                      value={formik.values.resumeLink}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      errors={formik.errors}
+                      touched={formik.touched}
+                    />
+                  </div>
+                  <div>
+                    <p className="mb-2 text-left text-xl font-thin tracking-widest">
+                      GitHub (Profile Link)
+                    </p>
+                    <TextInput
+                      id={"githubLink"}
+                      name={"githubLink"}
+                      type={"text"}
+                      placeholder="Enter GitHub Link"
+                      value={formik.values.githubLink}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      errors={formik.errors}
+                      touched={formik.touched}
+                    />
+                  </div>
+                  <div>
+                    <p className="mb-2 text-left text-xl font-thin tracking-widest">
+                      LinkedIn (Profile Link)
+                    </p>
+                    <TextInput
+                      id={"linkedInLink"}
+                      name={"linkedInLink"}
+                      type={"text"}
+                      placeholder="Enter LinkedIn Link"
+                      value={formik.values.linkedInLink}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      errors={formik.errors}
+                      touched={formik.touched}
+                    />
+                  </div>
+                  <div>
+                    <p className="mb-2 text-left text-xl font-thin tracking-widest">
+                      Any Other Link (Portfolio, Personal Website, etc.)
+                    </p>
+                    <TextInput
+                      id={"anyLink"}
+                      name={"anyLink"}
+                      type={"text"}
+                      placeholder="Enter Link"
+                      value={formik.values.anyLink}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      errors={formik.errors}
+                      touched={formik.touched}
+                    />
+                  </div>
+                  <div>
+                    <p className="mb-2 text-left text-xl font-thin tracking-widest">
+                      Have you attended a hackathon before?
+                    </p>
+                    <MultipleDropdown
+                      id={"hackathonRole"}
+                      name={"hackathonRole"}
+                      options={hackathonRoleOptions}
+                      placeholder="Select roles"
+                      value={formik.values.hackathonRole}
+                      onChange={formik.handleChange}
+                      maxSelection={10}
+                      errors={formik.errors}
+                      touched={formik.touched}
+                      setTouched={formik.setTouched}
+                    />
+                  </div>
+                  <div>
+                    <p className="mb-2 text-left text-xl font-thin tracking-widest">
+                      Number of Hackathons Attended
+                    </p>
+                    <TextInput
+                      id={"hackathonNum"}
+                      name={"hackathonNum"}
+                      type={"number"}
+                      placeholder="Enter number of hackthons attended"
+                      value={formik.values.hackathonNum}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      errors={formik.errors}
+                      touched={formik.touched}
+                    />
+                  </div>
+                  <div>
+                    <p className="mb-2 text-left text-xl font-thin tracking-widest">
+                      What do you hope to see and gain from CxC? Specific
+                      workshops, games, activities, anything! (500 characters)
+                    </p>
+                    <TextArea
+                      id={"cxcGoals"}
+                      name={"cxcGoals"}
+                      placeholder="Enter Response"
+                      value={formik.values.cxcGoals}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      errors={formik.errors}
+                      touched={formik.touched}
+                      maxLength={500}
+                    />
+                  </div>
+                  <div>
+                    <p className="mb-2 text-left text-xl font-thin tracking-widest">
+                      What are your long-term future ambitions? (500 characters)
+                    </p>
+                    <TextArea
+                      id={"ambitions"}
+                      name={"ambitions"}
+                      placeholder="Enter Response"
+                      value={formik.values.ambitions}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      errors={formik.errors}
+                      touched={formik.touched}
+                      maxLength={500}
+                    />
+                  </div>
                   <div className="flex-col justify-start">
                     <Checkbox
                       id={"consent"}
@@ -563,7 +645,7 @@ export default function CxCRegistrationpage() {
                     type="submit"
                     hierarchy="primary"
                     font="font-bold"
-                    text="lg:text-lg"
+                    text="text-xl"
                     padding="py-3 sm:px-7"
                     rounded="rounded-lg"
                     classes="w-full sm:w-auto"
@@ -583,4 +665,4 @@ export default function CxCRegistrationpage() {
   );
 }
 
-// export default withAuth(CxCRegistrationpage, []);
+export default withAuth(CxCRegistrationpage, ["member", "admin"]);

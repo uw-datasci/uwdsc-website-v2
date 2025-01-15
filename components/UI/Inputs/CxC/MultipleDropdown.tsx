@@ -82,19 +82,19 @@ export default function MultipleDropdown({
     <>
       <div
         id={`dropdown-${id}`}
-        className={wrapperClasses ? wrapperClasses : "relative cursor-pointer"}
+        className={wrapperClasses ? wrapperClasses : "relative cursor-pointer rounded-md bg-cxcGrey text-md text-cxcLightGrey lg:text-lg"}
       >
         <div
           onClick={(e) => {
             setIsOpen((prev) => !prev);
             setIsTouched(true);
           }}
-          className={`transition-300 relative cursor-pointer rounded-md border px-4.5 py-3.5 xl:rounded-lg xl:px-6 xl:py-4.5 ${
+          className={`transition-300 relative cursor-pointer rounded-md border border-white px-4.5 py-3 xl:rounded-lg xl:px-6 xl:py-3.5 ${
             isOpen ? "border-white" : "border-grey1"
           }`}
         >
           <p
-            className={`transition-300 ${
+            className={`transition-300 text-left ${
               value.length > 0 ? "text-white" : "text-grey1"
             }`}
           >
@@ -107,7 +107,7 @@ export default function MultipleDropdown({
           />
         </div>
         <div
-          className={`transition-300 absolute inset-x-0 top-[calc(100%+16px)] max-h-[15rem] overflow-auto rounded-lg border border-grey1 bg-black px-2 py-2 ${
+          className={`transition-300 absolute inset-x-0 top-[calc(100%+16px)] max-h-[15rem] overflow-auto rounded-lg border border-grey1 bg-cxcGrey text-cxcLightGrey px-2 py-2 ${
             isOpen ? "z-10" : "pointer-events-none opacity-0"
           }`}
         >

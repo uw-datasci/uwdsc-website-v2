@@ -105,26 +105,35 @@ const QrScannerPage = () => {
   };
 
   const checkIn = async () => {
+    console.log(scannedResult);
     if (scannedResult) {
-      const eventSecret = scannedResult.eventArray.filter((event) => {
-        event.id == selectedEvent.id;
-      })[0].secret;
-      await patchCheckInRegistrantById(
-        selectedEvent.id,
-        scannedResult.id,
-        eventSecret,
-      )
-        .catch((err) => {
-          console.log(err);
-          alert(err.response.data.message);
-        })
-        .then((response: any) => {
-          setUserInfo(response.data.registrant.user);
-          setRegistrationInfo(response.data.registrant.additionalFields ?? {});
-          setIsCheckedIn(response.data.registrant.checkedIn);
-          setIsSelected(response.data.registrant.selected);
-          alert("User is checked in!");
-        });
+      try {
+        const eventSecret = scannedResult.eventArray.filter((event) => {
+          return event.id == selectedEvent.id;
+        })[0].secret;
+        console.log(eventSecret);
+        await patchCheckInRegistrantById(
+          selectedEvent.id,
+          scannedResult.id,
+          eventSecret,
+        )
+          .catch((err) => {
+            console.log(err);
+            alert(err.response.data.message);
+          })
+          .then((response: any) => {
+            const updatedRegistrant =
+              response.data.updatedRegistrant.registrant;
+            console.log(updatedRegistrant);
+            setUserInfo(updatedRegistrant.user);
+            setRegistrationInfo(updatedRegistrant.additionalFields ?? {});
+            setIsCheckedIn(updatedRegistrant.checkedIn);
+            setIsSelected(updatedRegistrant.selected);
+            alert("User is checked in!");
+          });
+      } catch (e) {
+        alert(e);
+      }
     }
   };
 
@@ -145,7 +154,7 @@ const QrScannerPage = () => {
     if (scannerRunning && videoEl.current) {
       scanner.current = new QrScanner(videoEl?.current, onScanSuccess, {
         onDecodeError: (err: string | Error) => {
-          console.log(err);
+          // console.log(err);
         },
 
         preferredCamera: "environment",
@@ -217,7 +226,6 @@ const QrScannerPage = () => {
       });
     }
 
-    console.log(errMsg);
     return errMsg;
   };
 
@@ -236,7 +244,7 @@ const QrScannerPage = () => {
 
   return (
     <>
-      <section className="mx-container mb-section mt-14 lg:mt-20">
+      <section className="mx-container mb-section mt-14 h-[80vh] lg:mt-20">
         <h1 className="mb-3 text-center text-3xl font-bold text-white 3xs:text-6xl sm:text-8xl lg:text-10xl 2xl:text-12xl">
           QR Scanner
         </h1>
@@ -256,16 +264,20 @@ const QrScannerPage = () => {
                 : []
             }
             onChange={(e) => {
+              console.log(e);
               setSelectedEvent(
                 events.filter((event) => {
-                  return event.id == e.target.value.split(" ")[1].slice(1, -1);
+                  return (
+                    event.id ==
+                    e.target.value.split(" ").slice(-1)[0].slice(1, -1)
+                  );
                 })[0],
               );
             }}
             wrapperClasses="mb-14"
           />
         ) : (
-          <h4 className="mb-3 text-center text-l font-bold text-white underline 3xs:text-2xl sm:text-3xl lg:text-4xl 2xl:text-5xl">
+          <h4 className="text-l mb-3 text-center font-bold text-white underline 3xs:text-2xl sm:text-3xl lg:text-4xl 2xl:text-5xl">
             No events right now
           </h4>
         )}

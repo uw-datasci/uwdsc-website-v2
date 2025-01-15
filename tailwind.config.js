@@ -26,10 +26,13 @@ module.exports = {
       transparent: 'transparent',
       lightGreen: '#89C66D',
       pureWhite: '#FFFFFF',
+      cxcGrey: '#332F39',
+      cxcLightGrey: '#B1B1B1'
     },
     fontFamily: {
       sans: ['Satoshi-Variable', 'sans-serif'],
       display: ['ClashDisplay-Variable', 'sans-serif'],
+      jersey: ['Jersey-10', 'sans-serif']
     },
     fontSize: {
       '2xs': '10px',
@@ -58,6 +61,9 @@ module.exports = {
       '19xl': '92px',
       '20xl': '96px',
       '21xl': '100px',
+      'responsive-title': 'clamp(30px, 8vw, 500px)',
+      'responsive-subtitle': 'clamp(25px, 4vw, 45px)',
+      'responsive-text': 'clamp(16px, 2vw, 30px)',
     },
     borderRadius: {
       none: '0',

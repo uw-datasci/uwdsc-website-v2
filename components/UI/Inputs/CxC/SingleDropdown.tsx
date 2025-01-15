@@ -56,19 +56,21 @@ export default function SingleDropdown({
 
   return (
     <>
-      <div className={`relative ${wrapperClasses}`}>
+      <div
+        className={`relative rounded-md bg-cxcGrey text-md text-cxcLightGrey lg:text-lg ${wrapperClasses}`}
+      >
         <div
           id={`dropdown-${id}`}
           onClick={() => {
             setIsTouched(true);
             setIsOpen((prev) => !prev);
           }}
-          className={`transition-300 relative cursor-pointer rounded-md border px-4.5 py-3.5 xl:rounded-lg xl:px-6 xl:py-4.5 ${
+          className={`transition-300 relative cursor-pointer rounded-md border border-white px-4.5 py-3 xl:rounded-lg xl:px-6 xl:py-3.5 ${
             isOpen ? "border-white" : "border-grey1"
           }`}
         >
           <p
-            className={`transition-300 ${value ? "text-white" : "text-grey1"}`}
+            className={`transition-300 text-left ${value ? "text-white" : "text-grey1"}`}
           >
             {value ? value : placeholder}
           </p>
@@ -79,7 +81,7 @@ export default function SingleDropdown({
           />
         </div>
         <div
-          className={`transition-300 absolute inset-x-0 top-[calc(100%+16px)] max-h-[15rem] overflow-auto rounded-lg border border-grey1 bg-black px-2 py-2 ${
+          className={`transition-300 absolute inset-x-0 top-[calc(100%+16px)] max-h-[17rem] overflow-auto rounded-lg border border-grey1 bg-cxcGrey px-2 py-2 ${
             isOpen ? "z-10" : "pointer-events-none opacity-0"
           }`}
         >
@@ -95,7 +97,7 @@ export default function SingleDropdown({
                 } as React.ChangeEvent<HTMLSelectElement>);
                 setIsOpen(false);
               }}
-              className={`transition-300 cursor-pointer rounded-sm px-3 py-3.5 hover:bg-grey4 xl:px-4 xl:py-4 ${
+              className={`transition-300 cursor-pointer rounded-sm px-3 py-3.5 hover:bg-grey4 xl:px-4 xl:py-4 text-left ${
                 option === value ? "text-white" : "text-grey1"
               }`}
               key={`option-${i}`}

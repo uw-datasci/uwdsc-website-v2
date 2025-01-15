@@ -7,19 +7,26 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  const { token, eventId, userId, eventSecret } = req.body;
+  try {
+    const { token, eventId, userId, eventSecret } = req.body;
 
-  const response = await axios({
-    url: `${process.env.NEXT_PUBLIC_UWDSC_WEBSITE_SERVER_URL}/api/admin/events/${eventId}/registrants/checkin/${userId}`,
-    method: "PATCH",
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-    data: JSON.stringify({
-      eventSecret,
-    }),
-  });
+    const response = await axios({
+      url: `${process.env.NEXT_PUBLIC_UWDSC_WEBSITE_SERVER_URL}/api/admin/events/${eventId}/registrants/checkin/${userId}`,
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      data: JSON.stringify({
+        eventSecret,
+      }),
+    });
 
-  res.status(200).json({ updatedRegistrant: response.data });
+    res.status(200).json({ updatedRegistrant: response.data });
+  } catch (e: any) {
+    console.error("Error checking in user:", e);
+    return res
+      .status(500)
+      .json({ success: false, message: e.response.data.message });
+  }
 }
