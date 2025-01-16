@@ -30,6 +30,6 @@ export default async function handler(
     // Return data to the client
     res.status(200).json(response);
   } catch (error) {
-    res.status(500).json({ error: "File not accessible to public" });
+    res.status(500).json({ error });
   }
 }
