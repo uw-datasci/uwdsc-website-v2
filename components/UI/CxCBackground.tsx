@@ -20,47 +20,32 @@ export default function CxCBackground() {
       {/* UFO, airplane, and clouds only show for desktop and not mobile */}
 
       <div className="hidden md:block">
-        <Star size={5} top={4} left={4} />
-        <Star size={10} top={3} left={8} />
-        <Star size={7} top={8} left={95} />
-        <Star size={9} top={4} left={90} />
-        <Star size={5} top={6} left={87} />
-        <Star size={8} top={17} left={20} />
-        <Star size={10} top={20} left={15} />
-        <Star size={6} top={22} left={93} />
-        <Star size={9} top={38} left={23} />
-        <Star size={5} top={33} left={25} />
-        <Star size={7} top={35} left={20} />
-        <Star size={7} top={48} left={12} />
-        <Star size={10} top={50} left={15} />
-        <Star size={8} top={53} left={11} />
-        <div className="absolute left-[7%] top-[5%] z-[-1] w-[min(25%,200px)] animate-bounce">
+        <Star size={5} top={4} left={4} degrees={25} />
+        <Star size={10} top={3} left={8} degrees={25} />
+        <Star size={7} top={8} left={95} degrees={25} />
+        <Star size={9} top={4} left={90} degrees={25} />
+        <Star size={5} top={6} left={87} degrees={25} />
+        <Star size={8} top={17} left={20} degrees={25} />
+        <Star size={10} top={20} left={15} degrees={25} />
+        <Star size={6} top={22} left={93} degrees={25} />
+        <Star size={9} top={38} left={23} degrees={25} />
+        <Star size={5} top={33} left={25} degrees={25} />
+        <Star size={7} top={35} left={20} degrees={25} />
+        <Star size={7} top={48} left={12} degrees={25} />
+        <Star size={10} top={50} left={15} degrees={25} />
+        <Star size={8} top={53} left={11} degrees={25} />
+        <div className="absolute left-[7%] top-[5%] z-[-1] w-[min(25%,200px)] animate-slow-bounce">
           <Image src={ufo} alt="UFO" />
         </div>
-        <div className="absolute left-[70%] top-[35%] z-[-1] w-[min(50%,400px)]">
+        <div className="absolute left-[75%] top-[35%] z-[-1] w-[min(50%,400px)]">
           <Image src={airplane} alt="Airplane" />
         </div>
-        <div className="absolute left-[5%] top-[32%] z-[-1] w-[min(50%,200px)] animate-bounce">
+        <div className="absolute left-[5%] top-[32%] z-[-1] w-[min(50%,200px)] animate-slow-bounce">
           <Image src={smallcloud} alt="Small Cloud" />
         </div>
-        <div className="absolute right-0 top-[52%] z-[-1] w-[min(50%,400px)] animate-bounce">
+        <div className="absolute right-0 top-[52%] z-[-1] w-[min(50%,400px)] animate-slow-bounce">
           <Image src={cloudcluster} alt="Cloud Cluster" />
         </div>
-
-        <style jsx>{`
-          @keyframes bounceY {
-            0%,
-            100% {
-              transform: translateY(-10px);
-            }
-            50% {
-              transform: translateY(10px);
-            }
-          }
-          .animate-bounce {
-            animation: bounceY 5s infinite;
-          }
-        `}</style>
       </div>
 
       {/* City Skyline and Gradient Overlay */}

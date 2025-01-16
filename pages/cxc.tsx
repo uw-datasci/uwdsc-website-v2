@@ -56,7 +56,7 @@ export default function CxC() {
         <Hero registered={registered} />
 
         {/* CxC Stats Section */}
-        <div className="py-[10%] lg:py-[5%]">
+        <div >
           <CxCStats />
         </div>
 

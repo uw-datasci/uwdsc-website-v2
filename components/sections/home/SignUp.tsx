@@ -76,7 +76,7 @@ export default function SignUpPage() {
               </p>
             </div>
             <div className="lg:overflow-auto-x flex max-h-full w-full flex-col justify-center py-10 lg:p-8">
-              <div className="w-full">
+              <div className="w-full max-h-[100%] overflow-auto">
                 <ContactForm
                   title=""
                   id=""
@@ -139,7 +139,7 @@ export default function SignUpPage() {
               </p>
             </div>
             <div className="flex max-h-full w-full flex-col justify-center py-10 lg:overflow-auto lg:p-8">
-              <div className="w-full">
+              <div className="w-full max-h-[100%] overflow-auto">
                 <ContactForm
                   title=""
                   id=""

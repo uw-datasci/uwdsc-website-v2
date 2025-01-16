@@ -61,6 +61,7 @@ module.exports = {
       '19xl': '92px',
       '20xl': '96px',
       '21xl': '100px',
+      'responsive-big-title': 'clamp(80px, 8vw, 600px)',
       'responsive-title': 'clamp(30px, 8vw, 500px)',
       'responsive-subtitle': 'clamp(25px, 4vw, 45px)',
       'responsive-text': 'clamp(16px, 2vw, 30px)',
@@ -103,25 +104,86 @@ module.exports = {
       },
       keyframes: {
         typing: {
-          "0%": {
-            width: "0%",
-            visibility: "hidden"
+          '0%': {
+            width: '0%',
+            visibility: 'hidden'
           },
-          "100%": {
-            width: "100%"
-          }  
+          '100%': {
+            width: '100%'
+          },
         },
         blink: {
-          "50%": {
-            borderColor: "transparent"
+          '50%': {
+            borderColor: 'transparent'
           },
-          "100%": {
-            borderColor: "white"
+          '100%': {
+            borderColor: 'white'
           }  
+        },
+        sparkle: {
+          '0%, 100%': {
+            transform: 'scale(1)',
+            opacity: '1',
+            boxShadow: '0 0 5px 1px rgba(255, 255, 255, 0.8)',
+          },
+          '50%': {
+            transform: 'scale(1.1)',
+            opacity: '0.9',
+            boxShadow: '0 0 10px 3px rgba(255, 255, 255, 0.5)',
+          },
+        },
+        bounceY: {
+          '0%, 100%': {
+            transform: 'translateY(-10px)'
+          },
+          '50%': {
+            transform: 'translateY(10px)'
+          },
+        },
+        flicker: {
+          '9%': {
+            'text-shadow': '0 0 .5vh var(--lights), 0 0 .5vh var(--lights), 0 0 .5vh var(--lights), 0 0 .5vh var(--lights), 0 0 1vh var(--lights)',
+            filter: 'brightness(1)'
+          },
+          '10%':{
+            'text-shadow': 'none',
+            filter: 'brightness(.4)'
+          },
+          '11%':{
+            'text-shadow': '0 0 .5vh var(--lights), 0 0 .5vh var(--lights), 0 0 .5vh var(--lights), 0 0 .5vh var(--lights), 0 0 1vh var(--lights)',
+            filter: 'brightness(1)'
+          },
+          '12%':{
+            'text-shadow': 'none',
+            filter: 'brightness(.4)'
+          },
+          '13%':{
+            'text-shadow': '0 0 .5vh var(--lights), 0 0 .5vh var(--lights), 0 0 .5vh var(--lights), 0 0 .5vh var(--lights), 0 0 1vh var(--lights)',
+            filter: 'brightness(1)'
+          },
+          '66%':{
+            'text-shadow': '0 0 .5vh var(--lights), 0 0 .5vh var(--lights), 0 0 .5vh var(--lights), 0 0 .5vh var(--lights), 0 0 1vh var(--lights)',
+            filter: 'brightness(1)'
+          },
+          '67%':{
+            'text-shadow': 'none',
+            filter: 'brightness(.4)'
+          },
+          '75%':{
+            'text-shadow': 'none',
+            filter: 'brightness(.4)'
+          },
+          '76%':{
+            'text-shadow': '0 0 .5vh var(--lights), 0 0 .5vh var(--lights), 0 0 .5vh var(--lights), 0 0 .5vh var(--lights), 0 0 1vh var(--lights)',
+            filter: 'brightness(1)'
+          }
         }
       },
       animation: {
-        typing: "typing 1s steps(20) forwards, blink .9s infinite"
+        typing: 'typing 1s steps(20) forwards, blink .9s infinite',
+        'star-sparkle': 'sparkle 5s infinite',
+        'slow-bounce': 'bounceY 5s infinite',
+        'neon-lights': 'flicker 7s infinite'
       },
     },
   },

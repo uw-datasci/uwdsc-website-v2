@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --lights: rgb(111, 108, 188);
+}
+
 @font-face {
   font-family: "Satoshi-Variable";
   src:
@@ -29,6 +33,16 @@ body {
     url("../public/fonts/ClashDisplay-Variable.ttf") format("truetype");
   font-weight: 200 700;
   font-display: swap;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Jersey-10';
+  src: 
+    url("../public/fonts/jersey-10.woff2") format("woff2"),
+    url("../public/fonts/jersey-10.woff") format("woff"),
+    url("../public/fonts/jersey-10.ttf") format("truetype");
+  font-weight: normal;
   font-style: normal;
 }
 
@@ -69,14 +83,9 @@ body {
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
-}
 
-@font-face {
-  font-family: 'Jersey-10';
-  src: 
-    url("../public/fonts/jersey-10.woff2") format("woff2"),
-    url("../public/fonts/jersey-10.woff") format("woff"),
-    url("../public/fonts/jersey-10.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
+  .neon-lights {
+    filter:brightness(1);
+    text-shadow: 0 0 .5vh var(--lights), 0 0 .5vh var(--lights), 0 0 .5vh var(--lights), 0 0 .5vh var(--lights), 0 0 1vh var(--lights);
+  }
 }

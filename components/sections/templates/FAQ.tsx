@@ -18,7 +18,7 @@ export default function FAQ({ questions }: FAQProps) {
   };
 
   return (
-    <section className="mb-section mx-container grid gap-8 xl:grid-cols-[4fr_5fr] xl:gap-14 ">
+    <section className="mb-section mx-container grid gap-8 xl:grid-cols-[4fr_5fr] xl:gap-14">
       <h2 className="text-4xl font-bold text-white md:text-8xl xl:-mt-6 xl:text-8xl ">
         Frequently Asked Questions
       </h2>

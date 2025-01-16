@@ -79,7 +79,7 @@ export default function SignInPage() {
               </p>
             </div>
             <div className="flex max-h-full w-full flex-col justify-center py-10 lg:overflow-auto lg:p-8">
-              <div className="w-full">
+              <div className="w-full max-h-[100%] overflow-auto">
                 <ContactForm
                   title=""
                   id=""
@@ -144,11 +144,11 @@ export default function SignInPage() {
                 <br />
                 <br />
                 If you still can&apos;t get hold of your account, please email
-                us at <strong>webdev@uwdatascience.ca</strong>
+                us at <strong>dsc@uwdatascience.ca</strong>
               </p>
             </div>
             <div className="flex max-h-full w-full flex-col justify-center py-10 lg:overflow-auto lg:p-8">
-              <div className="w-full">
+              <div className="w-full max-h-[100%] overflow-auto">
                 <ContactForm
                   title=""
                   id=""

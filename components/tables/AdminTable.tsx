@@ -17,12 +17,7 @@ import {
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import UserFormCard from "../cards/UserFormCard";
-import {
-  deleteUser,
-  fetchUsers,
-  createUser,
-  editUser,
-} from "@/utils/apiCalls";
+import { deleteUser, fetchUsers, createUser, editUser } from "@/utils/apiCalls";
 import TableCell from "./TableCell";
 import EditCell from "./EditCell";
 import Pagination from "./Pagination";
@@ -124,7 +119,8 @@ const AdminTable = () => {
       return;
     }
 
-    const { hasPaid, paymentMethod, verifier, paymentLocation } = editFormData;
+    const { password, hasPaid, paymentMethod, verifier, paymentLocation } =
+      editFormData;
 
     if (
       hasPaid == "True" &&
@@ -156,10 +152,18 @@ const AdminTable = () => {
 
   const restoreOriginalUser = () => {
     // only restore fields that were previously updated for the table in edit
-    updateCellData(editedRowId!, "paymentMethod", oldEditFormData?.paymentMethod || "");
+    updateCellData(
+      editedRowId!,
+      "paymentMethod",
+      oldEditFormData?.paymentMethod || "",
+    );
     updateCellData(editedRowId!, "verifier", oldEditFormData?.verifier || "");
-    updateCellData(editedRowId!, "paymentLocation", oldEditFormData?.paymentLocation || "");
-  }
+    updateCellData(
+      editedRowId!,
+      "paymentLocation",
+      oldEditFormData?.paymentLocation || "",
+    );
+  };
 
   const handleCancelClick = () => {
     restoreOriginalUser();
@@ -362,7 +366,7 @@ const AdminTable = () => {
       return response;
     } catch (error) {
       console.error("Error Creating user:", error);
-      alert(error)
+      alert(error);
     } finally {
       setLoading(false);
     }

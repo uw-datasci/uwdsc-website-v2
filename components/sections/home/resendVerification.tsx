@@ -68,7 +68,7 @@ export default function ResendVerificationPage({
   return (
     <div className="flex h-full flex-col items-center justify-center">
       <h1 className={headings}>
-        <u>Pay Membership Fee</u>
+        <u>Pay Membership Fee</u> <p className="text-lg">(Not required for CxC)</p>
       </h1>
       <p className={"mt-4 text-left lg:mt-6 " + subTexts}>
         You will have to pay a $4 CAD membership fee through on of the following

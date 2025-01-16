@@ -21,14 +21,6 @@ const TableCell = <TData,>({
   const [value, setValue] = useState<any>(initialValue);
   const adminName = useSelector((state: RootState) => state.loginToken.name);
 
-  useEffect(() => {
-    if (column.id === "password") {
-      setValue(""); // so it does not change password
-    } else {
-      setValue(initialValue);
-    }
-  }, [initialValue]);
-
   const handleEdit = (e: ChangeEvent<any>) => {
     const newValue = e.target.value;
     setValue(newValue);
@@ -101,7 +93,7 @@ const TableCell = <TData,>({
     );
   }
 
-  return <span>{initialValue}</span>;
+  return <span>{column.id == "password" ? "********" : initialValue}</span>;
 };
 
 export default TableCell;

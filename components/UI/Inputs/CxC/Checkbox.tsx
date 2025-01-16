@@ -46,7 +46,7 @@ export default function Checkbox({
         />
         <label
           htmlFor={`checkbox-${id}`}
-          className={`block h-[1.2rem] w-[1.2rem] cursor-pointer rounded-xs border-[1px]  transition-transform duration-200 ease-in-out peer-hover:scale-[1.03] peer-active:scale-[1.05] peer-active:rounded-[0.4rem] ${
+          className={`block mb-auto mt-[0.4rem] h-[1.2rem] w-[1.2rem] cursor-pointer rounded-xs border-[1px]  transition-transform duration-200 ease-in-out peer-hover:scale-[1.03] peer-active:scale-[1.05] peer-active:rounded-[0.4rem] ${
             value ? "border-white" : "border-grey1"
           }`}
         >
@@ -60,7 +60,7 @@ export default function Checkbox({
             ></path>
           </svg>
         </label>
-        <span className={value ? "text-white" : "text-grey1"}>
+        <span className={(value ? "text-white" : "text-grey1") + " max-w-[85%] lg:max-w-[90%] text-left"}>
           {checkboxString}
         </span>
       </div>

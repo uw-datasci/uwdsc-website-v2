@@ -66,13 +66,13 @@ export const SIGN_UP_FORM_FIELDS_PART1: ContactField[] = [
     id: "WatIAM",
     name: "WatIAM",
     type: "input",
-    placeholder: "WatIAM (ex. slchow)",
+    placeholder: "[Optional] WatIAM (ex. slchow)",
   },
   {
     id: "email",
     name: "email",
     type: "input",
-    placeholder: "Waterloo Email (ex. slchow@uwaterloo.ca)",
+    placeholder: "Email (ex. slchow@uwaterloo.ca)",
   },
   {
     id: "password",
@@ -89,7 +89,7 @@ export const SIGN_UP_FORM_FIELDS_PART2: ContactField[] = [
     name: "faculty",
     type: "dropdown",
     placeholder: "Which faculty is your program part of ?",
-    options: ["Math", "Engineering", "Science", "Arts", "Health", "Environment"],
+    options: ["Math", "Engineering", "Science", "Arts", "Health", "Environment", "Other/Non-waterloo"],
     classes: "z-50",
   },
   {
@@ -97,7 +97,7 @@ export const SIGN_UP_FORM_FIELDS_PART2: ContactField[] = [
     name: "term",
     type: "dropdown",
     placeholder: "Your current/last completed term",
-    options: ["1A","1B","2A","2B","3A","3B","4A","4B","Masters","PHD"],
+    options: ["1A","1B","2A","2B","3A","3B","4A","4B","Masters","PHD", "Other/Non-waterloo"],
     classes: "z-40",
   },
   {

@@ -37,16 +37,9 @@ export const SponsorFormSchema = object({
 
 export const SignUpFormPart1Schema = object({
   name: string().required("Please enter your name."),
-  WatIAM: string().required("Please enter your WatIAM ID."),
+  WatIAM: string(),
   email: string()
-    .test(
-      "is-uwaterloo-email",
-      "Please enter your UWaterloo email.",
-      (value) =>
-        !!value &&
-        value.toLowerCase().endsWith("@uwaterloo.ca") &&
-        value.length > 13,
-    )
+    .email("Email must be valid.")
     .required("Please enter your UWaterloo email."),
   password: string()
     .min(8, "Your password needs to be at least 8 characters long.")
@@ -97,10 +90,7 @@ export const CxCRegistrationSchema = object({
     .required("Please enter your email."),
   discordUsername: string().required("Please enter your Discord Name."),
   term: string().required("Please select your current/last completed term"),
-  faculty: array()
-    .of(string().required("Each item must be a string"))
-    .min(1, "Please select at least 1 faculty")
-    .required("Please select your faculty."),
+  school: string().required("Please enter your school."),
   program: string().required("Please specify your program"),
   dietaryRestrictions: array()
     .of(string().required("Each item must be a string"))

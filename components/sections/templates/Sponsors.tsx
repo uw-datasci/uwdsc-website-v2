@@ -56,7 +56,7 @@ export default function Sponsors({
   return (
     <section className="mb-section mx-container">
       <div className="mb-20 flex justify-center">
-        <Image src={sponsorsheading} alt="Sponsors Heading" />
+        <h2 className="font-jersey text-white text-responsive-big-title tracking-[15px]">SPONSORS</h2>
       </div>
       {/*<SectionTitle mb="mb-20">{sectionTitle}</SectionTitle>*/}
       <div className={`flex flex-wrap justify-center ${className}`}>

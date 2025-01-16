@@ -25,6 +25,8 @@ import {
 import InputFeedback from "@/components/UI/Inputs/CxC/InputFeedback";
 
 import {} from "next/font/google";
+import { Loader } from "react-feather";
+import LoadingSpinner from "@/components/UI/LoadingSpinner";
 
 type CxCFields = {
   firstName: string;
@@ -35,7 +37,7 @@ type CxCFields = {
   email: string;
   discordUsername: string;
   term: string;
-  faculty: string[];
+  school: string;
   program: string;
   dietaryRestrictions: string[];
   specificAllergies: string;
@@ -52,6 +54,7 @@ type CxCFields = {
 } | null;
 
 function CxCRegistrationpage() {
+  const [isLoading, setIsLoading] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [submitFeedback, setSubmitFeedback] = useState("");
   const [isRegistered, setIsRegistered] = useState(false);
@@ -84,7 +87,7 @@ function CxCRegistrationpage() {
           email: user.email,
           discordUsername: "",
           term: user.term,
-          faculty: [],
+          school: "",
           program: "",
           dietaryRestrictions: [],
           specificAllergies: "",
@@ -119,7 +122,7 @@ function CxCRegistrationpage() {
         email: "",
         discordUsername: "",
         term: "",
-        faculty: [],
+        school: "",
         program: "",
         dietaryRestrictions: [],
         specificAllergies: "",
@@ -137,11 +140,13 @@ function CxCRegistrationpage() {
     enableReinitialize: true,
     validationSchema: CxCRegistrationSchema,
     onSubmit: (values, { resetForm }) => {
+      setIsLoading(true);
       if (!isRegistered) {
         try {
           attachCurrentUserRegistrationByID(values);
           setSubmitFeedback("Successfully registered!");
           setSubmitSuccess(true);
+          setIsRegistered(true);
         } catch (e) {
           setSubmitFeedback("Something went wrong, please try again later");
           setSubmitSuccess(false);
@@ -151,26 +156,23 @@ function CxCRegistrationpage() {
           patchCurrentUserRegistrationByID(values);
           setSubmitFeedback("Successfully updated registration!");
           setSubmitSuccess(true);
+          setIsRegistered(true);
         } catch (e) {
           setSubmitFeedback("Something went wrong, please try again later");
           setSubmitSuccess(false);
         }
       }
+      setIsLoading(false);
       // resetForm();
     },
   });
 
   const termOptions = [
     "Not currently a student",
-    "1A",
-    "1B",
-    "2A",
-    "2B",
-    "3A",
-    "3B",
-    "4A",
-    "4B",
-    "5A+",
+    "1st Year",
+    "2nd Year",
+    "3rd Year",
+    "4th Year+",
     "Masters",
     "PHD",
   ];
@@ -201,15 +203,6 @@ function CxCRegistrationpage() {
     "Caucasian",
     "Other Asian (Thai, Cambodian, etc)",
     "Other",
-  ];
-
-  const facultyOptions = [
-    "Mathematics",
-    "Engineering",
-    "Arts",
-    "Environment",
-    "Health",
-    "Science",
   ];
 
   const dietaryRestrictionsOptions = [
@@ -287,35 +280,42 @@ function CxCRegistrationpage() {
                 >
                   {/* First Name and Last Name */}
                   <div>
-                    <p className="mb-2 text-left text-xl font-thin tracking-widest">
-                      Name
-                    </p>
-                    <div className="flex gap-4">
-                      <div className="w-[50%] flex-col">
-                        <TextInput
-                          id={"firstName"}
-                          name={"firstName"}
-                          type={"text"}
-                          placeholder={"Enter First Name"}
-                          value={formik.values.firstName}
-                          onChange={formik.handleChange}
-                          onBlur={formik.handleBlur}
-                          errors={formik.errors}
-                          touched={formik.touched}
-                        />
+                    <div className="flex flex-col gap-12 lg:flex-row">
+                      <div className="w-full">
+                        <p className="mb-2 text-left text-xl font-thin tracking-widest">
+                          First Name
+                        </p>
+                        <div className="w-full flex-col">
+                          <TextInput
+                            id={"firstName"}
+                            name={"firstName"}
+                            type={"text"}
+                            placeholder={"Enter First Name"}
+                            value={formik.values.firstName}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            errors={formik.errors}
+                            touched={formik.touched}
+                          />
+                        </div>
                       </div>
-                      <div className="w-[50%] flex-col">
-                        <TextInput
-                          id={"lastName"}
-                          name={"lastName"}
-                          type={"text"}
-                          placeholder={"Enter Last Name"}
-                          value={formik.values.lastName}
-                          onChange={formik.handleChange}
-                          onBlur={formik.handleBlur}
-                          errors={formik.errors}
-                          touched={formik.touched}
-                        />
+                      <div className="w-full">
+                        <p className="mb-2 text-left text-xl font-thin tracking-widest">
+                          Last Name
+                        </p>
+                        <div className="w-full flex-col">
+                          <TextInput
+                            id={"lastName"}
+                            name={"lastName"}
+                            type={"text"}
+                            placeholder={"Enter Last Name"}
+                            value={formik.values.lastName}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            errors={formik.errors}
+                            touched={formik.touched}
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -418,19 +418,18 @@ function CxCRegistrationpage() {
                   </div>
                   <div>
                     <p className="mb-2 text-left text-xl font-thin tracking-widest">
-                      Faculty
+                      School
                     </p>
-                    <MultipleDropdown
-                      id={"selectFaculty"}
-                      name={"faculty"}
-                      options={facultyOptions}
-                      placeholder="Select Faculties"
-                      value={formik.values.faculty}
+                    <TextInput
+                      id={"school"}
+                      name={"school"}
+                      type={"text"}
+                      placeholder="Enter School"
+                      value={formik.values.school}
                       onChange={formik.handleChange}
-                      maxSelection={2}
+                      onBlur={formik.handleBlur}
                       errors={formik.errors}
                       touched={formik.touched}
-                      setTouched={formik.setTouched}
                     />
                   </div>
                   <div>
@@ -500,7 +499,7 @@ function CxCRegistrationpage() {
                   </div>
                   <div>
                     <p className="mb-2 text-left text-xl font-thin tracking-widest">
-                      Resume (Publicly Accessible Link)
+                      Resume (Publicly Accessible Google Drive Link)
                     </p>
                     <TextInput
                       id={"resumeLink"}
@@ -522,7 +521,7 @@ function CxCRegistrationpage() {
                       id={"githubLink"}
                       name={"githubLink"}
                       type={"text"}
-                      placeholder="Enter GitHub Link"
+                      placeholder="Enter GitHub Link (Optional)"
                       value={formik.values.githubLink}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
@@ -538,7 +537,7 @@ function CxCRegistrationpage() {
                       id={"linkedInLink"}
                       name={"linkedInLink"}
                       type={"text"}
-                      placeholder="Enter LinkedIn Link"
+                      placeholder="Enter LinkedIn Link (Optional)"
                       value={formik.values.linkedInLink}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
@@ -554,7 +553,7 @@ function CxCRegistrationpage() {
                       id={"anyLink"}
                       name={"anyLink"}
                       type={"text"}
-                      placeholder="Enter Link"
+                      placeholder="Enter Link (Optional)"
                       value={formik.values.anyLink}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
@@ -635,26 +634,37 @@ function CxCRegistrationpage() {
                       checkboxString={
                         "I consent to having my email and resume shared with CxC and DSC sponsors"
                       }
+                      wrapperClasses="text-xl"
                       value={formik.values.consent}
                       onChange={formik.handleChange}
                       errors={formik.errors}
                       touched={formik.touched}
                     />
                   </div>
-                  <Button
-                    type="submit"
-                    hierarchy="primary"
-                    font="font-bold"
-                    text="text-xl"
-                    padding="py-3 sm:px-7"
-                    rounded="rounded-lg"
-                    classes="w-full sm:w-auto"
-                  >
-                    {isRegistered ? "Update application" : "Submit application"}
-                  </Button>
-                  <InputFeedback state={submitSuccess ? "success" : "error"}>
-                    {submitFeedback}
-                  </InputFeedback>
+                  {isLoading ? (
+                    <LoadingSpinner size={60} classes="w-fit mx-auto" />
+                  ) : (
+                    <>
+                      <Button
+                        type="submit"
+                        hierarchy="primary"
+                        font="font-bold"
+                        text="text-xl tracking-widest"
+                        padding="py-3 sm:px-7"
+                        rounded="rounded-lg"
+                        classes="w-full sm:w-auto"
+                      >
+                        {isRegistered
+                          ? "Update application"
+                          : "Submit application"}
+                      </Button>
+                      <InputFeedback
+                        state={submitSuccess ? "success" : "error"}
+                      >
+                        {submitFeedback}
+                      </InputFeedback>
+                    </>
+                  )}
                 </form>
               </div>
             </div>

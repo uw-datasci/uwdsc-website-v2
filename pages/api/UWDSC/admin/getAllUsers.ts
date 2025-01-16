@@ -27,7 +27,7 @@ export default async function handler(
       watIAM: user.watIAM,
       username: user.username,
       email: user.email,
-      password: "********", // Password is default set to "********" while querying
+      password: "", // Password is default set to "********" while querying
       userStatus: user.userStatus,
       hasPaid: user.hasPaid ? "True" : "False", // TODO: maybe change to Paid/Unpaid but that would cause filtering issues
       paymentMethod: user.paymentMethod || "",
