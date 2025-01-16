@@ -34,7 +34,6 @@ export default function Checkbox({
         checked={checked}
         onChange={(e) => {
           setChecked(!checked);
-          console.log(e);
           onChange(e);
         }}
         className="peer absolute appearance-none opacity-0"

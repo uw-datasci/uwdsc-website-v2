@@ -24,7 +24,6 @@ export default function CxC() {
         const response = await getCurrentUserRegistrationByID();
         setRegistered(response.data.exist); // true or false
         setStatus(response.data.status);
-        console.log(response.data);
       } catch (e) {
         setRegistered(false);
       }

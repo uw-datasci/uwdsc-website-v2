@@ -25,7 +25,6 @@ import {
 import InputFeedback from "@/components/UI/Inputs/CxC/InputFeedback";
 
 import {} from "next/font/google";
-import { Loader } from "react-feather";
 import LoadingSpinner from "@/components/UI/LoadingSpinner";
 
 type CxCFields = {

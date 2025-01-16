@@ -20,10 +20,6 @@ export default function UserCheckInCard({
   error,
   errorMessage,
 }: UserCheckInProps) {
-  useEffect(() => {
-    console.log(error);
-  }, []);
-
   return (
     <div className="mx-auto max-w-sm rounded-lg bg-white p-6 shadow-md">
       <h2 className="m-auto text-2xl font-bold">

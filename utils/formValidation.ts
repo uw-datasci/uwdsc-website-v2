@@ -1,6 +1,10 @@
+import { Field } from "formik";
 import { string, object, ref, boolean, array, number } from "yup";
 
 require("dotenv").config();
+
+let lastFileId = "";
+let lastVerificationState = false;
 
 function extractFileId(driveUrl: string) {
   const match =
@@ -11,8 +15,14 @@ function extractFileId(driveUrl: string) {
 
 async function isPublicDriveFile(fileId: string) {
   try {
-    const response = await fetch(`/api/other/google-drive?fileId=${fileId}`);
-    return response.ok;
+    if (lastFileId != fileId && fileId) {
+      console.log("Ran verification");
+      const response = await fetch(`/api/other/google-drive?fileId=${fileId}`);
+      lastFileId = fileId;
+      lastVerificationState = response.ok;
+      return response.ok;
+    }
+    return lastVerificationState;
   } catch (error) {
     console.error("Error:", error);
     return false;
