@@ -78,6 +78,29 @@ function CxCRegistrationpage() {
         console.log(user);
         const [firstName, ...lastNames] = user.username.split(" ");
         const lastName = lastNames.join(" ");
+        let term = "";
+        switch (user.term) {
+          case "1A":
+          case "1B":
+            term = "1st Year";
+            break;
+          case "2A":
+          case "2B":
+            term = "2nd Year";
+            break;
+          case "3A":
+          case "3B":
+            term = "3rd Year";
+            break;
+          case "4A":
+          case "4B":
+            term = "4th Year+";
+            break;
+          case "Other/Non-waterloo":
+            break;
+          default:
+            term = user.term;
+        }
         setFromUserModel({
           firstName: firstName,
           lastName: lastName,
@@ -86,7 +109,7 @@ function CxCRegistrationpage() {
           phoneNumber: "",
           email: user.email,
           discordUsername: "",
-          term: "",
+          term: term,
           school: "",
           program: "",
           dietaryRestrictions: [],
@@ -597,7 +620,7 @@ function CxCRegistrationpage() {
                   <div>
                     <p className="mb-2 text-left text-xl font-thin tracking-widest">
                       What do you hope to see and gain from CxC? Specific
-                      workshops, skills,, activities, anything! (500 characters)
+                      workshops, skills, activities, anything! (500 characters)
                     </p>
                     <TextArea
                       id={"cxcGoals"}

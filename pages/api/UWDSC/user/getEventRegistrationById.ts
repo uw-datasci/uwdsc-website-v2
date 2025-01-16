@@ -21,9 +21,9 @@ export default async function handler(
         "Content-Type": "application/json",
       },
     });
-    console.log(response.data);
     res.status(200).json({
       exist: true,
+      status: response.data.registrant.status,
       fields: response.data.registrant.additionalFields,
     });
   } catch (error: any) {

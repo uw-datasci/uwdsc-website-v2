@@ -7,9 +7,10 @@ import { moveUp as signInMoveUp } from "@/store/slices/signInPageSlice";
 
 type HeroProps = {
   registered: boolean;
+  status: string;
 };
 
-export default function Hero({ registered }: HeroProps) {
+export default function Hero({ registered, status }: HeroProps) {
   const router = useRouter();
   let dispatch = useDispatch();
   const signedIn = useSelector((state: RootState) => state.loginToken.name);
@@ -26,9 +27,10 @@ export default function Hero({ registered }: HeroProps) {
     <section className="mx-container mb-section relative mt-[25%]">
       <div className="relative pt-44 text-center lg:pt-56">
         <p className="mx-auto mb-5 max-w-[350px] leading-loose text-white xs:max-w-[600px] xs:text-lg lg:mb-10 2xl:max-w-[640px] 2xl:text-xl">
-          Experience CxC - Powered by Federato, Canada&apos;s <b>largest</b> student
-          run hackathon. We are a beginner-friendly datathon that bring together students and companies to build
-          projects that solve real-world problems.
+          Experience CxC - Powered by Federato, Canada&apos;s <b>largest</b>{" "}
+          student run hackathon. We are a beginner-friendly datathon that bring
+          together students and companies to build projects that solve
+          real-world problems.
         </p>
         <p className="mx-auto mb-5 max-w-[350px] leading-loose text-white xs:max-w-[600px] xs:text-lg lg:mb-10 2xl:max-w-[640px] 2xl:text-xl">
           Applications close January 24th, 2025
@@ -68,6 +70,13 @@ export default function Hero({ registered }: HeroProps) {
             </Button>
           </GradientBorder> */}
         </div>
+        {signedIn && registered ? (
+          <p className="mx-auto mb-5 mt-2 max-w-[350px] font-jersey leading-loose tracking-widest text-white xs:max-w-[600px] xs:text-lg lg:mb-10 2xl:max-w-[640px] 2xl:text-xl">
+            Status: <span className="neon-lights">{status}</span>
+          </p>
+        ) : (
+          <></>
+        )}
       </div>
     </section>
   );
