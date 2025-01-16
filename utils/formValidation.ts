@@ -105,12 +105,12 @@ export const CxCRegistrationSchema = object({
   specificAllergies: string(),
   tshirtSize: string().required("Please select your T-Shirt size"),
   resumeLink: string()
-    .required("Please enter a Google Drive link to your resume.")
+    .required("Please enter a Google Drive link to a PDF your resume.")
     .matches(
       /https?:\/\/(?:drive\.google\.com\/(?:file\/d\/|drive\/folders\/|open\?id=|uc\?id=)[^\/\&\?]+)/,
-      "Please provide a valid Google drive link.",
+      "Please provide a valid Google Drive link. It must be a PDF, it cannot be a Google Doc.",
     )
-    .test("is-public", "Please provide a publicaly shared link.", (url) => {
+    .test("is-public", "THe link you provided is not public.", (url) => {
       const fileId: string | null = extractFileId(url);
       if (fileId) {
         return isPublicDriveFile(fileId);

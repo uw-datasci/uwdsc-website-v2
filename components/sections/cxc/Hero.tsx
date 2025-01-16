@@ -25,10 +25,13 @@ export default function Hero({ registered }: HeroProps) {
   return (
     <section className="mx-container mb-section relative mt-[25%]">
       <div className="relative pt-44 text-center lg:pt-56">
-        <p className="mx-auto mb-10 max-w-[350px] leading-loose text-white xs:max-w-[600px] xs:text-lg lg:mb-14 2xl:max-w-[640px] 2xl:text-xl">
+        <p className="mx-auto mb-5 max-w-[350px] leading-loose text-white xs:max-w-[600px] xs:text-lg lg:mb-10 2xl:max-w-[640px] 2xl:text-xl">
           Experience CxC - Powered by Federato, Canada&apos;s <b>largest</b> student
           run hackathon. We are a beginner-friendly datathon that bring together students and companies to build
           projects that solve real-world problems.
+        </p>
+        <p className="mx-auto mb-5 max-w-[350px] leading-loose text-white xs:max-w-[600px] xs:text-lg lg:mb-10 2xl:max-w-[640px] 2xl:text-xl">
+          Applications close January 24th, 2025
         </p>
         <div className="flex flex-col gap-5 sm:flex-row sm:justify-center sm:gap-12">
           <Button

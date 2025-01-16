@@ -86,7 +86,7 @@ function CxCRegistrationpage() {
           phoneNumber: "",
           email: user.email,
           discordUsername: "",
-          term: user.term,
+          term: "",
           school: "",
           program: "",
           dietaryRestrictions: [],
@@ -269,7 +269,7 @@ function CxCRegistrationpage() {
           </div>
           <div className="flex w-[95%] flex-col items-center space-y-8 md:w-[80%] xl:w-[70%] 3xl:w-[60%]">
             {/* Application Form */}
-            <div className="mx-auto mb-[200px] w-[100%] rounded-[30px] border-2 border-double border-white bg-gradient-to-b  from-[rgba(0,9,255,0.5)] to-[rgba(255,150,214,0.5)] p-4 text-center font-jersey font-thin tracking-wider text-white md:border-4">
+            <div className="mx-auto mb-[200px] w-[100%] rounded-[30px] border-2 border-double border-white bg-gradient-to-b  from-[rgba(0,9,255,0.5)] to-[rgba(237,150,214,0.5)] p-4 text-center font-jersey font-thin tracking-wider text-white md:border-4">
               <div className="min-h-screen px-5 py-10 text-white">
                 <h1 className="mb-8 text-center text-responsive-subtitle font-thin tracking-widest">
                   Application Form
@@ -402,7 +402,7 @@ function CxCRegistrationpage() {
                   </div>
                   <div>
                     <p className="mb-2 text-left text-xl font-thin tracking-widest">
-                      Current or Most Recent Study Term (e.g. 1B)
+                      Current level of study
                     </p>
                     <SingleDropdown
                       id={"studyTerm"}
@@ -424,7 +424,7 @@ function CxCRegistrationpage() {
                       id={"school"}
                       name={"school"}
                       type={"text"}
-                      placeholder="Enter School"
+                      placeholder="Enter School Full Name"
                       value={formik.values.school}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
@@ -505,7 +505,7 @@ function CxCRegistrationpage() {
                       id={"resumeLink"}
                       name={"resumeLink"}
                       type={"text"}
-                      placeholder="Enter Resume Link"
+                      placeholder="drive.google.com/file/..."
                       value={formik.values.resumeLink}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
@@ -597,7 +597,7 @@ function CxCRegistrationpage() {
                   <div>
                     <p className="mb-2 text-left text-xl font-thin tracking-widest">
                       What do you hope to see and gain from CxC? Specific
-                      workshops, games, activities, anything! (500 characters)
+                      workshops, skills,, activities, anything! (500 characters)
                     </p>
                     <TextArea
                       id={"cxcGoals"}

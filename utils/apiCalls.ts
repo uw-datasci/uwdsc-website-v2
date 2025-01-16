@@ -165,3 +165,16 @@ export const getCurrentUser = async () => {
     token: store.getState().loginToken.token,
   });
 };
+
+export const getUserStatusByEvent = async (eventId: string, userId: string) => {
+  try {
+    return await axios.post("/api/UWDSC/admin/getUserStatusByEvent", {
+      token: store.getState().loginToken.token,
+      eventId,
+      userId,
+    });
+  } catch (e) {
+    console.error("Error fetching user status:", e);
+    throw e;
+  }
+};

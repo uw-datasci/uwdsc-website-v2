@@ -47,7 +47,7 @@ export default function CxC() {
           backgroundRepeat: "no-repeat",
         }}
       >
-        <div className="absolute left-1/2 w-[75%] -translate-x-1/2 lg:w-[45%]">
+        <div className="absolute ml-10 left-1/2 w-[75%] -translate-x-1/2 lg:w-[55%]">
           <Image src={cxctitle} alt="CxC Title" />
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black"></div>
         </div>
