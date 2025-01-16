@@ -32,7 +32,7 @@ export default function Hero({ registered, status }: HeroProps) {
           together students and companies to build projects that solve
           real-world problems.
         </p>
-        <p className="mx-auto mb-5 max-w-[350px] leading-loose text-white xs:max-w-[600px] xs:text-lg lg:mb-10 2xl:max-w-[640px] 2xl:text-xl">
+        <p className="italic mx-auto mb-5 max-w-[350px] leading-loose text-white xs:max-w-[600px] xs:text-lg lg:mb-10 2xl:max-w-[640px] 2xl:text-xl">
           Applications close January 24th, 2025
         </p>
         <div className="flex flex-col gap-5 sm:flex-row sm:justify-center sm:gap-12">
