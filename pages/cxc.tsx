@@ -3,14 +3,10 @@ import Hero from "@/components/sections/cxc/Hero";
 import Image from "next/image";
 import CxCStats from "@/components/sections/cxc/CxCStats";
 import FrequentlyAskedQuestions from "@/components/sections/cxc/FrequentlyAskedQuestions";
-import SponsorshipTiers from "@/components/sections/cxc/SponsorshipTiers";
-import SponsorshipInterest from "@/components/sections/cxc/SponsorshipInterest";
-import SponsorForm from "@/components/sections/cxc/SponsorForm";
-import PastEvents from "@/components/sections/home/PastEvents";
 import PastCxC from "@/components/sections/cxc/PastCxC";
 import Sponsors from "@/components/sections/templates/Sponsors";
 import Partners from "@/components/sections/templates/Partners";
-import { CURRENT_CXC_SPONSORS, PAST_SPONSORS } from "@/constants/sponsors";
+import { CURRENT_CXC_SPONSORS } from "@/constants/sponsors";
 import { CURRENT_CXC_PARTNERS } from "@/constants/sponsors";
 import cxctitle from "@/public/cxc/graphics/CxCTitle.png";
 
@@ -20,12 +16,15 @@ import { getCurrentUserRegistrationByID } from "@/utils/apiCalls";
 
 export default function CxC() {
   const [registered, setRegistered] = useState<boolean>(false);
+  const [status, setStatus] = useState<string>("");
 
   useEffect(() => {
     const checkRegistration = async () => {
       try {
         const response = await getCurrentUserRegistrationByID();
         setRegistered(response.data.exist); // true or false
+        setStatus(response.data.status);
+        console.log(response.data);
       } catch (e) {
         setRegistered(false);
       }
@@ -47,16 +46,16 @@ export default function CxC() {
           backgroundRepeat: "no-repeat",
         }}
       >
-        <div className="absolute ml-10 left-1/2 w-[75%] -translate-x-1/2 lg:w-[55%]">
+        <div className="absolute left-1/2 ml-10 w-[75%] -translate-x-1/2 lg:w-[55%]">
           <Image src={cxctitle} alt="CxC Title" />
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black"></div>
         </div>
         <CxCBackground />
         {/* Hero Section */}
-        <Hero registered={registered} />
+        <Hero registered={registered} status={status} />
 
         {/* CxC Stats Section */}
-        <div >
+        <div>
           <CxCStats />
         </div>
 
