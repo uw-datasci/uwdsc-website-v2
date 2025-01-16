@@ -57,7 +57,7 @@ import paigeLi from "@/public/teams/Paige-Li.jpg";
 import parithySenthamilarasan from "@/public/teams/Parithy-Senthamilarasan.jpg";
 import sarahWang from "@/public/teams/Sarah-Wang.jpeg";
 import shashwatMurawala from "@/public/teams/Shashwat-Murawala.png";
-import shae from "@/public/teams/shae.jpg";
+import shae from "@/public/teams/Shae.jpg";
 import simhaKalimipalli from "@/public/teams/Simha-Kalimipalli.jpg";
 import simonHampton from "@/public/teams/Simon-Hampton.jpg";
 import sophiaLin from "@/public/teams/Sophia-Lin.jpeg";
