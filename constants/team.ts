@@ -173,7 +173,7 @@ export const TEAM: Subteam[] = [
       },
       {
         id: "frank",
-        name: "Frank",
+        name: "Frank Chen",
         position: "VP of Events",
         image: frankChen,
       },
@@ -401,7 +401,7 @@ export const TEAM: Subteam[] = [
   },
   {
     id: "developement",
-    name: "Web Development Team",
+    name: "Web Development",
     members: [
       {
         id: "chow-sheng-liang",
