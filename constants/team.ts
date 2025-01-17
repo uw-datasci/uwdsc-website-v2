@@ -34,7 +34,8 @@ import ishirLakhani from "@/public/teams/Ishir-Lakhani.png";
 import jacobYan from "@/public/teams/Jacob-Yan.png";
 import jeffreyKasa from "@/public/teams/Jeffrey-Kasa.jpg";
 import jennyYu from "@/public/teams/Jenny-Yu.jpeg";
-import jocelynXu from "@/public/teams/Jocelyn-Xu.jpg";
+// import jocelynXu from "@/public/teams/Jocelyn-Xu.jpg";
+// jpg issue
 import joshuaLi from "@/public/teams/Joshua-Li.jpg";
 //import justinBaiyuWang from "@/public/teams/Justin-Wang";
 //import karthikKrishnaViriyala from "@/public/teams/Karthik-Viriyala";
@@ -56,7 +57,7 @@ import paigeLi from "@/public/teams/Paige-Li.jpg";
 import parithySenthamilarasan from "@/public/teams/Parithy-Senthamilarasan.jpg";
 import sarahWang from "@/public/teams/Sarah-Wang.jpeg";
 import shashwatMurawala from "@/public/teams/Shashwat-Murawala.png";
-import shae from "@/public/teams/shae.jpg";
+import shae from "@/public/teams/Shae.jpg";
 import simhaKalimipalli from "@/public/teams/Simha-Kalimipalli.jpg";
 import simonHampton from "@/public/teams/Simon-Hampton.jpg";
 import sophiaLin from "@/public/teams/Sophia-Lin.jpeg";
@@ -151,7 +152,8 @@ export const TEAM: Subteam[] = [
         id: "jocelyn-xu",
         name: "Jocelyn Xu",
         position: "CxC Coordinator",
-        image: jocelynXu,
+        // image: jocelynXu,
+        image: team,
       },
       {
         id: "bethany-liu",
