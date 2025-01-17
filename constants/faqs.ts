@@ -53,10 +53,16 @@ export const CXC_FAQ: QandA[] = [
     id: "9",
     question: "Do I need to be a UW student to participate?",
     answer:
-      "No! We are open to ALL students from ALL universities. Note that you must be 18 years or older to participate in our event due to venue restrictions.",
+      "No! We are open to ALL students from ALL universities. High school students are also welcome to attend.",
   },
   {
     id: "10",
+    question: "Am I required to attend in-person?",
+    answer:
+      "We required all participants to check-in in-person on the morning of February 8 at the University of Waterloo. Workshops will not be recorded or streamed online. Pitching on February 25th may be done in person or online. Unfortunately we will not be able to provide overnight accommodations or travel reimbursements",
+  },
+  {
+    id: "11",
     question: "What if my question isn't answered here?",
     answer:
       "Feel free to reach out to us at contact@uwdatascience.ca with any questions.",
