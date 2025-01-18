@@ -43,6 +43,7 @@ import kateColby from "@/public/teams/Kate-Colby.jpeg";
 import kaushikChatterjee from "@/public/teams/Kaushik-Chatterjee.jpeg";
 import kimGuo from "@/public/teams/Kim-Guo.jpg";
 import lukaSpinoti from "@/public/teams/Luka-Spinoti.jpg";
+import mahdiKhunt from "@/public/teams/Mahdi-Khunt.png";
 import marcusLuong from "@/public/teams/Marcus-Luong.jpg";
 import marcusNg from "@/public/teams/Marcus-Ng.jpg";
 import meeraMehta from "@/public/teams/Meera-Mehta.jpeg";
@@ -219,7 +220,7 @@ export const TEAM: Subteam[] = [
   },
   {
     id: "education",
-    name: "Education Team",
+    name: "Education",
     members: [
       {
         id: "kaushik-chatterjee",
@@ -424,6 +425,12 @@ export const TEAM: Subteam[] = [
         image: aaryanPatel,
       },
       {
+        id: "mahdi-raza-khunt",
+        name: "Mahdi Raza Khunt",
+        position: "Developer",
+        image: mahdiKhunt
+      },
+      {
         id: "david-he",
         name: "David He",
         position: "Developer",
@@ -441,6 +448,7 @@ export const TEAM: Subteam[] = [
         position: "Developer",
         image: team,
       },
+      
     ],
   },
   {

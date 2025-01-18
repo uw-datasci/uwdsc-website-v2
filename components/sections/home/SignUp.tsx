@@ -132,7 +132,7 @@ export default function SignUpPage() {
               <h1 className={headings}>Almost There !</h1>
               <p className={subTexts}>
                 Once you have submitted, you should receive a confirmation email
-                to your uwaterloo email account.
+                to your email account.
                 <br />
                 <br />
                 And after all that hard work ... <br /> Welcome to the club !
