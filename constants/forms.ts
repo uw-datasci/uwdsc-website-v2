@@ -136,7 +136,7 @@ export const FORGOT_PASSWORD_FORM_FIELDS: ContactField[] = [
     id: "email",
     name: "email",
     type: "input",
-    placeholder: "Waterloo Email (ex. slchow@uwaterloo.ca)",
+    placeholder: "Email (ex. slchow@uwaterloo.ca)",
   },
 ];
 
