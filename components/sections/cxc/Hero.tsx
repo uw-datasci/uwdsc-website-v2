@@ -4,6 +4,7 @@ import Button from "@/components/UI/Button";
 import { RootState } from "@/store/store";
 import { useDispatch, useSelector } from "react-redux";
 import { moveUp as signInMoveUp } from "@/store/slices/signInPageSlice";
+import Countdown from "./Countdown";
 
 type HeroProps = {
   registered: boolean;
@@ -32,9 +33,16 @@ export default function Hero({ registered, status }: HeroProps) {
           together students and companies to build projects that solve
           real-world problems.
         </p>
-        <p className="italic mx-auto mb-5 max-w-[350px] leading-loose text-white xs:max-w-[600px] xs:text-lg lg:mb-10 2xl:max-w-[640px] 2xl:text-xl">
-          Applications close January 24th, 2025
-        </p>
+        {signedIn && registered ? (
+          <></>
+        ) : (
+          <>
+            <p className="mx-auto max-w-[350px] italic leading-loose text-white xs:max-w-[600px] xs:text-lg 2xl:max-w-[640px] 2xl:text-xl">
+              Applications EXTENDED January 26th, 2025
+            </p>
+            <Countdown targetDate="2025-01-26T23:59:59"></Countdown>
+          </>
+        )}
         <div className="flex flex-col gap-5 sm:flex-row sm:justify-center sm:gap-12">
           <Button
             type="button"
