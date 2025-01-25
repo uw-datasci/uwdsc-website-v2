@@ -114,7 +114,7 @@ export default function SignInPage() {
                             setPanelIndex(1);
                           }}
                         >
-                          Forgot password ?
+                          Forgot password?
                         </p>
                         <p
                           className="text-s cursor-pointer p-2 text-grey3 hover:underline"
