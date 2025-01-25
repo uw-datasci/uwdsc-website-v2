@@ -370,7 +370,7 @@ const QrScannerPage = () => {
                   </GradientBorder>
                 </div>
               )}
-            </div>
+            </div> 
           )
         ) : (
           <></>
