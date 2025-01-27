@@ -33,20 +33,10 @@ export default function Hero({ registered, status }: HeroProps) {
           together students and companies to build projects that solve
           real-world problems.
         </p>
-        {signedIn && registered ? (
-          <></>
-        ) : (
-          <>
-            <p className="mx-auto max-w-[350px] italic leading-loose text-white xs:max-w-[600px] xs:text-lg 2xl:max-w-[640px] 2xl:text-xl">
-              Applications EXTENDED January 26th, 2025
-            </p>
-            <Countdown targetDate="2025-01-26T23:59:59"></Countdown>
-          </>
-        )}
         <div className="flex flex-col gap-5 sm:flex-row sm:justify-center sm:gap-12">
           <Button
             type="button"
-            onClick={handleButtonClick}
+            onClick={()=>{}}
             classes="ease-in-out"
             hierarchy="primary"
             font="font-bold"
@@ -54,11 +44,7 @@ export default function Hero({ registered, status }: HeroProps) {
             padding="py-3 sm:px-7 sm:py-4"
             rounded="rounded-lg"
           >
-            {signedIn
-              ? registered
-                ? "Update application"
-                : "Apply now!"
-              : "Sign in to apply!"}
+            Applications closed
           </Button>
 
           {/* Commented out during CXC event: */}
