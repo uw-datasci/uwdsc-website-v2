@@ -35,7 +35,7 @@ export default function Hero() {
                 text="sm:text-lg 2xl:text-xl"
                 padding="py-3 sm:px-7 sm:py-4"
                 rounded="rounded-lg"
-                classes="hidden lg:block"
+                classes="lg:hidden"
                 onClick={() => {dispatch(moveUpSignUp())}}
               >
                 Join Us
