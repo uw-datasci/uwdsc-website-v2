@@ -94,7 +94,7 @@ export const GENERAL_FAQ: QandA[] = [
   {
     id: "5",
     question: "What is the $4 membership fee going to?",
-    answer: `The membership fee covers the ENTIRE Fall2023 term (not per event). By paying the membership fee, you can attend all of our events, most of which include FREE FOOD.`,
+    answer: `The membership fee covers the ENTIRE term (not per event). By paying the membership fee, you can attend all of our events, most of which include FREE FOOD.`,
   },
   {
     id: "6",

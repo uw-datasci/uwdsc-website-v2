@@ -43,7 +43,7 @@ export type Member = {
 export type ContactField = {
   id: string;
   name: string;
-  type: "input" | "textarea" | "dropdown";
+  type: "input" | "textarea" | "dropdown" | "password";
   placeholder: string;
   options?: string[];
   classes?: string;

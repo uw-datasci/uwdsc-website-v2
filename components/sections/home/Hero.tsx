@@ -2,7 +2,7 @@ import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { moveUp as moveUpSignUp } from "@/store/slices/signUpPageSlice";
-import { moveUp as moveUpSignIn} from "@/store/slices/signInPageSlice";
+import { moveUp as moveUpSignIn } from "@/store/slices/signInPageSlice";
 
 import Button from "@/components/UI/Button";
 import GradientBorder from "@/components/UI/GradientBorder";
@@ -26,7 +26,7 @@ export default function Hero() {
           industry.
         </p>
         <div className="flex flex-col gap-5 sm:flex-row sm:justify-center sm:gap-12 lg:justify-start">
-          {!signedIn ? 
+          {!signedIn ? (
             <>
               <Button
                 type="button"
@@ -35,26 +35,35 @@ export default function Hero() {
                 text="sm:text-lg 2xl:text-xl"
                 padding="py-3 sm:px-7 sm:py-4"
                 rounded="rounded-lg"
-                classes="hidden lg:block"
-                onClick={() => {dispatch(moveUpSignUp())}}
-              >
-                Join Us
-              </Button>
-              <Button
-                type="button"
-                hierarchy="primary"
-                font="font-bold"
-                text="sm:text-lg 2xl:text-xl"
-                padding="py-3 sm:px-7 sm:py-4"
-                rounded="rounded-lg"
                 classes="lg:hidden"
-                onClick={() => {dispatch(moveUpSignIn())}}
+                onClick={() => {
+                  dispatch(moveUpSignIn());
+                }}
               >
                 Log in
               </Button>
+              <GradientBorder rounded="rounded-lg" classes="lg:hidden">
+                <Button
+                  type="button"
+                  hierarchy="secondary"
+                  font="font-bold"
+                  text="sm:text-lg 2xl:text-xl"
+                  padding="py-3 sm:px-7 sm:py-4"
+                  rounded="rounded-lg"
+                  classes="w-full lg:hidden"
+                  onClick={() => {
+                    dispatch(moveUpSignUp());
+                  }}
+                >
+                  Join Us
+                </Button>
+              </GradientBorder>
             </>
-          : <>
-              <p className="text-s text-grey3 text-center lg:hidden">Logged in as <b>{signedIn}</b></p>
+          ) : (
+            <>
+              <p className="text-s text-center text-grey3 lg:hidden">
+                Logged in as <b>{signedIn}</b>
+              </p>
               <Button
                 type="button"
                 hierarchy="primary"
@@ -63,7 +72,9 @@ export default function Hero() {
                 padding="py-3 sm:px-7 sm:py-4"
                 rounded="rounded-lg"
                 classes="lg:hidden"
-                onClick={() => {dispatch(logout())}}
+                onClick={() => {
+                  dispatch(logout());
+                }}
               >
                 Log out
               </Button>
@@ -80,9 +91,8 @@ export default function Hero() {
                 QR Code
               </Button>
             </>
-            
-            }
-          <GradientBorder rounded="rounded-lg">
+          )}
+          <GradientBorder rounded="rounded-lg" classes="hidden lg:block">
             <Button
               type="route"
               href="#contact"
@@ -91,11 +101,17 @@ export default function Hero() {
               text="sm:text-lg 2xl:text-xl"
               padding="py-3 sm:px-7 sm:py-4"
               rounded="rounded-[15px]"
-              classes="w-full"
+              classes="w-full hidden lg:block"
             >
               Sponsor Us
             </Button>
           </GradientBorder>
+          <p
+            className="text-s text-center p-0 cursor-pointer underline text-grey3 hover:underline lg:hidden"
+            onClick={() => (window.location.href = "#contact")}
+          >
+            Sponsor Us
+          </p>
         </div>
       </div>
       <Image

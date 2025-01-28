@@ -18,7 +18,7 @@ export const CLUB_STATS: Stat[] = [
   {
     id: "instagram-followers",
     title: "Instagram Followers",
-    stat: 3000,
+    stat: 4000,
     prefix: "",
     suffix: "+",
   },
