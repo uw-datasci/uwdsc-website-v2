@@ -19,10 +19,11 @@ export default async function handler(
       },
     });
 
-    res.status(200).json({ registrant: response.data.registrant });
+    return res.status(200).json({ registrant: response.data.registrant });
   } catch (e: AxiosError | any) {
     if (e.status == 404) {
-      res.status(404).json({});
+      return res.status(404).json({});
     }
+    return res.status(500).json({});
   }
 }
