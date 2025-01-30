@@ -79,7 +79,7 @@ export default function Navbar() {
 
   return (
     <>
-      <header className="mx-nav relative z-50 mt-8 flex items-center justify-between pb-6 lg:mt-12">
+      <header className="mx-nav relative z-30 mt-8 flex items-center justify-between pb-6 lg:mt-12">
         <Logo classes="w-11.5 lg:w-13.5" />
         <nav className="hidden gap-12 font-semibold text-white lg:flex">
           {routes.map((item, index) => (
@@ -91,16 +91,10 @@ export default function Navbar() {
           onClick={() => setIsMobileMenuOpen((prev) => !prev)}
           className="flex flex-col gap-[5px] lg:hidden"
         >
-          <div
-            className={`transition-300 h-[5px] w-[22px] rounded-full bg-white ${
-              isMobileMenuOpen ? "translate-x-[10px]" : ""
-            }`}
-          />
+          <div className={`h-[5px] w-[22px] rounded-full bg-white`} />
           <div className="h-[5px] w-8 rounded-full bg-white" />
           <div
-            className={`transition-300 h-[5px] w-[22px] rounded-full bg-white ${
-              isMobileMenuOpen ? "" : "translate-x-[10px]"
-            }`}
+            className={`h-[5px] w-[22px] translate-x-[10px] rounded-full bg-white`}
           />
         </button>
 
@@ -160,18 +154,32 @@ export default function Navbar() {
         </div>
       </header>
       <div
-        className={`transition-300 fixed inset-0 z-40 overflow-hidden bg-black lg:hidden ${
+        className={`transition-300 fixed inset-0 z-40 overflow-y-auto bg-black lg:hidden ${
           isMobileMenuOpen ? "" : "translate-x-full"
         }`}
       >
+        <header className="mx-nav relative z-50 mt-8 flex items-center justify-between pb-6 lg:mt-12">
+          <Logo classes="w-11.5 lg:w-13.5" />
+          <button
+            type="button"
+            onClick={() => setIsMobileMenuOpen((prev) => !prev)}
+            className="flex flex-col gap-[5px] lg:hidden"
+          >
+            <div
+              className={`h-[5px] w-[22px] translate-x-[10px] rounded-full bg-white`}
+            />
+            <div className="h-[5px] w-8 rounded-full bg-white" />
+            <div className={`h-[5px] w-[22px] rounded-full bg-white`} />
+          </button>
+        </header>
         <div className="bg-gradient pointer-events-none absolute inset-0 opacity-10" />
-        <nav className="mx-container mt-36 grid h-[calc(100vh-15rem)] overflow-y-auto">
+        <nav className="mx-container mt-5 grid">
           <hr className="mb-4 border-t-2 border-white" />
           {routes.map((item, index) => {
             return <DropdownNavbarTitleCollapse key={index} item={item} />;
           })}
         </nav>
-        <div className="absolute inset-x-0 bottom-12 flex justify-center gap-4">
+        <div className="my-10 flex justify-center gap-4">
           {SOCIALS.map(({ icon, href }, i) => (
             <a
               href={href}

@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { type Sponsor } from "@/types/types";
-import sponsorsheading from "@/public/cxc/graphics/SponsorsHeading.png";
+import SectionTitle from "@/components/UI/SectionTitle";
 
 type SponsorsProps = {
   sectionTitle: string;
@@ -16,7 +16,7 @@ type SponsorsProps = {
  */
 
 export default function Sponsors({
-  //sectionTitle,
+  sectionTitle,
   className,
   sponsorList,
 }: SponsorsProps) {
@@ -55,10 +55,7 @@ export default function Sponsors({
   `}</style>;
   return (
     <section className="mb-section mx-container">
-      <div className="mb-20 flex justify-center">
-        <h2 className="font-jersey text-white text-responsive-big-title tracking-[15px]">SPONSORS</h2>
-      </div>
-      {/*<SectionTitle mb="mb-20">{sectionTitle}</SectionTitle>*/}
+      <SectionTitle mb="mb-20">{sectionTitle}</SectionTitle>
       <div className={`flex flex-wrap justify-center ${className}`}>
         {sponsorList?.map(({ name, logo, type, link }) => {
           let hovered = false;

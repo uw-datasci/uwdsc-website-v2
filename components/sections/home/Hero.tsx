@@ -65,20 +65,6 @@ export default function Hero() {
                 Logged in as <b>{signedIn}</b>
               </p>
               <Button
-                type="button"
-                hierarchy="primary"
-                font="font-bold"
-                text="sm:text-lg 2xl:text-xl"
-                padding="py-3 sm:px-7 sm:py-4"
-                rounded="rounded-lg"
-                classes="lg:hidden"
-                onClick={() => {
-                  dispatch(logout());
-                }}
-              >
-                Log out
-              </Button>
-              <Button
                 type="route"
                 hierarchy="primary"
                 href="/qrPage"
@@ -86,10 +72,26 @@ export default function Hero() {
                 text="sm:text-lg 2xl:text-xl"
                 padding="py-3 sm:px-7 sm:py-4"
                 rounded="rounded-lg"
-                classes="hidden lg:block"
+                classes=""
               >
                 QR Code
               </Button>
+              <GradientBorder rounded="rounded-lg" classes="lg:hidden">
+                <Button
+                  type="button"
+                  hierarchy="secondary"
+                  font="font-bold"
+                  text="sm:text-lg 2xl:text-xl"
+                  padding="py-3 sm:px-7 sm:py-4"
+                  rounded="rounded-lg"
+                  classes="w-full lg:hidden"
+                  onClick={() => {
+                    dispatch(logout());
+                  }}
+                >
+                  Log out
+                </Button>
+              </GradientBorder>
             </>
           )}
           <GradientBorder rounded="rounded-lg" classes="hidden lg:block">
@@ -107,7 +109,7 @@ export default function Hero() {
             </Button>
           </GradientBorder>
           <p
-            className="text-s text-center p-0 cursor-pointer underline text-grey3 hover:underline lg:hidden"
+            className="text-s cursor-pointer p-0 text-center text-grey3 underline hover:underline lg:hidden"
             onClick={() => (window.location.href = "#contact")}
           >
             Sponsor Us

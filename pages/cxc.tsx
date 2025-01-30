@@ -4,7 +4,7 @@ import Image from "next/image";
 import CxCStats from "@/components/sections/cxc/CxCStats";
 import FrequentlyAskedQuestions from "@/components/sections/cxc/FrequentlyAskedQuestions";
 import PastCxC from "@/components/sections/cxc/PastCxC";
-import Sponsors from "@/components/sections/templates/Sponsors";
+import Sponsors from "@/components/sections/cxc/Sponsors";
 import Partners from "@/components/sections/templates/Partners";
 import { CURRENT_CXC_SPONSORS } from "@/constants/sponsors";
 import { CURRENT_CXC_PARTNERS } from "@/constants/sponsors";
