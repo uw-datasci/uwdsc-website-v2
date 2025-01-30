@@ -2,6 +2,7 @@ import { getQrCode } from "@/utils/apiCalls";
 import QRCode from "qrcode";
 import { useState } from "react";
 import { useEffect } from "react";
+import Image from "next/image";
 
 export default function QR() {
   const [src, setSrc] = useState<string>("");
@@ -39,7 +40,7 @@ export default function QR() {
         </text>
 
         <div className="flex justify-center">
-          <img src={src} alt="QR Code" className="h-64 w-64" />
+          <Image src={src} alt="QR Code" className="h-64 w-64" />
         </div>
       </section>
     </>

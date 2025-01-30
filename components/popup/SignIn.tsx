@@ -8,8 +8,8 @@ import { login } from "@/store/slices/loginTokenSlice";
 import Button from "@/components/UI/Button";
 import Logo from "@/components/UI/Logo";
 
-import PopUpPanels from "../templates/PopUpPanels";
-import ContactForm from "../templates/ContactForm";
+import PopUpPanels from "../sections/templates/PopUpPanels";
+import ContactForm from "../sections/templates/ContactForm";
 import {
   SIGN_IN_FORM_FIELDS,
   FORGOT_PASSWORD_FORM_FIELDS,
@@ -79,7 +79,7 @@ export default function SignInPage() {
               </p>
             </div>
             <div className="flex max-h-full w-full flex-col justify-center py-10 lg:overflow-auto lg:p-8">
-              <div className="w-full max-h-[100%] overflow-auto">
+              <div className="max-h-[100%] w-full overflow-auto">
                 <ContactForm
                   title=""
                   id=""
@@ -148,7 +148,7 @@ export default function SignInPage() {
               </p>
             </div>
             <div className="flex max-h-full w-full flex-col justify-center py-10 lg:overflow-auto lg:p-8">
-              <div className="w-full max-h-[100%] overflow-auto">
+              <div className="max-h-[100%] w-full overflow-auto">
                 <ContactForm
                   title=""
                   id=""

@@ -4,8 +4,8 @@ import { useRouter } from "next/router";
 import ReduxProvider from "@/components/redux/ReduxProvider";
 import Navbar from "@/components/navigation/Navbar";
 import Footer from "@/components/navigation/Footer";
-import SignUp from "@/components/sections/home/SignUp";
-import SignIn from "@/components/sections/home/SignIn";
+import SignUp from "@/components/popup/SignUp";
+import SignIn from "@/components/popup/SignIn";
 
 import "@/styles/globals.css";
 

@@ -92,13 +92,13 @@ export type Sponsor = {
   logo: StaticImageData;
   type?: string;
   link?: string;
-}
+};
 
 export type Partner = {
   name: string;
   logo: StaticImageData;
   link?: string;
-}
+};
 
 export type User = {
   _id: string;
@@ -107,10 +107,10 @@ export type User = {
   email: string;
   password: string;
   userStatus: string;
-  hasPaid: string;  
-  paymentMethod: string;  
-  verifier: string;     
-  paymentLocation: string;    
+  hasPaid: string;
+  paymentMethod: string;
+  verifier: string;
+  paymentLocation: string;
   isEmailVerified: string;
   __v?: number;
-}
+};
