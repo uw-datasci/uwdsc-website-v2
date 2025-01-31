@@ -100,7 +100,7 @@ export default function Hero({ registered, status }: HeroProps) {
               Congratulations! We’re thrilled to offer you a spot as a hacker at
               CxC 2025! Your application stood out among a highly competitive
               pool, and we can’t wait to see what you bring to this year’s
-              event. Make sure to RSVP using the link below by February 3rd at
+              event. Make sure to RSVP using the button above by February 3rd at
               11:59pm.
             </p>
             <br />
