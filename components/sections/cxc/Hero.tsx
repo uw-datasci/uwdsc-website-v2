@@ -86,6 +86,62 @@ export default function Hero({ registered, status }: HeroProps) {
           <></>
         )}
       </div>
+
+      <div className="mt-20 bg-black bg-opacity-80 font-sans text-lg text-white">
+        {status == "Selected !" && (
+          <>
+            <h2 className="text-responsive-subtitle underline decoration-[2px]">
+              Selected!
+            </h2>
+            <br />
+            <p>Hey {signedIn},</p>
+            <br />
+            <p>
+              Congratulations! We’re thrilled to offer you a spot as a hacker at
+              CxC 2025! Your application stood out among a highly competitive
+              pool, and we can’t wait to see what you bring to this year’s
+              event. Make sure to RSVP using the link below by February 3rd at
+              11:59pm.
+            </p>
+            <br />
+            <p>
+              Stay tuned for more details in the lead up to CxC, including the
+              hacker pack and invites to our communication platforms. In the
+              meantime, if you have any questions, feel free to reach out.
+            </p>
+            <br />
+            <p>Welcome to CxC 2025—we’re excited to have you on board!</p>
+            <br />
+            <p>– The CxC Team</p>
+          </>
+        )}
+        {status == "Waitlisted" && (
+          <>
+            <h2 className="text-responsive-subtitle underline decoration-[2px]">
+              Waitlist
+            </h2>
+            <br />
+            <p>Hey {signedIn},</p>
+            <br />
+            <p>
+              Thank you for applying to CxC 2025! We were blown away by the
+              number of talented applicants this year, making the selection
+              process incredibly competitive. While we were impressed with your
+              application, we are unable to offer you an immediate acceptance.
+              However, we are excited to place you on our waitlist!
+            </p>
+            <br />
+            <p>
+              If a spot opens up, we’ll reach out to let you know before
+              February 5th. In the meantime, we appreciate your patience and
+              enthusiasm for CxC 2025. Thank you again for applying, and we hope
+              to see you at the event!
+            </p>
+            <br />
+            <p>– The CxC Team</p>
+          </>
+        )}
+      </div>
     </section>
   );
 }
