@@ -87,7 +87,7 @@ export default function Hero({ registered, status }: HeroProps) {
         )}
       </div>
 
-      <div className="mt-20 bg-black bg-opacity-80 font-sans text-lg text-white">
+      <div className="mt-20 bg-black bg-opacity-80 font-sans text-lg text-white p-5">
         {status == "Selected !" && (
           <>
             <h2 className="text-responsive-subtitle underline decoration-[2px]">
