@@ -34,18 +34,32 @@ export default function Hero({ registered, status }: HeroProps) {
           real-world problems.
         </p>
         <div className="flex flex-col gap-5 sm:flex-row sm:justify-center sm:gap-12">
-          <Button
-            type="button"
-            onClick={()=>{}}
-            classes="ease-in-out"
-            hierarchy="primary"
-            font="font-bold"
-            text="sm:text-lg 2xl:text-xl"
-            padding="py-3 sm:px-7 sm:py-4"
-            rounded="rounded-lg"
-          >
-            Applications closed
-          </Button>
+          {status == "Selected !" ? (
+            <Button
+              type="link"
+              href="https://docs.google.com/forms/d/e/1FAIpQLScrXCFdxr-gFpClHceTE-em417qQwM7nlQnhKAUOJgUwbRBUA/viewform?usp=sharing"
+              classes="ease-in-out"
+              hierarchy="primary"
+              font="font-bold"
+              text="sm:text-lg 2xl:text-xl"
+              padding="py-3 sm:px-7 sm:py-4"
+              rounded="rounded-lg"
+            >
+              RSVP Here!
+            </Button>
+          ) : (
+            <Button
+              type="button"
+              classes="ease-in-out"
+              hierarchy="primary"
+              font="font-bold"
+              text="sm:text-lg 2xl:text-xl"
+              padding="py-3 sm:px-7 sm:py-4"
+              rounded="rounded-lg"
+            >
+              Applications closed
+            </Button>
+          )}
 
           {/* Commented out during CXC event: */}
 
