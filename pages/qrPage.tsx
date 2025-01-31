@@ -40,7 +40,7 @@ export default function QR() {
         </text>
 
         <div className="flex justify-center">
-          <Image src={src} alt="QR Code" className="h-64 w-64" />
+          <img src={src} alt="QR Code" className="h-64 w-64" />
         </div>
       </section>
     </>

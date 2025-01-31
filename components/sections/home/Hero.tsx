@@ -1,8 +1,8 @@
 import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
-import { moveUp as moveUpSignUp } from "@/store/slices/signUpPageSlice";
-import { moveUp as moveUpSignIn } from "@/store/slices/signInPageSlice";
+import { displaySignUp } from "@/store/slices/signUpPageSlice";
+import { displaySignIn } from "@/store/slices/signInPageSlice";
 
 import Button from "@/components/UI/Button";
 import GradientBorder from "@/components/UI/GradientBorder";
@@ -37,7 +37,7 @@ export default function Hero() {
                 rounded="rounded-lg"
                 classes="lg:hidden"
                 onClick={() => {
-                  dispatch(moveUpSignIn());
+                  dispatch(displaySignIn());
                 }}
               >
                 Log in
@@ -52,7 +52,7 @@ export default function Hero() {
                   rounded="rounded-lg"
                   classes="w-full lg:hidden"
                   onClick={() => {
-                    dispatch(moveUpSignUp());
+                    dispatch(displaySignUp());
                   }}
                 >
                   Join Us

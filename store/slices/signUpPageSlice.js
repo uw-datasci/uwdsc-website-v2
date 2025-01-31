@@ -8,13 +8,13 @@ const signUpPageSlice = createSlice({
   name: "signUpPage",
   initialState,
   reducers : {
-    moveUp : (state) => {
+    displaySignUp : (state) => {
       document.body.style.overflow = "hidden";
       document.body.style.position = "fixed";
       document.body.style.width = "100%";
       state.value = true;
     },
-    moveDown : (state) => {
+    removeSignUp : (state) => {
       document.body.style.overflow = "";
       document.body.style.position = "";
       document.body.style.width = "";
@@ -23,5 +23,5 @@ const signUpPageSlice = createSlice({
   }
 });
 
-export const {moveUp, moveDown} = signUpPageSlice.actions;
+export const {displaySignUp, removeSignUp} = signUpPageSlice.actions;
 export default signUpPageSlice.reducer;

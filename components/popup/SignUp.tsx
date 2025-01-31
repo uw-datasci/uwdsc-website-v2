@@ -9,8 +9,8 @@ import Logo from "@/components/UI/Logo";
 
 // Form Imports
 import PopUpPanels from "../sections/templates/PopUpPanels";
-import { moveDown as signUpMoveDown } from "@/store/slices/signUpPageSlice";
-import { moveUp as signInMoveUp } from "@/store/slices/signInPageSlice";
+import { removeSignUp } from "@/store/slices/signUpPageSlice";
+import { displaySignIn } from "@/store/slices/signInPageSlice";
 import ContactForm from "../sections/templates/ContactForm";
 import {
   SIGN_UP_FORM_FIELDS_PART1,
@@ -60,7 +60,7 @@ export default function SignUpPage() {
     <PopUpPanels
       isPopUp={signUpPage}
       moveDownFunc={() => {
-        dispatch(signUpMoveDown());
+        dispatch(removeSignUp());
       }}
       panelIndex={panelIndex}
       panels={[
@@ -107,11 +107,11 @@ export default function SignUpPage() {
                       <p
                         className="text-s cursor-pointer p-2 text-grey3 hover:underline"
                         onClick={() => {
-                          dispatch(signUpMoveDown());
+                          dispatch(removeSignUp());
                           {
                             /*hide sign-up*/
                           }
-                          dispatch(signInMoveUp());
+                          dispatch(displaySignIn());
                           {
                             /*show sign-in*/
                           }

@@ -3,8 +3,7 @@ import { useRouter } from "next/router";
 import Button from "@/components/UI/Button";
 import { RootState } from "@/store/store";
 import { useDispatch, useSelector } from "react-redux";
-import { moveUp as signInMoveUp } from "@/store/slices/signInPageSlice";
-import Countdown from "./Countdown";
+import { displaySignIn } from "@/store/slices/signInPageSlice";
 
 type HeroProps = {
   registered: boolean;
@@ -15,14 +14,6 @@ export default function Hero({ registered, status }: HeroProps) {
   const router = useRouter();
   let dispatch = useDispatch();
   const signedIn = useSelector((state: RootState) => state.loginToken.name);
-
-  const handleButtonClick = () => {
-    if (signedIn) {
-      router.push("/registration/cxc");
-    } else {
-      dispatch(signInMoveUp());
-    }
-  };
 
   return (
     <section className="mx-container mb-section relative mt-[25%]">
@@ -83,11 +74,16 @@ export default function Hero({ registered, status }: HeroProps) {
             Status: <span className="neon-lights">{status}</span>
           </p>
         ) : (
-          <></>
+          <p
+            className="mx-auto mb-5 mt-2 max-w-[350px] cursor-pointer font-jersey leading-loose tracking-widest text-white underline xs:max-w-[600px] xs:text-lg lg:mb-10 2xl:max-w-[640px] 2xl:text-xl"
+            onClick={() => dispatch(displaySignIn())}
+          >
+            Log in to see results
+          </p>
         )}
       </div>
 
-      <div className="mt-20 bg-black bg-opacity-80 font-sans text-lg text-white p-5">
+      <div className="mt-20 bg-black bg-opacity-80 p-5 font-sans text-lg text-white">
         {status == "Selected !" && (
           <>
             <h2 className="text-responsive-subtitle underline decoration-[2px]">

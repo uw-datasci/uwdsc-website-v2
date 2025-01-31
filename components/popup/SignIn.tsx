@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
-import { moveDown as signInMoveDown } from "@/store/slices/signInPageSlice";
-import { moveUp as signUpMoveUp } from "@/store/slices/signUpPageSlice";
+import { removeSignIn } from "@/store/slices/signInPageSlice";
+import { displaySignUp } from "@/store/slices/signUpPageSlice";
 import { login } from "@/store/slices/loginTokenSlice";
 
 import Button from "@/components/UI/Button";
@@ -48,7 +48,7 @@ export default function SignInPage() {
 
   const signInSuccessful = async () => {
     await sleep(400);
-    dispatch(signInMoveDown());
+    dispatch(removeSignIn());
   };
 
   const forgotPass = async (values: Record<string, string>) => {
@@ -64,7 +64,7 @@ export default function SignInPage() {
     <PopUpPanels
       isPopUp={signInPage}
       moveDownFunc={() => {
-        dispatch(signInMoveDown());
+        dispatch(removeSignIn());
       }}
       panelIndex={panelIndex}
       panels={[
@@ -119,8 +119,8 @@ export default function SignInPage() {
                         <p
                           className="text-s cursor-pointer p-2 text-grey3 hover:underline"
                           onClick={() => {
-                            dispatch(signInMoveDown());
-                            dispatch(signUpMoveUp());
+                            dispatch(removeSignIn());
+                            dispatch(displaySignUp());
                           }}
                         >
                           Not a member yet? Join here.

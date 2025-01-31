@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
-import { moveUp as signUpMoveUp } from "@/store/slices/signUpPageSlice";
-import { moveUp as signInMoveUp } from "@/store/slices/signInPageSlice";
+import { displaySignUp } from "@/store/slices/signUpPageSlice";
+import { displaySignIn } from "@/store/slices/signInPageSlice";
 import { RootState } from "@/store/store";
 
 import { Instagram, Linkedin, Mail, Youtube } from "react-feather";
@@ -111,7 +111,7 @@ export default function Navbar() {
                   rounded="rounded-[15px]"
                   classes="lg:block"
                   onClick={() => {
-                    dispatch(signInMoveUp());
+                    dispatch(displaySignIn());
                   }}
                 >
                   Log in
@@ -124,7 +124,7 @@ export default function Navbar() {
                 rounded="rounded-md"
                 classes="lg:block"
                 onClick={() => {
-                  dispatch(signUpMoveUp());
+                  dispatch(displaySignUp());
                 }}
               >
                 Join Us
