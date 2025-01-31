@@ -38,6 +38,7 @@ import hackthe6ix from "@/public/logos/cxc_2025/HackThe6ixLogo.png"
 import pearvc from "@/public/logos/cxc_2025/pear_vc_logo.jpeg"
 import geesehacks from "@/public/logos/cxc_2025/geesehacks.png"
 import communitech from "@/public/logos/cxc_2025/communitech.png";
+import mathsoc_cxc from "@/public/logos/cxc_2025/mathsoc-logo.png";
 
 /*
  * Constent data for SPONSORS lists, and SPONSOR_TIERS
@@ -69,7 +70,8 @@ export const CURRENT_CXC_PARTNERS: Partner[] = [
   { name: "Techyon", logo: techyon, link: "https://techyon.org/"},
   { name: "PearVC", logo: pearvc, link: "https://pear.vc/"},
   //{ name: "GeeseHacks", logo: geesehacks, link: "https://geesehacks.com/"},
- //{ name: "Communitech", logo: communitech, link: "https://www.communitech.ca/"}
+ { name: "Communitech", logo: communitech, link: "https://www.communitech.ca/"}
+ { name: "MathSoc", logo: mathsoc_cxc, link: "https://mathsoc.uwaterloo.ca/"}
 ];
 
 export const PAST_SPONSORS: Sponsor[] = [
