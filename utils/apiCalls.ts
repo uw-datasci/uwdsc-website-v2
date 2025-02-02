@@ -147,6 +147,21 @@ export const patchCheckInRegistrantById = async (
   });
 };
 
+export const patchCheckInRegistrantToSubEventById = async (
+  eventId: string,
+  subEventId: string,
+  userId: string,
+  eventSecret: string,
+) => {
+  return await axios.post("/api/UWDSC/admin/patchCheckInRegistrantToSubEventById", {
+    token: store.getState().loginToken.token,
+    eventId,
+    subEventId,
+    userId,
+    eventSecret,
+  });
+};
+
 export const getRegistrationByID = async (eventId: string, userId: string) => {
   try {
     return await axios.post("/api/UWDSC/admin/getRegistrantById", {

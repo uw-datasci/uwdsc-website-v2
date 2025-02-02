@@ -54,8 +54,6 @@ export default function UserCheckInCard({
         ) : (
           <>
             {Object.keys(toDisplay.user).map((key) => {
-              console.log(key);
-              console.log(userInfo[key]);
               return (
                 <>
                   <div>

@@ -19,7 +19,8 @@ export default async function handler(
       },
     });
 
-    return res.status(200).json({ registrant: response.data.registrant });
+    const { registrant, subEventsCheckedIn } = response.data;
+    return res.status(200).json({ registrant, subEventsCheckedIn });
   } catch (e: AxiosError | any) {
     if (e.status == 404) {
       return res.status(404).json({});

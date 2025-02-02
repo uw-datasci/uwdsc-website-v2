@@ -74,6 +74,9 @@ export default function Hero({ registered, status }: HeroProps) {
             Status: <span className="neon-lights">{status}</span>
           </p>
         ) : (
+          <></>
+        )}
+        {!signedIn && (
           <p
             className="mx-auto mb-5 mt-2 max-w-[350px] cursor-pointer font-jersey leading-loose tracking-widest text-white underline xs:max-w-[600px] xs:text-lg lg:mb-10 2xl:max-w-[640px] 2xl:text-xl"
             onClick={() => dispatch(displaySignIn())}
