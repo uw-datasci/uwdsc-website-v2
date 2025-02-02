@@ -132,10 +132,10 @@ export default function SignUpPage() {
               <h1 className={headings}>Almost There !</h1>
               <p className={subTexts}>
                 Once you have submitted, you should receive a confirmation email
-                to your email account.
-                <br />
-                <br />
-                And after all that hard work ... <br /> Welcome to the club !
+                to your email account.<br /><br />
+                And after all that hard work ... <br />
+                Welcome to the club !<br /><br />
+                *If 2+ faculties that include Math, choose Math
               </p>
             </div>
             <div className="flex max-h-full w-full flex-col justify-center py-10 lg:overflow-auto lg:p-8">
