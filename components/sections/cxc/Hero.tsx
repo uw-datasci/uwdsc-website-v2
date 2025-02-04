@@ -11,7 +11,7 @@ type HeroProps = {
 };
 
 export default function Hero({ registered, status }: HeroProps) {
-  const router = useRouter();
+  console.log(registered);
   let dispatch = useDispatch();
   const signedIn = useSelector((state: RootState) => state.loginToken.name);
 
@@ -87,55 +87,92 @@ export default function Hero({ registered, status }: HeroProps) {
       </div>
 
       <div className="mt-20 bg-black bg-opacity-80 p-5 font-sans text-lg text-white">
-        {status == "Selected !" && (
+        {status == "Confirmed" && (
           <>
             <h2 className="text-responsive-subtitle underline decoration-[2px]">
-              Selected!
+              Confirmed
             </h2>
             <br />
-            <p>Hey {signedIn},</p>
+            <p>Hi {signedIn},</p>
             <br />
             <p>
-              Congratulations! We’re thrilled to offer you a spot as a hacker at
-              CxC 2025! Your application stood out among a highly competitive
-              pool, and we can’t wait to see what you bring to this year’s
-              event. Make sure to RSVP using the button above by February 3rd at
-              11:59pm.
+              Congratulations! Your RSVP for CxC 2025 has been successfully
+              completed. 🎉 You’ll soon receive an email with everything you
+              need to know, including the Hacker Guide and an invitation to our
+              Discord community.
             </p>
             <br />
             <p>
-              Stay tuned for more details in the lead up to CxC, including the
-              hacker pack and invites to our communication platforms. In the
-              meantime, if you have any questions, feel free to reach out.
+              To check in on the morning of February 8th, please have your QR
+              code ready – you can access it{" "}
+              <a
+                className="text-blue underline"
+                href="https://www.uwdatascience.ca/qrPage"
+              >
+                here.
+              </a>
             </p>
             <br />
-            <p>Welcome to CxC 2025—we’re excited to have you on board!</p>
+            <p>
+              If you have any questions, feel free to reach out to us at
+              contact@uwdatascience.ca. We’re excited to see you at CxC 2025!
+            </p>
             <br />
+            <p>Best,</p>
             <p>– The CxC Team</p>
           </>
         )}
-        {status == "Waitlisted" && (
+        {status == "RSVP expired" && (
           <>
             <h2 className="text-responsive-subtitle underline decoration-[2px]">
-              Waitlist
+              RSVP Expired
             </h2>
             <br />
-            <p>Hey {signedIn},</p>
+            <p>Hi {signedIn},</p>
             <br />
             <p>
-              Thank you for applying to CxC 2025! We were blown away by the
-              number of talented applicants this year, making the selection
-              process incredibly competitive. While we were impressed with your
-              application, we are unable to offer you an immediate acceptance.
-              However, we are excited to place you on our waitlist!
+              Our records show that you did not complete the RSVP form by the
+              February 3rd deadline, which means we will not be expecting you at
+              CxC 2025.
             </p>
             <br />
             <p>
-              If a spot opens up, we’ll reach out to let you know before
-              February 5th. In the meantime, we appreciate your patience and
-              enthusiasm for CxC 2025. Thank you again for applying, and we hope
-              to see you at the event!
+              We host this event annually, and we’d love to see you apply again
+              in the future! Keep an eye on our upcoming events by following
+              @uwaterloodsc on Instagram.
             </p>
+            <br />
+            <p>Best,</p>
+            <p>– The CxC Team</p>
+          </>
+        )}
+        {status == "Not Selected" && (
+          <>
+            <h2 className="text-responsive-subtitle underline decoration-[2px]">
+              Not Selected
+            </h2>
+            <br />
+            <p>Hi {signedIn},</p>
+            <br />
+            <p>
+              Unfortunately, we’ve now reached full capacity for this year’s CxC
+              data hackathon, and we’re unable to offer you a spot at our
+              hackathon. Every year, we receive an overwhelming number of strong
+              applications, and this year was no exception. We truly appreciate
+              your time and encourage you to apply again next year. Due to
+              strict event capacity limits, we will not be accepting walk-in
+              participants.
+            </p>
+            <br />
+            <p>
+              That said, we’d love for you to stay involved in Waterloo’s data
+              science community! Join us at UWDSC’s Squid Game event on February
+              9th at 1:30 PM in E7, featuring food, funnel cakes, prizes, and
+              exciting games 🚀. Follow us on Instagram (@uwaterloodsc) to stay
+              updated on future events.
+            </p>
+            <br />
+            <p>Thank you again for your interest in CxC.</p>
             <br />
             <p>– The CxC Team</p>
           </>
