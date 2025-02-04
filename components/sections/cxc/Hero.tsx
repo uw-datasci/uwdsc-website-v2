@@ -87,7 +87,7 @@ export default function Hero({ registered, status }: HeroProps) {
       </div>
 
       <div className="mt-20 bg-black bg-opacity-80 p-5 font-sans text-lg text-white">
-        {status == "Confirmed" && (
+        {signedIn && status == "Confirmed" && (
           <>
             <h2 className="text-responsive-subtitle underline decoration-[2px]">
               Confirmed
@@ -122,7 +122,7 @@ export default function Hero({ registered, status }: HeroProps) {
             <p>– The CxC Team</p>
           </>
         )}
-        {status == "RSVP expired" && (
+        {signedIn && status == "RSVP expired" && (
           <>
             <h2 className="text-responsive-subtitle underline decoration-[2px]">
               RSVP Expired
@@ -146,7 +146,7 @@ export default function Hero({ registered, status }: HeroProps) {
             <p>– The CxC Team</p>
           </>
         )}
-        {status == "Not Selected" && (
+        {signedIn && status == "Not Selected" && (
           <>
             <h2 className="text-responsive-subtitle underline decoration-[2px]">
               Not Selected
