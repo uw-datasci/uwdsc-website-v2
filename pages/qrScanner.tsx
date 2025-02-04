@@ -81,13 +81,12 @@ const QrScannerPage = () => {
       return;
     }
 
-    const scannedResult: ScannedResult = await JSON.parse(result?.data);
-    setScannedResult(scannedResult);
-    // const events = data.eventArray;
+    const parsedResult: ScannedResult = await JSON.parse(result?.data);
+    setScannedResult(parsedResult);
     try {
       setLoading(true);
       const response = (
-        await getRegistrationByID(currEvent.id, scannedResult.id)
+        await getRegistrationByID(currEvent.id, parsedResult.id)
       ).data;
       const { registrant, subEventsCheckedIn } = response;
       setUserInfo(registrant.user);
@@ -109,51 +108,51 @@ const QrScannerPage = () => {
         setErrorMessage("Scan failed, something went wrong.");
       }
       setQrError(true);
+    } finally {
+      setScannerRunning(false);
+      setLoading(false);
     }
-    setScannerRunning(false);
-    setLoading(false);
   };
 
   const checkIn = async () => {
     if (scannedResult) {
+      console.log("here");
       setLoading(true);
+      console.log(loading);
       try {
         const eventSecret = scannedResult.eventArray.filter((event) => {
           return event.id == selectedEvent.id;
         })[0].secret;
         try {
-          let updatedRegistrant: any;
+          const handleResult = (result: any) => {
+            const updatedRegistrant = result.data.updatedRegistrant.registrant;
+            setUserInfo(updatedRegistrant.user);
+            setRegistrationInfo(updatedRegistrant.additionalFields ?? {});
+            setIsCheckedIn(updatedRegistrant.checkedIn);
+            setIsSelected(updatedRegistrant.selected);
+            setLoading(false);
+          };
+
           if (selectedSubEvent && !selectedSubEvent.default) {
-            updatedRegistrant = (
-              await patchCheckInRegistrantToSubEventById(
-                selectedEvent.id,
-                selectedSubEvent.id,
-                scannedResult.id,
-                eventSecret,
-              )
-            ).data.updatedRegistrant.registrant;
+            patchCheckInRegistrantToSubEventById(
+              selectedEvent.id,
+              selectedSubEvent.id,
+              scannedResult.id,
+              eventSecret,
+            ).then(handleResult);
           } else {
-            updatedRegistrant = (
-              await patchCheckInRegistrantById(
-                selectedEvent.id,
-                scannedResult.id,
-                eventSecret,
-              )
-            ).data.updatedRegistrant.registrant;
+            patchCheckInRegistrantById(
+              selectedEvent.id,
+              scannedResult.id,
+              eventSecret,
+            ).then(handleResult);
           }
-          console.log(updatedRegistrant);
-          setUserInfo(updatedRegistrant.user);
-          setRegistrationInfo(updatedRegistrant.additionalFields ?? {});
-          setIsCheckedIn(updatedRegistrant.checkedIn);
-          setIsSelected(updatedRegistrant.selected);
-          alert("User is checked in!");
         } catch (err: any) {
+          setLoading(false);
           alert(err.response.data.message);
         }
       } catch (e) {
         alert(e);
-      } finally {
-        setLoading(false);
       }
     }
   };
@@ -361,94 +360,92 @@ const QrScannerPage = () => {
           )}
         </div>
 
-        {scannerRunning && selectedEvent ? (
+        {loading ? (
+          <LoadingSpinner size={100} classes="m-auto my-20 h-fit w-fit" />
+        ) : scannerRunning && selectedEvent ? (
           <div>
             {/* div needed so that overlay is properly identified by QR Scanner */}
             <video ref={videoEl} className="h-full w-full rounded-md" />
           </div>
         ) : scannedResult ? (
-          loading ? (
-            <LoadingSpinner size={100} classes="m-auto my-20 h-fit w-fit" />
-          ) : (
-            <div>
-              <UserCheckInCard
-                toDisplay={isCheckedIn ? toDisplayAfter : toDisplayBefore}
-                userInfo={userInfo}
-                registrationInfo={registrationInfo}
-                isCheckedIn={isCheckedIn}
-                isSelected={isSelected}
-                error={QrError}
-                errorMessage={errorMessage}
-              />
+          <div>
+            <UserCheckInCard
+              toDisplay={isCheckedIn ? toDisplayAfter : toDisplayBefore}
+              userInfo={userInfo}
+              registrationInfo={registrationInfo}
+              isCheckedIn={isCheckedIn}
+              isSelected={isSelected}
+              error={QrError}
+              errorMessage={errorMessage}
+            />
 
-              {reqFeedback == "" ? (
-                <div className="mt-6 flex justify-center gap-6">
-                  <GradientBorder
-                    rounded="rounded-lg"
-                    classes="w-auto inline-block items-center"
+            {reqFeedback == "" ? (
+              <div className="mt-6 flex justify-center gap-6">
+                <GradientBorder
+                  rounded="rounded-lg"
+                  classes="w-auto inline-block items-center"
+                >
+                  <Button
+                    type="button"
+                    hierarchy="secondary"
+                    font="font-bold"
+                    text="sm:text-lg 2xl:text-xl"
+                    padding="py-3 sm:px-7 sm:py-4"
+                    rounded="rounded-[15px]"
+                    onClick={() => {
+                      setScannerRunning(true);
+                      setScannedResult(undefined);
+                    }}
                   >
-                    <Button
-                      type="button"
-                      hierarchy="secondary"
-                      font="font-bold"
-                      text="sm:text-lg 2xl:text-xl"
-                      padding="py-3 sm:px-7 sm:py-4"
-                      rounded="rounded-[15px]"
-                      onClick={() => {
-                        setScannerRunning(true);
-                        setScannedResult(undefined);
-                      }}
-                    >
-                      Re Scan
-                    </Button>
-                  </GradientBorder>
-                  <GradientBorder
-                    rounded="rounded-lg"
-                    classes="w-auto inline-block items-center"
+                    Re Scan
+                  </Button>
+                </GradientBorder>
+                <GradientBorder
+                  rounded="rounded-lg"
+                  classes="w-auto inline-block items-center"
+                >
+                  <Button
+                    type="submit"
+                    hierarchy="secondary"
+                    font="font-bold"
+                    text="sm:text-lg 2xl:text-xl"
+                    padding="py-3 sm:px-7 sm:py-4"
+                    rounded="rounded-[15px]"
+                    onClick={() => {
+                      checkIn();
+                    }}
                   >
-                    <Button
-                      type="submit"
-                      hierarchy="secondary"
-                      font="font-bold"
-                      text="sm:text-lg 2xl:text-xl"
-                      padding="py-3 sm:px-7 sm:py-4"
-                      rounded="rounded-[15px]"
-                      onClick={() => {
-                        checkIn();
-                      }}
-                    >
-                      Check In
-                    </Button>
-                  </GradientBorder>
-                </div>
-              ) : (
-                <div className="mt-4 flex flex-col items-center">
-                  <InputFeedback state="error" classes="w-fit">
-                    {reqFeedback}
-                  </InputFeedback>
-                  <GradientBorder
-                    rounded="rounded-lg"
-                    classes="w-fit inline-block items-center mt-4"
+                    Check In
+                  </Button>
+                </GradientBorder>
+              </div>
+            ) : (
+              <div className="mt-4 flex flex-col items-center">
+                <InputFeedback state="error" classes="w-fit">
+                  {reqFeedback}
+                </InputFeedback>
+                <GradientBorder
+                  rounded="rounded-lg"
+                  classes="w-fit inline-block items-center mt-4"
+                >
+                  <Button
+                    type="button"
+                    hierarchy="secondary"
+                    font="font-bold"
+                    text="sm:text-lg 2xl:text-xl"
+                    padding="py-3 sm:px-7 sm:py-4"
+                    rounded="rounded-[15px]"
+                    onClick={() => {
+                      setScannerRunning(true);
+                      setScannedResult(undefined);
+                    }}
                   >
-                    <Button
-                      type="button"
-                      hierarchy="secondary"
-                      font="font-bold"
-                      text="sm:text-lg 2xl:text-xl"
-                      padding="py-3 sm:px-7 sm:py-4"
-                      rounded="rounded-[15px]"
-                      onClick={() => {
-                        setScannerRunning(true);
-                        setScannedResult(undefined);
-                      }}
-                    >
-                      Re Scan
-                    </Button>
-                  </GradientBorder>
-                </div>
-              )}
-            </div>
-          )
+                    Re Scan
+                  </Button>
+                </GradientBorder>
+              </div>
+            )}
+          </div>
         ) : (
           <></>
         )}
