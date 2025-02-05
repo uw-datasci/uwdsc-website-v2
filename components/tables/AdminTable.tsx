@@ -22,7 +22,11 @@ import TableCell from "./TableCell";
 import EditCell from "./EditCell";
 import Pagination from "./Pagination";
 import { RankingInfo, rankItem } from "@tanstack/match-sorter-utils";
-import { MdRefresh, MdOutlineAddCircleOutline } from "react-icons/md";
+import {
+  MdRefresh,
+  MdOutlineAddCircleOutline,
+  MdOutlineQrCodeScanner,
+} from "react-icons/md";
 
 require("dotenv").config();
 
@@ -113,6 +117,7 @@ const AdminTable = () => {
   const [editedRowId, setEditedRowId] = useState<string | null>(null);
   const [globalFilter, setGlobalFilter] = useState<string>("");
   const [autoResetPageIndex, skipAutoResetPageIndex] = useSkipper();
+  const [showQrScanner, setShowQrScanner] = useState<boolean>(false);
 
   const handleSaveClick = async () => {
     if (!editFormData) {
@@ -407,6 +412,12 @@ const AdminTable = () => {
           className="flex h-10 w-10 items-center justify-center rounded-sm bg-grey2 p-2"
         >
           <MdOutlineAddCircleOutline />
+        </button>
+        <button
+          onClick={() => setShowQrScanner(true)}
+          className="flex h-10 w-10 items-center justify-center rounded-sm bg-grey2 p-2"
+        >
+          <MdOutlineQrCodeScanner />
         </button>
       </div>
       {/* Table Component */}
