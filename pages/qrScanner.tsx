@@ -16,6 +16,7 @@ import { AxiosError } from "axios";
 import React from "react";
 import SingleDropdown from "@/components/UI/Inputs/UWDSC/SingleDropdown";
 import InputFeedback from "@/components/UI/Inputs/UWDSC/InputFeedback";
+import moment from "moment-timezone";
 
 interface ScannedResult {
   id: string;
@@ -60,6 +61,20 @@ const QrScannerPage = () => {
   const selectedSubEventRef = useRef<any>(null);
 
   const parentEventString = "Registration";
+
+  function formatEventDisplay(event: any) {
+    const start = moment.utc(event.startTime).tz("America/New_York");
+    const end = moment.utc(event.endTime).tz("America/New_York");
+
+    if (end.diff(start, "days") > 1) {
+      return `${event.name} (${start.format("MMM D")} - ${end.format(
+        "MMM D",
+      )}) [${event.location}]`;
+    }
+    return `${event.name} (${start.format("h A")} - ${end.format("h A")}) [${
+      event.location
+    }]`;
+  }
 
   useEffect(() => {
     selectedEventRef.current = selectedEvent;
@@ -293,13 +308,19 @@ const QrScannerPage = () => {
               wrapperClasses="w-full"
               value={
                 selectedEvent
-                  ? `${selectedEvent.name} (${selectedEvent.id})`
-                  : ""
+                  ? {
+                      display: formatEventDisplay(selectedEvent),
+                      value: selectedEvent.id,
+                    }
+                  : { display: "", value: "" }
               }
               options={
                 events
                   ? events.map((event) => {
-                      return `${event.name} (${event.id})`;
+                      return {
+                        display: formatEventDisplay(event),
+                        value: event.id,
+                      };
                     })
                   : []
               }
@@ -307,10 +328,7 @@ const QrScannerPage = () => {
                 console.log(e);
                 setSelectedEvent(
                   events.filter((event) => {
-                    return (
-                      event.id ==
-                      e.target.value.split(" ").slice(-1)[0].slice(1, -1)
-                    );
+                    return event.id == e.target.value;
                   })[0],
                 );
               }}
@@ -329,16 +347,25 @@ const QrScannerPage = () => {
               value={
                 selectedSubEvent
                   ? selectedSubEvent.default
-                    ? parentEventString
-                    : `${selectedSubEvent.name} (${selectedSubEvent.id})`
-                  : ""
+                    ? { display: parentEventString, value: parentEventString }
+                    : {
+                        display: formatEventDisplay(selectedSubEvent),
+                        value: selectedSubEvent.id,
+                      }
+                  : { display: "", value: "" }
               }
               options={
                 subEvents
                   ? subEvents.map((subEvent) => {
                       return subEvent.default
-                        ? parentEventString
-                        : `${subEvent.name} (${subEvent.id})`;
+                        ? {
+                            display: parentEventString,
+                            value: parentEventString,
+                          }
+                        : {
+                            display: formatEventDisplay(subEvent),
+                            value: subEvent.id,
+                          };
                     })
                   : []
               }
@@ -347,10 +374,7 @@ const QrScannerPage = () => {
                   e.target.value == parentEventString
                     ? { default: true }
                     : subEvents.filter((subEvent) => {
-                        return (
-                          subEvent.id ==
-                          e.target.value.split(" ").slice(-1)[0].slice(1, -1)
-                        );
+                        return subEvent.id == e.target.value;
                       })[0],
                 );
               }}

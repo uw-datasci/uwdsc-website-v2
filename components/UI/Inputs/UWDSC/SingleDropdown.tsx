@@ -5,8 +5,14 @@ type SingleDropdownProps = {
   id: string;
   name: string;
   placeholder: string;
-  options: string[];
-  value: string;
+  options: {
+    display: string;
+    value: string;
+  }[];
+  value: {
+    display: string;
+    value: string;
+  };
   onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   wrapperClasses?: string;
 };
@@ -51,7 +57,7 @@ export default function SingleDropdown({
         }`}
       >
         <p className={`transition-300 ${value ? "text-white" : "text-grey1"}`}>
-          {value ? value : placeholder}
+          {value.display ? value.display : placeholder}
         </p>
         <ChevronDown
           className={`transition-300 absolute right-4 top-1/2 -translate-y-1/2 ${
@@ -71,17 +77,17 @@ export default function SingleDropdown({
                 target: {
                   id,
                   name,
-                  value: option,
+                  value: option.value,
                 },
               } as React.ChangeEvent<HTMLSelectElement>);
               setIsOpen(false);
             }}
             className={`transition-300 cursor-pointer rounded-sm px-3 py-3.5 hover:bg-grey4 xl:px-4 xl:py-4 ${
-              option === value ? "text-white" : "text-grey1"
+              option.value === value.value ? "text-white" : "text-grey1"
             }`}
             key={`option-${i}`}
           >
-            {option}
+            {option.display}
           </p>
         ))}
       </div>
