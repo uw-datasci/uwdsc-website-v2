@@ -71,7 +71,7 @@ const QrScannerPage = () => {
         "MMM D",
       )}) [${event.location}]`;
     }
-    return `${event.name} (${start.format("h A")} - ${end.format("h A")}) [${
+    return `${event.name} (${start.format("h:mm A")} - ${end.format("h:mm A")}) [${
       event.location
     }]`;
   }
