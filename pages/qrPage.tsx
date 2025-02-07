@@ -1,32 +1,11 @@
 import { getQrCode } from "@/utils/apiCalls";
 import QRCode from "qrcode";
-import { useState } from "react";
-import { useEffect } from "react";
-import Image from "next/image";
 
-export default function QR() {
-  const [src, setSrc] = useState<string>("");
-
+interface Props {
+  src: string;
+}
+export default function QR({ src }: Props) {
   // Generate the QR code when the page loads in
-  useEffect(() => {
-    generateQr();
-  }, []);
-
-  const generateQr = async () => {
-    try {
-      const res = await getQrCode();
-      console.log(res);
-
-      QRCode.toDataURL(
-        JSON.stringify({ id: res.data.id, eventArray: res.data.eventArray }),
-      )
-        .then(setSrc)
-        .catch((err) => console.error("Failed to generate QR code:", err));
-    } catch (error) {
-      console.error("Error:", error); // Handle any errors
-      throw error;
-    }
-  };
 
   return (
     <>
@@ -45,4 +24,19 @@ export default function QR() {
       </section>
     </>
   );
+}
+
+export async function getServerSideProps() {
+  try {
+    const res = await getQrCode();
+    console.log(res);
+
+    const src = await QRCode.toDataURL(
+      JSON.stringify({ id: res.data.id, eventArray: res.data.eventArray }),
+    ).catch((err) => console.error("Failed to generate QR code:", err));
+    return { props: { src } };
+  } catch (error) {
+    console.error("Error:", error); // Handle any errors
+    throw error;
+  }
 }

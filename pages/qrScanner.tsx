@@ -28,7 +28,11 @@ interface ScannedResult {
   ];
 }
 
-const QrScannerPage = () => {
+interface Props {
+  initialEvents: Array<any>;
+}
+
+const QrScannerPage = ({ initialEvents }: Props) => {
   // QR States
   const scanner = useRef<QrScanner>();
   const videoEl = useRef<HTMLVideoElement>(null);
@@ -71,9 +75,9 @@ const QrScannerPage = () => {
         "MMM D",
       )}) [${event.location}]`;
     }
-    return `${event.name} (${start.format("h:mm A")} - ${end.format("h:mm A")}) [${
-      event.location
-    }]`;
+    return `${event.name} (${start.format("h:mm A")} - ${end.format(
+      "h:mm A",
+    )}) [${event.location}]`;
   }
 
   useEffect(() => {
@@ -173,17 +177,13 @@ const QrScannerPage = () => {
   };
 
   useEffect(() => {
-    const retrieveEvents = async () => {
-      const response = await getEvents(new Date(), new Date(), true);
-      const events = response.data.events;
-      setEvents(events);
-      if (!selectedEvent) {
-        setSelectedEvent(events && events.length == 1 ? events[0] : null);
-      }
-    };
-
-    retrieveEvents();
-  }, []);
+    setEvents(initialEvents);
+    if (!selectedEvent) {
+      setSelectedEvent(
+        initialEvents && initialEvents.length == 1 ? initialEvents[0] : null,
+      );
+    }
+  }, [initialEvents, selectedEvent]);
 
   useEffect(() => {
     if (scannerRunning && videoEl.current) {
@@ -479,3 +479,9 @@ const QrScannerPage = () => {
 };
 
 export default withAuth(QrScannerPage, ["admin"]);
+
+export async function getServerSideProps() {
+  const response = await getEvents(new Date(), new Date(), true);
+  const initialEvents = response.data.events;
+  return { props: { initialEvents } };
+}

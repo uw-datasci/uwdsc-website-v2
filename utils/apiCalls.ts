@@ -72,7 +72,8 @@ export const sendResetPassRequest = async (values: Record<string, string>) => {
 };
 
 export const getQrCode = async () => {
-  return await axios.post("/api/UWDSC/user/getQrPayload", {
+  const baseURL = "http://localhost:3000";
+  return await axios.post(`${baseURL}/api/UWDSC/user/getQrPayload`, {
     token: store.getState().loginToken.token,
   });
 };
@@ -114,7 +115,8 @@ export const getEvents = async (
   upToDate?: Date,
   buffered: boolean = false,
 ) => {
-  return await axios.post("/api/UWDSC/public/getEvents", {
+  const baseURL = "http://localhost:3000";
+  return await axios.post(`${baseURL}/api/UWDSC/public/getEvents`, {
     fromDate,
     upToDate,
     buffered,
@@ -153,13 +155,16 @@ export const patchCheckInRegistrantToSubEventById = async (
   userId: string,
   eventSecret: string,
 ) => {
-  return await axios.post("/api/UWDSC/admin/patchCheckInRegistrantToSubEventById", {
-    token: store.getState().loginToken.token,
-    eventId,
-    subEventId,
-    userId,
-    eventSecret,
-  });
+  return await axios.post(
+    "/api/UWDSC/admin/patchCheckInRegistrantToSubEventById",
+    {
+      token: store.getState().loginToken.token,
+      eventId,
+      subEventId,
+      userId,
+      eventSecret,
+    },
+  );
 };
 
 export const getRegistrationByID = async (eventId: string, userId: string) => {
