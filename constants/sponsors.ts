@@ -54,7 +54,6 @@ export const CURRENT_CXC_SPONSORS: Sponsor[] = [
   // Top Sponsors
   { name: "Federato", logo: federato, type:"top" , link:"https://www.federato.ai/"},
   { name: "MEF", logo: MEF, type:"top", link:"https://uwaterloo.ca/math-endowment-fund/"},
-  { name: "WUSA", logo: WUSA, type:"top", link:"https://wusa.ca/"},
   { name: "Telus", logo: telus, type:"gold", link:"https://www.telus.com/en" },
   { name: "Intact", logo: intact, type:"gold" , link:"https://www.intact.ca/en/personal-insurance"},
   { name: "Touch Bistro", logo: touchbistro, type:"dataset", link:"https://www.touchbistro.com/" },
@@ -69,7 +68,7 @@ export const CURRENT_CXC_PARTNERS: Partner[] = [
   { name: "HackThe6ix", logo: hackthe6ix, link:"https://hackthe6ix.com/"},
   { name: "Techyon", logo: techyon, link: "https://techyon.org/"},
   { name: "PearVC", logo: pearvc, link: "https://pear.vc/"},
-  //{ name: "GeeseHacks", logo: geesehacks, link: "https://geesehacks.com/"},
+  { name: "GeeseHacks", logo: geesehacks, link: "https://geesehacks.com/"},
  { name: "Communitech", logo: communitech, link: "https://www.communitech.ca/"}
  { name: "MathSoc", logo: mathsoc_cxc, link: "https://mathsoc.uwaterloo.ca/"}
 ];
