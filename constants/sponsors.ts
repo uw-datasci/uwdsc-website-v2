@@ -11,19 +11,7 @@ import cyclica from "@/public/logos/cxc/cyclica.png";
 import wyvern from "@/public/logos/cxc/wyvern.png";
 import salesforce from "@/public/logos/cxc/salesforce.png";
 import databricks from "@/public/logos/cxc/databricks.png";
-import EY from "@/public/logos/cxc_2024/EY.png";
-import IIS from "@/public/logos/cxc_2024/IIS.png";
-import OwnersBox from "@/public/logos/cxc_2024/OwnersBox.png";
-import Quadreal from "@/public/logos/cxc_2024/Quadreal.png";
 import MEF from "@/public/logos/mef.png";
-import WUSA from "@/public/logos/cxc_2024/wusa.png";
-import Fidelity from "@/public/logos/cxc_2024/Fidelity.png";
-import Architech from "@/public/logos/cxc_2024/Architech.png";
-import Boomerang from "@/public/logos/cxc_2024/Boomerang.png";
-import Interac from "@/public/logos/cxc_2024/Interac.png";
-import LiveAssets from "@/public/logos/cxc_2024/LiveAssets.png";
-import FluidAI from "@/public/logos/cxc_2024/FluidAI.svg";
-import Ecapital from "@/public/logos/cxc_2024/Ecapital.png";
 
 // 2025 New Sponsors
 import federato from "@/public/logos/cxc_2025/federato.svg";
@@ -64,7 +52,6 @@ export const CURRENT_CXC_SPONSORS: Sponsor[] = [
     type: "top",
     link: "https://uwaterloo.ca/math-endowment-fund/",
   },
-  { name: "WUSA", logo: WUSA, type: "top", link: "https://wusa.ca/" },
   {
     name: "Telus",
     logo: telus,
@@ -104,7 +91,7 @@ export const CURRENT_CXC_PARTNERS: Partner[] = [
   { name: "HackThe6ix", logo: hackthe6ix, link: "https://hackthe6ix.com/" },
   { name: "Techyon", logo: techyon, link: "https://techyon.org/" },
   { name: "PearVC", logo: pearvc, link: "https://pear.vc/" },
-  //{ name: "GeeseHacks", logo: geesehacks, link: "https://geesehacks.com/"},
+  { name: "GeeseHacks", logo: geesehacks, link: "https://geesehacks.com/" },
   {
     name: "Communitech",
     logo: communitech,
