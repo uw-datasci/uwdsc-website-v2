@@ -24,6 +24,7 @@ export default function UserFormCard({
         _id: "",
         watIAM: "",
         username: "",
+        faculty: "",
         email: "",
         password: "",
         userStatus: "",
