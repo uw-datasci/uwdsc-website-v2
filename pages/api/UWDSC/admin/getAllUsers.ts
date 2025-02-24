@@ -25,6 +25,7 @@ export default async function handler(
     const users = data.map((user: any) => ({
       _id: user._id,
       watIAM: user.watIAM,
+      faculty: user.faculty,
       username: user.username,
       email: user.email,
       password: "", // Password is default set to "********" while querying

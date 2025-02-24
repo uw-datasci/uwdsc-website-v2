@@ -104,6 +104,7 @@ export type User = {
   _id: string;
   watIAM: string;
   username: string;
+  faculty: string;
   email: string;
   password: string;
   userStatus: string;

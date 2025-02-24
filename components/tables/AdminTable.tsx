@@ -231,6 +231,14 @@ const AdminTable = () => {
         },
       },
       {
+        accessorKey: "faculty",
+        header: "Faculty",
+        cell: TableCell,
+        meta: {
+          type: ColumnType.Text
+        },
+      },
+      {
         accessorKey: "userStatus",
         header: "Status",
         cell: TableCell,
