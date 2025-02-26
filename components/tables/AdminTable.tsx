@@ -27,6 +27,8 @@ import {
   MdOutlineAddCircleOutline,
   MdOutlineQrCodeScanner,
 } from "react-icons/md";
+import { QrScannerCamera } from "../qr/camera";
+import QrFormCard from "../qr/qrForm";
 
 require("dotenv").config();
 
@@ -118,6 +120,17 @@ const AdminTable = () => {
   const [globalFilter, setGlobalFilter] = useState<string>("");
   const [autoResetPageIndex, skipAutoResetPageIndex] = useSkipper();
   const [showQrScanner, setShowQrScanner] = useState<boolean>(false);
+  const [showQrForm, setShowQrForm] = useState<boolean>(false);
+  const [qrPaidFormData, setQrPaidFormData] = useState<User | null>(null);
+
+  const handleQrScan = (data: User) => {
+    console.log(data);
+    setQrPaidFormData(data);
+    setShowQrScanner(false);
+    setShowQrForm(true);
+  };
+
+  const handlePaidSubmit = async () => {};
 
   const handleSaveClick = async () => {
     if (!editFormData) {
@@ -392,6 +405,24 @@ const AdminTable = () => {
           onFormSubmit={handleCreateUser}
           onCancel={() => setShowAddUserForm(false)}
         />
+      )}
+      {(showQrScanner || showQrForm) && (
+        <div className="mx-auto mb-5 w-[70%] rounded-md border-[1px] border-white p-4 text-sm font-medium uppercase shadow-md">
+          {showQrScanner && (
+            <QrScannerCamera
+              onCancel={() => setShowQrScanner(false)}
+              handleQrScan={handleQrScan}
+            />
+          )}
+
+          {showQrForm && (
+            <QrFormCard
+              initialUserData={qrPaidFormData}
+              onFormSubmit={handlePaidSubmit}
+              onCancel={() => setShowQrForm(false)}
+            />
+          )}
+        </div>
       )}
       {/* Filter + Refresh + Add */}
       <div className="mb-5 flex w-full justify-between gap-3">

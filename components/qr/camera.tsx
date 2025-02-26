@@ -21,6 +21,7 @@ import { AxiosError, AxiosResponse, isAxiosError } from "axios";
 import React from "react";
 import SingleDropdown from "@/components/UI/Inputs/UWDSC/SingleDropdown";
 import InputFeedback from "@/components/UI/Inputs/UWDSC/InputFeedback";
+import { User } from "@/types/types";
 
 interface ScannedResult {
   id: string;
@@ -32,8 +33,14 @@ interface ScannedResult {
   ];
 }
 
-const QrScannerPage = () => {
+type QrProps = {
+  onCancel: () => void;
+  handleQrScan: (data: User) => void;
+};
+
+export const QrScannerCamera = ({ onCancel, handleQrScan }: QrProps) => {
   // QR States
+  const token = useSelector((state: RootState) => state.loginToken.token);
   const scanner = useRef<QrScanner>();
   const videoEl = useRef<HTMLVideoElement>(null);
   const [scannerRunning, setScannerRunning] = useState<boolean>(false);
@@ -69,27 +76,30 @@ const QrScannerPage = () => {
   const onScanSuccess = async (result: QrScanner.ScanResult) => {
     const currEvent = selectedEventRef.current;
 
-    if (!currEvent) {
-      setErrorMessage("Please select an event to scan for.");
-      setQrError(true);
-      setScannerRunning(false);
-      return;
-    }
+    // if (!currEvent) {
+    //   setErrorMessage("Please select an event to scan for.");
+    //   setQrError(true);
+    //   setScannerRunning(false);
+    //   return;
+    // }
 
     const scannedResult: ScannedResult = await JSON.parse(result?.data);
     setScannedResult(scannedResult);
     // const events = data.eventArray;
     try {
       setLoading(true);
-      const registrant = (
-        await getRegistrationByID(currEvent.id, scannedResult.id)
-      ).data.registrant;
-      setUserInfo(registrant.user);
-      setRegistrationInfo(registrant.additionalFields ?? {});
-      setIsCheckedIn(registrant.checkedIn);
-      setIsSelected(registrant.selected);
-      setToDisplayBefore(currEvent.toDisplay.before);
-      setToDisplayAfter(currEvent.toDisplay.after);
+      const values = {
+        id: scannedResult.id,
+        token: token,
+      };
+      const user = (await getUserbyId(values)).data;
+      handleQrScan(user);
+      // setUserInfo(user);
+      // setRegistrationInfo(registrant.additionalFields ?? {});
+      // setIsCheckedIn(registrant.checkedIn);
+      // setIsSelected(registrant.selected);
+      // setToDisplayBefore(currEvent.toDisplay.before);
+      // setToDisplayAfter(currEvent.toDisplay.after);
       setQrError(false);
     } catch (err: any | AxiosError) {
       console.log(err);
@@ -174,7 +184,7 @@ const QrScannerPage = () => {
     } else if (scanner) {
       scanner?.current?.stop();
     }
-  }, [scannerRunning, selectedEvent]);
+  }, [scannerRunning]);
 
   // If "camera" is not allowed in browser permissions, show an alert.
   useEffect(() => {
@@ -243,139 +253,28 @@ const QrScannerPage = () => {
   }, [userInfo]);
 
   return (
-    <section className="mx-container mb-section mt-14 h-[80vh] lg:mt-20">
-      <h1 className="mb-3 text-center text-3xl font-bold text-white 3xs:text-6xl sm:text-8xl lg:text-10xl 2xl:text-12xl">
-        QR Scanner
-      </h1>
-      {events.length > 0 ? (
-        <SingleDropdown
-          id="eventOption"
-          name="eventOption"
-          placeholder="Select event"
-          value={
-            selectedEvent ? `${selectedEvent.name} (${selectedEvent.id})` : ""
-          }
-          options={
-            events
-              ? events.map((event) => {
-                  return `${event.name} (${event.id})`;
-                })
-              : []
-          }
-          onChange={(e) => {
-            console.log(e);
-            setSelectedEvent(
-              events.filter((event) => {
-                return (
-                  event.id ==
-                  e.target.value.split(" ").slice(-1)[0].slice(1, -1)
-                );
-              })[0],
-            );
-          }}
-          wrapperClasses="mb-14"
-        />
-      ) : (
-        <h4 className="text-l mb-3 text-center font-bold text-white underline 3xs:text-2xl sm:text-3xl lg:text-4xl 2xl:text-5xl">
-          No events right now
-        </h4>
-      )}
-      {scannerRunning && selectedEvent ? (
-        <div>
-          {/* div needed so that overlay is properly identified by QR Scanner */}
-          <video ref={videoEl} className="h-full w-full rounded-md" />
-        </div>
-      ) : scannedResult ? (
-        loading ? (
-          <LoadingSpinner
-            size={100}
-            classes="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-          />
-        ) : (
-          <div>
-            <UserCheckInCard
-              toDisplay={isCheckedIn ? toDisplayAfter : toDisplayBefore}
-              userInfo={userInfo}
-              registrationInfo={registrationInfo}
-              isCheckedIn={isCheckedIn}
-              isSelected={isSelected}
-              error={QrError}
-              errorMessage={errorMessage}
-            />
+    <>
+      <section className="mx-container mt-14 lg:mt-20">
+        <h1 className="mb-3 text-center text-3xl font-bold text-white 3xs:text-6xl sm:text-8xl lg:text-10xl 2xl:text-12xl">
+          QR Scanner
+        </h1>
 
-            {reqFeedback == "" ? (
-              <div className="mt-6 flex justify-center gap-6">
-                <GradientBorder
-                  rounded="rounded-lg"
-                  classes="w-auto inline-block items-center"
-                >
-                  <Button
-                    type="button"
-                    hierarchy="secondary"
-                    font="font-bold"
-                    text="sm:text-lg 2xl:text-xl"
-                    padding="py-3 sm:px-7 sm:py-4"
-                    rounded="rounded-[15px]"
-                    onClick={() => {
-                      setScannerRunning(true);
-                      setScannedResult(undefined);
-                    }}
-                  >
-                    Re Scan
-                  </Button>
-                </GradientBorder>
-                <GradientBorder
-                  rounded="rounded-lg"
-                  classes="w-auto inline-block items-center"
-                >
-                  <Button
-                    type="submit"
-                    hierarchy="secondary"
-                    font="font-bold"
-                    text="sm:text-lg 2xl:text-xl"
-                    padding="py-3 sm:px-7 sm:py-4"
-                    rounded="rounded-[15px]"
-                    onClick={() => {
-                      checkIn();
-                    }}
-                  >
-                    Check In
-                  </Button>
-                </GradientBorder>
-              </div>
-            ) : (
-              <div className="mt-4 flex flex-col items-center">
-                <InputFeedback state="error" classes="w-fit">
-                  {reqFeedback}
-                </InputFeedback>
-                <GradientBorder
-                  rounded="rounded-lg"
-                  classes="w-fit inline-block items-center mt-4"
-                >
-                  <Button
-                    type="button"
-                    hierarchy="secondary"
-                    font="font-bold"
-                    text="sm:text-lg 2xl:text-xl"
-                    padding="py-3 sm:px-7 sm:py-4"
-                    rounded="rounded-[15px]"
-                    onClick={() => {
-                      setScannerRunning(true);
-                      setScannedResult(undefined);
-                    }}
-                  >
-                    Re Scan
-                  </Button>
-                </GradientBorder>
-              </div>
-            )}
+        {scannerRunning && (
+          <div>
+            {/* div needed so that overlay is properly identified by QR Scanner */}
+            <video ref={videoEl} className="h-full w-full rounded-md" />
           </div>
-        )
-      ) : (
-        <></>
-      )}
-    </section>
+        )}
+      </section>
+      <button
+        onClick={() => {
+          scanner?.current?.stop();
+          onCancel();
+        }}
+        className="rounded-md bg-grey2 p-2"
+      >
+        Close
+      </button>
+    </>
   );
 };
-
-export default withAuth(QrScannerPage, ["admin"]);
