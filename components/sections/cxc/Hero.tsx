@@ -20,7 +20,7 @@ export default function Hero({ registered, status }: HeroProps) {
       <div className="relative pt-44 text-center lg:pt-56">
         <p className="mx-auto mb-5 max-w-[350px] leading-loose text-white xs:max-w-[600px] xs:text-lg lg:mb-10 2xl:max-w-[640px] 2xl:text-xl">
           Experience CxC - Powered by Federato, Canada&apos;s <b>largest</b>{" "}
-          student run hackathon. We are a beginner-friendly datathon that bring
+          student run data hackathon. We are a beginner-friendly datathon that bring
           together students and companies to build projects that solve
           real-world problems.
         </p>
