@@ -9,12 +9,14 @@ type UserFormProps = {
   initialUserData?: User | null;
   onFormSubmit: (user: User) => void;
   onCancel: () => void;
+  eventList: string[];
 };
 
 export default function QrFormCard({
   initialUserData,
   onFormSubmit,
   onCancel,
+  eventList,
 }: UserFormProps) {
   const [newUser, setNewUser] = useState<User | null>(null);
   const signedIn = useSelector((state: RootState) => state.loginToken.name);
@@ -114,16 +116,37 @@ export default function QrFormCard({
             </div>
             <div className="mb-4">
               <p>Payment Location</p>
-              <input
-                type="text"
-                name="paymentLocation"
-                placeholder="Select"
-                value={newUser?.paymentLocation || ""}
-                onChange={handleInputChange}
-                className="rounded h-10 w-full rounded-sm border p-1"
-                required
-                autoComplete="off"
-              />
+              {eventList.length > 0 ? (
+                <select
+                  id="paymentLocation"
+                  name="paymentLocation"
+                  value={newUser?.paymentLocation || ""}
+                  onChange={handleInputChange}
+                  className="rounded h-10 w-full rounded-sm border p-1"
+                  required
+                >
+                  <option value="" disabled>
+                    Select
+                  </option>
+                  {eventList.map((e, index) => (
+                    <option key={index} value={e}>
+                      {e}
+                    </option>
+                  ))}
+                </select>
+              ) : (
+                <input
+                  type="paymentLocation"
+                  name="paymentLocation"
+                  placeholder="Payment Location"
+                  value={"DSC Office"}
+                  onChange={handleInputChange}
+                  className="rounded h-10 w-full rounded-sm border p-1"
+                  required
+                  autoComplete="off"
+                  disabled
+                />
+              )}
             </div>
           </div>
         </div>
@@ -135,6 +158,7 @@ export default function QrFormCard({
             value={newUser?.paymentMethod || ""}
             onChange={handleInputChange}
             className="rounded h-10 w-full rounded-sm border p-1"
+            required
           >
             <option value="" disabled>
               Select

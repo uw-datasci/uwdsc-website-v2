@@ -17,7 +17,13 @@ import {
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import UserFormCard from "../cards/UserFormCard";
-import { deleteUser, fetchUsers, createUser, editUser } from "@/utils/apiCalls";
+import {
+  deleteUser,
+  fetchUsers,
+  createUser,
+  editUser,
+  getEvents,
+} from "@/utils/apiCalls";
 import TableCell from "./TableCell";
 import EditCell from "./EditCell";
 import Pagination from "./Pagination";
@@ -122,9 +128,14 @@ const AdminTable = () => {
   const [showQrScanner, setShowQrScanner] = useState<boolean>(false);
   const [showQrForm, setShowQrForm] = useState<boolean>(false);
   const [qrPaidFormData, setQrPaidFormData] = useState<User | null>(null);
+  const [eventList, setEventList] = useState<any>(null);
 
-  const handleQrScan = (data: User) => {
-    console.log(data);
+  const handleQrScan = async (data: User) => {
+    const response = (await getEvents(new Date(), new Date(), true)).data
+      .events;
+    // const response = (await getEvents()).data.events; // FOR TESTING - REMOVE BEFORE MERGE
+    setEventList(response.map((event: any) => event.name));
+
     setQrPaidFormData(data);
     setShowQrScanner(false);
     setShowQrForm(true);
@@ -420,6 +431,7 @@ const AdminTable = () => {
               initialUserData={qrPaidFormData}
               onFormSubmit={handlePaidSubmit}
               onCancel={() => setShowQrForm(false)}
+              eventList={eventList}
             />
           )}
         </div>
