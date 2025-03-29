@@ -9,6 +9,7 @@ type UserFormProps = {
   initialUserData?: User | null;
   onFormSubmit: (user: User) => void;
   onCancel: () => void;
+  rescanQrCode: () => void;
   eventList: string[];
 };
 
@@ -16,16 +17,23 @@ export default function QrFormCard({
   initialUserData,
   onFormSubmit,
   onCancel,
+  rescanQrCode,
   eventList,
 }: UserFormProps) {
-  const [newUser, setNewUser] = useState<User | null>(null);
+  const [user, setUser] = useState<User | null>(null);
   const signedIn = useSelector((state: RootState) => state.loginToken.name);
 
   const resetValues = () => {
+    const location = eventList.length > 0 ? "" : "DSC Office";
     if (initialUserData) {
-      setNewUser({ ...initialUserData, verifier: signedIn });
+      setUser({
+        ...initialUserData,
+        hasPaid: "True",
+        paymentLocation: location,
+        verifier: signedIn,
+      });
     } else {
-      setNewUser({
+      setUser({
         _id: "",
         watIAM: "",
         username: "",
@@ -33,10 +41,10 @@ export default function QrFormCard({
         password: "",
         userStatus: "",
         isEmailVerified: "",
-        hasPaid: "",
+        hasPaid: "True",
         paymentMethod: "",
-        verifier: "",
-        paymentLocation: "",
+        verifier: signedIn,
+        paymentLocation: location,
       });
     }
   };
@@ -47,15 +55,13 @@ export default function QrFormCard({
 
   const handleInputChange = (e: ChangeEvent<any>) => {
     const { name, value } = e.target;
-    setNewUser((prevData) =>
-      prevData ? { ...prevData, [name]: value } : null,
-    );
+    setUser((prevData) => (prevData ? { ...prevData, [name]: value } : null));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (newUser) {
-      onFormSubmit(newUser);
+    if (user) {
+      onFormSubmit(user);
       resetValues();
     } else {
       console.log("error creating user");
@@ -76,7 +82,7 @@ export default function QrFormCard({
                 type="text"
                 name="username"
                 placeholder="Username"
-                value={newUser?.username || ""}
+                value={user?.username || ""}
                 onChange={handleInputChange}
                 className="rounded h-10 w-full rounded-sm border p-1"
                 required
@@ -90,7 +96,7 @@ export default function QrFormCard({
                 type="email"
                 name="email"
                 placeholder="Email"
-                value={newUser?.email || ""}
+                value={user?.email || ""}
                 onChange={handleInputChange}
                 className="rounded h-10 w-full rounded-sm border p-1"
                 required
@@ -106,7 +112,7 @@ export default function QrFormCard({
                 type="text"
                 name="verifier"
                 placeholder="Verifier's Name"
-                value={newUser?.verifier || ""}
+                value={user?.verifier || ""}
                 onChange={handleInputChange}
                 className="rounded h-10 w-full rounded-sm border p-1"
                 required
@@ -120,7 +126,7 @@ export default function QrFormCard({
                 <select
                   id="paymentLocation"
                   name="paymentLocation"
-                  value={newUser?.paymentLocation || ""}
+                  value={user?.paymentLocation || ""}
                   onChange={handleInputChange}
                   className="rounded h-10 w-full rounded-sm border p-1"
                   required
@@ -140,7 +146,6 @@ export default function QrFormCard({
                   name="paymentLocation"
                   placeholder="Payment Location"
                   value={"DSC Office"}
-                  onChange={handleInputChange}
                   className="rounded h-10 w-full rounded-sm border p-1"
                   required
                   autoComplete="off"
@@ -155,7 +160,7 @@ export default function QrFormCard({
           <select
             id="paymentMethod"
             name="paymentMethod"
-            value={newUser?.paymentMethod || ""}
+            value={user?.paymentMethod || ""}
             onChange={handleInputChange}
             className="rounded h-10 w-full rounded-sm border p-1"
             required
@@ -183,7 +188,7 @@ export default function QrFormCard({
           Submit
         </Button>
         <button
-          onClick={resetValues}
+          onClick={rescanQrCode}
           className="h-15 rounded-sm bg-grey2 px-4 py-2 font-bold"
         >
           <MdRefresh className="h-6 w-6" />

@@ -35,10 +35,15 @@ interface ScannedResult {
 
 type QrProps = {
   onCancel: () => void;
+  onScanComplete: () => void;
   handleQrScan: (data: User) => void;
 };
 
-export const QrScannerCamera = ({ onCancel, handleQrScan }: QrProps) => {
+export const QrScannerCamera = ({
+  onCancel,
+  onScanComplete,
+  handleQrScan,
+}: QrProps) => {
   // QR States
   const token = useSelector((state: RootState) => state.loginToken.token);
   const scanner = useRef<QrScanner>();
@@ -84,7 +89,6 @@ export const QrScannerCamera = ({ onCancel, handleQrScan }: QrProps) => {
     // }
 
     const scannedResult: ScannedResult = await JSON.parse(result?.data);
-    setScannedResult(scannedResult);
     // const events = data.eventArray;
     try {
       setLoading(true);
@@ -110,8 +114,10 @@ export const QrScannerCamera = ({ onCancel, handleQrScan }: QrProps) => {
       }
       setQrError(true);
     }
+    setScannedResult(scannedResult);
     setScannerRunning(false);
     setLoading(false);
+    setTimeout(() => onScanComplete(), 500);
   };
 
   const checkIn = async () => {
@@ -268,8 +274,8 @@ export const QrScannerCamera = ({ onCancel, handleQrScan }: QrProps) => {
       </section>
       <button
         onClick={() => {
-          scanner?.current?.stop();
-          onCancel();
+          setScannerRunning(false);
+          setTimeout(() => onCancel(), 500);
         }}
         className="rounded-md bg-grey2 p-2"
       >

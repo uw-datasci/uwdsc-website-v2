@@ -22,17 +22,34 @@ export default async function handler(
         Authorization: `Bearer ${token}`,
       },
     });
-    const { username, email, faculty, hasPaid, isCheckedIn } = response.data;
-    res
-      .status(200)
-      .json({
-        username,
-        email,
-        faculty,
-        hasPaid,
-        isCheckedIn,
-        success: true,
-      });
+    const {
+      _id,
+      watIAM,
+      username,
+      email,
+      password,
+      userStatus,
+      hasPaid,
+      paymentMethod,
+      verifier,
+      paymentLocation,
+      isEmailVerified,
+    } = response.data;
+
+    res.status(200).json({
+      _id,
+      watIAM,
+      username,
+      email,
+      password,
+      userStatus,
+      hasPaid: hasPaid ? "True" : "False",
+      paymentMethod,
+      verifier,
+      paymentLocation,
+      isEmailVerified: isEmailVerified ? "True" : "False",
+      success: true,
+    });
   } catch (error: any) {
     let customMessage = false;
     console.error(error);
