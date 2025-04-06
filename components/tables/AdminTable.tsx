@@ -153,7 +153,6 @@ const AdminTable = () => {
 
     const response = (await getEvents(new Date(), new Date(), true)).data
       .events;
-    // const response = (await getEvents()).data.events; // FOR TESTING - REMOVE BEFORE MERGE
     setEventList(response.map((event: any) => event.name));
     setQrPaidFormData(data);
   };
@@ -437,6 +436,16 @@ const AdminTable = () => {
     setTimeout(() => setAlertMsg(null), 3000);
   };
 
+  const handleQrError = (status: number) => {
+    setAlertStatus("error");
+    if (status === 404) {
+      setAlertMsg("Scan failed, user is not registered for this event.");
+    } else {
+      setAlertMsg("Scan failed, something went wrong.");
+    }
+    setTimeout(() => setAlertMsg(null), 3000);
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center">
@@ -463,6 +472,7 @@ const AdminTable = () => {
                 setShowQrForm(true);
               }}
               handleQrScan={handleQrScan}
+              handleError={handleQrError}
             />
           )}
 
