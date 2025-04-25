@@ -2,6 +2,7 @@ import { getQrCode } from "@/utils/apiCalls";
 import QRCode from "qrcode";
 import { useState } from "react";
 import { useEffect } from "react";
+import Image from "next/image";
 
 export default function QR() {
   const [src, setSrc] = useState<string>("");

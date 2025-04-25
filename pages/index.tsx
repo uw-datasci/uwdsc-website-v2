@@ -1,14 +1,9 @@
-import { useState } from "react";
-
 import SEO from "@/components/SEO/SEO";
 import Hero from "@/components/sections/home/Hero";
 import WhatWeDo from "@/components/sections/home/WhatWeDo";
 import ClubStats from "@/components/sections/home/ClubStats";
-import UpcomingEvents from "@/components/sections/home/UpcomingEvents";
-import Resources from "@/components/sections/home/Resources";
 import MailingList from "@/components/sections/home/MailingList";
 import FrequentlyAskedQuestions from "@/components/sections/home/FrequentlyAskedQuestions";
-import Blogs from "@/components/sections/home/Blogs";
 import Sponsors from "@/components/sections/templates/Sponsors";
 import { CURRENT_SPONSORS } from "@/constants/sponsors";
 import ContactUs from "@/components/sections/home/ContactUs";

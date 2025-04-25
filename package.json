@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "predev" : "next lint",
+    "predev": "next lint",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
@@ -28,6 +28,7 @@
     "fuse.js": "^7.0.0",
     "googleapis": "^144.0.0",
     "heroicons": "^2.1.1",
+    "moment-timezone": "^0.5.47",
     "next": "^13.4.12",
     "postcss": "8.4.27",
     "qr-scanner": "^1.4.2",

@@ -58,7 +58,7 @@ export default function UserCheckInCard({
                 <>
                   <div>
                     <strong>{toDisplay.user[key] + ": "}</strong>
-                    {userInfo[key]}
+                    {userInfo[key].toString()}
                   </div>
                 </>
               );
@@ -71,7 +71,7 @@ export default function UserCheckInCard({
                     <>
                       <div>
                         <strong>{toDisplay.registrant[key] + ": "}</strong>
-                        {registrationInfo[key]}
+                        {registrationInfo[key].toString()}
                       </div>
                     </>
                   );

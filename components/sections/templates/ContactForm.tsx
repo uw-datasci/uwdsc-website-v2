@@ -254,6 +254,27 @@ export default function ContactForm({
                     {i === fields.length - 1 && submitMessage}
                   </div>
                 );
+              case "password":
+                return (
+                    <div className={i === fields.length - 1 ? "mb-14" : "mb-6"} key={field.id}>
+                    <TextInput
+                        id={field.id}
+                        name={field.name}
+                        type="password" // Always masked
+                        placeholder={field.placeholder}
+                        value={formik.values[field.name]}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        autoCap={field.autoCap}
+                    />
+                    {formik.touched[field.name] && formik.errors[field.name] && (
+                        <InputFeedback state="error" classes={inputFeedbackClasses}>
+                        {formik.errors[field.name]}
+                        </InputFeedback>
+                    )}
+                    {i === fields.length - 1 && submitMessage}
+                    </div>
+                );
             }
           })}
           {customButton ? (

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { ChevronDown } from "react-feather";
 
+// To change value and option to include option to hide value
 type MultipleDropdownProps = {
   id: string;
   name: string;

@@ -8,10 +8,10 @@ import Button from "@/components/UI/Button";
 import Logo from "@/components/UI/Logo";
 
 // Form Imports
-import PopUpPanels from "../templates/PopUpPanels";
-import { moveDown as signUpMoveDown } from "@/store/slices/signUpPageSlice";
-import { moveUp as signInMoveUp } from "@/store/slices/signInPageSlice";
-import ContactForm from "../templates/ContactForm";
+import PopUpPanels from "../sections/templates/PopUpPanels";
+import { removeSignUp } from "@/store/slices/signUpPageSlice";
+import { displaySignIn } from "@/store/slices/signInPageSlice";
+import ContactForm from "../sections/templates/ContactForm";
 import {
   SIGN_UP_FORM_FIELDS_PART1,
   SIGN_UP_FORM_FIELDS_PART2,
@@ -21,7 +21,7 @@ import {
   SignUpFormPart2Schema,
 } from "@/utils/formValidation";
 import { sendSignUpInfo } from "@/utils/apiCalls";
-import ResendVerificationPage from "./resendVerification";
+import ResendVerificationPage from "../sections/home/resendVerification";
 
 export default function SignUpPage() {
   const [panelIndex, setPanelIndex] = useState<number>(0);
@@ -60,7 +60,7 @@ export default function SignUpPage() {
     <PopUpPanels
       isPopUp={signUpPage}
       moveDownFunc={() => {
-        dispatch(signUpMoveDown());
+        dispatch(removeSignUp());
       }}
       panelIndex={panelIndex}
       panels={[
@@ -76,7 +76,7 @@ export default function SignUpPage() {
               </p>
             </div>
             <div className="lg:overflow-auto-x flex max-h-full w-full flex-col justify-center py-10 lg:p-8">
-              <div className="w-full max-h-[100%] overflow-auto">
+              <div className="w-full lg:max-h-[100%] lg:overflow-auto">
                 <ContactForm
                   title=""
                   id=""
@@ -107,11 +107,11 @@ export default function SignUpPage() {
                       <p
                         className="text-s cursor-pointer p-2 text-grey3 hover:underline"
                         onClick={() => {
-                          dispatch(signUpMoveDown());
+                          dispatch(removeSignUp());
                           {
                             /*hide sign-up*/
                           }
-                          dispatch(signInMoveUp());
+                          dispatch(displaySignIn());
                           {
                             /*show sign-in*/
                           }
@@ -132,14 +132,14 @@ export default function SignUpPage() {
               <h1 className={headings}>Almost There !</h1>
               <p className={subTexts}>
                 Once you have submitted, you should receive a confirmation email
-                to your email account.
-                <br />
-                <br />
-                And after all that hard work ... <br /> Welcome to the club !
+                to your email account.<br /><br />
+                And after all that hard work ... <br />
+                Welcome to the club !<br /><br />
+                *If 2+ faculties that include Math, choose Math
               </p>
             </div>
             <div className="flex max-h-full w-full flex-col justify-center py-10 lg:overflow-auto lg:p-8">
-              <div className="w-full max-h-[100%] overflow-auto">
+              <div className="w-full lg:max-h-[100%] lg:overflow-auto">
                 <ContactForm
                   title=""
                   id=""

@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
-import { moveDown as signInMoveDown } from "@/store/slices/signInPageSlice";
-import { moveUp as signUpMoveUp } from "@/store/slices/signUpPageSlice";
+import { removeSignIn } from "@/store/slices/signInPageSlice";
+import { displaySignUp } from "@/store/slices/signUpPageSlice";
 import { login } from "@/store/slices/loginTokenSlice";
 
 import Button from "@/components/UI/Button";
 import Logo from "@/components/UI/Logo";
 
-import PopUpPanels from "../templates/PopUpPanels";
-import ContactForm from "../templates/ContactForm";
+import PopUpPanels from "../sections/templates/PopUpPanels";
+import ContactForm from "../sections/templates/ContactForm";
 import {
   SIGN_IN_FORM_FIELDS,
   FORGOT_PASSWORD_FORM_FIELDS,
@@ -48,7 +48,7 @@ export default function SignInPage() {
 
   const signInSuccessful = async () => {
     await sleep(400);
-    dispatch(signInMoveDown());
+    dispatch(removeSignIn());
   };
 
   const forgotPass = async (values: Record<string, string>) => {
@@ -64,7 +64,7 @@ export default function SignInPage() {
     <PopUpPanels
       isPopUp={signInPage}
       moveDownFunc={() => {
-        dispatch(signInMoveDown());
+        dispatch(removeSignIn());
       }}
       panelIndex={panelIndex}
       panels={[
@@ -79,7 +79,7 @@ export default function SignInPage() {
               </p>
             </div>
             <div className="flex max-h-full w-full flex-col justify-center py-10 lg:overflow-auto lg:p-8">
-              <div className="w-full max-h-[100%] overflow-auto">
+              <div className="max-h-[100%] w-full overflow-auto">
                 <ContactForm
                   title=""
                   id=""
@@ -114,13 +114,13 @@ export default function SignInPage() {
                             setPanelIndex(1);
                           }}
                         >
-                          Forgot password ?
+                          Forgot password?
                         </p>
                         <p
                           className="text-s cursor-pointer p-2 text-grey3 hover:underline"
                           onClick={() => {
-                            dispatch(signInMoveDown());
-                            dispatch(signUpMoveUp());
+                            dispatch(removeSignIn());
+                            dispatch(displaySignUp());
                           }}
                         >
                           Not a member yet? Join here.
@@ -148,7 +148,7 @@ export default function SignInPage() {
               </p>
             </div>
             <div className="flex max-h-full w-full flex-col justify-center py-10 lg:overflow-auto lg:p-8">
-              <div className="w-full max-h-[100%] overflow-auto">
+              <div className="max-h-[100%] w-full overflow-auto">
                 <ContactForm
                   title=""
                   id=""

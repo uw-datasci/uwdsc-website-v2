@@ -53,7 +53,7 @@ import michaelZhang from "@/public/teams/Michael-Zhang.jpg";
 import mincyYang from "@/public/teams/Mincy-Yang.png";
 //import monicaTrinh from "@/public/teams/Monica-Trinh";
 import nahalHabibizadeh from "@/public/teams/Nahal-Habibizadeh.jpeg";
-//import nimishPatri from "@/public/teams/Nimish-Patri";
+import nimishPatri from "@/public/teams/Nimish-Patri.jpg";
 import paigeLi from "@/public/teams/Paige-Li.jpg";
 import parithySenthamilarasan from "@/public/teams/Parithy-Senthamilarasan.jpg";
 import sarahWang from "@/public/teams/Sarah-Wang.jpeg";
@@ -489,7 +489,7 @@ export const TEAM: Subteam[] = [
         id: "nimish-patri",
         name: "Nimish Patri",
         position: "Internals Coordinator",
-        image: team,
+        image: nimishPatri,
       },
       {
         id: "methuli-amarasinghe",

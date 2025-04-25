@@ -43,7 +43,7 @@ export type Member = {
 export type ContactField = {
   id: string;
   name: string;
-  type: "input" | "textarea" | "dropdown";
+  type: "input" | "textarea" | "dropdown" | "password";
   placeholder: string;
   options?: string[];
   classes?: string;
@@ -92,25 +92,26 @@ export type Sponsor = {
   logo: StaticImageData;
   type?: string;
   link?: string;
-}
+};
 
 export type Partner = {
   name: string;
   logo: StaticImageData;
   link?: string;
-}
+};
 
 export type User = {
   _id: string;
   watIAM: string;
   username: string;
+  faculty: string;
   email: string;
   password: string;
   userStatus: string;
-  hasPaid: string;  
-  paymentMethod: string;  
-  verifier: string;     
-  paymentLocation: string;    
+  hasPaid: string;
+  paymentMethod: string;
+  verifier: string;
+  paymentLocation: string;
   isEmailVerified: string;
   __v?: number;
-}
+};
