@@ -86,6 +86,24 @@ export const TEAM: Subteam[] = [
     ],
   },
   {
+    id: "developement",
+    name: "Web Development",
+    members: [
+      {
+        id: "winston-yu",
+        name: "Winston Yu",
+        position: "VP of Development",
+        image: winstonYu,
+      },
+      {
+        id: "jacob-yan",
+        name: "Jacob Yan",
+        position: "VP of Development",
+        image: jacobYan,
+      },
+    ]
+    }
+  {
     id: "cxc",
     name: "CxC Data Hackathon",
     members: [
@@ -400,55 +418,6 @@ export const TEAM: Subteam[] = [
         position: "Graphic Designer",
         image: parithySenthamilarasan,
       },
-    ],
-  },
-  {
-    id: "developement",
-    name: "Web Development",
-    members: [
-      {
-        id: "chow-sheng-liang",
-        name: "Chow Sheng Liang",
-        position: "VP of Development",
-        image: chowShengLiang,
-      },
-      {
-        id: "annie-guo",
-        name: "Annie Guo",
-        position: "Developer",
-        image: team,
-      },
-      {
-        id: "aaryan-patel",
-        name: "Aaryan Patel",
-        position: "Developer",
-        image: aaryanPatel,
-      },
-      {
-        id: "mahdi-raza-khunt",
-        name: "Mahdi Raza Khunt",
-        position: "Developer",
-        image: mahdiKhunt
-      },
-      {
-        id: "david-he",
-        name: "David He",
-        position: "Developer",
-        image: team,
-      },
-      {
-        id: "karthik-viriyala",
-        name: "Karthik Krishna Viriyala",
-        position: "Developer",
-        image: team,
-      },
-      {
-        id: "justin-wang",
-        name: "Justin Baiyu Wang",
-        position: "Developer",
-        image: team,
-      },
-      
     ],
   },
   {
