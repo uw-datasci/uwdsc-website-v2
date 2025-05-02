@@ -21,6 +21,7 @@
     "axios": "^1.7.7",
     "babel": "^6.23.0",
     "braces": "^3.0.3",
+    "date-fns": "^4.1.0",
     "dotenv": "^16.4.5",
     "eslint": "8.46.0",
     "eslint-config-next": "13.4.12",
@@ -29,6 +30,7 @@
     "googleapis": "^144.0.0",
     "heroicons": "^2.1.1",
     "moment-timezone": "^0.5.47",
+    "mongoose": "^8.14.1",
     "next": "^13.4.12",
     "postcss": "8.4.27",
     "qr-scanner": "^1.4.2",
@@ -48,6 +50,7 @@
     "resend": "^0.17.2",
     "tailwindcss": "3.3.3",
     "typescript": "5.1.6",
+    "uuid": "^11.1.0",
     "yet-another-react-lightbox": "^3.16.0",
     "yup": "^1.5.0"
   },
