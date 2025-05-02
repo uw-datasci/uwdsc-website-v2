@@ -77,7 +77,8 @@ export const TEAM: Subteam[] = [
         name: "Jacob Yan",
         position: "Co-President",
         image: jacobYan,
-      },{
+      },
+      {
         id: "president2",
         name: "Shae-Lynn Stirling",
         position: "Co-President",
@@ -101,8 +102,8 @@ export const TEAM: Subteam[] = [
         position: "VP of Development",
         image: jacobYan,
       },
-    ]
-    }
+    ],
+  },
   {
     id: "cxc",
     name: "CxC Data Hackathon",
@@ -245,7 +246,8 @@ export const TEAM: Subteam[] = [
         name: "Kaushik Chatterjee",
         position: "VP of Education",
         image: kaushikChatterjee,
-      },{
+      },
+      {
         id: "amy-bui",
         name: "Amy Bui",
         position: "Data Science Mentor",
@@ -298,13 +300,13 @@ export const TEAM: Subteam[] = [
         name: "Tanay Kashyap",
         position: "Data Science Mentor",
         image: tanayKashyap,
-      },{
+      },
+      {
         id: "eric-huang",
         name: "Eric Huang",
         position: "ML Reading Groups",
         image: ericHuang,
       },
-      
     ],
   },
   {
@@ -382,7 +384,8 @@ export const TEAM: Subteam[] = [
         name: "Stanley Lin",
         position: "Graphic Designer",
         image: stanleyLin,
-      }, {
+      },
+      {
         id: "yue-peng",
         name: "Yue (Amy) Peng",
         position: "Graphic Designer",
