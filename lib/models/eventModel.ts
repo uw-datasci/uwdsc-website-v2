@@ -282,9 +282,12 @@ const convertInnerObjectsToMaps = (obj: any): any => {
 
 eventSchema.pre("validate", function (next) {
   // To fix
+  const beforeMap = this.toDisplay?.get("before") ?? new Map();
+  const afterMap = this.toDisplay?.get("after") ?? new Map();
+
   this.toDisplay = new Map([
-    ["before", convertInnerObjectsToMaps(this.toDisplay.get("before"))],
-    ["after", convertInnerObjectsToMaps(this.toDisplay.get("after"))],
+    ["before", convertInnerObjectsToMaps(beforeMap)],
+    ["after", convertInnerObjectsToMaps(afterMap)],
   ]);
   this.requirements.set(
     "user",
