@@ -9,6 +9,7 @@ import adnanNasiree from "@/public/teams/Adnan-Nasiree.jpg";
 import akashLakshmanan from "@/public/teams/Akash-Lakshmanan.png";
 //import amyBui from "@/public/teams/Amy-Bui";
 import amyPeng from "@/public/teams/Amy-Peng.jpg";
+import andrewLin from "@/public/teams/Andrew-Lin.jpg";
 import annaWang from "@/public/teams/Anna-Wang.jpg";
 //import annieGuo from "@/public/teams/Annie-Guo";
 import annieWong from "@/public/teams/Annie-Wong.jpg";
@@ -102,6 +103,12 @@ export const TEAM: Subteam[] = [
         position: "VP of Development",
         image: jacobYan,
       },
+      {
+        id: "andrew-lin",
+        name: "Andrew Lin",
+        position: "Technical Lead",
+        image: andrewLin
+      }
     ],
   },
   {
