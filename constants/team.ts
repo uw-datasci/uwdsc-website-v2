@@ -67,6 +67,7 @@ import tanayKashyap from "@/public/teams/Tanay-Kashyap.jpg";
 import winstonYu from "@/public/teams/Winston-Yu.jpg";
 import yiJiaHuang from "@/public/teams/Jia-Huang.jpeg";
 import yolandaJian from "@/public/teams/Yolanda-Jian.jpg";
+import brianAn from "@/public/teams/Brian-An.png";
 export const TEAM: Subteam[] = [
   {
     id: "presidents",
@@ -101,6 +102,12 @@ export const TEAM: Subteam[] = [
         name: "Jacob Yan",
         position: "VP of Development",
         image: jacobYan,
+      },
+      {
+        id: "brian-an",
+        name: "Brian An",
+        position: "Developer",
+        image: brianAn,
       },
     ],
   },
