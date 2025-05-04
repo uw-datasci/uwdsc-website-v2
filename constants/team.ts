@@ -68,6 +68,7 @@ import tanayKashyap from "@/public/teams/Tanay-Kashyap.jpg";
 import winstonYu from "@/public/teams/Winston-Yu.jpg";
 import yiJiaHuang from "@/public/teams/Jia-Huang.jpeg";
 import yolandaJian from "@/public/teams/Yolanda-Jian.jpg";
+import brianAn from "@/public/teams/Brian-An.png";
 export const TEAM: Subteam[] = [
   {
     id: "presidents",
@@ -108,85 +109,12 @@ export const TEAM: Subteam[] = [
         name: "Andrew Lin",
         position: "Technical Lead",
         image: andrewLin
-      }
-    ],
-  },
-  {
-    id: "cxc",
-    name: "CxC Data Hackathon",
-    members: [
-      {
-        id: "marcus-ng",
-        name: "Marcus Ng",
-        position: "VP of CxC",
-        image: marcusNg,
       },
       {
-        id: "winston-yu",
-        name: "Winston Yu",
-        position: "VP of CxC",
-        image: winstonYu,
-      },
-      {
-        id: "yolanda-jian",
-        name: "Yolanda Jian",
-        position: "CxC Coordinator",
-        image: yolandaJian,
-      },
-      {
-        id: "isaac-jiang",
-        name: "Isaac Jiang",
-        position: "CxC Coordinator",
-        image: isaacJiang,
-      },
-      {
-        id: "aiden-suh",
-        name: "Aiden Suh",
-        position: "CxC Coordinator",
-        image: team,
-      },
-      {
-        id: "annie-wong",
-        name: "Annie Wong",
-        position: "CxC Coordinator",
-        image: annieWong,
-      },
-      {
-        id: "simon-hampton",
-        name: "Simon Hampton",
-        position: "CxC Coordinator",
-        image: simonHampton,
-      },
-      {
-        id: "aaron-liang",
-        name: "Aaron Liang",
-        position: "CxC Coordinator",
-        image: aaronLiang,
-      },
-      {
-        id: "yi-jia-huang",
-        name: "Yi Jia Huang",
-        position: "CxC Coordinator",
-        image: yiJiaHuang,
-      },
-      {
-        id: "chantal-zhang",
-        name: "Chantal Zhang",
-        position: "CxC Coordinator",
-        image: chantalZhang,
-      },
-      {
-        id: "jocelyn-xu",
-        name: "Jocelyn Xu",
-        position: "CxC Coordinator",
-        // image: jocelynXu,
-        image: team,
-      },
-      {
-        id: "bethany-liu",
-        name: "Bethany Liu",
-        position: "CxC Coordinator + Internals",
-        image: bethanyLiu,
+        id: "brian-an",
+        name: "Brian An",
+        position: "Developer",
+        image: brianAn,
       },
     ],
   },
