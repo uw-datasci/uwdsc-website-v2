@@ -9,6 +9,7 @@ import adnanNasiree from "@/public/teams/Adnan-Nasiree.jpg";
 import akashLakshmanan from "@/public/teams/Akash-Lakshmanan.png";
 //import amyBui from "@/public/teams/Amy-Bui";
 import amyPeng from "@/public/teams/Amy-Peng.jpg";
+import andrewChu from "@/public/teams/Andrew-Chu.jpg";
 import andrewLin from "@/public/teams/Andrew-Lin.jpg";
 import annaWang from "@/public/teams/Anna-Wang.jpg";
 //import annieGuo from "@/public/teams/Annie-Guo";
@@ -16,6 +17,7 @@ import annieWong from "@/public/teams/Annie-Wong.jpg";
 import anTran from "@/public/teams/An-Tran.jpg";
 import ayushAyush from "@/public/teams/Ayush-Garg.jpg";
 import bethanyLiu from "@/public/teams/Bethany-Liu.jpeg";
+import brianAn from "@/public/teams/Brian-An.png";
 import chantalZhang from "@/public/teams/Chantal-Zhang.jpg";
 import chowShengLiang from "@/public/teams/Sheng-Liang-Chow.jpeg";
 import claireLiu from "@/public/teams/Claire-Liu.jpg";
@@ -68,8 +70,6 @@ import tanayKashyap from "@/public/teams/Tanay-Kashyap.jpg";
 import winstonYu from "@/public/teams/Winston-Yu.jpg";
 import yiJiaHuang from "@/public/teams/Jia-Huang.jpeg";
 import yolandaJian from "@/public/teams/Yolanda-Jian.jpg";
-import brianAn from "@/public/teams/Brian-An.png";
-import andrewChu from "@/public/teams/Andrew-Chu.jpg";
 export const TEAM: Subteam[] = [
   {
     id: "presidents",
@@ -106,6 +106,12 @@ export const TEAM: Subteam[] = [
         image: jacobYan,
       },
       {
+        id: "andrew-chu",
+        name: "Andrew Chu",
+        position: "Technical Lead",
+        image: andrewChu,
+      },
+      {
         id: "andrew-lin",
         name: "Andrew Lin",
         position: "Technical Lead",
@@ -116,12 +122,6 @@ export const TEAM: Subteam[] = [
         name: "Brian An",
         position: "Developer",
         image: brianAn,
-      },
-      {
-        id: "andrew-chu",
-        name: "Andrew Chu",
-        position: "Technical Lead",
-        image: andrewChu,
       },
     ],
   },
