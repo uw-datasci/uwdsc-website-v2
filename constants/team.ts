@@ -52,6 +52,8 @@ import methuliAmarasinghe from "@/public/teams/Methuli-Amarasinghe.jpeg";
 import michaelZhang from "@/public/teams/Michael-Zhang.jpg";
 //import millyChai from "@/public/teams/Milly-Chai";
 import mincyYang from "@/public/teams/Mincy-Yang.png";
+import monicaTrinh from  "@/public/teams/Monica-Trinh.jpg";
+
 //import monicaTrinh from "@/public/teams/Monica-Trinh";
 import nahalHabibizadeh from "@/public/teams/Nahal-Habibizadeh.jpeg";
 import nimishPatri from "@/public/teams/Nimish-Patri.jpg";
@@ -128,6 +130,12 @@ export const TEAM: Subteam[] = [
         name: "Jessica Ying",
         position: "Developer",
         image: jessicaYing,
+      }, 
+      {
+        id: "monica-trinh",
+        name: "Monica Trinh",
+        position: "Product Designer",
+        image: monicaTrinh,
       },
     ],
   },
