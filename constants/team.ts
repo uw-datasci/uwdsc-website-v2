@@ -69,6 +69,7 @@ import winstonYu from "@/public/teams/Winston-Yu.jpg";
 import yiJiaHuang from "@/public/teams/Jia-Huang.jpeg";
 import yolandaJian from "@/public/teams/Yolanda-Jian.jpg";
 import brianAn from "@/public/teams/Brian-An.png";
+import andrewChu from "@/public/teams/Andrew-Chu.jpg";
 export const TEAM: Subteam[] = [
   {
     id: "presidents",
@@ -108,13 +109,19 @@ export const TEAM: Subteam[] = [
         id: "andrew-lin",
         name: "Andrew Lin",
         position: "Technical Lead",
-        image: andrewLin
+        image: andrewLin,
       },
       {
         id: "brian-an",
         name: "Brian An",
         position: "Developer",
         image: brianAn,
+      },
+      {
+        id: "andrew-chu",
+        name: "Andrew Chu",
+        position: "Technical Lead",
+        image: andrewChu,
       },
     ],
   },
