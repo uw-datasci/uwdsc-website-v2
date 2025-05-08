@@ -153,6 +153,7 @@ export const TEAM: Subteam[] = [
         position: "Developer",
         image: anTran,
       },
+      {
         id: "mahdi-khunt",
         name: "Mahdi Raza Khunt",
         position: "Developer",
