@@ -45,6 +45,7 @@ import kateColby from "@/public/teams/Kate-Colby.jpeg";
 import kaushikChatterjee from "@/public/teams/Kaushik-Chatterjee.jpeg";
 import kimGuo from "@/public/teams/Kim-Guo.jpg";
 import lukaSpinoti from "@/public/teams/Luka-Spinoti.jpg";
+import lydiaHe from "@/public/teams/Lydia-He.jpeg";
 import mahdiKhunt from "@/public/teams/Mahdi-Khunt.jpeg";
 import marcusLuong from "@/public/teams/Marcus-Luong.jpg";
 import marcusNg from "@/public/teams/Marcus-Ng.jpg";
@@ -124,6 +125,12 @@ export const TEAM: Subteam[] = [
         name: "Brian An",
         position: "Developer",
         image: brianAn,
+      },
+      {
+        id: "lydia-he",
+        name: "Lydia He",
+        position: "Developer",
+        image: lydiaHe,
       },
       {
         id: "jocelyn-xu",
