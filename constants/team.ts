@@ -9,6 +9,7 @@ import adnanNasiree from "@/public/teams/Adnan-Nasiree.jpg";
 import akashLakshmanan from "@/public/teams/Akash-Lakshmanan.png";
 //import amyBui from "@/public/teams/Amy-Bui";
 import amyPeng from "@/public/teams/Amy-Peng.jpg";
+import andrewChu from "@/public/teams/Andrew-Chu.jpg";
 import andrewLin from "@/public/teams/Andrew-Lin.jpg";
 import annaWang from "@/public/teams/Anna-Wang.jpg";
 //import annieGuo from "@/public/teams/Annie-Guo";
@@ -109,10 +110,10 @@ export const TEAM: Subteam[] = [
         image: jacobYan,
       },
       {
-        id: "mahdi-khunt",
-        name: "Mahdi Raza Khunt",
-        position: "Developer",
-        image: mahdiKhunt,
+        id: "andrew-chu",
+        name: "Andrew Chu",
+        position: "Technical Lead",
+        image: andrewChu,
       },
       {
         id: "andrew-lin",
@@ -144,6 +145,12 @@ export const TEAM: Subteam[] = [
         position: "Developer",
         image: jessicaYing,
       }, 
+      {
+        id: "mahdi-khunt",
+        name: "Mahdi Raza Khunt",
+        position: "Developer",
+        image: mahdiKhunt,
+      },
       {
         id: "monica-trinh",
         name: "Monica Trinh",
