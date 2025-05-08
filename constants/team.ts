@@ -74,6 +74,7 @@ import tanayKashyap from "@/public/teams/Tanay-Kashyap.jpg";
 import winstonYu from "@/public/teams/Winston-Yu.jpg";
 import yiJiaHuang from "@/public/teams/Jia-Huang.jpeg";
 import yolandaJian from "@/public/teams/Yolanda-Jian.jpg";
+import aditiJha from "@/public/teams/Aditi-Jha.jpg";
 
 export const TEAM: Subteam[] = [
   {
@@ -170,6 +171,12 @@ export const TEAM: Subteam[] = [
         name: "Giang Tran",
         position: "Product Designer",
         image: giangTran,
+      },
+      {
+        id: "aditi-jha",
+        name: "Aditi Jha",
+        position: "Developer",
+        image: aditiJha,
       },
     ],
   },
