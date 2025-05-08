@@ -26,10 +26,10 @@ export type Resource = {
 export type Subteam = {
   id: string;
   name: string;
-  members: Member[];
+  members: TeamMember[];
 };
 
-export type Member = {
+export type TeamMember = {
   id: string;
   name: string;
   position: string;
@@ -45,7 +45,7 @@ export type ContactField = {
   name: string;
   type: "input" | "textarea" | "dropdown" | "password";
   placeholder: string;
-  options?: string[];
+  options?: readonly string[];
   classes?: string;
   autoCap?: string;
 };

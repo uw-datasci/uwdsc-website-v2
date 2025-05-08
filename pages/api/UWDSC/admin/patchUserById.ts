@@ -1,7 +1,6 @@
 import { type NextApiRequest, type NextApiResponse } from "next";
 import axios from "axios";
-
-require("dotenv").config();
+import { env } from "@/env/client";
 
 export default async function handler(
   req: NextApiRequest,
@@ -17,7 +16,7 @@ export default async function handler(
     }
 
     const response = await axios({
-      url: `${process.env.NEXT_PUBLIC_UWDSC_WEBSITE_SERVER_URL}/api/admin/users/${userId}`,
+      url: `${env.NEXT_PUBLIC_UWDSC_WEBSITE_SERVER_URL}/api/admin/users/${userId}`,
       method: "PATCH",
       headers: {
         Authorization: `Bearer ${token}`,

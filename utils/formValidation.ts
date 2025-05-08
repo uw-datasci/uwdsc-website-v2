@@ -1,5 +1,5 @@
 import { Field } from "formik";
-import { string, object, ref, boolean, array, number } from "yup";
+import { z } from "zod";
 
 require("dotenv").config();
 
@@ -15,7 +15,7 @@ function extractFileId(driveUrl: string) {
 
 async function isPublicDriveFile(fileId: string) {
   try {
-    if (lastFileId != fileId && fileId) {
+    if (lastFileId !== fileId && fileId) {
       console.log("Ran verification");
       const response = await fetch(`/api/other/google-drive?fileId=${fileId}`);
       lastFileId = fileId;
@@ -29,137 +29,145 @@ async function isPublicDriveFile(fileId: string) {
   }
 }
 
-export const ContactFormSchema = object({
-  name: string().required("Please enter your name."),
-  email: string()
+export const ContactFormSchema = z.object({
+  name: z.string().nonempty("Please enter your name."),
+  email: z
+    .string()
     .email("Please enter a valid email.")
-    .required("Please enter your email."),
-  purpose: string().required("Please select the purpose of your contact."),
+    .nonempty("Please enter your email."),
+  purpose: z.string().nonempty("Please select the purpose of your contact."),
 });
 
-export const SponsorFormSchema = object({
-  name: string().required("Please enter your name."),
-  email: string()
+export const SponsorFormSchema = z.object({
+  name: z.string().nonempty("Please enter your name."),
+  email: z
+    .string()
     .email("Please enter a valid email.")
-    .required("Please enter your work email."),
-  company: string().required("Please enter your company or organization name."),
+    .nonempty("Please enter your work email."),
+  company: z
+    .string()
+    .nonempty("Please enter your company or organization name."),
 });
 
-export const SignUpFormPart1Schema = object({
-  name: string().required("Please enter your name."),
-  WatIAM: string(),
-  email: string()
+export const SignUpFormPart1Schema = z.object({
+  name: z.string().nonempty("Please enter your name."),
+  WatIAM: z.string().optional(),
+  email: z
+    .string()
     .email("Email must be valid.")
-    .required("Please enter your UWaterloo email."),
-  password: string()
-    .min(8, "Your password needs to be at least 8 characters long.")
-    .required("Your password is required."),
+    .nonempty("Please enter your UWaterloo email."),
+  password: z
+    .string()
+    .min(8, "Your password needs to be at least 8 characters long."),
 });
 
-export const SignUpFormPart2Schema = object({
-  faculty: string().required("Please select your faculty."),
-  term: string().required("Please select your current/last completed term."),
-  advert: string().required("Let us know where you heard about us!"),
+export const SignUpFormPart2Schema = z.object({
+  faculty: z.string().nonempty("Please select your faculty."),
+  term: z.string().nonempty("Please select your current/last completed term."),
+  advert: z.string().nonempty("Let us know where you heard about us!"),
 });
 
-export const SignInFormSchema = object({
-  email: string()
-    .required("Please enter your email.")
+export const SignInFormSchema = z.object({
+  email: z
+    .string()
+    .nonempty("Please enter your email.")
     .email("Please enter a valid email."),
-  password: string().required("Please enter your password."),
+  password: z.string().nonempty("Please enter your password."),
 });
 
-export const ForgotPasswordFormSchema = object({
-  email: string()
-    .required("Please enter the email associated with your account.")
+export const ForgotPasswordFormSchema = z.object({
+  email: z
+    .string()
+    .nonempty("Please enter the email associated with your account.")
     .email("Please enter a valid email."),
 });
 
-export const ResetPasswordFormSchema = object({
-  newPass: string()
-    .min(8, "Your password needs to be at least 8 characters long.")
-    .required("New password is required."),
-  confirmPass: string()
-    .oneOf([ref("newPass"), undefined], "Passwords do not match.")
-    .required("Confirm Password is required."),
-});
+export const ResetPasswordFormSchema = z
+  .object({
+    newPass: z
+      .string()
+      .min(8, "Your password needs to be at least 8 characters long."),
+    confirmPass: z.string().nonempty("Confirm Password is required."),
+  })
+  .refine((data) => data.confirmPass === data.newPass, {
+    path: ["confirmPass"],
+    message: "Passwords do not match.",
+  });
 
-export const CxCRegistrationSchema = object({
-  firstName: string().required("First name is required"),
-  lastName: string().required("Last name is required"),
-  pronoun: string().required("Please select your pronouns"),
-  ethnicity: string().required("Please select your ethnicity"),
-  phoneNumber: string()
-    .required("Phone number is required")
-    .matches(
+export const CxCRegistrationSchema = z.object({
+  firstName: z.string().nonempty("First name is required"),
+  lastName: z.string().nonempty("Last name is required"),
+  pronoun: z.string().nonempty("Please select your pronouns"),
+  ethnicity: z.string().nonempty("Please select your ethnicity"),
+  phoneNumber: z
+    .string()
+    .nonempty("Phone number is required")
+    .regex(
       /^(\+1|1)?\s?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/,
       "Phone number is not valid. Eg. +1 (123) 456 7890",
     ),
-  email: string()
+  email: z
+    .string()
     .email("Please enter a valid email.")
-    .required("Please enter your email."),
-  discordUsername: string().required("Please enter your Discord Name."),
-  term: string().required("Please select your current/last completed term"),
-  school: string().required("Please enter your school."),
-  program: string().required("Please specify your program"),
-  dietaryRestrictions: array()
-    .of(string().required("Each item must be a string"))
+    .nonempty("Please enter your email."),
+  discordUsername: z.string().nonempty("Please enter your Discord Name."),
+  term: z.string().nonempty("Please select your current/last completed term"),
+  school: z.string().nonempty("Please enter your school."),
+  program: z.string().nonempty("Please specify your program"),
+  dietaryRestrictions: z
+    .array(z.string())
     .min(1, "Please select at least 1 option")
-    .test("is-none", 'You can only select "None" exclusively', (selection) => {
-      if (selection) {
-        return !(selection.includes("None") && selection.length > 1);
-      }
-      return true;
-    })
-    .required("Please select your dietary restrictions."),
-  specificAllergies: string(),
-  tshirtSize: string().required("Please select your T-Shirt size"),
-  resumeLink: string()
-    .required("Please enter a Google Drive link to a PDF your resume.")
-    .matches(
+    .refine((sel) => !(sel.includes("None") && sel.length > 1), {
+      message: 'You can only select "None" exclusively',
+    }),
+  specificAllergies: z.string().optional(),
+  tshirtSize: z.string().nonempty("Please select your T-Shirt size"),
+  resumeLink: z
+    .string()
+    .nonempty("Please enter a Google Drive link to a PDF your resume.")
+    .regex(
       /https?:\/\/(?:drive\.google\.com\/(?:file\/d\/|drive\/folders\/|open\?id=|uc\?id=)[^\/\&\?]+)/,
       "Please provide a valid Google Drive link. It must be a PDF, it cannot be a Google Doc.",
     )
-    .test("is-public", "THe link you provided is not public.", (url) => {
-      const fileId: string | null = extractFileId(url);
-      if (fileId) {
-        return isPublicDriveFile(fileId);
-      } else {
-        return false;
-      }
-    }),
-  githubLink: string().matches(
-    /^https?:\/\/(?:www\.)?github\.com\/(?=.{1,39}$)(?!-)(?!.*--)[A-Za-z0-9-]+(?<!-)\/?$/,
-    "Please provide a valid GitHub profile",
-  ),
-  linkedInLink: string().matches(
-    /^https?:\/\/(?:www\.)?linkedin\.com\/in\/[A-Za-z0-9._-]{3,100}\/?$/,
-    "Please provide a valid LinkedIn profile",
-  ),
-  anyLink: string(),
-  hackathonRole: array()
-    .of(string().required("Each item must be a string"))
-    .min(1, "Please select at least 1 role")
-    .test(
-      "is-none",
-      'You can only select "Never been to a hackathon previously" exclusively',
-      (selection) => {
-        if (selection) {
-          return !(
-            selection.includes("Never been to a hackathon previously") &&
-            selection.length > 1
-          );
-        }
-        return true;
+    .refine(
+      (url) => {
+        const fileId = extractFileId(url);
+        return fileId ? isPublicDriveFile(fileId) : false;
       },
+      { message: "THe link you provided is not public." },
+    ),
+  githubLink: z
+    .string()
+    .regex(
+      /^https?:\/\/(?:www\.)?github\.com\/(?=.{1,39}$)(?!-)(?!.*--)[A-Za-z0-9-]+(?<!-)\/?$/,
+      "Please provide a valid GitHub profile",
     )
-    .required("Please select a role"),
-  hackathonNum: number()
-    .min(0, "You can't attend negative hackathons!")
-    .required("Please select how many hackathons you've attended"),
-  cxcGoals: string().required("Please fill out this field."),
-  ambitions: string().required("Please fill out this field."),
-  consent: boolean()
-    .oneOf([true], "This field must be true.")
-    .required("Required"),
+    .optional(),
+  linkedInLink: z
+    .string()
+    .regex(
+      /^https?:\/\/(?:www\.)?linkedin\.com\/in\/[A-Za-z0-9._-]{3,100}\/?$/,
+      "Please provide a valid LinkedIn profile",
+    )
+    .optional(),
+  anyLink: z.string().optional(),
+  hackathonRole: z
+    .array(z.string())
+    .min(1, "Please select at least 1 role")
+    .refine(
+      (sel) =>
+        !(
+          sel.includes("Never been to a hackathon previously") && sel.length > 1
+        ),
+      {
+        message:
+          'You can only select "Never been to a hackathon previously" exclusively',
+      },
+    ),
+  hackathonNum: z.number().min(0, "You can't attend negative hackathons!"),
+  cxcGoals: z.string().nonempty("Please fill out this field."),
+  ambitions: z.string().nonempty("Please fill out this field."),
+  consent: z
+    .boolean()
+    .refine((val) => val === true, { message: "This field must be true." }),
 });

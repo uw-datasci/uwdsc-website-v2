@@ -1,7 +1,7 @@
 import { type NextApiRequest, type NextApiResponse } from "next";
 import axios from "axios";
-
-require("dotenv").config();
+import { env as clientEnv } from "@/env/client";
+import { env as serverEnv } from "@/env/server";
 
 export default async function handler(
   req: NextApiRequest,
@@ -11,9 +11,9 @@ export default async function handler(
     const { token } = req.body;
     const response = await axios({
       url:
-        process.env.NEXT_PUBLIC_UWDSC_WEBSITE_SERVER_URL +
+        clientEnv.NEXT_PUBLIC_UWDSC_WEBSITE_SERVER_URL +
         "/api/users/events/" +
-        process.env.CURRENT_REGISTERED_EVENT_ID +
+        serverEnv.CURRENT_REGISTERED_EVENT_ID +
         "/registrants",
       method: "GET",
       headers: {

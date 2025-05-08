@@ -26,6 +26,7 @@ import InputFeedback from "@/components/UI/Inputs/CxC/InputFeedback";
 
 import {} from "next/font/google";
 import LoadingSpinner from "@/components/UI/LoadingSpinner";
+import { ROLES } from "@/constants/roles";
 
 type CxCFields = {
   firstName: string;
@@ -697,4 +698,4 @@ function CxCRegistrationpage() {
   );
 }
 
-export default withAuth(CxCRegistrationpage, ["member", "admin"]);
+export default withAuth(CxCRegistrationpage, [ROLES.ADMIN, ROLES.MEMBER]);

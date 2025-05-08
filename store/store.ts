@@ -2,9 +2,9 @@ import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage"; // defaults to localStorage for web
 
-import signUpPageReducer from "./slices/signUpPageSlice.js";
-import signInPageReducer from "./slices/signInPageSlice.js";
-import loginTokenReducer from "./slices/loginTokenSlice.js"; // Rename to loginTokenReducer
+import signUpPageReducer from "./slices/signUpPageSlice";
+import signInPageReducer from "./slices/signInPageSlice";
+import loginTokenReducer from "./slices/loginTokenSlice"; // Rename to loginTokenReducer
 
 // all reducers
 const rootReducer = combineReducers({

@@ -5,11 +5,11 @@ export const HTTP_CONSTANTS = {
   NOT_FOUND: 404,
   CONFLICT: 409,
   SERVER_ERROR: 500,
-};
+} as const;
 
 export const TYPE_CONSTANTS = {
   ARRAY: "array",
   STRING: "string",
   NUMBER: "number",
   BOOL: "boolean",
-};
+} as const;

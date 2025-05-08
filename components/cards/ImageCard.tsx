@@ -2,9 +2,9 @@ import Image from "next/image";
 
 import { Mail, Globe, Instagram, Linkedin } from "react-feather";
 
-import { type Member } from "@/types/types";
+import { type TeamMember } from "@/types/types";
 
-type TeamCardProps = Member;
+type TeamCardProps = TeamMember;
 
 /**
  * Not currently used

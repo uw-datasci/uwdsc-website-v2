@@ -1,6 +1,13 @@
+import { Role } from "@/constants/roles";
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
+export interface loginTokenState {
+  name: string;
+  token: string;
+  role: Role | "";
+}
+
+const initialState: loginTokenState = {
   name: "",
   token: "",
   role: "",

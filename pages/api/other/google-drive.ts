@@ -1,13 +1,14 @@
 import { type NextApiRequest, type NextApiResponse } from "next";
 import { google } from "googleapis";
+import { env } from "@/env/server"; 
 
 const oauth2Client = new google.auth.OAuth2(
-  process.env.GOOGLE_CLIENT_ID,
-  process.env.GOOGLE_CLIENT_SECRET,
+  env.GOOGLE_CLIENT_ID,
+  env.GOOGLE_CLIENT_SECRET,
   "https://developers.google.com/oauthplayground",
 );
 oauth2Client.setCredentials({
-  refresh_token: process.env.GOOGLE_CLIENT_REFRESH_TOKEN,
+  refresh_token: env.GOOGLE_CLIENT_REFRESH_TOKEN,
 });
 
 const drive = google.drive({

@@ -1,11 +1,9 @@
-import {
-  DO_NOT_USE_OR_YOU_WILL_BE_FIRED_EXPERIMENTAL_FORM_ACTIONS,
-  useState,
-} from "react";
+import { useState } from "react";
 import { useFormik } from "formik";
 import { Mail, Instagram } from "react-feather";
 import { RxDiscordLogo } from "react-icons/rx";
-import { ObjectSchema } from "yup";
+import type { AnyZodObject } from "zod";
+import { withZodSchema } from "formik-validator-zod";
 
 import TextInput from "@/components/UI/TextInput";
 import Dropdown from "@/components/UI/Dropdown";
@@ -42,7 +40,7 @@ type ContactProps = {
   includeSideInfo: boolean;
   description: React.ReactNode;
   fields: ContactField[];
-  validationSchema: ObjectSchema<any>;
+  validationSchema: AnyZodObject;
   onSubmit: (values: Record<string, string>) => Promise<void>;
   errorMessage: string;
   successMessage: string;
@@ -80,7 +78,7 @@ export default function ContactForm({
       acc[field.name] = "";
       return acc;
     }, {}),
-    validationSchema,
+    validate: withZodSchema(validationSchema),
     onSubmit: async (values) => {
       setLoading(true);
       setSuccess(false);
@@ -256,24 +254,31 @@ export default function ContactForm({
                 );
               case "password":
                 return (
-                    <div className={i === fields.length - 1 ? "mb-14" : "mb-6"} key={field.id}>
+                  <div
+                    className={i === fields.length - 1 ? "mb-14" : "mb-6"}
+                    key={field.id}
+                  >
                     <TextInput
-                        id={field.id}
-                        name={field.name}
-                        type="password" // Always masked
-                        placeholder={field.placeholder}
-                        value={formik.values[field.name]}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        autoCap={field.autoCap}
+                      id={field.id}
+                      name={field.name}
+                      type="password" // Always masked
+                      placeholder={field.placeholder}
+                      value={formik.values[field.name]}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      autoCap={field.autoCap}
                     />
-                    {formik.touched[field.name] && formik.errors[field.name] && (
-                        <InputFeedback state="error" classes={inputFeedbackClasses}>
-                        {formik.errors[field.name]}
+                    {formik.touched[field.name] &&
+                      formik.errors[field.name] && (
+                        <InputFeedback
+                          state="error"
+                          classes={inputFeedbackClasses}
+                        >
+                          {formik.errors[field.name]}
                         </InputFeedback>
-                    )}
+                      )}
                     {i === fields.length - 1 && submitMessage}
-                    </div>
+                  </div>
                 );
             }
           })}

@@ -23,6 +23,8 @@ import EditCell from "./EditCell";
 import Pagination from "./Pagination";
 import { RankingInfo, rankItem } from "@tanstack/match-sorter-utils";
 import { MdRefresh, MdOutlineAddCircleOutline } from "react-icons/md";
+import { roleOptions, ROLES } from "@/constants/roles";
+import { facultyOptions, paymentMethodOptions } from "@/constants/member";
 
 require("dotenv").config();
 
@@ -235,7 +237,8 @@ const AdminTable = () => {
         header: "Faculty",
         cell: TableCell,
         meta: {
-          type: ColumnType.Text
+          type: ColumnType.Text,
+          options: [...facultyOptions],
         },
       },
       {
@@ -244,7 +247,7 @@ const AdminTable = () => {
         cell: TableCell,
         meta: {
           type: ColumnType.Select,
-          options: ["admin", "member"],
+          options: [...roleOptions],
         },
       },
       {
@@ -271,7 +274,7 @@ const AdminTable = () => {
         cell: TableCell,
         meta: {
           type: ColumnType.Select,
-          options: ["", "Cash", "Online", "MathSoc"],
+          options: [...paymentMethodOptions, ""],
         },
       },
       {

@@ -1,4 +1,5 @@
-import type { AppProps } from "next/app";
+import type { AppProps, AppType } from "next/app";
+import { trpc } from "@/utils/trpc";
 import { useRouter } from "next/router";
 
 import ReduxProvider from "@/components/redux/ReduxProvider";
@@ -9,7 +10,7 @@ import SignIn from "@/components/popup/SignIn";
 
 import "@/styles/globals.css";
 
-export default function App({ Component, pageProps }: AppProps) {
+const UWDSC: AppType = ({ Component, pageProps }: AppProps) => {
   // Very bad not good but will work for now, pls fix
   const router = useRouter();
   const hideLayoutRoutes = [
@@ -29,4 +30,6 @@ export default function App({ Component, pageProps }: AppProps) {
       {!shouldHideLayout && !shouldHideFooter && <Footer />}
     </ReduxProvider>
   );
-}
+};
+
+export default trpc.withTRPC(UWDSC);

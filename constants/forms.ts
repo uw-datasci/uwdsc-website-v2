@@ -1,4 +1,6 @@
 import { type ContactField } from "@/types/types";
+import z from "zod";
+import { facultyOptions, termOptions } from "./member";
 
 export const CONTACT_FORM_FIELDS: ContactField[] = [
   {
@@ -88,17 +90,8 @@ export const SIGN_UP_FORM_FIELDS_PART2: ContactField[] = [
     id: "faculty",
     name: "faculty",
     type: "dropdown",
-    placeholder:
-      "Faculty*",
-    options: [
-      "Math",
-      "Engineering",
-      "Science",
-      "Arts",
-      "Health",
-      "Environment",
-      "Other/Non-waterloo",
-    ],
+    placeholder: "Faculty*",
+    options: facultyOptions,
     classes: "z-50",
   },
   {
@@ -106,19 +99,7 @@ export const SIGN_UP_FORM_FIELDS_PART2: ContactField[] = [
     name: "term",
     type: "dropdown",
     placeholder: "Current/Last completed term",
-    options: [
-      "1A",
-      "1B",
-      "2A",
-      "2B",
-      "3A",
-      "3B",
-      "4A",
-      "4B",
-      "Masters",
-      "PHD",
-      "Other/Non-waterloo",
-    ],
+    options: termOptions,
     classes: "z-40",
   },
   {
@@ -136,6 +117,19 @@ export const SIGN_UP_FORM_FIELDS_PART2: ContactField[] = [
   },
 ];
 
+export const SignUpFormTypeSchema = z.object({
+  username: z.string().min(1),
+  email: z.string().email().min(1),
+  password: z.string().min(8),
+  watIAM: z.string(),
+  faculty: z.enum(facultyOptions),
+  term: z.enum(termOptions),
+  heardFromWhere: z.string().min(1),
+  memberIdeas: z.string(),
+});
+
+export type SignUpForm = z.infer<typeof SignUpFormTypeSchema>;
+
 export const SIGN_IN_FORM_FIELDS: ContactField[] = [
   {
     id: "email",
@@ -151,6 +145,13 @@ export const SIGN_IN_FORM_FIELDS: ContactField[] = [
     autoCap: "off",
   },
 ];
+
+export const SignInFormTypeSchema = z.object({
+  email: z.string().email().min(1),
+  password: z.string().min(8),
+});
+
+export type SignInForm = z.infer<typeof SignInFormTypeSchema>;
 
 export const FORGOT_PASSWORD_FORM_FIELDS: ContactField[] = [
   {

@@ -2,9 +2,9 @@ import { Schema, model, models } from "mongoose";
 import type { CallbackWithoutResultAndOptionalError } from "mongoose";
 import { v4 as uuidv4 } from "uuid";
 import { mapKeysValidator, mapKeysErrorMessage } from "./util/validators";
-import { TYPE_CONSTANTS } from "../../constants/types";
+import { TYPE_CONSTANTS } from "../../../constants/types";
 import { addMinutes } from "date-fns";
-import { userSchema } from "./userModel";
+import { memberSchema } from "./memberModel";
 
 const eventSchema = new Schema(
   {
@@ -315,9 +315,9 @@ eventSchema.pre("validate", function (next) {
   mapValidator(schema, this.toDisplay.get("after")?.get("registrant"), next);
   mapValidator(schema, this.requirements.get("registrant"), next);
 
-  mapValidator(userSchema, this.toDisplay.get("before")?.get("user"), next);
-  mapValidator(userSchema, this.toDisplay.get("after")?.get("user"), next);
-  mapValidator(userSchema, this.requirements.get("user"), next);
+  mapValidator(memberSchema, this.toDisplay.get("before")?.get("user"), next);
+  mapValidator(memberSchema, this.toDisplay.get("after")?.get("user"), next);
+  mapValidator(memberSchema, this.requirements.get("user"), next);
 
   if (!this.bufferedStartTime) {
     this.bufferedStartTime = addMinutes(this.startTime, -20);

@@ -1,8 +1,8 @@
 import Link from "next/link";
-import Script from 'next/script'
+import Script from "next/script";
 
 type ButtonProps = {
-  type: "button" | "submit" | "route" | "link" | "luma-button";
+  type: "button" | "submit" | "route" | "link";
   href?: string;
   onClick?: () => void;
   hierarchy: "primary" | "secondary";
@@ -15,12 +15,6 @@ type ButtonProps = {
   children: React.ReactNode;
   disabled?: boolean; // Add this line
 };
-
-const EMBED_BASE_URL =
-  process.env.NODE_ENV === "production"
-    ? "https://embed.lu.ma"
-    : "http://127.0.0.1:333";
-
 
 export default function Button({
   type,
@@ -48,13 +42,21 @@ export default function Button({
   switch (type) {
     case "button":
       return (
-        <button type="button" onClick={disabled? ()=>{} : onClick} className={`${classes}`}>
+        <button
+          type="button"
+          onClick={disabled ? () => {} : onClick}
+          className={`${classes}`}
+        >
           {children}
         </button>
       );
     case "submit":
       return (
-        <button type="submit" onClick={disabled? ()=>{} : onClick} className={`${classes}`}>
+        <button
+          type="submit"
+          onClick={disabled ? () => {} : onClick}
+          className={`${classes}`}
+        >
           {children}
         </button>
       );
@@ -74,26 +76,6 @@ export default function Button({
         >
           {children}
         </a>
-      );
-    case "luma-button":
-      return (
-        <>
-          <a
-            href="https://lu.ma/event/evt-ChamzwlXhzTJZDS"
-            className={`${classes}`}
-            type="button"
-            data-luma-action="checkout"
-            data-luma-event-id="evt-ChamzwlXhzTJZDS"
-          >
-            {children}
-          </a>
-        
-          <Script
-            id="luma-checkout"
-            src={`${EMBED_BASE_URL}/checkout-button.js`}
-          />
-        </>
-          
       );
     default:
       return <></>;

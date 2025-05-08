@@ -1,6 +1,16 @@
-import mongoose from "mongoose";
+import {
+  facultyOptions,
+  paymentMethodOptions,
+  termOptions,
+  tokenPurposeOptions,
+} from "@/constants/member";
+import { Schema, model, models } from "mongoose";
+import type { Model } from "mongoose";
+import { Member } from "../schemas/member";
+import { roleOptions } from "@/constants/roles";
+import mongooseLeanVirtuals from "mongoose-lean-virtuals";
 
-const userSchema = new mongoose.Schema(
+const memberSchema = new Schema<Member>(
   {
     username: {
       type: String,
@@ -17,7 +27,7 @@ const userSchema = new mongoose.Schema(
     },
     userStatus: {
       type: String,
-      enum: ["member", "admin"],
+      enum: roleOptions,
       required: [true, "Please add the user's status"],
       default: "member",
     },
@@ -32,19 +42,12 @@ const userSchema = new mongoose.Schema(
     faculty: {
       type: String,
       required: [true, "Please add the user faculty"],
-      enum: [
-        "Math",
-        "Engineering",
-        "Science",
-        "Arts",
-        "Health",
-        "Environment",
-        "Other/Non-waterloo",
-      ],
+      enum: facultyOptions,
     },
     term: {
       type: String,
       required: [true, "Please add the user term"],
+      enum: termOptions,
     },
     heardFromWhere: {
       type: String,
@@ -53,7 +56,7 @@ const userSchema = new mongoose.Schema(
     },
     paymentMethod: {
       type: String,
-      enum: ["Cash", "Online", "MathSoc"],
+      enum: paymentMethodOptions,
       validate: {
         validator: function (this: any, value: string) {
           if (this.hasPaid && !value) {
@@ -99,11 +102,16 @@ const userSchema = new mongoose.Schema(
     token: {
       hash: {
         type: String,
-        default: "somehash",
+        default: "",
       },
       expires: {
-        type: Number,
-        default: -1,
+        type: Date,
+        default: null,
+      },
+      purpose: {
+        type: String,
+        enum: tokenPurposeOptions,
+        default: "",
       },
     },
   },
@@ -112,8 +120,8 @@ const userSchema = new mongoose.Schema(
   },
 );
 
-userSchema.pre("save", async function (next) {
-  const Event = mongoose.model("events");
+memberSchema.pre("save", async function (next) {
+  const Event = model("events");
   if (!this.isNew) {
     return;
   }
@@ -156,5 +164,15 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
-export const userModel = mongoose.models.users || mongoose.model("users", userSchema);
-export { userSchema };
+memberSchema.virtual("id").get(function () {
+  return this._id.toString();
+});
+
+memberSchema.set("toObject", { virtuals: true });
+memberSchema.set("toJSON", { virtuals: true });
+
+memberSchema.plugin(mongooseLeanVirtuals);
+
+const memberModel: Model<Member> =
+  models.users || model<Member>("users", memberSchema);
+export { memberSchema, memberModel };

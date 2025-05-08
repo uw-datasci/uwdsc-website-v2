@@ -1,7 +1,6 @@
 import { type NextApiRequest, type NextApiResponse } from "next";
-import axios, { Axios, AxiosError } from "axios";
-
-require("dotenv").config();
+import axios from "axios";
+import { env } from "@/env/client";
 
 export default async function handler(
   req: NextApiRequest,
@@ -13,7 +12,7 @@ export default async function handler(
     //console.log(`${name} ${WatIAM} ${email} ${password} ${faculty} ${term} ${advert} ${ideas}`);
 
     await axios({
-      url: process.env.NEXT_PUBLIC_UWDSC_WEBSITE_SERVER_URL + "/api/users/user",
+      url: env.NEXT_PUBLIC_UWDSC_WEBSITE_SERVER_URL + "/api/users/user",
       method: "POST",
       headers: {
         "Content-Type": "application/json",

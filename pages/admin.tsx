@@ -1,6 +1,7 @@
 import SectionTitle from "@/components/UI/SectionTitle";
 import withAuth from "@/components/permissions/authPage";
 import AdminTable from "@/components/tables/AdminTable";
+import { ROLES } from "@/constants/roles";
 
 require("dotenv").config();
 
@@ -21,4 +22,4 @@ function Admin() {
   );
 }
 
-export default withAuth(Admin, ["admin"]);
+export default withAuth(Admin, [ROLES.ADMIN]);

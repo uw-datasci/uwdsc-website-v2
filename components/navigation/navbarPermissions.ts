@@ -5,7 +5,7 @@ export const NAVBAR_ROUTES = {
     { label: "Team", route: "/team" },
     { label: "Contact", route: "/#contact" },
   ],
-  USER: [
+  MEMBER: [
     { label: "Home", route: "/" },
     { label: "CxC", route: "/cxc" },
     { label: "Team", route: "/team" },

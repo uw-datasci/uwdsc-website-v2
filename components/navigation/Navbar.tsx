@@ -14,6 +14,7 @@ import { logout } from "@/store/slices/loginTokenSlice";
 import DropdownNavbarTitle from "./DropdownNavbarTitle";
 import { NAVBAR_ROUTES } from "./navbarPermissions";
 import DropdownNavbarTitleCollapse from "./DropdownNavbarTitleCollapse";
+import { ROLES } from "@/constants/roles";
 
 const SOCIALS = [
   {
@@ -54,14 +55,16 @@ export default function Navbar() {
   const router = useRouter();
 
   useEffect(() => {
-    if (signedIn) {
-      if (userRole === "admin") {
+    switch (userRole) {
+      case ROLES.ADMIN:
         setRoutes(NAVBAR_ROUTES.ADMIN);
-      } else {
-        setRoutes(NAVBAR_ROUTES.USER);
-      }
-    } else {
-      setRoutes(NAVBAR_ROUTES.NOT_LOGGED_IN);
+        break;
+      case ROLES.MEMBER:
+        setRoutes(NAVBAR_ROUTES.MEMBER);
+        break;
+      default:
+        setRoutes(NAVBAR_ROUTES.NOT_LOGGED_IN);
+        break;
     }
   }, [signedIn, router.pathname]);
 

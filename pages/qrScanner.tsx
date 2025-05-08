@@ -17,6 +17,7 @@ import React from "react";
 import SingleDropdown from "@/components/UI/Inputs/UWDSC/SingleDropdown";
 import InputFeedback from "@/components/UI/Inputs/UWDSC/InputFeedback";
 import moment from "moment-timezone";
+import { ROLES } from "@/constants/roles";
 
 interface ScannedResult {
   id: string;
@@ -478,4 +479,4 @@ const QrScannerPage = () => {
   );
 };
 
-export default withAuth(QrScannerPage, ["admin"]);
+export default withAuth(QrScannerPage, [ROLES.ADMIN]);
