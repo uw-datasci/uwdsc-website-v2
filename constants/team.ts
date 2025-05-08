@@ -30,6 +30,7 @@ import dishitaChawla from "@/public/teams/Dishita-Chawla.jpg";
 import ericHuang from "@/public/teams/Eric-Huang.jpg";
 import ethanBencich from "@/public/teams/Ethan-Bencich.jpg";
 import frankChen from "@/public/teams/Frank-Chen.jpeg";
+import giangTran from "@/public/teams/Giang-Tran.jpg";
 import isaacJiang from "@/public/teams/Isaac-Jiang.jpg";
 import isabelleLobo from "@/public/teams/Isabelle-Lobo.png";
 import ishirLakhani from "@/public/teams/Ishir-Lakhani.png";
@@ -145,16 +146,22 @@ export const TEAM: Subteam[] = [
         image: jessicaYing,
       }, 
       {
+        id: "an-tran",
+        name: "An Tran",
+        position: "Developer",
+        image: anTran,
+      },
+      {
         id: "monica-trinh",
         name: "Monica Trinh",
         position: "Product Designer",
         image: monicaTrinh,
       },
       {
-        id: "an-tran",
-        name: "An Tran",
-        position: "Developer",
-        image: anTran,
+        id: "giang-tran",
+        name: "Giang Tran",
+        position: "Product Designer",
+        image: giangTran,
       },
     ],
   },
