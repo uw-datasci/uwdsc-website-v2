@@ -16,6 +16,7 @@ import annieWong from "@/public/teams/Annie-Wong.jpg";
 import anTran from "@/public/teams/An-Tran.jpg";
 import ayushAyush from "@/public/teams/Ayush-Garg.jpg";
 import bethanyLiu from "@/public/teams/Bethany-Liu.jpeg";
+import brianAn from "@/public/teams/Brian-An.png";
 import chantalZhang from "@/public/teams/Chantal-Zhang.jpg";
 import chowShengLiang from "@/public/teams/Sheng-Liang-Chow.jpeg";
 import claireLiu from "@/public/teams/Claire-Liu.jpg";
@@ -35,8 +36,8 @@ import ishirLakhani from "@/public/teams/Ishir-Lakhani.png";
 import jacobYan from "@/public/teams/Jacob-Yan.png";
 import jeffreyKasa from "@/public/teams/Jeffrey-Kasa.jpg";
 import jennyYu from "@/public/teams/Jenny-Yu.jpeg";
-// import jocelynXu from "@/public/teams/Jocelyn-Xu.jpg";
-// jpg issue
+import jessicaYing from "@/public/teams/Jessica-Ying.jpg";
+import jocelynXu from "@/public/teams/Jocelyn-Xu.jpg";
 import joshuaLi from "@/public/teams/Joshua-Li.jpg";
 //import justinBaiyuWang from "@/public/teams/Justin-Wang";
 //import karthikKrishnaViriyala from "@/public/teams/Karthik-Viriyala";
@@ -70,8 +71,7 @@ import tanayKashyap from "@/public/teams/Tanay-Kashyap.jpg";
 import winstonYu from "@/public/teams/Winston-Yu.jpg";
 import yiJiaHuang from "@/public/teams/Jia-Huang.jpeg";
 import yolandaJian from "@/public/teams/Yolanda-Jian.jpg";
-import brianAn from "@/public/teams/Brian-An.png";
-import jessicaYing from "@/public/teams/Jessica-Ying.jpg";
+
 export const TEAM: Subteam[] = [
   {
     id: "presidents",
@@ -124,6 +124,12 @@ export const TEAM: Subteam[] = [
         name: "Brian An",
         position: "Developer",
         image: brianAn,
+      },
+      {
+        id: "jocelyn-xu",
+        name: "Jocelyn Xu",
+        position: "Developer",
+        image: jocelynXu,
       },
       {
         id: "jessica-ying",
