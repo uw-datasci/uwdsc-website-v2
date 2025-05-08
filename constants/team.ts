@@ -143,6 +143,12 @@ export const TEAM: Subteam[] = [
         position: "Product Designer",
         image: monicaTrinh,
       },
+      {
+        id: "an-tran",
+        name: "An Tran",
+        position: "Developer",
+        image: anTran,
+      },
     ],
   },
   {
