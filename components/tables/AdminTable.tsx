@@ -17,12 +17,25 @@ import {
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import UserFormCard from "../cards/UserFormCard";
-import { deleteUser, fetchUsers, createUser, editUser } from "@/utils/apiCalls";
+import {
+  deleteUser,
+  fetchUsers,
+  createUser,
+  editUser,
+  getEvents,
+} from "@/utils/apiCalls";
 import TableCell from "./TableCell";
 import EditCell from "./EditCell";
 import Pagination from "./Pagination";
 import { RankingInfo, rankItem } from "@tanstack/match-sorter-utils";
-import { MdRefresh, MdOutlineAddCircleOutline } from "react-icons/md";
+import {
+  MdRefresh,
+  MdOutlineAddCircleOutline,
+  MdOutlineQrCodeScanner,
+} from "react-icons/md";
+import { QrScannerCamera } from "../qr/camera";
+import QrFormCard from "../qr/qrForm";
+import InputFeedback from "../UI/InputFeedback";
 
 require("dotenv").config();
 
@@ -101,6 +114,9 @@ const getCommonPinningStyles = (column: Column<User>): CSSProperties => {
 };
 
 const AdminTable = () => {
+  const userState = useSelector((state: RootState) => state.loginToken);
+  const token = userState.token;
+  const name = userState.name;
   const [data, setData] = useState<User[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [pagination, setPagination] = React.useState<PaginationState>({
@@ -113,6 +129,43 @@ const AdminTable = () => {
   const [editedRowId, setEditedRowId] = useState<string | null>(null);
   const [globalFilter, setGlobalFilter] = useState<string>("");
   const [autoResetPageIndex, skipAutoResetPageIndex] = useSkipper();
+  const [showQrScanner, setShowQrScanner] = useState<boolean>(false);
+  const [showQrForm, setShowQrForm] = useState<boolean>(false);
+  const [qrPaidFormData, setQrPaidFormData] = useState<User | null>(null);
+  const [eventList, setEventList] = useState<any>(null);
+  const [alertMsg, setAlertMsg] = useState<string | null>(null);
+  const [alertStatus, setAlertStatus] = useState<"success" | "error">("error");
+
+  const handleQrScan = async (data: User) => {
+    if (data.hasPaid === "True") {
+      setAlertMsg("User has already paid.");
+      setAlertStatus("error");
+      setTimeout(() => setAlertMsg(null), 3000);
+      return;
+    }
+
+    if (data.username === name) {
+      setAlertMsg("You cannot mark yourself as paid.");
+      setAlertStatus("error");
+      setTimeout(() => setAlertMsg(null), 3000);
+      return;
+    }
+
+    const response = (await getEvents(new Date(), new Date(), true)).data
+      .events;
+    setEventList(response.map((event: any) => event.name));
+    setQrPaidFormData(data);
+  };
+
+  const resetForm = () => {
+    setQrPaidFormData(null);
+    setShowQrForm(false);
+  };
+
+  const handleRescanQrCode = () => {
+    resetForm();
+    setShowQrScanner(true);
+  };
 
   const handleSaveClick = async () => {
     if (!editFormData) {
@@ -302,8 +355,6 @@ const AdminTable = () => {
     [],
   );
 
-  const token = useSelector((state: RootState) => state.loginToken.token);
-
   const table = useReactTable({
     data,
     columns,
@@ -380,6 +431,29 @@ const AdminTable = () => {
     }
   };
 
+  const handlePaidSubmit = async (user: User) => {
+    await editUser({
+      token: token,
+      userId: user._id,
+      newUser: user,
+    });
+    resetForm();
+    await fetchUserData();
+    setAlertMsg("User has been updated successfully.");
+    setAlertStatus("success");
+    setTimeout(() => setAlertMsg(null), 3000);
+  };
+
+  const handleQrError = (status: number) => {
+    setAlertStatus("error");
+    if (status === 404) {
+      setAlertMsg("Scan failed, user is not registered for this event.");
+    } else {
+      setAlertMsg("Scan failed, something went wrong.");
+    }
+    setTimeout(() => setAlertMsg(null), 3000);
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center">
@@ -396,6 +470,40 @@ const AdminTable = () => {
           onCancel={() => setShowAddUserForm(false)}
         />
       )}
+      {(showQrScanner || showQrForm) && (
+        <div className="mx-auto mb-5 w-[70%] rounded-md border-[1px] border-white p-4 text-sm font-medium uppercase shadow-md">
+          {showQrScanner && (
+            <QrScannerCamera
+              onCancel={() => setShowQrScanner(false)}
+              onScanComplete={() => {
+                setShowQrScanner(false);
+                setShowQrForm(true);
+              }}
+              handleQrScan={handleQrScan}
+              handleError={handleQrError}
+            />
+          )}
+
+          {showQrForm && (
+            <QrFormCard
+              initialUserData={qrPaidFormData}
+              onFormSubmit={handlePaidSubmit}
+              onCancel={() => setShowQrForm(false)}
+              rescanQrCode={handleRescanQrCode}
+              eventList={eventList}
+            />
+          )}
+        </div>
+      )}
+
+      {alertMsg && (
+        <div className="mb-5">
+          <InputFeedback classes="text-center" state={alertStatus}>
+            {alertMsg}
+          </InputFeedback>
+        </div>
+      )}
+
       {/* Filter + Refresh + Add */}
       <div className="mb-5 flex w-full justify-between gap-3">
         <DebouncedInput
@@ -415,6 +523,12 @@ const AdminTable = () => {
           className="flex h-10 w-10 items-center justify-center rounded-sm bg-grey2 p-2"
         >
           <MdOutlineAddCircleOutline />
+        </button>
+        <button
+          onClick={() => setShowQrScanner(true)}
+          className="flex h-10 w-10 items-center justify-center rounded-sm bg-grey2 p-2"
+        >
+          <MdOutlineQrCodeScanner />
         </button>
       </div>
       {/* Table Component */}

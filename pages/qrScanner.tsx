@@ -475,6 +475,7 @@ const QrScannerPage = () => {
         )}
       </section>
     </>
+
   );
 };
 
