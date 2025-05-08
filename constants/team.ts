@@ -37,8 +37,8 @@ import ishirLakhani from "@/public/teams/Ishir-Lakhani.png";
 import jacobYan from "@/public/teams/Jacob-Yan.png";
 import jeffreyKasa from "@/public/teams/Jeffrey-Kasa.jpg";
 import jennyYu from "@/public/teams/Jenny-Yu.jpeg";
-// import jocelynXu from "@/public/teams/Jocelyn-Xu.jpg";
-// jpg issue
+import jessicaYing from "@/public/teams/Jessica-Ying.jpg";
+import jocelynXu from "@/public/teams/Jocelyn-Xu.jpg";
 import joshuaLi from "@/public/teams/Joshua-Li.jpg";
 //import justinBaiyuWang from "@/public/teams/Justin-Wang";
 //import karthikKrishnaViriyala from "@/public/teams/Karthik-Viriyala";
@@ -46,7 +46,8 @@ import kateColby from "@/public/teams/Kate-Colby.jpeg";
 import kaushikChatterjee from "@/public/teams/Kaushik-Chatterjee.jpeg";
 import kimGuo from "@/public/teams/Kim-Guo.jpg";
 import lukaSpinoti from "@/public/teams/Luka-Spinoti.jpg";
-import mahdiKhunt from "@/public/teams/Mahdi-Khunt.png";
+import lydiaHe from "@/public/teams/Lydia-He.jpeg";
+import mahdiKhunt from "@/public/teams/Mahdi-Khunt.jpeg";
 import marcusLuong from "@/public/teams/Marcus-Luong.jpg";
 import marcusNg from "@/public/teams/Marcus-Ng.jpg";
 import meeraMehta from "@/public/teams/Meera-Mehta.jpeg";
@@ -54,6 +55,8 @@ import methuliAmarasinghe from "@/public/teams/Methuli-Amarasinghe.jpeg";
 import michaelZhang from "@/public/teams/Michael-Zhang.jpg";
 //import millyChai from "@/public/teams/Milly-Chai";
 import mincyYang from "@/public/teams/Mincy-Yang.png";
+import monicaTrinh from  "@/public/teams/Monica-Trinh.jpg";
+
 //import monicaTrinh from "@/public/teams/Monica-Trinh";
 import nahalHabibizadeh from "@/public/teams/Nahal-Habibizadeh.jpeg";
 import nimishPatri from "@/public/teams/Nimish-Patri.jpg";
@@ -70,6 +73,7 @@ import tanayKashyap from "@/public/teams/Tanay-Kashyap.jpg";
 import winstonYu from "@/public/teams/Winston-Yu.jpg";
 import yiJiaHuang from "@/public/teams/Jia-Huang.jpeg";
 import yolandaJian from "@/public/teams/Yolanda-Jian.jpg";
+
 export const TEAM: Subteam[] = [
   {
     id: "presidents",
@@ -122,6 +126,42 @@ export const TEAM: Subteam[] = [
         name: "Brian An",
         position: "Developer",
         image: brianAn,
+      },
+      {
+        id: "lydia-he",
+        name: "Lydia He",
+        position: "Developer",
+        image: lydiaHe,
+      },
+      {
+        id: "jocelyn-xu",
+        name: "Jocelyn Xu",
+        position: "Developer",
+        image: jocelynXu,
+      },
+      {
+        id: "jessica-ying",
+        name: "Jessica Ying",
+        position: "Developer",
+        image: jessicaYing,
+      }, 
+      {
+        id: "mahdi-khunt",
+        name: "Mahdi Raza Khunt",
+        position: "Developer",
+        image: mahdiKhunt,
+      },
+      {
+        id: "monica-trinh",
+        name: "Monica Trinh",
+        position: "Product Designer",
+        image: monicaTrinh,
+      },
+      {
+        id: "an-tran",
+        name: "An Tran",
+        position: "Developer",
+        image: anTran,
       },
     ],
   },
