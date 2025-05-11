@@ -42,7 +42,7 @@ import jessicaYing from "@/public/teams/Jessica-Ying.jpg";
 import jocelynXu from "@/public/teams/Jocelyn-Xu.jpg";
 import joshuaLi from "@/public/teams/Joshua-Li.jpg";
 //import justinBaiyuWang from "@/public/teams/Justin-Wang";
-//import karthikKrishnaViriyala from "@/public/teams/Karthik-Viriyala";
+import karthikViriyala from "@/public/teams/Karthik-Viriyala.jpeg";
 import kateColby from "@/public/teams/Kate-Colby.jpeg";
 import kaushikChatterjee from "@/public/teams/Kaushik-Chatterjee.jpeg";
 import kimGuo from "@/public/teams/Kim-Guo.jpg";
@@ -56,7 +56,7 @@ import methuliAmarasinghe from "@/public/teams/Methuli-Amarasinghe.jpeg";
 import michaelZhang from "@/public/teams/Michael-Zhang.jpg";
 //import millyChai from "@/public/teams/Milly-Chai";
 import mincyYang from "@/public/teams/Mincy-Yang.png";
-import monicaTrinh from  "@/public/teams/Monica-Trinh.jpg";
+import monicaTrinh from "@/public/teams/Monica-Trinh.jpg";
 
 //import monicaTrinh from "@/public/teams/Monica-Trinh";
 import nahalHabibizadeh from "@/public/teams/Nahal-Habibizadeh.jpeg";
@@ -146,9 +146,8 @@ export const TEAM: Subteam[] = [
         name: "Jessica Ying",
         position: "Developer",
         image: jessicaYing,
-      }, 
+      },
       {
-
         id: "an-tran",
         name: "An Tran",
         position: "Developer",
@@ -159,6 +158,12 @@ export const TEAM: Subteam[] = [
         name: "Mahdi Raza Khunt",
         position: "Developer",
         image: mahdiKhunt,
+      },
+      {
+        id: "karthik-viriyala",
+        name: "Karthik Krishna Viriyala",
+        position: "Developer",
+        image: karthikViriyala,
       },
       {
         id: "monica-trinh",
