@@ -183,6 +183,12 @@ export const TEAM: Subteam[] = [
         position: "Developer",
         image: aditiJha,
       },
+      {
+        id: "aaryan-patel",
+        name: "Aaryan Patel",
+        position: "Developer",
+        image: aaryanPatel,
+      },
     ],
   },
   {
