@@ -42,7 +42,7 @@ import jessicaYing from "@/public/teams/Jessica-Ying.jpg";
 import jocelynXu from "@/public/teams/Jocelyn-Xu.jpg";
 import joshuaLi from "@/public/teams/Joshua-Li.jpg";
 //import justinBaiyuWang from "@/public/teams/Justin-Wang";
-//import karthikKrishnaViriyala from "@/public/teams/Karthik-Viriyala";
+import karthikViriyala from "@/public/teams/Karthik-Viriyala.jpeg";
 import kateColby from "@/public/teams/Kate-Colby.jpeg";
 import kaushikChatterjee from "@/public/teams/Kaushik-Chatterjee.jpeg";
 import kimGuo from "@/public/teams/Kim-Guo.jpg";
@@ -158,6 +158,12 @@ export const TEAM: Subteam[] = [
         name: "Mahdi Raza Khunt",
         position: "Developer",
         image: mahdiKhunt,
+      },
+      {
+        id: "karthik-viriyala",
+        name: "Karthik Krishna Viriyala",
+        position: "Developer",
+        image: karthikViriyala,
       },
       {
         id: "monica-trinh",
