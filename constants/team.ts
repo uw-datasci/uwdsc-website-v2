@@ -56,7 +56,7 @@ import methuliAmarasinghe from "@/public/teams/Methuli-Amarasinghe.jpeg";
 import michaelZhang from "@/public/teams/Michael-Zhang.jpg";
 //import millyChai from "@/public/teams/Milly-Chai";
 import mincyYang from "@/public/teams/Mincy-Yang.png";
-import monicaTrinh from  "@/public/teams/Monica-Trinh.jpg";
+import monicaTrinh from "@/public/teams/Monica-Trinh.jpg";
 
 //import monicaTrinh from "@/public/teams/Monica-Trinh";
 import nahalHabibizadeh from "@/public/teams/Nahal-Habibizadeh.jpeg";
@@ -146,9 +146,8 @@ export const TEAM: Subteam[] = [
         name: "Jessica Ying",
         position: "Developer",
         image: jessicaYing,
-      }, 
+      },
       {
-
         id: "an-tran",
         name: "An Tran",
         position: "Developer",
@@ -177,6 +176,12 @@ export const TEAM: Subteam[] = [
         name: "Aditi Jha",
         position: "Developer",
         image: aditiJha,
+      },
+      {
+        id: "aaryan-patel",
+        name: "Aaryan Patel",
+        position: "Developer",
+        image: aaryanPatel,
       },
     ],
   },
