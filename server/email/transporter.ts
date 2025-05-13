@@ -1,4 +1,5 @@
 import nodemailer from "nodemailer";
+import { env } from "@/env/server";
 
 export const transporter = nodemailer.createTransport({
   service: "gmail",
@@ -6,7 +7,7 @@ export const transporter = nodemailer.createTransport({
   port: 465,
   secure: true,
   auth: {
-    user: "EMAIL ADDRESS (REPLACE WHEN RELIABLE ACCOUNT IS FOUND)",
-    pass: "APPLICATION PASSWORD OF GOOGLE ACCOUNT (2FA REQUIRED)",
+    user: env.EMAIL_USER,
+    pass: env.EMAIL_APPLICATION_PASSWORD,
   },
 });

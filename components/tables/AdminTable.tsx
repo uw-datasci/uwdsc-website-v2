@@ -17,7 +17,12 @@ import {
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import UserFormCard from "../cards/UserFormCard";
-import { deleteUser, fetchUsers, createUser, editUser } from "@/utils/apiCalls";
+import {
+  deleteUser,
+  getAllMembers,
+  createUser,
+  editUser,
+} from "@/utils/apiCalls";
 import TableCell from "./TableCell";
 import EditCell from "./EditCell";
 import Pagination from "./Pagination";
@@ -25,6 +30,7 @@ import { RankingInfo, rankItem } from "@tanstack/match-sorter-utils";
 import { MdRefresh, MdOutlineAddCircleOutline } from "react-icons/md";
 import { roleOptions, ROLES } from "@/constants/roles";
 import { facultyOptions, paymentMethodOptions } from "@/constants/member";
+import { trpc } from "@/utils/trpc";
 
 require("dotenv").config();
 
@@ -149,7 +155,7 @@ const AdminTable = () => {
     setEditedRowId(null);
     setEditFormData(null);
     setOldEditFormData(null);
-    fetchUserData();
+    await refetchMembers();
   };
 
   const restoreOriginalUser = () => {
@@ -186,7 +192,7 @@ const AdminTable = () => {
         console.log("Deleting user with ID:", userId);
         const response = await deleteUser({ token: token, userId: userId });
         console.log("Done Deleted user with ID:", userId);
-        await fetchUserData(); // TODO: refetching the table data again, maybe not ideal
+        await refetchMembers();
         return response;
       } catch (error) {
         console.error("Error Deleting user:", error);
@@ -242,7 +248,7 @@ const AdminTable = () => {
         },
       },
       {
-        accessorKey: "userStatus",
+        accessorKey: "role",
         header: "Status",
         cell: TableCell,
         meta: {
@@ -350,21 +356,40 @@ const AdminTable = () => {
     },
   });
 
-  useEffect(() => {
-    fetchUserData();
-  }, [token]);
+  const {
+    data: members,
+    isLoading: usersLoading,
+    refetch: refetchMembers,
+    error,
+  } = trpc.members.getById.useQuery(
+    { ids: [], retrieveAll: true },
+    { enabled: !!token }
+  );
 
-  const fetchUserData = async () => {
-    setLoading(true);
-    try {
-      const response = await fetchUsers({ token: token });
-      setData(response.data.users);
-    } catch (error) {
-      console.error("Error fetching users:", error);
-    } finally {
-      setLoading(false);
+  useEffect(() => {
+    if (members) {
+      // Cast/transform Member[] → User[]
+      const mappedUsers: User[] = members.map((m: any) => ({
+        _id: m._id,
+        watIAM: m.watIAM ?? "",
+        username: m.username,
+        faculty: m.faculty,
+        email: m.email,
+        password: m.password ?? "",
+        role: m.role,
+        hasPaid: m.hasPaid ? "True" : "False",
+        paymentMethod: m.paymentMethod ?? "",
+        verifier: m.verifier ?? "",
+        paymentLocation: m.paymentLocation ?? "",
+        isEmailVerified: m.isEmailVerified ? "True" : "False",
+      }));
+      setData(mappedUsers);
     }
-  };
+  }, [members]);
+
+  useEffect(() => {
+    if (token) refetchMembers();
+  }, [token]);
 
   const handleCreateUser = async (newUser: User) => {
     setLoading(true);
@@ -373,7 +398,7 @@ const AdminTable = () => {
       const response = await createUser({ token: token, newUser: newUser });
       console.log("Created user:");
       setShowAddUserForm(false);
-      await fetchUserData();
+      await refetchMembers();
       return response;
     } catch (error) {
       console.error("Error Creating user:", error);
@@ -408,7 +433,7 @@ const AdminTable = () => {
           placeholder="Search all columns..."
         />
         <button
-          onClick={fetchUserData}
+          onClick={() => refetchMembers()}
           className="flex h-10 w-10 items-center justify-center rounded-sm bg-grey2 p-2"
         >
           <MdRefresh />

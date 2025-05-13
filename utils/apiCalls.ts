@@ -1,6 +1,7 @@
 import { RootState } from "@/store/store";
 import axios from "axios";
 import store from "../store/store";
+import { trpc } from "./trpc";
 
 //Other
 export const sendContactEmail = async (values: Record<string, string>) => {
@@ -12,8 +13,8 @@ export const sendSponsorEmail = async (values: Record<string, string>) => {
 };
 
 //Admin
-export const fetchUsers = async (values: Record<string, string>) => {
-  return await axios.post("/api/UWDSC/admin/getAllUsers", values);
+export const getAllMembers = async () => {
+  return trpc.members.getById.useQuery({ ids: [], retrieveAll: true });
 };
 
 export const createUser = async (values: Record<string, any>) => {
@@ -153,13 +154,16 @@ export const patchCheckInRegistrantToSubEventById = async (
   userId: string,
   eventSecret: string,
 ) => {
-  return await axios.post("/api/UWDSC/admin/patchCheckInRegistrantToSubEventById", {
-    token: store.getState().loginToken.token,
-    eventId,
-    subEventId,
-    userId,
-    eventSecret,
-  });
+  return await axios.post(
+    "/api/UWDSC/admin/patchCheckInRegistrantToSubEventById",
+    {
+      token: store.getState().loginToken.token,
+      eventId,
+      subEventId,
+      userId,
+      eventSecret,
+    },
+  );
 };
 
 export const getRegistrationByID = async (eventId: string, userId: string) => {

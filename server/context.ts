@@ -10,13 +10,12 @@ export async function createContext({
   req: NextApiRequest;
   res: NextApiResponse;
 }) {
-  
   const mongoose = await connectToDB();
   const auth = req.headers.authorization;
   const token = auth?.split(" ")[1];
   let user = null;
 
-  if ( auth?.startsWith("Bearer") && token ) {
+  if (auth?.startsWith("Bearer") && token) {
     try {
       user = decodeJWT(token);
     } catch (err) {

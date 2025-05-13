@@ -1,3 +1,7 @@
+/**
+ * Authentication procedures for the UWDSC TRPC API.
+ * Each procedure is documented with JSDoc and `publicProcedure.meta`
+ */
 import { publicProcedure } from "../../trpc";
 import { z } from "zod";
 import { signJWT } from "@/server/auth";
@@ -8,27 +12,38 @@ import { SignInFormTypeSchema, SignUpFormTypeSchema } from "@/constants/forms";
 import { v4 as uuidv4 } from "uuid";
 import fs from "fs";
 import { transporter } from "@/server/email/transporter";
-import { env } from "@/env/client";
+import { env as clientEnv } from "@/env/client";
+import { env as serverEnv } from "@/env/server";
+import path from "path";
 
 export const authProcedures = {
+  /**
+   * Login
+   * @summary Authenticate a member and issue a JWT
+   * @description Validates the member’s email + password, ensures the email is verified, and returns an access token along with basic profile info.
+   */
   login: publicProcedure
-    .input(SignInFormTypeSchema)
+    .meta({
+      description:
+        "Authenticate a verified member and return a JWT access token with member's JWT, name, and role.",
+    })
+    .input(SignInFormTypeSchema.strict())
     .output(
       z.object({
-        accessToken: z.string(),
-        name: z.string(),
-        role: z.string(),
+        accessToken: z.string().min(1),
+        name: z.string().min(1),
+        role: z.string().min(1),
       }),
     )
     .query(async (opts) => {
       const { email, password } = opts.input;
 
-      const user = await memberModel
-        .findOne({ email: email })
-        .lean({ virtuals: true });
+      const user = await memberModel.findOne({ email: email }).lean();
 
-      if (!user || (await bcrypt.compare(password, user.password))) {
-        console.error(`Failed to find member with email: ${email}`);
+      if (!user || !(await bcrypt.compare(password, user.password))) {
+        console.error(
+          `Failed to find member with email: ${email} or password was invalid`,
+        );
         throw new TRPCError({
           code: "UNAUTHORIZED",
           message: "Invalid email or password.",
@@ -45,19 +60,28 @@ export const authProcedures = {
         accessToken: signJWT({
           username: user.username,
           email: user.email,
-          id: user.id,
-          userStatus: user.userStatus,
+          id: user._id,
+          role: user.role,
         }),
         name: user.username,
-        role: user.userStatus,
+        role: user.role,
       };
     }),
 
+  /**
+   * Register member
+   * @summary Create a new member account
+   * @description Creates a member record, hashes the password, and stores onboarding metadata. Throws if the email already exists.
+   */
   registerMember: publicProcedure
+    .meta({
+      description:
+        "Create a new member record and return the registered email.",
+    })
     .input(SignUpFormTypeSchema)
     .output(
       z.object({
-        email: z.string(),
+        email: z.string().email(),
       }),
     )
     .mutation(async (opts) => {
@@ -75,7 +99,7 @@ export const authProcedures = {
 
       if (existingUser && !existingUser.isEmailVerified) {
         console.error(
-          `${existingUser.username}(${existingUser.id}) is already registered but not verified`,
+          `${existingUser.username}(${existingUser._id}) is already registered but not verified`,
         );
         throw new TRPCError({
           code: "UNAUTHORIZED",
@@ -85,7 +109,7 @@ export const authProcedures = {
 
       if (existingUser) {
         console.error(
-          `${existingUser.username}(${existingUser.id}) is already registered`,
+          `${existingUser.username}(${existingUser._id}) is already registered`,
         );
         throw new TRPCError({
           code: "CONFLICT",
@@ -116,10 +140,18 @@ export const authProcedures = {
       }
     }),
 
+  /**
+   * Send verification email
+   * @summary Trigger account‑verification email
+   * @description Generates a time‑limited verification token and emails a verification link to the member.
+   */
   sendVerificationEmail: publicProcedure
+    .meta({
+      description: "Generate a verification token and email it to the member.",
+    })
     .input(
       z.object({
-        email: z.string().email(),
+        email: z.string().email().describe("[Member] Unique email"),
       }),
     )
     .output(z.void())
@@ -156,25 +188,28 @@ export const authProcedures = {
 
       try {
         const emailHtml = fs
-          .readFileSync("../../email/verification.html", "utf8")
+          .readFileSync(
+            path.join(process.cwd(), "server/email/forgotpassword.html"),
+            "utf8",
+          )
           .replace(
             "<custom-link>",
-            `${env.NEXT_PUBLIC_UWDSC_WEBSITE_SERVER_URL}/account/verification?id=${user.id}&token=${token}`,
+            `${clientEnv.NEXT_PUBLIC_UWDSC_WEBSITE_SERVER_URL}/account/verification?id=${user.id}&token=${token}`,
           )
           .replace("<custom-email>", email);
 
         await transporter.sendMail({
           from: {
             name: "DSC Automated Mail",
-            address: "membership-no-reply-f24@uwdatascience.ca", //EMAIL ADDRESS (REPLACE WHEN RELIABLE ACCOUNT IS FOUND)
+            address: serverEnv.EMAIL_USER,
           },
           to: email,
-          subject: "DSC Account Confirmation",
+          subject: "DSC Account Verification",
           html: emailHtml,
           attachments: [
             {
               filename: "dsc.svg",
-              path: __dirname + "../../email/dsc.svg",
+              path: path.join(process.cwd(), "server/email/dsc.svg"),
               cid: "logo", //same cid value as in the html img src
             },
           ],
@@ -194,16 +229,30 @@ export const authProcedures = {
       return;
     }),
 
+  /**
+   * Verify email
+   * @summary Mark member email as verified
+   * @description Validates the provided verification token and marks the member's email as verified.
+   */
   verifyEmail: publicProcedure
-    .input(z.object({ email: z.string().email(), token: z.string().min(1) }))
+    .meta({
+      description:
+        "Validate a verification token and mark the member email as verified.",
+    })
+    .input(
+      z.object({
+        id: z.string().min(1).describe("[Member] Unique ID"),
+        token: z.string().min(1).describe("[Member] Token hash"),
+      }),
+    )
     .output(z.void())
     .mutation(async (opts) => {
-      const { email, token } = opts.input;
+      const { id, token } = opts.input;
 
-      const user = await memberModel.findOne({ email: email });
+      const user = await memberModel.findById(id);
 
       if (!user) {
-        console.error(`Member with ${email} was not found`);
+        console.error(`Member with id: ${id} was not found`);
         throw new TRPCError({
           code: "INTERNAL_SERVER_ERROR",
           message: "Failed to verify user",
@@ -224,6 +273,14 @@ export const authProcedures = {
         user.token.expires <= new Date() ||
         user.token.purpose != "Verification"
       ) {
+        if (user.token.purpose == "Verification") {
+          user.token = {
+            hash: "",
+            expires: new Date(),
+            purpose: "",
+          };
+          user.save();
+        }
         console.error(
           `${user.username}(${user.id}) did not have a token initialized or provided an invalid token`,
         );
@@ -244,10 +301,19 @@ export const authProcedures = {
       return;
     }),
 
+  /**
+   * Send forgot‑password email
+   * @summary Initiate password reset flow
+   * @description Generates a password‑reset token and emails a reset link to the member.
+   */
   sendForgotPasswordEmail: publicProcedure
+    .meta({
+      description:
+        "Generate a password‑reset token and email it to the member.",
+    })
     .input(
       z.object({
-        email: z.string().email(),
+        email: z.string().email().describe("[Member] Unique email"),
       }),
     )
     .output(z.void())
@@ -274,25 +340,28 @@ export const authProcedures = {
 
       try {
         const emailHtml = fs
-          .readFileSync("../../email/verification.html", "utf8")
+          .readFileSync(
+            path.join(process.cwd(), "server/email/forgotpassword.html"),
+            "utf8",
+          )
           .replace(
             "<custom-link>",
-            `${env.NEXT_PUBLIC_UWDSC_WEBSITE_SERVER_URL}/account/resetPassword?id=${user.id}&token=${token}`,
+            `${clientEnv.NEXT_PUBLIC_UWDSC_WEBSITE_SERVER_URL}/account/resetPassword?id=${user.id}&token=${token}`,
           )
           .replace("<custom-email>", email);
 
         await transporter.sendMail({
           from: {
             name: "DSC Automated Mail",
-            address: "membership-no-reply-f24@uwdatascience.ca", // EMAIL ADDRESS (REPLACE WHEN RELIABLE ACCOUNT IS FOUND)
+            address: serverEnv.EMAIL_USER,
           },
           to: email,
-          subject: "DSC Account Confirmation",
+          subject: "DSC Reset Account",
           html: emailHtml,
           attachments: [
             {
               filename: "dsc.svg",
-              path: __dirname + "../../email/dsc.svg",
+              path: path.join(process.cwd(), "server/email/dsc.svg"),
               cid: "logo", //same cid value as in the html img src
             },
           ],
@@ -314,22 +383,30 @@ export const authProcedures = {
       return;
     }),
 
+  /**
+   * Reset password
+   * @summary Reset member password using token
+   * @description Hashes and sets a new password after validating the reset token.
+   */
   resetPassword: publicProcedure
+    .meta({
+      description: "Validate reset token and update the member password.",
+    })
     .input(
       z.object({
-        email: z.string().email(),
-        token: z.string().min(1),
-        newPass: z.string().min(8),
+        id: z.string().min(1).describe("[Member] Unique ID"),
+        token: z.string().min(1).describe("[Member] Token hash"),
+        newPass: z.string().min(8).describe("[Member] Unencrypted password"),
       }),
     )
     .output(z.void())
     .mutation(async (opts) => {
-      const { email, token, newPass } = opts.input;
+      const { id, token, newPass } = opts.input;
 
-      const user = await memberModel.findOne({ email: email });
+      const user = await memberModel.findById(id);
 
       if (!user) {
-        console.error(`Member with ${email} was not found`);
+        console.error(`Member with id: ${id} was not found`);
         throw new TRPCError({
           code: "INTERNAL_SERVER_ERROR",
           message: "Failed to reset password",
@@ -340,8 +417,16 @@ export const authProcedures = {
         user.token.hash == "" ||
         user.token.hash != token ||
         user.token.expires <= new Date() ||
-        user.token.purpose != "Verification"
+        user.token.purpose != "Reset Password"
       ) {
+        if (user.token.purpose == "Reset Password") {
+          user.token = {
+            hash: "",
+            expires: new Date(),
+            purpose: "",
+          };
+          user.save();
+        }
         console.error(
           `${user.username}(${user.id}) did not have a token initialized or provided an invalid token`,
         );

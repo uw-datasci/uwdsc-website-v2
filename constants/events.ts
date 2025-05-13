@@ -17,7 +17,6 @@ import c2 from "@/public/cxc/c2.jpg";
 import c3 from "@/public/cxc/c3.jpg";
 import c4 from "@/public/cxc/c4.jpg";
 
-
 export const UPCOMING_EVENTS: Event[] = [
   {
     id: "0",
@@ -75,7 +74,7 @@ export const PAST_EVENTS: Event[] = [
     id: "1",
     title: "Cohere Workshop",
     image: cohereWorkshop,
-  }
+  },
 ];
 
 export const PAST_CXC: Photo[] = [
@@ -94,10 +93,10 @@ export const PAST_CXC: Photo[] = [
     title: "c2",
     image: c2,
   },
-  
+
   {
     id: "4",
     title: "c4",
     image: c4,
-  }
-]
+  },
+];

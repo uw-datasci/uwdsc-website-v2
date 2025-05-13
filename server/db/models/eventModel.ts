@@ -1,12 +1,48 @@
-import { Schema, model, models } from "mongoose";
-import type { CallbackWithoutResultAndOptionalError } from "mongoose";
+import { Schema, model, models, Model } from "mongoose";
+import type { QueryWithHelpers } from "mongoose";
 import { v4 as uuidv4 } from "uuid";
-import { mapKeysValidator, mapKeysErrorMessage } from "./util/validators";
-import { TYPE_CONSTANTS } from "../../../constants/types";
-import { addMinutes } from "date-fns";
-import { memberSchema } from "./memberModel";
 
-const eventSchema = new Schema(
+import { TypeConstant, typeConstants } from "../../../constants/types";
+import { addMinutes } from "date-fns";
+import { statusOptions } from "@/constants/registrants";
+import { memberTypeSchema } from "../schemas/member";
+import { Event } from "../schemas/event";
+
+/** Typed query‑helper signatures for the Event model */
+interface EventQueryHelpers {
+  byDateRange(
+    this: QueryWithHelpers<Event[], Event, EventQueryHelpers>,
+    start: Date,
+    end: Date,
+  ): QueryWithHelpers<Event[], Event, EventQueryHelpers>;
+
+  eventsHappeningOn(
+    this: QueryWithHelpers<Event[], Event, EventQueryHelpers>,
+    dateTime: Date,
+  ): QueryWithHelpers<Event[], Event, EventQueryHelpers>;
+
+  eventsHappeningOnBuffered(
+    this: QueryWithHelpers<Event[], Event, EventQueryHelpers>,
+    dateTime: Date,
+  ): QueryWithHelpers<Event[], Event, EventQueryHelpers>;
+
+  eventsHappeningBefore(
+    this: QueryWithHelpers<Event[], Event, EventQueryHelpers>,
+    dateTime: Date,
+  ): QueryWithHelpers<Event[], Event, EventQueryHelpers>;
+
+  eventsHappeningAfter(
+    this: QueryWithHelpers<Event[], Event, EventQueryHelpers>,
+    dateTime: Date,
+  ): QueryWithHelpers<Event[], Event, EventQueryHelpers>;
+}
+
+const eventSchema = new Schema<
+  Event,
+  Model<Event, EventQueryHelpers>,
+  {},
+  EventQueryHelpers
+>(
   {
     // Basic information for event
     name: {
@@ -20,19 +56,21 @@ const eventSchema = new Schema(
     },
     description: {
       type: String,
+      required: true,
     },
     location: {
       type: String,
+      required: true,
     },
     startTime: {
       type: Date,
       required: true,
     },
-    bufferedStartTime: {
+    endTime: {
       type: Date,
       required: true,
     },
-    endTime: {
+    bufferedStartTime: {
       type: Date,
       required: true,
     },
@@ -46,6 +84,7 @@ const eventSchema = new Schema(
     secretName: {
       type: String,
       required: true,
+      unique: [true, "secretName needs to be unique"],
       immutable: true,
       default: () => {
         return uuidv4();
@@ -54,98 +93,119 @@ const eventSchema = new Schema(
 
     // Requirements for users to be checked-in
     requirements: {
-      type: Map,
-      of: Schema.Types.Mixed,
-      user: {
-        type: Map,
-        of: Schema.Types.Mixed,
-      },
-      checkedIn: {
-        type: Boolean,
-        default: false,
-      },
-      selected: {
-        type: Boolean,
-        default: true,
-      },
+      type: new Schema(
+        {
+          member: {
+            type: Schema.Types.Mixed,
+            default: { hasPaid: true },
+            validate: {
+              validator: (member: Record<string, unknown>) => {
+                return memberTypeSchema.partial().strict().safeParse(member)
+                  .success;
+              },
+              message: "member in requirements must follow the member schema",
+            },
+          },
+          selected: {
+            type: Boolean,
+          },
+          registrant: {
+            type: Schema.Types.Mixed,
+          },
+        },
+        { _id: false },
+      ),
       required: true,
     },
 
     // What to display to admins during check-in
     toDisplay: {
-      type: Map,
-      of: Schema.Types.Map,
-      before: {
-        type: Map,
-        of: Schema.Types.Mixed,
-        user: {
-          type: Map,
-          of: Schema.Types.Mixed,
+      type: new Schema({
+        before: {
+          type: new Schema(
+            {
+              member: {
+                type: Schema.Types.Mixed,
+                required: true,
+                default: {
+                  username: "Name",
+                  hasPaid: "Paid fee",
+                },
+                validate: {
+                  validator: (member: Record<string, unknown>) => {
+                    return memberTypeSchema.partial().strict().safeParse(member)
+                      .success;
+                  },
+                  message:
+                    "member in requirements must follow the member schema",
+                },
+              },
+              checkedIn: {
+                type: String,
+                default: "Checked In",
+              },
+              selected: {
+                type: String,
+              },
+              registrant: {
+                type: Schema.Types.Mixed,
+              },
+            },
+            { _id: false },
+          ),
           required: true,
         },
-        checkedIn: {
-          type: String,
-          default: "Checked In",
-        },
-        selected: {
-          type: String,
-        },
-        registrant: {
-          type: Map,
-          of: Schema.Types.Mixed,
-          default: {},
-        },
-        required: true,
-      },
-      after: {
-        type: Map,
-        of: Schema.Types.Mixed,
-        user: {
-          type: Map,
-          of: Schema.Types.Mixed,
+        after: {
+          type: new Schema(
+            {
+              member: {
+                type: Schema.Types.Mixed,
+                required: true,
+                default: {
+                  username: "Name",
+                  hasPaid: "Paid fee",
+                },
+                validate: {
+                  validator: (member: Record<string, unknown>) => {
+                    return memberTypeSchema.partial().strict().safeParse(member)
+                      .success;
+                  },
+                  message:
+                    "member in requirements must follow the member schema",
+                },
+              },
+              checkedIn: {
+                type: String,
+                default: "Checked In",
+              },
+              selected: {
+                type: String,
+              },
+              registrant: {
+                type: Schema.Types.Mixed,
+              },
+            },
+            { _id: false },
+          ),
           required: true,
         },
-        checkedIn: {
-          type: String,
-          default: "Checked In",
-        },
-        selected: {
-          type: String,
-        },
-        registrant: {
-          type: Map,
-          of: Schema.Types.Mixed,
-          default: {},
-        },
-        required: true,
-      },
+      }),
       required: [true, "Please provide what to display before/after check-in"],
     },
 
     // Schema of additional fields, for now mainly for admin panel
     additionalFieldsSchema: {
-      type: Map,
-      of: {
-        type: String,
-        enum: [
-          TYPE_CONSTANTS.ARRAY,
-          TYPE_CONSTANTS.STRING,
-          TYPE_CONSTANTS.NUMBER,
-          TYPE_CONSTANTS.BOOL,
-        ],
-      },
-      required: true,
-      default: new Map([["checkedIn", false]]),
+      type: Schema.Types.Mixed,
     },
 
-    // All users that have registered for this event
+    // All members that have registered for this event
     registrants: {
       type: [
         {
           _id: false,
-          user: {
+          memberId: {
             type: Schema.Types.ObjectId,
-            ref: "users",
+            ref: "members",
             required: true,
           },
           checkedIn: {
@@ -161,14 +221,7 @@ const eventSchema = new Schema(
           status: {
             type: String,
             default: "Applied",
-            enum: [
-              "Accepted",
-              "Confirmed",
-              "Waitlist",
-              "Rejected",
-              "Expired",
-              "Applied",
-            ],
+            enum: statusOptions,
           },
           additionalFields: {
             type: Map,
@@ -199,11 +252,11 @@ const eventSchema = new Schema(
             type: Date,
             required: true,
           },
-          bufferedStartTime: {
+          endTime: {
             type: Date,
             required: true,
           },
-          endTime: {
+          bufferedStartTime: {
             type: Date,
             required: true,
           },
@@ -213,8 +266,9 @@ const eventSchema = new Schema(
           },
           checkedIn: {
             type: [Schema.Types.ObjectId],
-            ref: "users",
+            ref: "members",
             required: true,
+            default: [],
           },
         },
       ],
@@ -245,91 +299,140 @@ const eventSchema = new Schema(
       eventsHappeningAfter(dateTime: Date) {
         return this.find({ startTime: { $gte: dateTime } });
       },
-      allEvents() {
-        return this.find();
-      },
     },
   },
 );
 
-/**
- * Validation function to ensure the map follows the schema and if not, throws and error
- */
-const mapValidator = (
-  schema: Schema,
-  map: any,
-  next: CallbackWithoutResultAndOptionalError,
-): void => {
-  if (map && !mapKeysValidator(schema)(map)) {
-    const errorMessage = mapKeysErrorMessage(schema)({ value: map });
-    return next(new Error(errorMessage));
-  }
-};
+function validateJsonAgainstSchema(
+  data: Record<string, unknown>,
+  schema: Record<string, TypeConstant>,
+): boolean {
+  const schemaKeys = Object.keys(schema);
+  const dataKeys = Object.keys(data);
 
-const convertInnerObjectsToMaps = (obj: any): any => {
-  if (obj instanceof Map)
-    return new Map([...obj].map(([k, v]) => [k, convertInnerObjectsToMaps(v)]));
-  if (obj && typeof obj === "object" && !Array.isArray(obj)) {
-    return new Map(
-      Object.entries(obj).map(([key, value]) => [
-        key,
-        convertInnerObjectsToMaps(value),
-      ]),
-    );
+  // Check if data has any keys not in schema
+  if (dataKeys.some((key) => !schemaKeys.includes(key))) {
+    return false;
   }
-  return obj;
-};
+
+  return schemaKeys.every((key) => {
+    if (!(key in data)) return false;
+
+    const value = data[key];
+    switch (schema[key]) {
+      case "string":
+        return typeof value === "string";
+      case "number":
+        return typeof value === "number";
+      case "boolean":
+        return typeof value === "boolean";
+      case "array":
+        return Array.isArray(value);
+      default:
+        return false;
+    }
+  });
+}
 
 eventSchema.pre("validate", function (next) {
-  // To fix
-  const beforeMap = this.toDisplay?.get("before") ?? new Map();
-  const afterMap = this.toDisplay?.get("after") ?? new Map();
+  const registrantChecks = [
+    {
+      path: "toDisplay.before.registrant",
+      value: this.toDisplay.before.registrant,
+    },
+    {
+      path: "toDisplay.after.registrant",
+      value: this.toDisplay.after.registrant,
+    },
+    { path: "requirements.registrant", value: this.requirements.registrant },
+  ];
 
-  this.toDisplay = new Map([
-    ["before", convertInnerObjectsToMaps(beforeMap)],
-    ["after", convertInnerObjectsToMaps(afterMap)],
-  ]);
-  this.requirements.set(
-    "user",
-    new Map(Object.entries(this.requirements.get("user"))),
-  );
-
-  if (this.isNew && this.startTime < new Date()) {
-    next(new Error("Start time must be before end time."));
+  for (const { path, value } of registrantChecks) {
+    if (
+      this.additionalFieldsSchema &&
+      value &&
+      !validateJsonAgainstSchema(value, this.additionalFieldsSchema)
+    ) {
+      return next(
+        new Error(`${path} does not match the additionalFieldSchema set`),
+      );
+    } else if (!this.additionalFieldsSchema && value) {
+      return next(
+        new Error(
+          `additionalFieldSchema was not set, but you are trying to access a value`,
+        ),
+      );
+    }
   }
+
+  // ---------- Time consistency checks ----------
+  if (!this.bufferedStartTime)
+    this.bufferedStartTime = addMinutes(this.startTime, -20);
+
+  if (!this.bufferedEndTime)
+    this.bufferedEndTime = addMinutes(this.endTime, 20);
 
   if (this.startTime && this.endTime && this.startTime >= this.endTime) {
-    return next(new Error("Start time must be before end time."));
+    return next(new Error("Start time must be before end time"));
   }
 
-  const schemaDefinition: { [key: string]: { type: any } } = {};
-  this.additionalFieldsSchema.forEach((type, key) => {
-    schemaDefinition[key] = {
-      type: type,
-    };
-  });
-
-  const schema = new Schema(schemaDefinition);
-
-  mapValidator(schema, this.toDisplay.get("before")?.get("registrant"), next);
-  mapValidator(schema, this.toDisplay.get("after")?.get("registrant"), next);
-  mapValidator(schema, this.requirements.get("registrant"), next);
-
-  mapValidator(memberSchema, this.toDisplay.get("before")?.get("user"), next);
-  mapValidator(memberSchema, this.toDisplay.get("after")?.get("user"), next);
-  mapValidator(memberSchema, this.requirements.get("user"), next);
-
-  if (!this.bufferedStartTime) {
-    this.bufferedStartTime = addMinutes(this.startTime, -20);
-  } else if (this.bufferedStartTime > this.startTime) {
-    return next(new Error("bufferedStartTime must be before startTime"));
+  if (
+    this.bufferedStartTime &&
+    this.startTime &&
+    this.bufferedStartTime > this.startTime
+  ) {
+    return next(new Error("Buffered start time must be <= start time"));
   }
 
-  if (!this.bufferedEndTime) {
-    this.bufferedEndTime = new Date(this.endTime);
-  } else if (this.bufferedEndTime < this.endTime) {
-    return next(new Error("bufferedEndTime must be after endTime"));
+  if (
+    this.bufferedEndTime &&
+    this.endTime &&
+    this.bufferedEndTime < this.endTime
+  ) {
+    return next(new Error("Buffered end time must be >= end time"));
   }
+
+  // Subevent timing constraints
+  for (let i = 0; i < (this.subEvents ?? []).length; i++) {
+    const sub = this.subEvents[i];
+
+    // ----- Auto‑fill buffered start/end if missing -----
+    if (!sub.bufferedStartTime) {
+      sub.bufferedStartTime = addMinutes(sub.startTime, -20);
+      this.markModified(`subEvents.${i}.bufferedStartTime`);
+    }
+
+    if (!sub.bufferedEndTime) {
+      sub.bufferedEndTime = addMinutes(sub.endTime, 20);
+      this.markModified(`subEvents.${i}.bufferedEndTime`);
+    }
+
+    // ----- Consistency checks -----
+    if (sub.startTime <= this.startTime) {
+      return next(
+        new Error(
+          "A subevent's start time must be after the main event's start time",
+        ),
+      );
+    }
+    console.log("testtest")
+    if (sub.endTime >= this.endTime) {
+      return next(
+        new Error(
+          "A subevent's end time must be before the main event's end time",
+        ),
+      );
+    }
+
+    if (sub.endTime <= sub.startTime) {
+      return next(
+        new Error(
+          "A subevent's end time must be after the subevent's start time",
+        ),
+      );
+    }
+  }
+  // ---------- End time consistency checks ----------
 
   if (!this.isRegistrationRequired && this.subEvents.length > 0) {
     return next(
@@ -341,14 +444,14 @@ eventSchema.pre("validate", function (next) {
 });
 
 eventSchema.pre("save", async function (next) {
-  const User = model("users");
+  const Member = model("members");
 
   if (!this.isRegistrationRequired) {
-    const allUsers = await User.find();
+    const allMembers = await Member.find();
     this.registrants.splice(0, this.registrants.length);
-    allUsers.forEach((user) => {
+    allMembers.forEach((member) => {
       this.registrants.push({
-        user: user._id,
+        memberId: member._id,
         selected: true,
         checkedIn: false,
       });
@@ -358,19 +461,15 @@ eventSchema.pre("save", async function (next) {
   next();
 });
 
-eventSchema.virtual("registrantCount").get(function () {
-  if (this.registrants) {
-    return this.registrants.length;
-  } else {
-    return 0;
-  }
-});
-
-eventSchema.set("toJSON", { virtuals: true });
-eventSchema.set("toObject", { virtuals: true });
-
 eventSchema.index({ secretName: 1 }, { unique: true });
 eventSchema.index({ startTime: 1 });
 
-const eventModel = models.events || model("events", eventSchema);
+const eventModel: Model<Event, EventQueryHelpers> =
+  (models.events as Model<Event, EventQueryHelpers>) ||
+  model<Event, EventQueryHelpers>("events", eventSchema);
+
+if (process.env.NODE_ENV === "development" && models.events) {
+  delete models.events;
+}
+
 export { eventSchema, eventModel };

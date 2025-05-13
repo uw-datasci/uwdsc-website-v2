@@ -2,6 +2,8 @@ import { httpBatchLink } from "@trpc/client";
 import { createTRPCNext } from "@trpc/next";
 import type { AppRouter } from "../server/routers/_app";
 import { env } from "@/env/client";
+import SuperJSON from "superjson";
+import store from "@/store/store";
 
 function getBaseUrl() {
   if (typeof window !== "undefined")
@@ -15,6 +17,7 @@ function getBaseUrl() {
 }
 
 export const trpc = createTRPCNext<AppRouter>({
+  transformer: SuperJSON,
   config(opts) {
     return {
       links: [
@@ -25,9 +28,11 @@ export const trpc = createTRPCNext<AppRouter>({
            **/
           url: `${getBaseUrl()}/api/trpc`,
           // You can pass any HTTP headers you wish here
+          transformer: SuperJSON,
           async headers() {
+            const token = store.getState().loginToken.token;
             return {
-              // authorization: getAuthCookie(),
+              Authorization: token ? `Bearer ${token}` : "",
             };
           },
         }),

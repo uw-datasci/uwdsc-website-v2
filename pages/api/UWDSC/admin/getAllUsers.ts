@@ -9,9 +9,7 @@ export default async function handler(
   try {
     const { token } = req.body;
     const response = await axios({
-      url:
-        env.NEXT_PUBLIC_UWDSC_WEBSITE_SERVER_URL +
-        "/api/admin/users",
+      url: env.NEXT_PUBLIC_UWDSC_WEBSITE_SERVER_URL + "/api/admin/users",
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -28,12 +26,12 @@ export default async function handler(
       username: user.username,
       email: user.email,
       password: "", // Password is default set to "********" while querying
-      userStatus: user.userStatus,
+      role: user.role,
       hasPaid: user.hasPaid ? "True" : "False", // TODO: maybe change to Paid/Unpaid but that would cause filtering issues
       paymentMethod: user.paymentMethod || "",
       verifier: user.verifier || "",
       paymentLocation: user.paymentLocation || "",
-      isEmailVerified: user.isEmailVerified ? "True" : "False",  // TODO: maybe change to Verified/Unverified but that would cause filtering issues
+      isEmailVerified: user.isEmailVerified ? "True" : "False", // TODO: maybe change to Verified/Unverified but that would cause filtering issues
     }));
 
     res.status(200).json({ success: true, users });

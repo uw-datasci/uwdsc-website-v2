@@ -26,7 +26,7 @@ export default async function handler(
         email: newUser.email,
         username: newUser.username,
         password: newUser.password,
-        userStatus: newUser.userStatus,
+        role: newUser.role,
         isEmailVerified: newUser.isEmailVerified === "True",
         hasPaid: newUser.hasPaid === "True",
         paymentMethod: newUser.paymentMethod,

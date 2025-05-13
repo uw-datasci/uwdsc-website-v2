@@ -14,44 +14,45 @@ const memberSchema = new Schema<Member>(
   {
     username: {
       type: String,
-      required: [true, "Please add the user name"],
+      required: [true, "Please add the member's name"],
     },
     email: {
       type: String,
-      required: [true, "Please add the user Waterloo email address"],
+      required: [true, "Please add the member's Waterloo email address"],
       unique: [true, "Waterloo Email already exists"],
     },
     password: {
       type: String,
-      required: [true, "Please add the user password"],
+      required: [true, "Please add the member's password"],
     },
-    userStatus: {
+    role: {
       type: String,
       enum: roleOptions,
-      required: [true, "Please add the user's status"],
+      required: [true, "Please add the member's status"],
       default: "member",
     },
     hasPaid: {
       type: Boolean,
-      required: [true, "Please add whether the user has paid or not"],
+      required: [true, "Please add whether the member has paid or not"],
       default: false,
     },
     watIAM: {
       type: String,
+      unique: [true, "WatIAM already exists"],
     },
     faculty: {
       type: String,
-      required: [true, "Please add the user faculty"],
+      required: [true, "Please add the member's faculty"],
       enum: facultyOptions,
     },
     term: {
       type: String,
-      required: [true, "Please add the user term"],
+      required: [true, "Please add the member's term"],
       enum: termOptions,
     },
     heardFromWhere: {
       type: String,
-      required: [true, "Please add where the user heard about us from"],
+      required: [true, "Please add where the member heard about us from"],
       default: "",
     },
     paymentMethod: {
@@ -64,7 +65,7 @@ const memberSchema = new Schema<Member>(
           }
           return true;
         },
-        message: "You need a payment method if a user has paid",
+        message: "You need a payment method if a member has paid",
       },
     },
     paymentLocation: {
@@ -76,7 +77,7 @@ const memberSchema = new Schema<Member>(
           }
           return true;
         },
-        message: "You need a payment location if a user has paid",
+        message: "You need a payment location if a member has paid",
       },
     },
     verifier: {
@@ -88,12 +89,12 @@ const memberSchema = new Schema<Member>(
           }
           return true;
         },
-        message: "You need a payment verifier if a user has paid",
+        message: "You need a payment verifier if a member has paid",
       },
     },
     isEmailVerified: {
       type: Boolean,
-      required: [true, "Please add if the user's email is verified"],
+      required: [true, "Please add if the member's email is verified"],
       default: false,
     },
     memberIdeas: {
@@ -106,7 +107,7 @@ const memberSchema = new Schema<Member>(
       },
       expires: {
         type: Date,
-        default: null,
+        default: new Date(),
       },
       purpose: {
         type: String,
@@ -153,7 +154,11 @@ memberSchema.pre("save", async function (next) {
   );
 
   openEventIds.forEach(async (eventId) => {
-    const newRegistrant = { user: this._id, checkedIn: false, selected: true };
+    const newRegistrant = {
+      member: this._id,
+      checkedIn: false,
+      selected: true,
+    };
 
     await Event.updateOne(
       { _id: eventId },
@@ -164,15 +169,13 @@ memberSchema.pre("save", async function (next) {
   next();
 });
 
-memberSchema.virtual("id").get(function () {
-  return this._id.toString();
-});
-
-memberSchema.set("toObject", { virtuals: true });
-memberSchema.set("toJSON", { virtuals: true });
-
 memberSchema.plugin(mongooseLeanVirtuals);
 
 const memberModel: Model<Member> =
-  models.users || model<Member>("users", memberSchema);
+  models.members || model<Member>("members", memberSchema);
+
+if (process.env.NODE_ENV === "development" && models.events) {
+  delete models.events;
+}
+
 export { memberSchema, memberModel };

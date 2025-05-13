@@ -7,9 +7,5 @@ export const HTTP_CONSTANTS = {
   SERVER_ERROR: 500,
 } as const;
 
-export const TYPE_CONSTANTS = {
-  ARRAY: "array",
-  STRING: "string",
-  NUMBER: "number",
-  BOOL: "boolean",
-} as const;
+export const typeConstants = ["array", "string", "number", "boolean"] as const;
+export type TypeConstant = (typeof typeConstants)[number];

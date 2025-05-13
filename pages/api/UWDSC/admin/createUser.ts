@@ -10,9 +10,7 @@ export default async function handler(
     const { token, newUser } = req.body;
 
     const response = await axios({
-      url:
-        env.NEXT_PUBLIC_UWDSC_WEBSITE_SERVER_URL +
-        "/api/admin/users",
+      url: env.NEXT_PUBLIC_UWDSC_WEBSITE_SERVER_URL + "/api/admin/users",
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -26,7 +24,7 @@ export default async function handler(
         term: "1A",
         faculty: "Math",
         heardFromWhere: "Placeholder",
-        userStatus: newUser.userStatus,
+        role: newUser.role,
         memberIdeas: "",
         hasPaid: newUser.hasPaid,
         paymentMethod: newUser.paymentMethod,

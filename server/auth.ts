@@ -1,18 +1,8 @@
 import jwt from "jsonwebtoken";
 import { env } from "@/env/server";
-import z from "zod";
-import { roleOptions } from "@/constants/roles";
+import { ClientToken, ClientTokenTypeSchema } from "@/constants/member";
 
 const tokenSecret = env.ACCESS_TOKEN_SECRET;
-
-export const ClientTokenTypeSchema = z.object({
-  username: z.string(),
-  email: z.string().email(),
-  id: z.string(),
-  userStatus: z.enum(roleOptions),
-});
-
-export type ClientToken = z.infer<typeof ClientTokenTypeSchema>;
 
 export function signJWT(clientToken: ClientToken): string {
   return jwt.sign(
@@ -27,7 +17,9 @@ export function signJWT(clientToken: ClientToken): string {
 export function decodeJWT(token: string): ClientToken | null {
   try {
     const decoded = jwt.verify(token, tokenSecret) as jwt.JwtPayload;
-    const result = ClientTokenTypeSchema.safeParse(decoded.user);
+    const result = ClientTokenTypeSchema.safeParse(decoded.clientToken);
+
+
     if (!result.success) {
       console.warn("Error decoding JWT");
       return null;

@@ -8,12 +8,12 @@ export const appRouter = router({
   hello: publicProcedure
     .input(
       z.object({
-        name: z.string(),
+        name: z.string().min(1),
       }),
     )
     .output(
       z.object({
-        greeting: z.string(),
+        greeting: z.string().min(1),
       }),
     )
     .query((opts) => {
@@ -24,7 +24,7 @@ export const appRouter = router({
   auth: authRouter,
   events: eventRouter,
   members: memberRouter,
-});
+})
 
 // export type definition of API
 export type AppRouter = typeof appRouter;

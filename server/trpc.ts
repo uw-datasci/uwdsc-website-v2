@@ -3,8 +3,13 @@ import { initTRPC, TRPCError } from "@trpc/server";
 import type { Context } from "./context";
 import { memberModel } from "./db/models/memberModel";
 import { Role } from "@/constants/roles";
+import { TRPCPanelMeta } from "trpc-ui";
+import SuperJSON from "superjson";
 
-const t = initTRPC.context<Context>().create();
+const t = initTRPC
+  .meta<TRPCPanelMeta>()
+  .context<Context>()
+  .create({ transformer: SuperJSON });
 
 // Router
 export const router = t.router;
@@ -22,10 +27,7 @@ export const authedProcedure = publicProcedure.use(
       });
     }
 
-    const user = await memberModel
-      .findById(ctx.user.id)
-      .select("userStatus")
-      .lean();
+    const user = await memberModel.findById(ctx.user.id).select("role").lean();
 
     if (!user) {
       throw new TRPCError({
@@ -34,7 +36,7 @@ export const authedProcedure = publicProcedure.use(
       });
     }
 
-    if (ctx.user.userStatus !== user.userStatus) {
+    if (ctx.user.role !== user.role) {
       throw new TRPCError({
         code: "FORBIDDEN",
         message: "TOKEN_OUT_OF_SYNC",
@@ -54,7 +56,7 @@ export const authedProcedure = publicProcedure.use(
 export const hasRole = (allowedRoles: Role[]) => {
   return t.middleware(({ ctx, next }) => {
     const user = ctx.user;
-    if (!user || !allowedRoles.includes(user.userStatus as Role)) {
+    if (!user || !allowedRoles.includes(user.role as Role)) {
       throw new TRPCError({
         code: "FORBIDDEN",
         message: "Insufficient permissions",

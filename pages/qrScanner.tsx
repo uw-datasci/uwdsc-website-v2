@@ -72,9 +72,9 @@ const QrScannerPage = () => {
         "MMM D",
       )}) [${event.location}]`;
     }
-    return `${event.name} (${start.format("h:mm A")} - ${end.format("h:mm A")}) [${
-      event.location
-    }]`;
+    return `${event.name} (${start.format("h:mm A")} - ${end.format(
+      "h:mm A",
+    )}) [${event.location}]`;
   }
 
   useEffect(() => {
@@ -132,9 +132,7 @@ const QrScannerPage = () => {
 
   const checkIn = async () => {
     if (scannedResult) {
-      console.log("here");
       setLoading(true);
-      console.log(loading);
       try {
         const eventSecret = scannedResult.eventArray.filter((event) => {
           return event.id == selectedEvent.id;

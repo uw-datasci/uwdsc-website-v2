@@ -13,7 +13,8 @@ export const env = createEnv({
     ACCESS_TOKEN_SECRET: z
       .string()
       .min(1, "ACCESS_TOKEN_SECRET env variable is empty."),
-
+    EMAIL_USER: z.string().min(1),
+    EMAIL_APPLICATION_PASSWORD: z.string().min(1),
     CURRENT_REGISTERED_EVENT_ID: z.string(),
     GOOGLE_CLIENT_ID: z.string(),
     GOOGLE_CLIENT_SECRET: z.string(),

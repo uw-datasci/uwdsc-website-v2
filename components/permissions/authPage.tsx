@@ -8,7 +8,10 @@ interface AuthPageProps {
   allowedRoles: string[];
 }
 
-export default function withAuth<T>(WrappedComponent: React.ComponentType<T>, allowedRoles: Role[]) {
+export default function withAuth<T>(
+  WrappedComponent: React.ComponentType<T>,
+  allowedRoles: (Role | "")[],
+) {
   const AuthPage: React.FC<T & AuthPageProps> = (props) => {
     const userToken = useSelector((state: RootState) => state.loginToken.token);
     const userRole = useSelector((state: RootState) => state.loginToken.role);

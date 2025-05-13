@@ -118,14 +118,19 @@ export const SIGN_UP_FORM_FIELDS_PART2: ContactField[] = [
 ];
 
 export const SignUpFormTypeSchema = z.object({
-  username: z.string().min(1),
-  email: z.string().email().min(1),
-  password: z.string().min(8),
-  watIAM: z.string(),
-  faculty: z.enum(facultyOptions),
-  term: z.enum(termOptions),
-  heardFromWhere: z.string().min(1),
-  memberIdeas: z.string(),
+  username: z.string().min(1).describe("[Member] Name"),
+  email: z.string().email().min(1).describe("[Member] Unique email"),
+  password: z.string().min(8).describe("[Member] Unencrypted password"),
+  watIAM: z.string().describe("[Member] Unique Waterloo ID"),
+  faculty: z.enum(facultyOptions).describe("[Member] Faculty"),
+  term: z
+    .enum(termOptions)
+    .describe("[Member] Academic term at time of creation"),
+  heardFromWhere: z
+    .string()
+    .min(1)
+    .describe("[Member] Where they heard of UWDSC"),
+  memberIdeas: z.string().describe("[Member] Potential ideas for the club"),
 });
 
 export type SignUpForm = z.infer<typeof SignUpFormTypeSchema>;
@@ -147,8 +152,8 @@ export const SIGN_IN_FORM_FIELDS: ContactField[] = [
 ];
 
 export const SignInFormTypeSchema = z.object({
-  email: z.string().email().min(1),
-  password: z.string().min(8),
+  email: z.string().email().min(1).describe("[Member] Name"),
+  password: z.string().min(8).describe("[Member] Unencrypted password"),
 });
 
 export type SignInForm = z.infer<typeof SignInFormTypeSchema>;

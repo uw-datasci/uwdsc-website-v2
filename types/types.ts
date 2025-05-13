@@ -107,11 +107,10 @@ export type User = {
   faculty: string;
   email: string;
   password: string;
-  userStatus: string;
+  role: string;
   hasPaid: string;
   paymentMethod: string;
   verifier: string;
   paymentLocation: string;
   isEmailVerified: string;
-  __v?: number;
 };

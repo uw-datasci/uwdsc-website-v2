@@ -17,7 +17,7 @@ export const env = createEnv({
         (uri) => uri.endsWith(".vercel.app"),
         "Invalid VERCEL_URL format",
       ),
-    NEXT_PUBLIC_PORT: z.string(),
+    NEXT_PUBLIC_PORT: z.string().optional(),
   },
   runtimeEnv: {
     NEXT_PUBLIC_UWDSC_WEBSITE_SERVER_URL:

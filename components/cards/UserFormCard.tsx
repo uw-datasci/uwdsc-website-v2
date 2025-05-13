@@ -27,7 +27,7 @@ export default function UserFormCard({
         faculty: "",
         email: "",
         password: "",
-        userStatus: "",
+        role: "",
         isEmailVerified: "",
         hasPaid: "",
         paymentMethod: "",
@@ -59,9 +59,9 @@ export default function UserFormCard({
   };
 
   return (
-    <div className=" border-white border-[1px] shadow-md mb-5 rounded-md p-4 font-medium uppercase w-[70%] mx-auto text-sm">
+    <div className=" mx-auto mb-5 w-[70%] rounded-md border-[1px] border-white p-4 text-sm font-medium uppercase shadow-md">
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-        <div className="flex flex-col text-grey2 sm:flex-row justify-center sm:gap-12">
+        <div className="flex flex-col justify-center text-grey2 sm:flex-row sm:gap-12">
           <div className="flex flex-col">
             <div className="mb-4">
               <p>Username</p>
@@ -118,9 +118,9 @@ export default function UserFormCard({
             <div className="mb-4">
               <p>User Status</p>
               <select
-                id="userStatus"
-                name="userStatus"
-                value={newUser?.userStatus || ""}
+                id="role"
+                name="role"
+                value={newUser?.role || ""}
                 onChange={handleInputChange}
                 className="rounded h-10 w-full rounded-sm border p-1"
               >
@@ -225,15 +225,15 @@ export default function UserFormCard({
           </Button>
           <button
             onClick={resetValues}
-            className="bg-grey2 font-bold py-2 px-4 rounded-sm h-15"
+            className="h-15 rounded-sm bg-grey2 px-4 py-2 font-bold"
           >
-            <MdRefresh className="w-6 h-6" />
+            <MdRefresh className="h-6 w-6" />
           </button>
           <button
             onClick={onCancel}
-            className="bg-grey2 font-bold py-2 px-4 rounded-sm h-15"
+            className="h-15 rounded-sm bg-grey2 px-4 py-2 font-bold"
           >
-            <MdOutlineCancel className="w-6 h-6" />
+            <MdOutlineCancel className="h-6 w-6" />
           </button>
         </div>
       </form>
