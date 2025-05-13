@@ -179,6 +179,7 @@ export const authProcedures = {
       }
 
       const token = uuidv4();
+      user.isEmailVerified = true;
       user.token = {
         hash: token,
         expires: new Date(Date.now() + 1000 * 60 * 60),

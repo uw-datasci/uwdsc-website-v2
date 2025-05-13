@@ -19,7 +19,6 @@ import { RootState } from "@/store/store";
 import UserFormCard from "../cards/UserFormCard";
 import {
   deleteUser,
-  getAllMembers,
   createUser,
   editUser,
 } from "@/utils/apiCalls";
