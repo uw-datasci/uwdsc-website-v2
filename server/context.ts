@@ -22,7 +22,13 @@ export async function createContext({
       console.warn("Invalid JWT: ", err);
     }
   }
-  return { mongoose, req, res, user };
+
+  const ip =
+    req.headers["x-forwarded-for"]?.toString().split(",")[0] ||
+    req.socket.remoteAddress ||
+    null;
+    
+  return { mongoose, req, res, user, ip };
 }
 
 export type Context = Awaited<ReturnType<typeof createContext>>;
