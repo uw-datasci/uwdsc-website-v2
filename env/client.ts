@@ -14,7 +14,7 @@ export const env = createEnv({
       .string()
       .min(1, "VERCEL_URL env variable is empty.")
       .refine(
-        (uri) => uri.endsWith(".vercel.app"),
+        (uri) => uri.endsWith(".vercel.app") || uri.includes("localhost"),
         "Invalid VERCEL_URL format",
       ),
     NEXT_PUBLIC_PORT: z.string().optional(),

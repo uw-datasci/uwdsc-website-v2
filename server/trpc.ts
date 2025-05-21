@@ -1,10 +1,10 @@
-// server/trpc.ts
 import { initTRPC, TRPCError } from "@trpc/server";
 import type { Context } from "./context";
 import { memberModel } from "./db/models/memberModel";
 import { Role } from "@/constants/roles";
 import { TRPCPanelMeta } from "trpc-ui";
 import SuperJSON from "superjson";
+import { rateLimitMiddleware } from "./rateLimiter";
 
 const t = initTRPC
   .meta<TRPCPanelMeta>()
@@ -15,7 +15,7 @@ const t = initTRPC
 export const router = t.router;
 
 // Procedures
-export const publicProcedure = t.procedure;
+export const publicProcedure = t.procedure.use(rateLimitMiddleware);
 export const authedProcedure = publicProcedure.use(
   async function isAuthed(opts) {
     const { ctx } = opts;
