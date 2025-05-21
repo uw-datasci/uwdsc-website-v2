@@ -68,16 +68,19 @@
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
     "@types/fuzzy-search": "^2.1.5",
+    "@types/jest": "^29.5.14",
     "@types/jsonwebtoken": "^9.0.9",
     "@types/nodemailer": "^6.4.17",
     "@types/qrcode": "^1.5.5",
     "cross-env": "^7.0.3",
     "html5-qrcode": "^2.3.8",
+    "jest": "^29.7.0",
     "prettier": "^3.0.1",
     "prettier-plugin-tailwindcss": "^0.4.1",
     "rate-limiter-flexible": "^7.1.1",
     "ratelimit-lru": "^1.0.0",
     "trpc-ui": "^1.0.15",
+    "ts-jest": "^29.3.4",
     "typescript": "^5.8.3"
   }
 }

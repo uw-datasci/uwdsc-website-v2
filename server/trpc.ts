@@ -1,4 +1,3 @@
-// server/trpc.ts
 import { initTRPC, TRPCError } from "@trpc/server";
 import type { Context } from "./context";
 import { memberModel } from "./db/models/memberModel";

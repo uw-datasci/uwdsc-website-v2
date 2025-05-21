@@ -1,6 +1,7 @@
-import { TRPCError, initTRPC } from "@trpc/server";
-import type { Context } from "./context";
-import { RateLimiterMemory } from "rate-limiter-flexible";
+import { TRPCError } from '@trpc/server';
+import { RateLimiterMemory } from 'rate-limiter-flexible';
+import { initTRPC } from '@trpc/server';
+import type { Context } from './context';
 
 const t = initTRPC.context<Context>().create();
 
@@ -9,25 +10,24 @@ const limiter = new RateLimiterMemory({
   duration: 60,
 });
 
-export const rateLimitMiddleware = t.middleware(async (opts) => {
-  const { ctx } = opts;
-
+const rawRateLimitMiddleware = async ({ ctx, next }: { ctx: Context; next: () => Promise<any> }) => {
   const identifier = ctx.user?.id || ctx.ip;
   if (!identifier) {
     throw new TRPCError({
-      code: "BAD_REQUEST",
-      message: "Missing user or IP for rate limiting",
+      code: 'BAD_REQUEST',
+      message: 'Missing user or IP for rate limiting',
     });
   }
-
   try {
     await limiter.consume(identifier);
   } catch {
     throw new TRPCError({
-      code: "TOO_MANY_REQUESTS",
-      message: "Rate limit exceeded",
+      code: 'TOO_MANY_REQUESTS',
+      message: 'Rate limit exceeded',
     });
   }
+  return next();
+};
 
-  return opts.next();
-});
+export const rateLimitMiddleware = t.middleware(rawRateLimitMiddleware);
+export { rawRateLimitMiddleware };
