@@ -175,7 +175,7 @@ export const EventValidationSchema = object({
     .required("End time is required")
     .min(new Date(), "End time must be in the future"),
   bufferedStartTime: date()
-    .required("Buffered start time is required")
+    .optional()
     .test(
       "is-before-start",
       "Buffered start time must be before start time",
@@ -185,7 +185,7 @@ export const EventValidationSchema = object({
       },
     ),
   bufferedEndTime: date()
-    .required("Buffered end time is required")
+    .optional()
     .test(
       "is-after-end",
       "Buffered end time must be after end time",

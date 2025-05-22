@@ -26,14 +26,6 @@ export default async function handler(
       });
     }
 
-    if (!hasPaid) {
-      console.error("No user data provided");
-      return res.status(400).json({
-        success: false,
-        message: "User requirements is required",
-      });
-    }
-
     console.log("Creating event with data:", event);
 
     const newEvent = {
