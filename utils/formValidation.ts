@@ -1,5 +1,5 @@
 import { Field } from "formik";
-import { string, object, ref, boolean, array, number } from "yup";
+import { string, object, ref, boolean, array, number, date } from "yup";
 
 require("dotenv").config();
 
@@ -162,4 +162,39 @@ export const CxCRegistrationSchema = object({
   consent: boolean()
     .oneOf([true], "This field must be true.")
     .required("Required"),
+});
+
+export const EventValidationSchema = object({
+  name: string().required("Event name is required"),
+  description: string().required("Event description is required"),
+  location: string().required("Event location is required"),
+  startTime: date()
+    .required("Start time is required")
+    .min(new Date(), "Start time must be in the future"),
+  endTime: date()
+    .required("End time is required")
+    .min(new Date(), "End time must be in the future"),
+  bufferedStartTime: date()
+    .required("Buffered start time is required")
+    .test(
+      "is-before-start",
+      "Buffered start time must be before start time",
+      function (value) {
+        const { startTime } = this.parent;
+        return !value || !startTime || value < startTime;
+      },
+    ),
+  bufferedEndTime: date()
+    .required("Buffered end time is required")
+    .test(
+      "is-after-end",
+      "Buffered end time must be after end time",
+      function (value) {
+        const { endTime } = this.parent;
+        return !value || !endTime || value > endTime;
+      },
+    ),
+  isRegistrationRequired: string()
+    .required("Please specify if registration is required")
+    .oneOf(["true", "false"], "Please select either true or false"),
 });
