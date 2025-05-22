@@ -180,3 +180,10 @@ export const getCurrentUser = async () => {
     token: store.getState().loginToken.token,
   });
 };
+
+export const createEvent = async (event: Record<string, any>) => {
+  return await axios.post("/api/UWDSC/admin/createEvent", {
+    token: store.getState().loginToken.token,
+    event,
+  });
+};
