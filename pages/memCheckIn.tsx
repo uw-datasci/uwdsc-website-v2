@@ -90,7 +90,7 @@ export default function MemCheckIn() {
       </div>
     </div>) :
     (!userInfo.isCheckedIn ? 
-      (<div className="w-full max-w-md mx-auto bg-gradient-to-b from-[#acc2ff] via-[#b7c7ff] to-[#c6d2ff] rounded-3xl overflow-hidden shadow-2xl">
+      (<div className="w-full max-w-md mx-auto bg-[#172f6a] rounded-3xl overflow-hidden shadow-2xl">
       {/* Status Header */}
       <div className="bg-[#f59e0c] px-6 py-4 flex items-center justify-center gap-3">
         <Clock className="w-6 h-6 text-white" />
@@ -131,9 +131,9 @@ export default function MemCheckIn() {
             <p className="text-[#b7b7b7] text-sm mb-1">Event Check-in</p>
             <h3 className="text-white text-xl font-semibold leading-tight">Upper Year Co-op Panel</h3>
           </div>
-          {/* <Button className="bg-[#f59e0c] hover:bg-[#e8890b] text-white px-8 py-3 rounded-2xl text-lg font-semibold shadow-lg">
+          <button className="bg-[#f59e0c] hover:bg-[#e8890b] text-white px-5 py-3 rounded-xl text-lg font-semibold shadow-lg">
             Check-In
-          </Button> */}
+          </button>
         </div>
       </div>
     </div>) :
