@@ -55,6 +55,7 @@
     "@types/fuzzy-search": "^2.1.5",
     "@types/qrcode": "^1.5.5",
     "html5-qrcode": "^2.3.8",
+    "lucide-react": "^0.511.0",
     "prettier": "^3.0.1",
     "prettier-plugin-tailwindcss": "^0.4.1"
   }
