@@ -61,7 +61,8 @@ export default function MemCheckIn() {
   }
 
   return (
-    <div className="my-10 w-[30%] break-words rounded-xl border-2 border-white p-5 text-white">
+    (!userInfo.hasPaid ? 
+    (<div className="my-10 w-[30%] break-words rounded-xl border-2 border-white p-5 text-white">
       <h1 className="mb-5">Membership Card</h1>
       <div>
         <p>
@@ -85,6 +86,57 @@ export default function MemCheckIn() {
           {userInfo.isCheckedIn ? "Yes" : "No"}
         </p>
       </div>
-    </div>
+    </div>) :
+    (!userInfo.isCheckedIn ? 
+      (<div className="my-10 w-[30%] break-words rounded-xl border-2 border-white p-5 text-white">
+      <h1 className="mb-5">Membership Card</h1>
+      <div>
+        <p>
+          <span className="font-bold">Username: </span>
+          {userInfo.username}
+        </p>
+        <p>
+          <span className="font-bold">Email: </span>
+          {userInfo.email}
+        </p>
+        <p>
+          <span className="font-bold">Faculty: </span>
+          {userInfo.faculty}
+        </p>
+        <p>
+          <span className="font-bold">Paid: </span>
+          {userInfo.hasPaid ? "Yes" : "No"}
+        </p>
+        <p>
+          <span className="font-bold">Checked In: </span>
+          {userInfo.isCheckedIn ? "Yes" : "No"}
+        </p>
+      </div>
+    </div>) :
+    (<div className="my-10 w-[30%] break-words rounded-xl border-2 border-white p-5 text-white">
+      <h1 className="mb-5">Membership Card</h1>
+      <div>
+        <p>
+          <span className="font-bold">Username: </span>
+          {userInfo.username}
+        </p>
+        <p>
+          <span className="font-bold">Email: </span>
+          {userInfo.email}
+        </p>
+        <p>
+          <span className="font-bold">Faculty: </span>
+          {userInfo.faculty}
+        </p>
+        <p>
+          <span className="font-bold">Paid: </span>
+          {userInfo.hasPaid ? "Yes" : "No"}
+        </p>
+        <p>
+          <span className="font-bold">Checked In: </span>
+          {userInfo.isCheckedIn ? "Yes" : "No"}
+        </p>
+      </div>
+    </div>)))
   );
 }
