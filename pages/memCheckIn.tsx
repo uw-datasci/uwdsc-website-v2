@@ -2,7 +2,7 @@ import { RootState } from "@/store/store";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Clock } from "lucide-react";
+import { X, Info, Clock } from "lucide-react";
 import {
   getCurrentUser,
   getEvents,
@@ -100,30 +100,62 @@ export default function MemCheckIn() {
     return null;
   }
 
-  return !userInfo.hasPaid ? (
-    <div className="my-10 w-[30%] break-words rounded-xl border-2 border-white p-5 text-white">
-      <h1 className="mb-5">Membership Card</h1>
-      <div>
-        <p>
-          <span className="font-bold">Username: </span>
-          {userInfo.username}
-        </p>
-        <p>
-          <span className="font-bold">Email: </span>
-          {userInfo.email}
-        </p>
-        <p>
-          <span className="font-bold">Faculty: </span>
-          {userInfo.faculty}
-        </p>
-        <p>
-          <span className="font-bold">Paid: </span>
-          {userInfo.hasPaid ? "Yes" : "No"}
-        </p>
-        <p>
-          <span className="font-bold">Checked In: </span>
-          {userInfo.isCheckedIn ? "Yes" : "No"}
-        </p>
+  return (
+    (!userInfo.hasPaid ? 
+    ( <div className="w-full max-w-md mx-auto bg-gradient-to-b from-[#acc2ff] via-[#b7c7ff] to-[#c6d2ff] rounded-3xl overflow-hidden shadow-2xl">
+
+      {/* Header */}
+      <div className="bg-[#ef4444] px-6 py-4 flex items-center justify-center gap-3">
+        <div className="w-8 h-8 rounded-full border-2 border-white flex items-center justify-center">
+          <X className="w-4 h-4 text-white" />
+        </div>
+        <span className="text-white text-xl font-semibold">Not a Member</span>
+      </div>
+
+      {/* Main Card Content */}
+      <div className="bg-gradient-to-br from-blue-600 via-blue-700 to-purple-800 px-6 py-8 relative overflow-hidden">
+        {/* Background Pattern */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute bottom-0 right-0 w-64 h-64 rounded-full border-8 border-white transform translate-x-32 translate-y-32"></div>
+        </div>
+
+        <div className="relative z-10">
+          {/* Profile and Title */}
+          <div className="flex items-start gap-4 mb-8">
+            <div className="w-16 h-16 bg-[#959595] rounded-full"></div>
+            <div>
+              <h2 className="text-white text-3xl font-bold mb-1">UW Data Science Club</h2>
+              <p className="text-blue-200 text-lg">Term Membership Card</p>
+            </div>
+          </div>
+
+          {/* Member Info Card */}
+          <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 mb-8">
+            <p className="text-blue-200 text-sm mb-2">Member</p>
+            <h3 className="text-white text-2xl font-semibold">Jia Huang</h3>
+          </div>
+
+          {/* Info Message */}
+          <div className="bg-white/15 backdrop-blur-sm rounded-2xl p-4 flex items-start gap-3">
+            <div className="w-6 h-6 bg-black rounded-full flex items-center justify-center flex-shrink-0">
+              <Info className="w-3 h-3 text-white" />
+            </div>
+            <p className="text-white text-sm leading-relaxed">
+              You have made your account, but have not paid your $4 fee. View instructions
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Bottom Section */}
+      <div className="bg-gradient-to-r from-purple-900 to-blue-900 px-6 py-6 flex items-center justify-between">
+        <div>
+            <p className="text-[#b7b7b7] text-sm mb-1">Event Check-in</p>
+            <h3 className="text-white text-xl font-semibold leading-tight">Upper Year Co-op Panel</h3>
+          </div>
+        <button className="w-12 h-12 bg-[#ef4444] rounded-xl flex items-center justify-center">
+          <X className="w-6 h-6 text-white" />
+        </button>
       </div>
     </div>
   ) : !userInfo.isCheckedIn ? (
@@ -140,8 +172,8 @@ export default function MemCheckIn() {
         <div className="mb-8 flex items-center gap-4">
           <div className="h-16 w-16 rounded-full bg-[#959595]"></div>
           <div>
-            <h1 className="text-3xl font-bold text-white">UW Data Science</h1>
-            <p className="text-lg text-[#b7b7b7]">Term Membership Card</p>
+            <h1 className="text-white text-3xl font-bold">UW Data Science Club</h1>
+            <p className="text-[#b7b7b7] text-lg">Term Membership Card</p>
           </div>
         </div>
 
@@ -204,5 +236,5 @@ export default function MemCheckIn() {
         </p>
       </div>
     </div>
-  );
+  )));
 }
