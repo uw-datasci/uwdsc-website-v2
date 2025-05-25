@@ -28,6 +28,7 @@ export default function MemCheckIn() {
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [time, setTime] = useState("");
 
   const [selectedEvent, setSelectedEvent] = useState<any>(null);
   const [checkedIn, setCheckedIn] = useState(false);
@@ -57,7 +58,7 @@ export default function MemCheckIn() {
     const retrieveEvents = async () => {
       const response = await getEvents(
         new Date("2025-01-30"),
-        new Date("2025-02-01"),
+        new Date("2025-01-31"),
         true,
       );
       const events = response.data.events;
@@ -80,6 +81,19 @@ export default function MemCheckIn() {
     };
     getRegistrant();
   }, [selectedEvent]);
+
+  useEffect(() => {
+    const updateTime = () => {
+      const now = new Date();
+      const formattedTime = now.toLocaleTimeString("en-US", { hour12: false });
+      setTime(formattedTime);
+    };
+
+    updateTime();
+    const interval = setInterval(updateTime, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   const handleCheckIn = async () => {
     setCheckedIn(true);
@@ -155,14 +169,16 @@ export default function MemCheckIn() {
       <div className="bg-gradient-to-r from-purple-900 to-blue-900 px-6 py-6 flex items-center justify-between">
         <div>
             <p className="text-[#b7b7b7] text-sm mb-1">Event Check-in</p>
-            <h3 className="text-white text-xl font-semibold leading-tight">Upper Year Co-op Panel</h3>
+            <h3 className="text-white text-xl font-semibold leading-tight">
+              {selectedEvent ? <p>{selectedEvent.name}</p> : <p>No events running</p>}
+            </h3>
           </div>
         <button className="w-12 h-12 bg-[#ef4444] rounded-xl flex items-center justify-center">
           <X className="w-6 h-6 text-white" />
         </button>
       </div>
     </div>
-  ) : !userInfo.isCheckedIn ? (
+  ) : (!userInfo.isCheckedIn ? (
     <div className="mx-auto w-full max-w-md overflow-hidden rounded-3xl bg-[#172f6a] shadow-2xl">
       {/* Status Header */}
       <div className="flex items-center justify-center gap-3 bg-[#f59e0c] px-6 py-4">
@@ -189,11 +205,11 @@ export default function MemCheckIn() {
           <div className="grid grid-cols-2 gap-4">
             <div>
               <p className="mb-1 text-sm text-[#b7b7b7]">Current Time</p>
-              <p className="text-xl font-bold text-white">XX:XX:XX</p>
+              <p className="text-xl font-bold text-white">{time}</p>
             </div>
             <div>
               <p className="mb-1 text-sm text-[#b7b7b7]">MathSoc Member</p>
-              <p className="text-xl font-bold text-white">{userInfo.faculty === "Math"}</p>
+              <p className="text-xl font-bold text-white">{(userInfo.faculty === "Math") ? "Yes" : "No"}</p>
             </div>
           </div>
         </div>
@@ -203,7 +219,7 @@ export default function MemCheckIn() {
           <div>
             <p className="mb-1 text-sm text-[#b7b7b7]">Event Check-in</p>
             <h3 className="text-xl font-semibold leading-tight text-white">
-              Upper Year Co-op Panel
+              {selectedEvent ? <p>{selectedEvent.name}</p> : <p>No events running</p>}
             </h3>
           </div>
           <button 
@@ -240,5 +256,5 @@ export default function MemCheckIn() {
         </p>
       </div>
     </div>
-  )));
+  ))));
 }
