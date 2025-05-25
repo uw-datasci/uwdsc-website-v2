@@ -2,8 +2,13 @@ import { RootState } from "@/store/store";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Clock } from "lucide-react"
-// import { Button } from "@/components/UI/Button"
+import { Clock } from "lucide-react";
+import {
+  getCurrentUser,
+  getEvents,
+  getCurrentUserRegistrationByID,
+  patchCurrentUserRegistrationByID,
+} from "@/utils/apiCalls";
 
 interface UserInfo {
   username: string;
@@ -14,31 +19,27 @@ interface UserInfo {
 }
 
 export default function MemCheckIn() {
+  // retrieve id from token - theres library (npm i jwt-decode to decode jwt token for id)
+  // that does this but this is manual way
   const userToken = useSelector((state: RootState) => state.loginToken.token);
+  const userId = JSON.parse(atob(userToken.split(".")[1])).user.id;
+
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
+  const [selectedEvent, setSelectedEvent] = useState<any>(null);
+  const [checkedIn, setCheckedIn] = useState(false);
+
+  // fetch user data
   useEffect(() => {
     const fetchUserData = async () => {
       try {
         if (!userToken) {
           throw new Error("User is not registered.");
         }
-        // retrieve id from token - theres library that does this but this is manual way
-        // npm i jwt-decode to decode jwt token for id
-        const userId = JSON.parse(atob(userToken.split(".")[1])).user.id;
-
-        const response = await axios.post("/api/UWDSC/admin/getUserById", {
-          id: userId,
-          token: userToken,
-        });
-
-        if (response.data.success) {
-          setUserInfo(response.data);
-        } else {
-          throw new Error("Falied fetch");
-        }
+        const response = await getCurrentUser();
+        setUserInfo(response.data.user);
       } catch (err: any) {
         console.error(err);
         setError(err.message);
@@ -49,6 +50,43 @@ export default function MemCheckIn() {
 
     fetchUserData();
   }, [userToken]);
+
+  // fetch current event
+  useEffect(() => {
+    const retrieveEvents = async () => {
+      const response = await getEvents(
+        new Date("2025-01-30"),
+        new Date("2025-02-01"),
+        true,
+      );
+      const events = response.data.events;
+      console.log(selectedEvent);
+      if (!selectedEvent) {
+        setSelectedEvent(events && events.length == 1 ? events[0] : null);
+      }
+    };
+    retrieveEvents();
+  }, []);
+
+  // fetch registrant from event
+  // combine w above
+  useEffect(() => {
+    const getRegistrant = async () => {
+      if (selectedEvent) {
+        const response = await getCurrentUserRegistrationByID();
+        setCheckedIn(response.data.checkedIn);
+      }
+    };
+    getRegistrant();
+  }, [selectedEvent]);
+
+  const handleCheckIn = async () => {
+    // setCheckedIn(true);
+    // const response = await patchCurrentUserRegistrationByID({additionalFields: null});
+    // if (response.data.success) {
+    //   console.log(response.data);
+    // }
+  }
 
   if (loading) {
     return <div>Loading...</div>;
@@ -62,9 +100,8 @@ export default function MemCheckIn() {
     return null;
   }
 
-  return (
-    (!userInfo.hasPaid ? 
-    (<div className="my-10 w-[30%] break-words rounded-xl border-2 border-white p-5 text-white">
+  return !userInfo.hasPaid ? (
+    <div className="my-10 w-[30%] break-words rounded-xl border-2 border-white p-5 text-white">
       <h1 className="mb-5">Membership Card</h1>
       <div>
         <p>
@@ -88,39 +125,39 @@ export default function MemCheckIn() {
           {userInfo.isCheckedIn ? "Yes" : "No"}
         </p>
       </div>
-    </div>) :
-    (!userInfo.isCheckedIn ? 
-      (<div className="w-full max-w-md mx-auto bg-[#172f6a] rounded-3xl overflow-hidden shadow-2xl">
+    </div>
+  ) : !userInfo.isCheckedIn ? (
+    <div className="mx-auto w-full max-w-md overflow-hidden rounded-3xl bg-[#172f6a] shadow-2xl">
       {/* Status Header */}
-      <div className="bg-[#f59e0c] px-6 py-4 flex items-center justify-center gap-3">
-        <Clock className="w-6 h-6 text-white" />
-        <span className="text-white text-xl font-semibold">Not Checked-In</span>
+      <div className="flex items-center justify-center gap-3 bg-[#f59e0c] px-6 py-4">
+        <Clock className="h-6 w-6 text-white" />
+        <span className="text-xl font-semibold text-white">Not Checked-In</span>
       </div>
 
       {/* Main Card Content */}
       <div className="px-6 py-8">
         {/* Header with Avatar and Title */}
-        <div className="flex items-center gap-4 mb-8">
-          <div className="w-16 h-16 bg-[#959595] rounded-full"></div>
+        <div className="mb-8 flex items-center gap-4">
+          <div className="h-16 w-16 rounded-full bg-[#959595]"></div>
           <div>
-            <h1 className="text-white text-3xl font-bold">UW Data Science</h1>
-            <p className="text-[#b7b7b7] text-lg">Term Membership Card</p>
+            <h1 className="text-3xl font-bold text-white">UW Data Science</h1>
+            <p className="text-lg text-[#b7b7b7]">Term Membership Card</p>
           </div>
         </div>
 
         {/* Member Information Card */}
-        <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 mb-8">
-          <p className="text-[#b7b7b7] text-sm mb-2">Member</p>
-          <h2 className="text-white text-2xl font-bold mb-6">Jia Huang</h2>
+        <div className="mb-8 rounded-2xl bg-white/10 p-6 backdrop-blur-sm">
+          <p className="mb-2 text-sm text-[#b7b7b7]">Member</p>
+          <h2 className="mb-6 text-2xl font-bold text-white">Jia Huang</h2>
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <p className="text-[#b7b7b7] text-sm mb-1">Current Time</p>
-              <p className="text-white text-xl font-bold">XX:XX:XX</p>
+              <p className="mb-1 text-sm text-[#b7b7b7]">Current Time</p>
+              <p className="text-xl font-bold text-white">XX:XX:XX</p>
             </div>
             <div>
-              <p className="text-[#b7b7b7] text-sm mb-1">MathSoc Member</p>
-              <p className="text-white text-xl font-bold">Yes</p>
+              <p className="mb-1 text-sm text-[#b7b7b7]">MathSoc Member</p>
+              <p className="text-xl font-bold text-white">Yes</p>
             </div>
           </div>
         </div>
@@ -128,16 +165,21 @@ export default function MemCheckIn() {
         {/* Event Information and Check-in */}
         <div className="flex items-end justify-between">
           <div>
-            <p className="text-[#b7b7b7] text-sm mb-1">Event Check-in</p>
-            <h3 className="text-white text-xl font-semibold leading-tight">Upper Year Co-op Panel</h3>
+            <p className="mb-1 text-sm text-[#b7b7b7]">Event Check-in</p>
+            <h3 className="text-xl font-semibold leading-tight text-white">
+              Upper Year Co-op Panel
+            </h3>
           </div>
-          <button className="bg-[#f59e0c] hover:bg-[#e8890b] text-white px-5 py-3 rounded-xl text-lg font-semibold shadow-lg">
+          <button 
+            className="rounded-xl bg-[#f59e0c] px-5 py-3 text-lg font-semibold text-white shadow-lg hover:bg-[#e8890b]"
+            onClick={handleCheckIn}>
             Check-In
           </button>
         </div>
       </div>
-    </div>) :
-    (<div className="my-10 w-[30%] break-words rounded-xl border-2 border-white p-5 text-white">
+    </div>
+  ) : (
+    <div className="my-10 w-[30%] break-words rounded-xl border-2 border-white p-5 text-white">
       <h1 className="mb-5">Membership Card</h1>
       <div>
         <p>
@@ -161,6 +203,6 @@ export default function MemCheckIn() {
           {userInfo.isCheckedIn ? "Yes" : "No"}
         </p>
       </div>
-    </div>)))
+    </div>
   );
 }

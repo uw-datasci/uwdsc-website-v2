@@ -21,10 +21,13 @@ export default async function handler(
         "Content-Type": "application/json",
       },
     });
+
+    const reg = response.data.registrant;
     res.status(200).json({
       exist: true,
-      status: response.data.registrant.status,
-      fields: response.data.registrant.additionalFields,
+      status: reg.status,
+      checkedIn: reg.checkedIn,
+      fields: reg.additionalFields,
     });
   } catch (error: any) {
     console.error(error.response.data.message);
