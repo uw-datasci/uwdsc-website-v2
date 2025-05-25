@@ -8,6 +8,7 @@ import {
   getEvents,
   getCurrentUserRegistrationByID,
   patchCurrentUserRegistrationByID,
+  patchCheckInRegistrantById,
 } from "@/utils/apiCalls";
 
 interface UserInfo {
@@ -81,11 +82,14 @@ export default function MemCheckIn() {
   }, [selectedEvent]);
 
   const handleCheckIn = async () => {
-    // setCheckedIn(true);
-    // const response = await patchCurrentUserRegistrationByID({additionalFields: null});
-    // if (response.data.success) {
-    //   console.log(response.data);
-    // }
+    setCheckedIn(true);
+    const response = await patchCheckInRegistrantById(selectedEvent.id, userId, "");
+    if (response.data.success) {
+      console.log(response.data);
+    }
+    else if (response.status === 500) {
+      console.log("Hi")
+    }
   }
 
   if (loading) {
@@ -132,7 +136,7 @@ export default function MemCheckIn() {
           {/* Member Info Card */}
           <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 mb-8">
             <p className="text-blue-200 text-sm mb-2">Member</p>
-            <h3 className="text-white text-2xl font-semibold">Jia Huang</h3>
+            <h3 className="text-white text-2xl font-semibold">{userInfo.username}</h3>
           </div>
 
           {/* Info Message */}
@@ -180,7 +184,7 @@ export default function MemCheckIn() {
         {/* Member Information Card */}
         <div className="mb-8 rounded-2xl bg-white/10 p-6 backdrop-blur-sm">
           <p className="mb-2 text-sm text-[#b7b7b7]">Member</p>
-          <h2 className="mb-6 text-2xl font-bold text-white">Jia Huang</h2>
+          <h2 className="mb-6 text-2xl font-bold text-white">{userInfo.username}</h2>
 
           <div className="grid grid-cols-2 gap-4">
             <div>
@@ -189,7 +193,7 @@ export default function MemCheckIn() {
             </div>
             <div>
               <p className="mb-1 text-sm text-[#b7b7b7]">MathSoc Member</p>
-              <p className="text-xl font-bold text-white">Yes</p>
+              <p className="text-xl font-bold text-white">{userInfo.faculty === "Math"}</p>
             </div>
           </div>
         </div>
