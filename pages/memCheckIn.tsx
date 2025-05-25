@@ -7,6 +7,7 @@ import {
   getCurrentUser,
   getEvents,
   getCurrentUserRegistrationByID,
+  patchCurrentUserRegistrationByID,
   patchCheckInRegistrantById,
 } from "@/utils/apiCalls";
 
@@ -26,6 +27,8 @@ export default function MemCheckIn() {
 
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+  const [time, setTime] = useState("");
 
   const [selectedEvent, setSelectedEvent] = useState<any>(null);
   const [checkedIn, setCheckedIn] = useState(false);
@@ -52,7 +55,7 @@ export default function MemCheckIn() {
     const retrieveEvents = async () => {
       const response = await getEvents(
         new Date("2025-01-30"),
-        new Date("2025-02-01"),
+        new Date("2025-01-31"),
         true,
       );
       const events = response.data.events;
@@ -81,17 +84,33 @@ export default function MemCheckIn() {
     getRegistrant();
   }, [selectedEvent]);
 
+  useEffect(() => {
+    const updateTime = () => {
+      const now = new Date();
+      const formattedTime = now.toLocaleTimeString("en-US", { hour12: false });
+      setTime(formattedTime);
+    };
+
+    updateTime();
+    const interval = setInterval(updateTime, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   const handleCheckIn = async () => {
-    const response = await patchCheckInRegistrantById(
-      selectedEvent.id,
-      userId,
-      "",
-    );
     setCheckedIn(true);
-  };
-  if (!userInfo) {
+    const response = await patchCheckInRegistrantById(selectedEvent.id, userId, "");
+    if (response.data.success) {
+      console.log(response.data);
+    }
+    else if (response.status === 500) {
+      console.log("Hi")
+    }
+  }
+  if (!userInfo){
     return null;
   }
+
   if (loading) {
     return null;
   }
@@ -124,9 +143,9 @@ export default function MemCheckIn() {
           </div>
 
           {/* Member Info Card */}
-          <div className="mb-8 rounded-2xl bg-white/10 p-6 backdrop-blur-sm">
-            <p className="text-blue-200 mb-2 text-sm">Member</p>
-            <h3 className="text-2xl font-semibold text-white">Jia Huang</h3>
+          <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 mb-8">
+            <p className="text-blue-200 text-sm mb-2">Member</p>
+            <h3 className="text-white text-2xl font-semibold">{userInfo.username}</h3>
           </div>
 
           {/* Info Message */}
@@ -145,17 +164,17 @@ export default function MemCheckIn() {
       {/* Bottom Section */}
       <div className="from-purple-900 to-blue-900 flex items-center justify-between bg-gradient-to-r px-6 py-6">
         <div>
-          <p className="mb-1 text-sm text-[#b7b7b7]">Event Check-in</p>
-          <h3 className="text-xl font-semibold leading-tight text-white">
-            Upper Year Co-op Panel
-          </h3>
-        </div>
-        <button className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#ef4444]">
-          <X className="h-6 w-6 text-white" />
+            <p className="text-[#b7b7b7] text-sm mb-1">Event Check-in</p>
+            <h3 className="text-white text-xl font-semibold leading-tight">
+              {selectedEvent ? <p>{selectedEvent.name}</p> : <p>No events running</p>}
+            </h3>
+          </div>
+        <button className="w-12 h-12 bg-[#ef4444] rounded-xl flex items-center justify-center">
+          <X className="w-6 h-6 text-white" />
         </button>
       </div>
     </div>
-  ) : !checkedIn ? (
+  ) : (!userInfo.isCheckedIn ? (
     <div className="mx-auto w-full max-w-md overflow-hidden rounded-3xl bg-[#172f6a] shadow-2xl">
       {/* Status Header */}
       <div className="flex items-center justify-center gap-3 bg-[#f59e0c] px-6 py-4">
@@ -179,16 +198,16 @@ export default function MemCheckIn() {
         {/* Member Information Card */}
         <div className="mb-8 rounded-2xl bg-white/10 p-6 backdrop-blur-sm">
           <p className="mb-2 text-sm text-[#b7b7b7]">Member</p>
-          <h2 className="mb-6 text-2xl font-bold text-white">Jia Huang</h2>
+          <h2 className="mb-6 text-2xl font-bold text-white">{userInfo.username}</h2>
 
           <div className="grid grid-cols-2 gap-4">
             <div>
               <p className="mb-1 text-sm text-[#b7b7b7]">Current Time</p>
-              <p className="text-xl font-bold text-white">XX:XX:XX</p>
+              <p className="text-xl font-bold text-white">{time}</p>
             </div>
             <div>
               <p className="mb-1 text-sm text-[#b7b7b7]">MathSoc Member</p>
-              <p className="text-xl font-bold text-white">Yes</p>
+              <p className="text-xl font-bold text-white">{(userInfo.faculty === "Math") ? "Yes" : "No"}</p>
             </div>
           </div>
         </div>
@@ -198,7 +217,7 @@ export default function MemCheckIn() {
           <div>
             <p className="mb-1 text-sm text-[#b7b7b7]">Event Check-in</p>
             <h3 className="text-xl font-semibold leading-tight text-white">
-              Upper Year Co-op Panel
+              {selectedEvent ? <p>{selectedEvent.name}</p> : <p>No events running</p>}
             </h3>
           </div>
           <button
@@ -269,5 +288,5 @@ export default function MemCheckIn() {
         </button>
       </div>
     </div>
-  );
+  ));
 }
