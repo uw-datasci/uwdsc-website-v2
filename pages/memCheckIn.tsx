@@ -2,7 +2,7 @@ import { RootState } from "@/store/store";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { X, Info, Clock, CircleCheck, CircleX } from "lucide-react";
+import { X, Check, Info, Clock, CircleCheck, CircleX } from "lucide-react";
 import {
   getCurrentUser,
   getEvents,
@@ -27,7 +27,6 @@ export default function MemCheckIn() {
 
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
   const [time, setTime] = useState("");
 
   const [selectedEvent, setSelectedEvent] = useState<any>(null);
@@ -55,10 +54,11 @@ export default function MemCheckIn() {
     const retrieveEvents = async () => {
       const response = await getEvents(
         new Date("2025-01-30"),
-        new Date("2025-01-31"),
+        new Date("2025-02-01"),
         true,
       );
       const events = response.data.events;
+      console.log(events);
       if (!selectedEvent) {
         setSelectedEvent(events && events.length == 1 ? events[0] : null);
       }
@@ -114,7 +114,6 @@ export default function MemCheckIn() {
   if (loading) {
     return null;
   }
-  console.log(checkedIn);
   return !userInfo.hasPaid ? (
     <div className="mx-auto w-full max-w-md overflow-hidden rounded-3xl bg-gradient-to-b from-[#acc2ff] via-[#b7c7ff] to-[#c6d2ff] shadow-2xl">
       {/* Header */}
@@ -174,7 +173,7 @@ export default function MemCheckIn() {
         </button>
       </div>
     </div>
-  ) : (!userInfo.isCheckedIn ? (
+  ) : (!checkedIn ? (
     <div className="mx-auto w-full max-w-md overflow-hidden rounded-3xl bg-[#172f6a] shadow-2xl">
       {/* Status Header */}
       <div className="flex items-center justify-center gap-3 bg-[#f59e0c] px-6 py-4">
@@ -258,20 +257,20 @@ export default function MemCheckIn() {
 
           {/* Member Info Card */}
           <div className="mb-8 rounded-2xl bg-white/10 p-6 backdrop-blur-sm">
-            <p className="text-blue-200 mb-2 text-sm">Member</p>
-            <h3 className="text-2xl font-semibold text-white">Jia Huang</h3>
-          </div>
+          <p className="mb-2 text-sm text-[#b7b7b7]">Member</p>
+          <h2 className="mb-6 text-2xl font-bold text-white">{userInfo.username}</h2>
 
-          {/* Info Message */}
-          <div className="bg-white/15 flex items-start gap-3 rounded-2xl p-4 backdrop-blur-sm">
-            <div className="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-black">
-              <Info className="h-3 w-3 text-white" />
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <p className="mb-1 text-sm text-[#b7b7b7]">Current Time</p>
+              <p className="text-xl font-bold text-white">{time}</p>
             </div>
-            <p className="text-sm leading-relaxed text-white">
-              You have made your account, but have not paid your $4 fee. View
-              instructions
-            </p>
+            <div>
+              <p className="mb-1 text-sm text-[#b7b7b7]">MathSoc Member</p>
+              <p className="text-xl font-bold text-white">{(userInfo.faculty === "Math") ? "Yes" : "No"}</p>
+            </div>
           </div>
+        </div>
         </div>
       </div>
 
@@ -283,8 +282,8 @@ export default function MemCheckIn() {
             Upper Year Co-op Panel
           </h3>
         </div>
-        <button className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#ef4444]">
-          <X className="h-6 w-6 text-white" />
+        <button className="flex h-12 w-12 items-center justify-center rounded-lg bg-[#11b981]">
+          <Check className="h-6 w-6 text-white" />
         </button>
       </div>
     </div>
