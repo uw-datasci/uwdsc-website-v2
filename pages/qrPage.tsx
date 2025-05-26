@@ -43,10 +43,6 @@ export default function QR() {
         <div className="flex justify-center">
           <img src={src} alt="QR Code" className="h-64 w-64" />
         </div>
-        {/* for testing - delete later */}
-        <div className="flex justify-center">
-          <MemCheckIn />
-        </div>
       </section>
     </>
   );

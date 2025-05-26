@@ -10,12 +10,14 @@ export const NAVBAR_ROUTES = {
     { label: "CxC", route: "/cxc" },
     { label: "Team", route: "/team" },
     { label: "QR Code", route: "/qrPage" },
+    { label: "Check In", route: "/memCheckIn" },
   ],
   ADMIN: [
     { label: "Home", route: "/" },
     { label: "CxC", route: "/cxc" },
     { label: "Team", route: "/team" },
     { label: "QR Code", route: "/qrPage" },
+    { label: "Check In", route: "/memCheckIn" },
     {
       label: "Admin",
       subNavItems: [
