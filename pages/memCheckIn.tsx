@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import MemCard from "@/components/cards/memCard";
 import { getCurrentUser } from "@/utils/apiCalls";
+import LoadingSpinner from "@/components/UI/LoadingSpinner";
 
 interface UserInfo {
   username: string;
@@ -36,8 +37,15 @@ export default function MemCheckIn() {
   }, [userToken]);
 
   if (!userInfo || loading) {
-    return null;
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <LoadingSpinner />
+      </div>
+    );
   }
-
-  return <MemCard userInfo={userInfo} />;
+  return (
+    <div className="my-10">
+      <MemCard userInfo={userInfo} />;
+    </div>
+  );
 }
