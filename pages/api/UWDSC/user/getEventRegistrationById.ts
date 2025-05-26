@@ -21,9 +21,9 @@ export default async function handler(
     });
 
     const latestEvent = latestEventResponse.data.event;
-    if (!latestEvent) {
-      return res.status(404).json({ exists: false, message: "No upcoming events found" });
-    }
+    // if (!latestEvent) {
+    //   return res.status(404).json({ exists: false, message: "No upcoming events found" });
+    // }
 
     // Then get the registration status for that event
     const response = await axios({

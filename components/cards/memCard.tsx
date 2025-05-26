@@ -68,6 +68,7 @@ export default function MemCard(props: memCardProps) {
   useEffect(() => {
     const getRegistrant = async () => {
       if (!latestEvent || !userId) {
+        if (!latestEvent) setLoading(false);
         return;
       }
 
@@ -224,8 +225,7 @@ export default function MemCard(props: memCardProps) {
                 <Info className="h-7 w-7 text-white" />
               </div>
               <p className="text-sm leading-relaxed text-white">
-                You have made your account, but have not paid your $4 fee. View
-                instructions
+                You have made your account, but have not paid your $4 fee. See an executive for assistance.
               </p>
             </div>
           )}

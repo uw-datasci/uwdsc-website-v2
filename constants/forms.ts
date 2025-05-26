@@ -66,7 +66,7 @@ export const SIGN_UP_FORM_FIELDS_PART1: ContactField[] = [
     id: "WatIAM",
     name: "WatIAM",
     type: "input",
-    placeholder: "[Optional] WatIAM (ex. slchow)",
+    placeholder: "WatIAM (ex. slchow)",
   },
   {
     id: "email",
