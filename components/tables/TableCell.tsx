@@ -8,14 +8,15 @@ import { backfillUserEvents } from "@/utils/apiCalls";
 
 interface TableCellProps<TData> extends CellContext<TData, unknown> {
   column: Column<TData, unknown>;
-  tableMeta: {
+  tableMeta?: {
     editFormData: User | null;
-    setEditFormData: (data: User | null) => void;
+    setEditFormData: (data: User | null | ((prevData: User | null) => User | null)) => void;
     updateCellData: (rowId: string, columnId: string, value: string) => void;
+    editedRowId?: string;
   };
 }
 
-const TableCell = <TData,>({
+const TableCell = <TData extends User>({
   getValue,
   row,
   column,
@@ -23,13 +24,15 @@ const TableCell = <TData,>({
 }: TableCellProps<TData>) => {
   const initialValue = getValue() as any;
   const columnMeta = column.columnDef.meta;
-  const tableMeta = table.options.meta as any;
+  const tableMeta = table.options.meta as TableCellProps<TData>["tableMeta"];
   const [value, setValue] = useState<any>(initialValue);
   const adminName = useSelector((state: RootState) => state.loginToken.name);
 
   const handleEdit = (e: ChangeEvent<any>) => {
     const newValue = e.target.value;
     setValue(newValue);
+
+    if (!tableMeta) return;
 
     if (column.id === "hasPaid") {
       if (
@@ -71,8 +74,7 @@ const TableCell = <TData,>({
 
       // If payment status is changed to "True", backfill events
       if (newValue === "True") {
-        const userData = row.original as User;
-        backfillUserEvents(userData._id)
+        backfillUserEvents(row.original._id)
           .then((response) => {
             console.log(`Backfill successful: ${response.data.message}`);
             console.log(`Number of events registered: ${response.data.eventsRegistered}`);
@@ -110,8 +112,8 @@ const TableCell = <TData,>({
       <input
         value={value}
         onChange={handleEdit}
-        type={columnMeta?.type || "text"} // TODO: change default to email/password/etc
-        name={column.id || "placeholder"} // TODO: change placeholder to actual value in better way
+        type={columnMeta?.type || "text"}
+        name={column.id || "placeholder"}
         className="rounded h-fit w-fit rounded-sm border p-1"
       />
     );
