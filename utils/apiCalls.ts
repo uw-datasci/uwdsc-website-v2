@@ -180,3 +180,9 @@ export const getCurrentUser = async () => {
     token: store.getState().loginToken.token,
   });
 };
+
+export const getLatestEvent = async () => {
+  return await axios.post("/api/UWDSC/events/latest", {
+    token: store.getState().loginToken.token,
+  });
+};

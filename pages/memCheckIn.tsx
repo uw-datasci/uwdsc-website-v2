@@ -1,13 +1,15 @@
-import { RootState } from "@/store/store";
+import { RootState, AppDispatch } from "@/store/store";
+import axios from "axios";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import MemCard from "@/components/cards/memCard";
 import {
   getCurrentUser,
-  getEvents,
+  getLatestEvent,
   getCurrentUserRegistrationByID,
   patchCheckInRegistrantById,
 } from "@/utils/apiCalls";
+import { setLatestEvent, setRegistrationStatus } from "@/store/slices/latestEventSlice";
 
 interface UserInfo {
   username: string;
@@ -17,24 +19,36 @@ interface UserInfo {
   isCheckedIn: boolean;
 }
 
+interface Event {
+  id: string;
+  name: string;
+}
+
 export default function MemCheckIn() {
-  // retrieve id from token - theres library (npm i jwt-decode to decode jwt token for id)
-  // that does this but this is manual way
+  const dispatch = useDispatch<AppDispatch>();
   const userToken = useSelector((state: RootState) => state.loginToken.token);
-  const userId = JSON.parse(atob(userToken.split(".")[1])).user.id;
+  const { event: latestEvent, isRegistered, isCheckedIn } = useSelector((state: RootState) => state.latestEvent);
+  
+  const getUserId = () => {
+    if (!userToken) return null;
+    try {
+      return JSON.parse(atob(userToken.split(".")[1])).user.id;
+    } catch (error) {
+      console.error("Error decoding token:", error);
+      return null;
+    }
+  };
+  
+  const userId = getUserId();
 
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [time, setTime] = useState("");
 
-  const [selectedEvent, setSelectedEvent] = useState<any>(null);
-  const [checkedIn, setCheckedIn] = useState(false);
-
-  // fetch user data
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        if (!userToken) {
+        if (!userToken || !userId) {
           throw new Error("User is not registered.");
         }
         const response = await getCurrentUser();
@@ -45,41 +59,50 @@ export default function MemCheckIn() {
     };
 
     fetchUserData();
-  }, []);
+  }, [userToken, userId]);
 
-  // fetch current event
+  // fetch latest event
   useEffect(() => {
-    const retrieveEvents = async () => {
-      const response = await getEvents(
-        new Date("2025-01-21"),
-        new Date("2025-01-21"),
-        true,
-      );
-      const events = response.data.events;
-      if (!selectedEvent) {
-        setSelectedEvent(events && events.length > 0 ? events[0] : null);
+    const fetchLatestEvent = async () => {
+      try {
+        const response = await getLatestEvent();
+        if (response.data.event) {
+          dispatch(setLatestEvent(response.data.event));
+        }
+      } catch (err: any) {
+        console.error("Error fetching latest event:", err);
       }
     };
-    retrieveEvents();
-  }, []);
+
+    fetchLatestEvent();
+  }, [dispatch]);
 
   // fetch registrant from event
-  // combine w above
   useEffect(() => {
     const getRegistrant = async () => {
-      if (selectedEvent) {
-        try {
-          const response = await getCurrentUserRegistrationByID();
-          setCheckedIn(response.data.checkedIn);
-        } catch (err) {
-          console.error("Error fetching check-in status:", err);
-        } finally {
-          setLoading(false);
-        }
+      if (!latestEvent || !userId) {
+        return;
+      }
+      
+      try {
+        const response = await getCurrentUserRegistrationByID();
+        console.log("Registration response:", response.data);
+        // Check if the user is registered for the current event
+        const isRegistered = response.data.exist;
+        dispatch(setRegistrationStatus({
+          isRegistered,
+          isCheckedIn: isRegistered ? response.data.checkedIn : false
+        }));
+      } catch (err) {
+        console.error("Error fetching check-in status:", err);
+        dispatch(setRegistrationStatus({ isRegistered: false, isCheckedIn: false }));
+      } finally {
+        setLoading(false);
       }
     };
     getRegistrant();
-  }, [selectedEvent]);
+  }, [latestEvent, userId, dispatch]);
+
   useEffect(() => {
     const updateTime = () => {
       const now = new Date();
@@ -94,18 +117,18 @@ export default function MemCheckIn() {
   }, []);
 
   const handleCheckIn = async () => {
-    setCheckedIn(true);
-    const response = await patchCheckInRegistrantById(
-      selectedEvent.id,
-      userId,
-      "",
-    );
-    if (response.data.success) {
-      console.log(response.data);
-    } else if (response.status === 500) {
-      console.log("Hi");
+    if (!latestEvent || !userId) return;
+    
+    try {
+      const response = await patchCheckInRegistrantById(latestEvent.id, userId, "");
+      if (response.data.updatedRegistrant) {
+        dispatch(setRegistrationStatus({ isRegistered: true, isCheckedIn: true }));
+      }
+    } catch (err) {
+      console.error("Error checking in:", err);
     }
-  };
+  }
+
   if (!userInfo) {
     return null;
   }
