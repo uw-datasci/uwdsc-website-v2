@@ -4,9 +4,15 @@ import { User } from "@/types/types";
 import { ColumnType } from "./AdminTable";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
+import { backfillUserEvents } from "@/utils/apiCalls";
 
 interface TableCellProps<TData> extends CellContext<TData, unknown> {
   column: Column<TData, unknown>;
+  tableMeta: {
+    editFormData: User | null;
+    setEditFormData: (data: User | null) => void;
+    updateCellData: (rowId: string, columnId: string, value: string) => void;
+  };
 }
 
 const TableCell = <TData,>({
@@ -61,6 +67,24 @@ const TableCell = <TData,>({
         tableMeta.updateCellData(row.id, "paymentMethod", "");
         tableMeta.updateCellData(row.id, "verifier", "");
         tableMeta.updateCellData(row.id, "paymentLocation", "");
+      }
+
+      // If payment status is changed to "True", backfill events
+      if (newValue === "True") {
+        const userData = row.original as User;
+        backfillUserEvents(userData._id)
+          .then((response) => {
+            console.log(`Backfill successful: ${response.data.message}`);
+            console.log(`Number of events registered: ${response.data.eventsRegistered}`);
+            console.log('Registered Events:');
+            response.data.events.forEach((event: { id: string; name: string; startTime: string }) => {
+              console.log(`- ${event.name} (ID: ${event.id})`);
+              console.log(`  Start Time: ${new Date(event.startTime).toLocaleString()}`);
+            });
+          })
+          .catch((error) => {
+            console.error("Error backfilling user events:", error);
+          });
       }
     } else {
       tableMeta.setEditFormData((prevData: User | null) =>

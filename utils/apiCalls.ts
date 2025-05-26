@@ -186,3 +186,10 @@ export const getLatestEvent = async () => {
     token: store.getState().loginToken.token,
   });
 };
+
+export const backfillUserEvents = async (userId: string) => {
+  return await axios.post("/api/UWDSC/admin/backfillUserEvents", {
+    token: store.getState().loginToken.token,
+    userId,
+  });
+};
