@@ -1,5 +1,15 @@
 import { X, Check, Info, Clock, CircleCheck, CircleX } from "lucide-react";
 import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState, AppDispatch } from "@/store/store";
+import { setLatestEvent, setRegistrationStatus } from "@/store/slices/latestEventSlice";
+import { patchCheckInRegistrantById, getLatestEvent, getCurrentUserRegistrationByID } from "@/utils/apiCalls";
+import Image from "next/image";
+
+interface Event {
+  id: string;
+  name: string;
+}
 
 interface memCardProps {
   userInfo: {
@@ -7,13 +17,68 @@ interface memCardProps {
     email: string;
     faculty: string;
     hasPaid: boolean;
-  },
-  checkedIn: boolean,
-  selectedEvent: any,
-  onCheckIn: () => Promise<void>,
+  }
 }
+
 export default function MemCard(props: memCardProps) {
+  const dispatch = useDispatch<AppDispatch>();
+  const { event: latestEvent, isCheckedIn } = useSelector((state: RootState) => state.latestEvent) as { event: Event | null, isCheckedIn: boolean };
+  const userToken = useSelector((state: RootState) => state.loginToken.token);
   const [time, setTime] = useState("");
+  const [loading, setLoading] = useState(true);
+
+  const getUserId = () => {
+    if (!userToken) return null;
+    try {
+      return JSON.parse(atob(userToken.split(".")[1])).user.id;
+    } catch (error) {
+      console.error("Error decoding token:", error);
+      return null;
+    }
+  };
+
+  const userId = getUserId();
+
+  // Fetch latest event
+  useEffect(() => {
+    const fetchLatestEvent = async () => {
+      try {
+        const response = await getLatestEvent();
+        if (response.data.event) {
+          dispatch(setLatestEvent(response.data.event));
+        }
+      } catch (err: any) {
+        console.error("Error fetching latest event:", err);
+      }
+    };
+
+    fetchLatestEvent();
+  }, [dispatch]);
+
+  // Fetch registration status
+  useEffect(() => {
+    const getRegistrant = async () => {
+      if (!latestEvent || !userId) {
+        return;
+      }
+      
+      try {
+        const response = await getCurrentUserRegistrationByID();
+        const isRegistered = response.data.exist;
+        dispatch(setRegistrationStatus({
+          isRegistered,
+          isCheckedIn: isRegistered ? response.data.checkedIn : false
+        }));
+      } catch (err) {
+        console.error("Error fetching check-in status:", err);
+        dispatch(setRegistrationStatus({ isRegistered: false, isCheckedIn: false }));
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    getRegistrant();
+  }, [latestEvent, userId, dispatch]);
 
   useEffect(() => {
     const updateTime = () => {
@@ -27,13 +92,31 @@ export default function MemCard(props: memCardProps) {
 
     return () => clearInterval(interval);
   }, []);
+
+  const handleCheckIn = async () => {
+    if (!latestEvent || !userId) return;
+    
+    try {
+      const response = await patchCheckInRegistrantById(latestEvent.id, userId, "");
+      if (response.data.updatedRegistrant) {
+        dispatch(setRegistrationStatus({ isRegistered: true, isCheckedIn: true }));
+      }
+    } catch (err) {
+      console.error("Error checking in:", err);
+    }
+  };
+
+  if (loading) {
+    return null;
+  }
+
   return (
     <div className="mx-auto w-[90%] max-w-md overflow-hidden rounded-3xl bg-[url('/membershipCard/memCardBg.svg')] bg-cover bg-center shadow-2xl">
       {/* Header */}
       <div
         className={`flex items-center justify-center gap-3 ${
           props.userInfo.hasPaid
-            ? props.checkedIn
+            ? isCheckedIn
               ? "bg-[#11b981]"
               : "bg-[#f59e0c]"
             : "bg-[#ef4444]"
@@ -42,14 +125,14 @@ export default function MemCard(props: memCardProps) {
         {!props.userInfo.hasPaid && (
           <CircleX className="h-8 w-8 stroke-[1.5] text-white" />
         )}
-        {props.userInfo.hasPaid && !props.checkedIn && (
+        {props.userInfo.hasPaid && !isCheckedIn && (
           <Clock className="h-6 w-6 text-white" />
         )}
-        {props.userInfo.hasPaid && props.checkedIn && (
+        {props.userInfo.hasPaid && isCheckedIn && (
           <CircleCheck className="h-6 w-6 stroke-[1.5] text-white md:h-8 md:w-8" />
         )}
         <span className="text-xl font-semibold text-white md:text-2xl">
-          Checked In
+          {isCheckedIn ? "Checked In" : "Not Checked In"}
         </span>
       </div>
 
@@ -58,8 +141,15 @@ export default function MemCard(props: memCardProps) {
         <div className="relative z-10">
           {/* Profile and Title */}
           <div className="mb-8 flex items-center gap-4">
-            {/* Replcae with DSC Logo later */}
-            <div className="h-14 w-14 md:h-16 md:w-16 rounded-full bg-[#959595] shrink-0"></div>
+            <div className="h-14 w-14 md:h-16 md:w-16 rounded-full bg-black p-2 shrink-0 flex justify-center items-center">
+              <Image
+                src="/logos/dsc.svg"
+                alt="DSC Logo"
+                width={64}
+                height={64}
+                className="w-[90%] h-[90%]"
+              />
+            </div>
             <div>
               <h2 className="mb-1 text-2xl font-bold text-white md:text-3xl">
                 UW Data Science Club
@@ -128,27 +218,27 @@ export default function MemCard(props: memCardProps) {
           </p>
           <div className="grid grid-cols-2 items-center">
             <h3 className="text-xl font-semibold leading-tight text-white md:text-2xl">
-            {props.selectedEvent ? (
-                <p>{props.selectedEvent.name}</p>
+              {latestEvent ? (
+                <p>{latestEvent.name}</p>
               ) : (
                 <p>No events running</p>
               )}
             </h3>
             <div className="flex justify-end">
-              {props.userInfo.hasPaid && !props.checkedIn && (
+              {props.userInfo.hasPaid && !isCheckedIn && (
                 <button
                   className="text-base rounded-md bg-[#f59e0c] px-3 py-1 font-semibold text-white shadow-lg hover:bg-[#e8890b] md:rounded-xl md:px-5 md:py-3 md:text-lg"
-                  onClick={props.onCheckIn}
+                  onClick={handleCheckIn}
                 >
                   Check-In
                 </button>
               )}
-              {!props.userInfo.hasPaid && !props.checkedIn && (
+              {!props.userInfo.hasPaid && !isCheckedIn && (
                 <button className="flex h-12 w-12 items-center justify-center rounded-md border-2 border-white bg-[#11b981] md:h-14 md:w-14 md:rounded-lg">
                   <X className="h-6 w-6 text-white" />
                 </button>
               )}
-              {props.userInfo.hasPaid && props.checkedIn && (
+              {props.userInfo.hasPaid && isCheckedIn && (
                 <button className="flex h-12 w-12 items-center justify-center rounded-md border-2 border-white bg-[#11b981] md:h-14 md:w-14 md:rounded-lg">
                   <Check className="h-6 w-6 text-white" />
                 </button>
