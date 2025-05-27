@@ -134,12 +134,23 @@ export const patchRegistrationByID = async (
   });
 };
 
-export const patchCheckInRegistrantById = async (
+
+export const patchCheckInRegistrantByIdUser = async (
   eventId: string,
   userId: string,
 ) => {
   return await axios.patch(`/api/UWDSC/events/${eventId}/registrants/checkin/${userId}`, {
     token: store.getState().loginToken.token,
+  });
+};
+export const patchCheckInRegistrantById = async (
+  eventId: string,
+  userId: string,
+  eventSecret: string,
+) => {
+  return await axios.patch(`/api/UWDSC/events/${eventId}/registrants/checkin/${userId}`, {
+    token: store.getState().loginToken.token,
+    eventSecret,
   });
 };
 

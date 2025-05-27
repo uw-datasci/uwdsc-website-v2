@@ -7,7 +7,7 @@ import {
   setRegistrationStatus,
 } from "@/store/slices/latestEventSlice";
 import {
-  patchCheckInRegistrantById,
+  patchCheckInRegistrantByIdUser,
   getLatestEvent,
   getCurrentUserRegistrationByID,
   getQrCode,
@@ -119,7 +119,7 @@ export default function MemCard(props: memCardProps) {
     console.log(getUserId());
 
     try {
-      const response = await patchCheckInRegistrantById(
+      const response = await patchCheckInRegistrantByIdUser(
         latestEvent._id,
         getUserId(),
       );
