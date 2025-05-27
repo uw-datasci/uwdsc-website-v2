@@ -12,6 +12,7 @@ import {
   getCurrentUserRegistrationByID,
 } from "@/utils/apiCalls";
 import Image from "next/image";
+import LoadingSpinner from "../UI/LoadingSpinner";
 
 interface Event {
   id: string;
@@ -127,7 +128,11 @@ export default function MemCard(props: memCardProps) {
   };
 
   if (loading) {
-    return null;
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <LoadingSpinner />
+      </div>
+    );
   }
 
   return (
@@ -225,7 +230,8 @@ export default function MemCard(props: memCardProps) {
                 <Info className="h-7 w-7 text-white" />
               </div>
               <p className="text-sm leading-relaxed text-white">
-                You have made your account, but have not paid your $4 fee. See an executive for assistance.
+                You have made your account, but have not paid your $4 fee. See
+                an executive for assistance.
               </p>
             </div>
           )}
@@ -233,13 +239,19 @@ export default function MemCard(props: memCardProps) {
       </div>
       <hr className="border-t-[1px] border-white opacity-50" />
       {/* Bottom Section */}
-      <div className="flex items-center justify-between px-6 pb-5 pt-4">
-        <div>
-          <p className="mb-1 text-sm font-semibold text-[#acc2ff] md:text-lg">
+      <div className="flex w-full items-center justify-between px-6 pb-5 pt-4">
+        <div className="w-full">
+          <p className="text-sm font-semibold text-[#acc2ff] md:text-lg">
             Event Check-in
           </p>
-          <div className="grid grid-cols-3 items-center gap-3">
-            <h3 className="col-span-2 text-xl font-semibold leading-tight text-white md:text-2xl">
+          <div
+            className={`w-full ${
+              props.userInfo.hasPaid && !isCheckedIn
+                ? "grid grid-cols-3 items-center justify-center gap-3"
+                : "flex items-center justify-between"
+            }`}
+          >
+            <h3 className="col-span-2 text-xl font-semibold leading-tight text-white md:text-2xl pr-5">
               {latestEvent ? (
                 <p>{latestEvent.name}</p>
               ) : (
