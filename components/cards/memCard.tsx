@@ -74,7 +74,11 @@ export default function MemCard(props: memCardProps) {
   // Fetch registration status
   useEffect(() => {
     const getRegistrant = async () => {
-      if (!latestEvent || !userId) {
+      if (!userId) {
+        return;
+      }
+      else if (!latestEvent) {
+        setLoading(false);
         return;
       }
 
