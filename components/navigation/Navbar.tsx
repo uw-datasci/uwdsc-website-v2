@@ -144,6 +144,7 @@ export default function Navbar() {
                   classes="lg:block"
                   onClick={() => {
                     dispatch(logout());
+                    router.push("/");
                   }}
                 >
                   Log out
