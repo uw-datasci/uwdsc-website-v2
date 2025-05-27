@@ -43,7 +43,7 @@ export default function MemCheckIn() {
       </div>
     );
   }
-  userInfo.hasPaid = false;
+
   return (
     <div className="my-10">
       <MemCard userInfo={userInfo} />;
