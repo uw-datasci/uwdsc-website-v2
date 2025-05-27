@@ -13,28 +13,34 @@ export default async function handler(
     // First get the latest event
     const latestEventResponse = await axios({
       url: `${process.env.NEXT_PUBLIC_UWDSC_WEBSITE_SERVER_URL}/api/events/latest`,
-      method: "GET",
+      method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
     });
 
-    const latestEvent = latestEventResponse.data.event;
+    //console.log(latestEventResponse.data);
+    const latestEvent = latestEventResponse.data._id;
+    console.log(latestEvent);
     // if (!latestEvent) {
     //   return res.status(404).json({ exists: false, message: "No upcoming events found" });
     // }
 
     // Then get the registration status for that event
+
+
     const response = await axios({
-      url: `${process.env.NEXT_PUBLIC_UWDSC_WEBSITE_SERVER_URL}/api/users/events/${latestEvent.id}/registrants`,
-      method: "GET",
+      url: `${process.env.NEXT_PUBLIC_UWDSC_WEBSITE_SERVER_URL}/api/users/events/${latestEvent}/registrants`,
+      method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
     });
 
+    console.log("bruh");
+    console.log(response.data);
     const reg = response.data.registrant;
     res.status(200).json({
       exist: true,

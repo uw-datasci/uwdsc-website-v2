@@ -10,11 +10,15 @@ import {
   patchCheckInRegistrantById,
   getLatestEvent,
   getCurrentUserRegistrationByID,
+  getQrCode,
 } from "@/utils/apiCalls";
 import Image from "next/image";
+import { useRouter } from "next/router";
+import { store } from "@/store/store";
 import LoadingSpinner from "../UI/LoadingSpinner";
 
 interface Event {
+  _id: string;
   id: string;
   name: string;
 }
@@ -36,6 +40,8 @@ export default function MemCard(props: memCardProps) {
   const userToken = useSelector((state: RootState) => state.loginToken.token);
   const [time, setTime] = useState("");
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
+  const [eventSecret, setEventSecret] = useState<string>("");
 
   const getUserId = () => {
     if (!userToken) return null;
@@ -54,8 +60,8 @@ export default function MemCard(props: memCardProps) {
     const fetchLatestEvent = async () => {
       try {
         const response = await getLatestEvent();
-        if (response.data.event) {
-          dispatch(setLatestEvent(response.data.event));
+        if (response.data) {
+          dispatch(setLatestEvent(response.data));
         }
       } catch (err: any) {
         console.error("Error fetching latest event:", err);
@@ -69,7 +75,6 @@ export default function MemCard(props: memCardProps) {
   useEffect(() => {
     const getRegistrant = async () => {
       if (!latestEvent || !userId) {
-        if (!latestEvent) setLoading(false);
         return;
       }
 
@@ -109,21 +114,21 @@ export default function MemCard(props: memCardProps) {
   }, []);
 
   const handleCheckIn = async () => {
-    if (!latestEvent || !userId) return;
+    if (!latestEvent) return;
+    console.log(latestEvent._id);
+    console.log(getUserId());
 
     try {
       const response = await patchCheckInRegistrantById(
-        latestEvent.id,
-        userId,
-        "",
+        latestEvent._id,
+        getUserId(),
       );
-      if (response.data.updatedRegistrant) {
-        dispatch(
-          setRegistrationStatus({ isRegistered: true, isCheckedIn: true }),
-        );
+      console.log(response.data);
+      if (response.data.registrant.checkedIn) {
+        dispatch(setRegistrationStatus({ isRegistered: true, isCheckedIn: true }));
       }
-    } catch (err) {
-      console.error("Error checking in:", err);
+    } catch (error) {
+      console.error("Error checking in:", error);
     }
   };
 

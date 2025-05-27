@@ -4,7 +4,7 @@ import { User } from "@/types/types";
 import { ColumnType } from "./AdminTable";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
-import { backfillUserEvents } from "@/utils/apiCalls";
+import { backfillUserEvents, removeUserFromEvents } from "@/utils/apiCalls";
 
 interface TableCellProps<TData> extends CellContext<TData, unknown> {
   column: Column<TData, unknown>;
@@ -86,6 +86,17 @@ const TableCell = <TData extends User>({
           })
           .catch((error) => {
             console.error("Error backfilling user events:", error);
+          });
+      } 
+      // If payment status is changed to "False", remove from all events
+      else if (newValue === "False") {
+        removeUserFromEvents(row.original._id)
+          .then((response) => {
+            console.log(`Removal successful: ${response.data.message}`);
+            console.log(`Number of events removed from: ${response.data.eventsRemoved}`);
+          })
+          .catch((error) => {
+            console.error("Error removing user from events:", error);
           });
       }
     } else {
