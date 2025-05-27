@@ -40,9 +40,9 @@ export const checkInById = async (values: Record<string, string>) => {
 export const sendSignUpInfo = async (values: Record<string, string>) => {
   try {
     const response = await axios.post("/api/UWDSC/user/registerUser", values);
-    return await axios.post("/api/UWDSC/user/sendVerificationEmail", {
-      email: response.data.email,
-    });
+    // return await axios.post("/api/UWDSC/user/sendVerificationEmail", {
+    //   email: response.data.email,
+    // });
     // return await axios.post("/api/UWDSC/user/registerUser", values);
   } catch (err: any) {
     const response = err.response.data;
@@ -134,15 +134,22 @@ export const patchRegistrationByID = async (
   });
 };
 
+
+export const patchCheckInRegistrantByIdUser = async (
+  eventId: string,
+  userId: string,
+) => {
+  return await axios.patch(`/api/UWDSC/events/${eventId}/registrants/checkin/${userId}`, {
+    token: store.getState().loginToken.token,
+  });
+};
 export const patchCheckInRegistrantById = async (
   eventId: string,
   userId: string,
   eventSecret: string,
 ) => {
-  return await axios.post("/api/UWDSC/admin/patchCheckInRegistrantById", {
+  return await axios.patch(`/api/UWDSC/events/${eventId}/registrants/checkin/${userId}`, {
     token: store.getState().loginToken.token,
-    eventId,
-    userId,
     eventSecret,
   });
 };
@@ -178,5 +185,64 @@ export const getRegistrationByID = async (eventId: string, userId: string) => {
 export const getCurrentUser = async () => {
   return await axios.post("/api/UWDSC/user/getCurrentUser", {
     token: store.getState().loginToken.token,
+  });
+};
+
+export const getLatestEvent = async () => {
+  return await axios.post("/api/UWDSC/events/latest", {
+    token: store.getState().loginToken.token,
+  });
+};
+
+export const backfillUserEvents = async (userId: string) => {
+  return await axios.post("/api/UWDSC/admin/backfillUserEvents", {
+    token: store.getState().loginToken.token,
+    userId,
+  });
+};
+
+export const removeUserFromEvents = async (userId: string) => {
+  return await axios.post("/api/UWDSC/admin/removeUserFromEvents", {
+    token: store.getState().loginToken.token,
+    userId,
+  });
+};
+
+export const createEvent = async (eventData: {
+  name: string;
+  isRegistrationRequired: boolean;
+  description: string;
+  location: string;
+  startTime: string;
+  bufferedStartTime?: string;
+  endTime: string;
+  bufferedEndTime?: string;
+  requirements: {
+    user: { hasPaid: boolean };
+    checkedIn: boolean;
+    selected: boolean;
+  };
+  toDisplay: {
+    before: {
+      user: {
+        username: string;
+        faculty: string;
+        hasPaid: string;
+      };
+      checkedIn: string;
+    };
+    after: {
+      user: {
+        username: string;
+        faculty: string;
+      };
+      checkedIn: string;
+    };
+  };
+  additionalFieldsSchema?: Record<string, any>;
+}) => {
+  return await axios.post("/api/UWDSC/admin/createEvent", {
+    token: store.getState().loginToken.token,
+    ...eventData,
   });
 };

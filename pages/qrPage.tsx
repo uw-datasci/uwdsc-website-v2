@@ -3,6 +3,7 @@ import QRCode from "qrcode";
 import { useState } from "react";
 import { useEffect } from "react";
 import Image from "next/image";
+import MemCheckIn from "@/pages/memCheckIn";
 
 export default function QR() {
   const [src, setSrc] = useState<string>("");
