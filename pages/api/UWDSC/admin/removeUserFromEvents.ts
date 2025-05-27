@@ -16,6 +16,7 @@ export default async function handler(
       });
     }
 
+    console.log(userId);
     const response = await axios({
       url: `${process.env.NEXT_PUBLIC_UWDSC_WEBSITE_SERVER_URL}/api/users/removeFromEvents/${userId}`,
       method: "DELETE",
@@ -25,6 +26,7 @@ export default async function handler(
       },
     });
 
+    console.log(response.data);
     if (response.status === 200) {
       return res.status(200).json({ 
         success: true, 
