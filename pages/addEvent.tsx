@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { createEvent } from "@/utils/apiCalls";
 import { useRouter } from "next/router";
+import withAuth from "@/components/permissions/authPage";
 
-export default function AddEvent() {
+function AddEvent() {
   const router = useRouter();
   const [formData, setFormData] = useState({
     name: "",
@@ -165,4 +166,6 @@ export default function AddEvent() {
       </form>
     </div>
   );
-} 
+}
+
+export default withAuth(AddEvent, ["admin"]); 
