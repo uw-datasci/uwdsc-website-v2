@@ -21,8 +21,10 @@ export default async function handler(
       user: response.data,
     });
   } catch (error: any) {
-    console.error(error.response.data.message);
-
-    res.status(500).json({ success: false });
+    console.error("Error fetching user:", error);
+    res.status(500).json({ 
+      success: false,
+      message: error.response?.data?.message || "Failed to fetch user data"
+    });
   }
 }

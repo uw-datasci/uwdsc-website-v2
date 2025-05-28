@@ -67,14 +67,14 @@ export default function Hero() {
               <Button
                 type="route"
                 hierarchy="primary"
-                href="/qrPage"
+                href="/memCheckIn"
                 font="font-bold"
                 text="sm:text-lg 2xl:text-xl"
                 padding="py-3 sm:px-7 sm:py-4"
                 rounded="rounded-lg"
                 classes=""
               >
-                QR Code
+                Check In
               </Button>
               <GradientBorder rounded="rounded-lg" classes="lg:hidden">
                 <Button
