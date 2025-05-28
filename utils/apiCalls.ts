@@ -191,10 +191,13 @@ export const createEvent = async (event: Record<string, any>) => {
   });
 };
 
-export const editEvent = async (id: string, event: Record<string, any>) => {
+export const editEvent = async (
+  id: string,
+  changedFields: Record<string, any>,
+) => {
   return await axios.post(`/api/UWDSC/admin/editEvent?id=${id}`, {
     token: store.getState().loginToken.token,
-    event,
+    event: changedFields,
   });
 };
 

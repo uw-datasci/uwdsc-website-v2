@@ -50,6 +50,18 @@ const formatEventDate = (startTime: string, endTime: string) => {
   return `${formattedDate}, ${startTimeStr} - ${endTimeStr}`;
 };
 
+// Utility function to get changed fields between two objects
+const getChangedFields = (original: any, current: any): Record<string, any> => {
+  const changes: Record<string, any> = {};
+
+  Object.keys(current).forEach((key) => {
+    if (key === "id") return;
+    if (original[key] !== current[key]) changes[key] = current[key];
+  });
+
+  return changes;
+};
+
 // Type for API event data
 interface EventData {
   id: string;
@@ -116,13 +128,11 @@ function Events() {
         setLoading(true);
         setFetchError(null);
 
-        // Get current date for fromDate parameter
         const currentDate = new Date();
 
         const response = await getEvents(currentDate);
 
         if (isMounted && response.data && response.data.events) {
-          // Format events to match EventCard component
           const formattedEvents = response.data.events.map(
             (event: EventFormValues) => ({
               id: event.id,
@@ -134,7 +144,7 @@ function Events() {
               startTime: event.startTime,
               endTime: event.endTime,
               isRegistrationRequired: event.isRegistrationRequired,
-              bufferedStartTime: event.bufferedStartTime, // Default values for missing fields
+              bufferedStartTime: event.bufferedStartTime,
               bufferedEndTime: event.bufferedEndTime,
               requirements: false,
             }),
@@ -159,10 +169,10 @@ function Events() {
     return () => {
       isMounted = false;
     };
-  }, [refreshTrigger]); // Refetch when refresh is triggered
+  }, [refreshTrigger]);
 
   const formikInitialValues = useMemo(
-    () => (selectedEvent ? { ...selectedEvent } : initialFormValues),
+    () => (selectedEvent ? selectedEvent : initialFormValues),
     [selectedEvent],
   );
 
@@ -175,33 +185,49 @@ function Events() {
         setSuccess(false);
         setError(false);
 
-        // Create date objects from form values
-        const startTimeDate = new Date(values.startTime);
-        const endTimeDate = new Date(values.endTime);
-
-        // Set buffered times if not provided
-        let bufferedStartTimeDate = values.bufferedStartTime
-          ? new Date(values.bufferedStartTime)
-          : new Date(startTimeDate.getTime() - 60 * 60 * 1000); // 1 hour before
-
-        let bufferedEndTimeDate = values.bufferedEndTime
-          ? new Date(values.bufferedEndTime)
-          : new Date(endTimeDate.getTime() + 60 * 60 * 1000); // 1 hour after
-
-        const formattedValues = {
-          ...values,
-          startTime: startTimeDate,
-          endTime: endTimeDate,
-          bufferedStartTime: bufferedStartTimeDate,
-          bufferedEndTime: bufferedEndTimeDate,
-          isRegistrationRequired: values.isRegistrationRequired,
-          requirements: values.requirements,
-        };
-
         if (selectedEvent) {
-          // Update existing event
-          console.log("Updating event:", selectedEvent.id, formattedValues);
-          const response = await editEvent(selectedEvent.id, formattedValues);
+          // For editing, only send changed fields
+          const changedFields = getChangedFields(selectedEvent, values);
+
+          // If no fields have changed, just close the form
+          if (Object.keys(changedFields).length === 0) {
+            dispatch(removeEventForm());
+            return;
+          }
+
+          // Process date fields if they were changed
+          if (changedFields.startTime) {
+            changedFields.startTime = new Date(changedFields.startTime);
+          }
+          if (changedFields.endTime) {
+            changedFields.endTime = new Date(changedFields.endTime);
+          }
+
+          // Process buffered start times
+          if (changedFields.bufferedStartTime) {
+            changedFields.bufferedStartTime = new Date(
+              changedFields.bufferedStartTime,
+            );
+          } else if (changedFields.startTime && !values.bufferedStartTime) {
+            // Only set default buffered start time if start time changed and no buffered time exists
+            changedFields.bufferedStartTime = new Date(
+              changedFields.startTime.getTime() - 60 * 60 * 1000,
+            );
+          }
+
+          // Process buffered end time
+          if (changedFields.bufferedEndTime) {
+            changedFields.bufferedEndTime = new Date(
+              changedFields.bufferedEndTime,
+            );
+          } else if (changedFields.endTime && !values.bufferedEndTime) {
+            // Only set default buffered end time if end time changed and no buffered time exists
+            changedFields.bufferedEndTime = new Date(
+              changedFields.endTime.getTime() + 60 * 60 * 1000,
+            );
+          }
+
+          const response = await editEvent(selectedEvent.id, changedFields);
           if (response.data.success) {
             resetForm();
             setSuccess(true);
@@ -214,6 +240,30 @@ function Events() {
             }, 3000);
           }
         } else {
+          // For creating new events, send all fields
+          // Create date objects from form values
+          const startTimeDate = new Date(values.startTime);
+          const endTimeDate = new Date(values.endTime);
+
+          // Set buffered times if not provided
+          let bufferedStartTimeDate = values.bufferedStartTime
+            ? new Date(values.bufferedStartTime)
+            : new Date(startTimeDate.getTime() - 60 * 60 * 1000); // 1 hour before
+
+          let bufferedEndTimeDate = values.bufferedEndTime
+            ? new Date(values.bufferedEndTime)
+            : new Date(endTimeDate.getTime() + 60 * 60 * 1000); // 1 hour after
+
+          const formattedValues = {
+            ...values,
+            startTime: startTimeDate,
+            endTime: endTimeDate,
+            bufferedStartTime: bufferedStartTimeDate,
+            bufferedEndTime: bufferedEndTimeDate,
+            isRegistrationRequired: values.isRegistrationRequired,
+            requirements: values.requirements,
+          };
+
           const response = await createEvent(formattedValues);
           if (response.data.success) {
             resetForm();
