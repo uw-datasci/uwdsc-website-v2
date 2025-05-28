@@ -134,24 +134,29 @@ export const patchRegistrationByID = async (
   });
 };
 
-
 export const patchCheckInRegistrantByIdUser = async (
   eventId: string,
   userId: string,
 ) => {
-  return await axios.patch(`/api/UWDSC/events/${eventId}/registrants/checkin/${userId}`, {
-    token: store.getState().loginToken.token,
-  });
+  return await axios.patch(
+    `/api/UWDSC/events/${eventId}/registrants/checkin/${userId}`,
+    {
+      token: store.getState().loginToken.token,
+    },
+  );
 };
 export const patchCheckInRegistrantById = async (
   eventId: string,
   userId: string,
   eventSecret: string,
 ) => {
-  return await axios.patch(`/api/UWDSC/events/${eventId}/registrants/checkin/${userId}`, {
-    token: store.getState().loginToken.token,
-    eventSecret,
-  });
+  return await axios.patch(
+    `/api/UWDSC/events/${eventId}/registrants/checkin/${userId}`,
+    {
+      token: store.getState().loginToken.token,
+      eventSecret,
+    },
+  );
 };
 
 export const patchCheckInRegistrantToSubEventById = async (
@@ -211,6 +216,8 @@ export const editEvent = async (
 export const deleteEvent = async (id: string) => {
   return await axios.post(`/api/UWDSC/admin/deleteEvent?id=${id}`, {
     token: store.getState().loginToken.token,
+  });
+};
 
 export const getLatestEvent = async () => {
   return await axios.post("/api/UWDSC/events/latest", {
