@@ -1,17 +1,18 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import SectionTitle from "@/components/UI/SectionTitle";
 import withAuth from "@/components/permissions/authPage";
-import TextInput from "@/components/UI/Inputs/UWDSC/TextInput";
-import TextArea from "@/components/UI/Inputs/UWDSC/TextArea";
-import InputFeedback from "@/components/UI/Inputs/UWDSC/InputFeedback";
-import ToggleSwitch from "@/components/UI/Inputs/UWDSC/ToggleSwitch";
 import Button from "@/components/UI/Button";
 import PopUpPanels from "@/components/sections/templates/PopUpPanels";
 import EventCard from "@/components/cards/EventCard";
-import { createEvent, getEvents } from "@/utils/apiCalls";
+import {
+  createEvent,
+  editEvent,
+  deleteEvent,
+  getEvents,
+} from "@/utils/apiCalls";
 import { EventValidationSchema } from "@/utils/formValidation";
 import {
   displayEventForm,
@@ -19,18 +20,35 @@ import {
 } from "@/store/slices/eventFormPageSlice";
 import { StaticImageData } from "next/image";
 import placeholderImage from "@/public/placeholder/event.png";
+import EventForm from "@/components/forms/EventForm";
+import { EventFormValues } from "@/types/types";
+import { Edit3, Trash2 } from "react-feather";
 
-interface EventFormValues {
-  name: string;
-  isRegistrationRequired: boolean;
-  description: string;
-  location: string;
-  startTime: string;
-  endTime: string;
-  bufferedStartTime: string;
-  bufferedEndTime: string;
-  requirements: boolean;
-}
+// Format date for display - pure function outside component
+const formatEventDate = (startTime: string, endTime: string) => {
+  const start = new Date(startTime);
+  const end = new Date(endTime);
+
+  const formattedDate = start.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+
+  const startTimeStr = start.toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+  });
+
+  const endTimeStr = end.toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+  });
+
+  return `${formattedDate}, ${startTimeStr} - ${endTimeStr}`;
+};
 
 // Type for API event data
 interface EventData {
@@ -46,14 +64,21 @@ interface EventData {
 // Type for formatted event data with fields matching EventCard
 interface FormattedEvent {
   id: string;
-  title: string;
+  isRegistrationRequired: boolean;
+  name: string;
   description: string;
   image: StaticImageData;
   date: string;
   location: string;
+  startTime: string;
+  endTime: string;
+  bufferedStartTime: string;
+  bufferedEndTime: string;
+  requirements: boolean;
 }
 
 const initialFormValues: EventFormValues = {
+  id: "",
   name: "",
   isRegistrationRequired: false,
   description: "",
@@ -65,262 +90,28 @@ const initialFormValues: EventFormValues = {
   requirements: false,
 };
 
-function EventForm({
-  formik,
-  success,
-  error,
-  onClose,
-}: {
-  formik: ReturnType<typeof useFormik<EventFormValues>>;
-  success: boolean;
-  error: boolean;
-  onClose: () => void;
-}) {
-  return (
-    <form onSubmit={formik.handleSubmit} className="space-y-6">
-      <div className="mb-6">
-        <h2 className="text-2xl font-bold text-white">Add New Event</h2>
-      </div>
-
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-        <div>
-          <TextInput
-            id="name"
-            name="name"
-            type="text"
-            placeholder="Event Name"
-            value={formik.values.name}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-          />
-          {formik.touched.name && formik.errors.name && (
-            <InputFeedback state="error">
-              {String(formik.errors.name)}
-            </InputFeedback>
-          )}
-        </div>
-
-        <div>
-          <div className="relative">
-            <TextInput
-              id="location"
-              name="location"
-              type="text"
-              placeholder="Event Location"
-              value={formik.values.location}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              classes="pr-10"
-            />
-          </div>
-          {formik.touched.location && formik.errors.location && (
-            <InputFeedback state="error">
-              {String(formik.errors.location)}
-            </InputFeedback>
-          )}
-        </div>
-      </div>
-
-      <div>
-        <TextArea
-          id="description"
-          name="description"
-          placeholder="Event Description"
-          value={formik.values.description}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          classes="max-h-[7rem]"
-        />
-        {formik.touched.description && formik.errors.description && (
-          <InputFeedback state="error">
-            {String(formik.errors.description)}
-          </InputFeedback>
-        )}
-      </div>
-
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-        <div>
-          <label
-            htmlFor="startTime"
-            className="mb-2 block text-sm font-medium text-white"
-          >
-            Event Start Time
-          </label>
-          <TextInput
-            id="startTime"
-            name="startTime"
-            type="datetime-local"
-            placeholder="Start Time"
-            value={formik.values.startTime}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-          />
-          {formik.touched.startTime && formik.errors.startTime && (
-            <InputFeedback state="error">
-              {String(formik.errors.startTime)}
-            </InputFeedback>
-          )}
-        </div>
-
-        <div>
-          <label
-            htmlFor="endTime"
-            className="mb-2 block text-sm font-medium text-white"
-          >
-            Event End Time
-          </label>
-          <TextInput
-            id="endTime"
-            name="endTime"
-            type="datetime-local"
-            placeholder="End Time"
-            value={formik.values.endTime}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-          />
-          {formik.touched.endTime && formik.errors.endTime && (
-            <InputFeedback state="error">
-              {String(formik.errors.endTime)}
-            </InputFeedback>
-          )}
-        </div>
-
-        <div>
-          <label
-            htmlFor="bufferedStartTime"
-            className="mb-2 block text-sm font-medium text-white"
-          >
-            Buffered Start Time (Optional)
-          </label>
-          <TextInput
-            id="bufferedStartTime"
-            name="bufferedStartTime"
-            type="datetime-local"
-            placeholder="Buffered Start Time (Optional)"
-            value={formik.values.bufferedStartTime}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-          />
-          {formik.touched.bufferedStartTime &&
-            formik.errors.bufferedStartTime && (
-              <InputFeedback state="error">
-                {String(formik.errors.bufferedStartTime)}
-              </InputFeedback>
-            )}
-        </div>
-
-        <div>
-          <label
-            htmlFor="bufferedEndTime"
-            className="mb-2 block text-sm font-medium text-white"
-          >
-            Buffered End Time (Optional)
-          </label>
-          <TextInput
-            id="bufferedEndTime"
-            name="bufferedEndTime"
-            type="datetime-local"
-            placeholder="Buffered End Time (Optional)"
-            value={formik.values.bufferedEndTime}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-          />
-          {formik.touched.bufferedEndTime && formik.errors.bufferedEndTime && (
-            <InputFeedback state="error">
-              {String(formik.errors.bufferedEndTime)}
-            </InputFeedback>
-          )}
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-        <div>
-          <ToggleSwitch
-            id="isRegistrationRequired"
-            name="isRegistrationRequired"
-            label="Registration Required"
-            checked={formik.values.isRegistrationRequired}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-          />
-        </div>
-        <div>
-          <ToggleSwitch
-            id="requirements"
-            name="requirements"
-            label="User Payment Required"
-            checked={formik.values.requirements}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-          />
-        </div>
-      </div>
-
-      <Button
-        type="submit"
-        hierarchy="primary"
-        font="font-bold"
-        text="sm:text-lg 2xl:text-xl"
-        rounded="rounded-[15px]"
-        classes="w-full"
-      >
-        Create Event
-      </Button>
-
-      {success && (
-        <InputFeedback state="success">
-          Event created successfully!
-        </InputFeedback>
-      )}
-      {error && (
-        <InputFeedback state="error">
-          Failed to create event. Please try again.
-        </InputFeedback>
-      )}
-    </form>
-  );
-}
-
 function Events() {
   const [success, setSuccess] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
   const [upcomingEvents, setUpcomingEvents] = useState<FormattedEvent[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [fetchError, setFetchError] = useState<string | null>(null);
+  const [selectedEvent, setSelectedEvent] = useState<FormattedEvent | null>(
+    null,
+  );
+  const [refreshTrigger, setRefreshTrigger] = useState<number>(0);
   const dispatch = useDispatch();
   const eventFormOpen = useSelector(
     (state: RootState) => state.eventFormPage.value,
   );
 
-  // Format date for display
-  const formatEventDate = (startTime: string, endTime: string) => {
-    const start = new Date(startTime);
-    const end = new Date(endTime);
-
-    const formattedDate = start.toLocaleDateString("en-US", {
-      month: "short",
-      day: "numeric",
-      year: "numeric",
-    });
-
-    const startTimeStr = start.toLocaleTimeString("en-US", {
-      hour: "numeric",
-      minute: "2-digit",
-      hour12: true,
-    });
-
-    const endTimeStr = end.toLocaleTimeString("en-US", {
-      hour: "numeric",
-      minute: "2-digit",
-      hour12: true,
-    });
-
-    return `${formattedDate}, ${startTimeStr} - ${endTimeStr}`;
-  };
-
   // Fetch events
   useEffect(() => {
+    let isMounted = true;
+
     const fetchUpcomingEvents = async () => {
+      if (!isMounted) return;
+
       try {
         setLoading(true);
         setFetchError(null);
@@ -330,35 +121,55 @@ function Events() {
 
         const response = await getEvents(currentDate);
 
-        if (response.data && response.data.events) {
+        if (isMounted && response.data && response.data.events) {
           // Format events to match EventCard component
           const formattedEvents = response.data.events.map(
-            (event: EventData) => ({
+            (event: EventFormValues) => ({
               id: event.id,
-              title: event.name,
+              name: event.name,
               description: event.description,
               image: placeholderImage, // Using placeholder image
               date: formatEventDate(event.startTime, event.endTime),
               location: event.location,
+              startTime: event.startTime,
+              endTime: event.endTime,
+              isRegistrationRequired: event.isRegistrationRequired,
+              bufferedStartTime: event.bufferedStartTime, // Default values for missing fields
+              bufferedEndTime: event.bufferedEndTime,
+              requirements: false,
             }),
           );
 
           setUpcomingEvents(formattedEvents);
         }
       } catch (error) {
-        console.error("Error fetching events:", error);
-        setFetchError("Failed to load events. Please try again later.");
+        if (isMounted) {
+          console.error("Error fetching events:", error);
+          setFetchError("Failed to load events. Please try again later.");
+        }
       } finally {
-        setLoading(false);
+        if (isMounted) {
+          setLoading(false);
+        }
       }
     };
 
     fetchUpcomingEvents();
-  }, [success]); // Refetch when a new event is created successfully
+
+    return () => {
+      isMounted = false;
+    };
+  }, [refreshTrigger]); // Refetch when refresh is triggered
+
+  const formikInitialValues = useMemo(
+    () => (selectedEvent ? { ...selectedEvent } : initialFormValues),
+    [selectedEvent],
+  );
 
   const formik = useFormik<EventFormValues>({
-    initialValues: initialFormValues,
+    initialValues: formikInitialValues,
     validationSchema: EventValidationSchema,
+    enableReinitialize: true,
     onSubmit: async (values, { resetForm }) => {
       try {
         setSuccess(false);
@@ -387,15 +198,34 @@ function Events() {
           requirements: values.requirements,
         };
 
-        const response = await createEvent(formattedValues);
-
-        if (response.data.success) {
-          resetForm();
-          setSuccess(true);
-          setTimeout(() => {
-            setSuccess(false);
+        if (selectedEvent) {
+          // Update existing event
+          console.log("Updating event:", selectedEvent.id, formattedValues);
+          const response = await editEvent(selectedEvent.id, formattedValues);
+          if (response.data.success) {
+            resetForm();
+            setSuccess(true);
             dispatch(removeEventForm());
-          }, 3000);
+            // Trigger events refresh
+            setRefreshTrigger((prev) => prev + 1);
+            // Reset success after a delay
+            setTimeout(() => {
+              setSuccess(false);
+            }, 3000);
+          }
+        } else {
+          const response = await createEvent(formattedValues);
+          if (response.data.success) {
+            resetForm();
+            setSuccess(true);
+            dispatch(removeEventForm());
+            // Trigger events refresh
+            setRefreshTrigger((prev) => prev + 1);
+            // Reset success after a delay
+            setTimeout(() => {
+              setSuccess(false);
+            }, 3000);
+          }
         }
       } catch (error: any) {
         setError(true);
@@ -403,18 +233,46 @@ function Events() {
     },
   });
 
-  const handleOpenEventForm = () => dispatch(displayEventForm());
+  const handleOpenEventForm = () => {
+    setSelectedEvent(null);
+    dispatch(displayEventForm());
+  };
 
-  const handleCloseEventForm = () => dispatch(removeEventForm());
+  const handleEditEvent = (event: FormattedEvent) => {
+    setSelectedEvent(event);
+    dispatch(displayEventForm());
+  };
+
+  const handleCloseEventForm = () => {
+    setSelectedEvent(null);
+    dispatch(removeEventForm());
+  };
+
+  const handleDeleteEvent = async (eventId: string) => {
+    if (
+      window.confirm(
+        "Are you sure you want to delete this event? This action cannot be undone.",
+      )
+    ) {
+      try {
+        const response = await deleteEvent(eventId);
+        if (response.data.success) {
+          // Trigger events refresh to remove the deleted event from the list
+          setRefreshTrigger((prev) => prev + 1);
+        }
+      } catch (error: any) {
+        console.error("Error deleting event:", error);
+        // You could add a toast notification here for better UX
+      }
+    }
+  };
 
   return (
     <section className="mx-container mb-section mt-14 lg:mt-20">
       <h1 className="mb-14 text-center text-3xl font-bold text-white 3xs:text-6xl sm:text-8xl lg:text-10xl 2xl:text-12xl">
-        Events
+        Manage Events
       </h1>
       <div className="flex flex-col gap-2 overflow-visible">
-        <SectionTitle mb="mb-12">Manage Events</SectionTitle>
-
         <div className="mx-auto mb-12 w-full max-w-2xl text-center">
           <Button
             type="button"
@@ -430,7 +288,6 @@ function Events() {
           </Button>
         </div>
 
-        {/* Upcoming Events Section */}
         <div className="mb-12">
           <SectionTitle mb="mb-6">Upcoming Events</SectionTitle>
 
@@ -444,22 +301,38 @@ function Events() {
             <div className="no-scrollbar overflow-x-auto">
               <div className="flex gap-6 pb-4 pt-2">
                 {upcomingEvents.map((event) => (
-                  <EventCard
-                    key={event.id}
-                    id={event.id}
-                    title={event.title}
-                    description={event.description}
-                    image={event.image}
-                    date={event.date}
-                    location={event.location}
-                  />
+                  <div key={event.id} className="group relative">
+                    <EventCard
+                      id={event.id}
+                      title={event.name}
+                      image={event.image}
+                      date={event.date}
+                      location={event.location}
+                    />
+
+                    <div className="absolute right-4 top-4 z-10 flex gap-2 transition-opacity duration-300">
+                      <button
+                        onClick={() => handleEditEvent(event)}
+                        className="bg-gray-800 cursor-pointer rounded-full p-2 text-white hover:text-grey1"
+                        aria-label="Edit event"
+                      >
+                        <Edit3 size={20} />
+                      </button>
+                      <button
+                        onClick={() => handleDeleteEvent(event.id)}
+                        className="bg-gray-800 cursor-pointer rounded-full p-2 text-white hover:text-darkRed"
+                        aria-label="Delete event"
+                      >
+                        <Trash2 size={20} />
+                      </button>
+                    </div>
+                  </div>
                 ))}
               </div>
             </div>
           )}
         </div>
 
-        {/* Event Form Popup */}
         <PopUpPanels
           isPopUp={eventFormOpen}
           moveDownFunc={handleCloseEventForm}
@@ -468,13 +341,15 @@ function Events() {
             <div key="event-form" className="no-scrollbar w-full overflow-auto">
               <div className="mx-auto w-full max-w-2xl p-6">
                 <p className="text-gray-300 mb-8">
-                  Fill out the form below to create a new event.
+                  {selectedEvent
+                    ? "Edit the event details below."
+                    : "Fill out the form below to create a new event."}
                 </p>
                 <EventForm
                   formik={formik}
                   success={success}
                   error={error}
-                  onClose={handleCloseEventForm}
+                  isEditing={!!selectedEvent}
                 />
               </div>
             </div>,

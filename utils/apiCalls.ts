@@ -153,13 +153,16 @@ export const patchCheckInRegistrantToSubEventById = async (
   userId: string,
   eventSecret: string,
 ) => {
-  return await axios.post("/api/UWDSC/admin/patchCheckInRegistrantToSubEventById", {
-    token: store.getState().loginToken.token,
-    eventId,
-    subEventId,
-    userId,
-    eventSecret,
-  });
+  return await axios.post(
+    "/api/UWDSC/admin/patchCheckInRegistrantToSubEventById",
+    {
+      token: store.getState().loginToken.token,
+      eventId,
+      subEventId,
+      userId,
+      eventSecret,
+    },
+  );
 };
 
 export const getRegistrationByID = async (eventId: string, userId: string) => {
@@ -185,5 +188,18 @@ export const createEvent = async (event: Record<string, any>) => {
   return await axios.post("/api/UWDSC/admin/createEvent", {
     token: store.getState().loginToken.token,
     event,
+  });
+};
+
+export const editEvent = async (id: string, event: Record<string, any>) => {
+  return await axios.post(`/api/UWDSC/admin/editEvent?id=${id}`, {
+    token: store.getState().loginToken.token,
+    event,
+  });
+};
+
+export const deleteEvent = async (id: string) => {
+  return await axios.post(`/api/UWDSC/admin/deleteEvent?id=${id}`, {
+    token: store.getState().loginToken.token,
   });
 };
