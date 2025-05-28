@@ -150,7 +150,9 @@ export default function EventForm({
             </InputFeedback>
           )}
         </div>
+      </div>
 
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
         <div>
           <label
             htmlFor="bufferedStartTime"
@@ -198,6 +200,12 @@ export default function EventForm({
           )}
         </div>
       </div>
+
+      <p className="px-4 text-sm text-grey1">
+        <strong>Note:</strong> If no buffered start and end times are selected,
+        they will automatically be set to 1 hour before the event start time and
+        1 hour after the event end time respectively.
+      </p>
 
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
         <div>
