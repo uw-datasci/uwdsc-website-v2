@@ -349,38 +349,36 @@ function Events() {
           ) : upcomingEvents.length === 0 ? (
             <p className="text-center text-white">No upcoming events found.</p>
           ) : (
-            <div className="no-scrollbar overflow-x-auto">
-              <div className="flex gap-6 pb-4 pt-2">
-                {upcomingEvents.map((event) => (
-                  <div key={event.id} className="group relative">
-                    <EventCard
-                      id={event.id}
-                      title={event.name}
-                      image={event.image}
-                      location={event.location}
-                      startTime={event.startTime}
-                      endTime={event.endTime}
-                    />
+            <div className="flex flex-wrap gap-6 pb-4 pt-2">
+              {upcomingEvents.map((event) => (
+                <div key={event.id} className="group relative">
+                  <EventCard
+                    id={event.id}
+                    title={event.name}
+                    image={event.image}
+                    location={event.location}
+                    startTime={event.startTime}
+                    endTime={event.endTime}
+                  />
 
-                    <div className="absolute right-4 top-4 z-10 flex gap-2 transition-opacity duration-300">
-                      <button
-                        onClick={() => handleEditEvent(event)}
-                        className="bg-gray-800 cursor-pointer rounded-full p-2 text-white hover:text-grey1"
-                        aria-label="Edit event"
-                      >
-                        <Edit3 size={20} />
-                      </button>
-                      <button
-                        onClick={() => handleDeleteEvent(event.id)}
-                        className="bg-gray-800 cursor-pointer rounded-full p-2 text-white hover:text-darkRed"
-                        aria-label="Delete event"
-                      >
-                        <Trash2 size={20} />
-                      </button>
-                    </div>
+                  <div className="absolute right-4 top-4 z-10 flex gap-2 transition-opacity duration-300">
+                    <button
+                      onClick={() => handleEditEvent(event)}
+                      className="bg-gray-800 cursor-pointer rounded-full p-2 text-white hover:text-grey1"
+                      aria-label="Edit event"
+                    >
+                      <Edit3 size={20} />
+                    </button>
+                    <button
+                      onClick={() => handleDeleteEvent(event.id)}
+                      className="bg-gray-800 cursor-pointer rounded-full p-2 text-white hover:text-darkRed"
+                      aria-label="Delete event"
+                    >
+                      <Trash2 size={20} />
+                    </button>
                   </div>
-                ))}
-              </div>
+                </div>
+              ))}
             </div>
           )}
         </div>
