@@ -5,6 +5,7 @@ import storage from "redux-persist/lib/storage"; // defaults to localStorage for
 import signUpPageReducer from "./slices/signUpPageSlice.js";
 import signInPageReducer from "./slices/signInPageSlice.js";
 import loginTokenReducer from "./slices/loginTokenSlice.js"; // Rename to loginTokenReducer
+import eventFormPageReducer from "./slices/eventFormPageSlice.js";
 import latestEventReducer from "./slices/latestEventSlice";
 
 // all reducers
@@ -12,6 +13,7 @@ const rootReducer = combineReducers({
   signUpPage: signUpPageReducer,
   signInPage: signInPageReducer,
   loginToken: loginTokenReducer,
+  eventFormPage: eventFormPageReducer,
   latestEvent: latestEventReducer,
 });
 

@@ -22,6 +22,7 @@ export const NAVBAR_ROUTES = {
       label: "Admin",
       subNavItems: [
         { label: "Memberships", route: "/admin" },
+        { label: "Events", route: "/events" },
         // { label: "QR Scanner", route: "/qrScanner" },
       ],
     },

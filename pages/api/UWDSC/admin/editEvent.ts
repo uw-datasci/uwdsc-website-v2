@@ -8,13 +8,22 @@ export default async function handler(
   res: NextApiResponse,
 ) {
   try {
-    const { token, event, hasPaid } = req.body;
+    const { token, event } = req.body;
+    const { id } = req.query;
 
     if (!token) {
       console.error("No token provided");
       return res.status(401).json({
         success: false,
         message: "Authentication token is required",
+      });
+    }
+
+    if (!id) {
+      console.error("No event ID provided");
+      return res.status(400).json({
+        success: false,
+        message: "Event ID is required",
       });
     }
 
@@ -26,43 +35,23 @@ export default async function handler(
       });
     }
 
-    console.log("Creating event with data:", event);
-
-    const newEvent = {
-      ...event,
-      requirements: {
-        checkedIn: false,
-        selected: true,
-        user: { hasPaid: hasPaid },
-      },
-      toDisplay: {
-        before: {
-          user: { username: "Name", faculty: "Faculty" },
-          checkedIn: "Is checked-in",
-          selected: "Is selected",
-        },
-        after: {
-          user: { username: "Name", faculty: "Faculty" },
-          checkedIn: "Is checked-in",
-        },
-      },
-    };
+    console.log("Editing event with ID:", id, "and data:", event);
 
     const response = await axios({
-      url: `${process.env.NEXT_PUBLIC_UWDSC_WEBSITE_SERVER_URL}/api/admin/events`,
-      method: "POST",
+      url: `${process.env.NEXT_PUBLIC_UWDSC_WEBSITE_SERVER_URL}/api/admin/events/${id}`,
+      method: "PATCH",
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
-      data: JSON.stringify(newEvent),
+      data: JSON.stringify(event),
     });
 
     console.log("Backend response:", response.data);
 
     res.status(200).json({ success: true, event: response.data });
   } catch (error: any) {
-    console.error("Error creating event:", error);
+    console.error("Error editing event:", error);
     console.error("Error details:", {
       message: error.message,
       response: error.response?.data,
@@ -71,7 +60,7 @@ export default async function handler(
 
     res.status(error.response?.status || 500).json({
       success: false,
-      message: error.response?.data?.message || "Failed to create event",
+      message: error.response?.data?.message || "Failed to edit event",
       error: error.response?.data || error.message,
     });
   }

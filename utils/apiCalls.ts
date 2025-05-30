@@ -134,24 +134,29 @@ export const patchRegistrationByID = async (
   });
 };
 
-
 export const patchCheckInRegistrantByIdUser = async (
   eventId: string,
   userId: string,
 ) => {
-  return await axios.patch(`/api/UWDSC/events/${eventId}/registrants/checkin/${userId}`, {
-    token: store.getState().loginToken.token,
-  });
+  return await axios.patch(
+    `/api/UWDSC/events/${eventId}/registrants/checkin/${userId}`,
+    {
+      token: store.getState().loginToken.token,
+    },
+  );
 };
 export const patchCheckInRegistrantById = async (
   eventId: string,
   userId: string,
   eventSecret: string,
 ) => {
-  return await axios.patch(`/api/UWDSC/events/${eventId}/registrants/checkin/${userId}`, {
-    token: store.getState().loginToken.token,
-    eventSecret,
-  });
+  return await axios.patch(
+    `/api/UWDSC/events/${eventId}/registrants/checkin/${userId}`,
+    {
+      token: store.getState().loginToken.token,
+      eventSecret,
+    },
+  );
 };
 
 export const patchCheckInRegistrantToSubEventById = async (
@@ -160,13 +165,16 @@ export const patchCheckInRegistrantToSubEventById = async (
   userId: string,
   eventSecret: string,
 ) => {
-  return await axios.post("/api/UWDSC/admin/patchCheckInRegistrantToSubEventById", {
-    token: store.getState().loginToken.token,
-    eventId,
-    subEventId,
-    userId,
-    eventSecret,
-  });
+  return await axios.post(
+    "/api/UWDSC/admin/patchCheckInRegistrantToSubEventById",
+    {
+      token: store.getState().loginToken.token,
+      eventId,
+      subEventId,
+      userId,
+      eventSecret,
+    },
+  );
 };
 
 export const getRegistrationByID = async (eventId: string, userId: string) => {
@@ -188,6 +196,29 @@ export const getCurrentUser = async () => {
   });
 };
 
+export const createEvent = async (event: Record<string, any>) => {
+  return await axios.post("/api/UWDSC/admin/createEvent", {
+    token: store.getState().loginToken.token,
+    event,
+  });
+};
+
+export const editEvent = async (
+  id: string,
+  changedFields: Record<string, any>,
+) => {
+  return await axios.post(`/api/UWDSC/admin/editEvent?id=${id}`, {
+    token: store.getState().loginToken.token,
+    event: changedFields,
+  });
+};
+
+export const deleteEvent = async (id: string) => {
+  return await axios.post(`/api/UWDSC/admin/deleteEvent?id=${id}`, {
+    token: store.getState().loginToken.token,
+  });
+};
+
 export const getLatestEvent = async () => {
   return await axios.post("/api/UWDSC/events/latest", {
     token: store.getState().loginToken.token,
@@ -205,44 +236,5 @@ export const removeUserFromEvents = async (userId: string) => {
   return await axios.post("/api/UWDSC/admin/removeUserFromEvents", {
     token: store.getState().loginToken.token,
     userId,
-  });
-};
-
-export const createEvent = async (eventData: {
-  name: string;
-  isRegistrationRequired: boolean;
-  description: string;
-  location: string;
-  startTime: string;
-  bufferedStartTime?: string;
-  endTime: string;
-  bufferedEndTime?: string;
-  requirements: {
-    user: { hasPaid: boolean };
-    checkedIn: boolean;
-    selected: boolean;
-  };
-  toDisplay: {
-    before: {
-      user: {
-        username: string;
-        faculty: string;
-        hasPaid: string;
-      };
-      checkedIn: string;
-    };
-    after: {
-      user: {
-        username: string;
-        faculty: string;
-      };
-      checkedIn: string;
-    };
-  };
-  additionalFieldsSchema?: Record<string, any>;
-}) => {
-  return await axios.post("/api/UWDSC/admin/createEvent", {
-    token: store.getState().loginToken.token,
-    ...eventData,
   });
 };
