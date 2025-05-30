@@ -173,7 +173,15 @@ export const EventValidationSchema = object({
     .min(new Date(), "Start time must be in the future"),
   endTime: date()
     .required("End time is required")
-    .min(new Date(), "End time must be in the future"),
+    .min(new Date(), "End time must be in the future")
+    .test(
+      "is-after-start",
+      "End time must be after start time",
+      function (value) {
+        const { startTime } = this.parent;
+        return !value || !startTime || value > startTime;
+      },
+    ),
   bufferedStartTime: date()
     .optional()
     .test(

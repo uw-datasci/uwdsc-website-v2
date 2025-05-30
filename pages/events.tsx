@@ -19,35 +19,38 @@ import {
   removeEventForm,
 } from "@/store/slices/eventFormPageSlice";
 import { StaticImageData } from "next/image";
-import placeholderImage from "@/public/placeholder/event.png";
+// Import multiple event images for cycling
+import eventImage1 from "@/public/graphics/rocket.png";
+import eventImage2 from "@/public/graphics/trophy.png";
+import eventImage3 from "@/public/graphics/computer.png";
+import eventImage4 from "@/public/graphics/chat.png";
+import eventImage5 from "@/public/graphics/documents.png";
+import eventImage6 from "@/public/graphics/folder.png";
+import eventImage7 from "@/public/graphics/office-open.png";
+import eventImage8 from "@/public/graphics/office-arcade.png";
+import eventImage9 from "@/public/events/eot.png";
+import eventImage10 from "@/public/placeholder/event.png";
 import EventForm from "@/components/forms/EventForm";
 import { EventFormValues } from "@/types/types";
 import { Edit3, Trash2 } from "react-feather";
 
-// Format date for display - pure function outside component
-const formatEventDate = (startTime: string, endTime: string) => {
-  const start = new Date(startTime);
-  const end = new Date(endTime);
+// Array of event images to cycle through
+const eventImages: StaticImageData[] = [
+  eventImage1,
+  eventImage2,
+  eventImage3,
+  eventImage4,
+  eventImage5,
+  eventImage6,
+  eventImage7,
+  eventImage8,
+  eventImage9,
+  eventImage10,
+];
 
-  const formattedDate = start.toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  });
-
-  const startTimeStr = start.toLocaleTimeString("en-US", {
-    hour: "numeric",
-    minute: "2-digit",
-    hour12: true,
-  });
-
-  const endTimeStr = end.toLocaleTimeString("en-US", {
-    hour: "numeric",
-    minute: "2-digit",
-    hour12: true,
-  });
-
-  return `${formattedDate}, ${startTimeStr} - ${endTimeStr}`;
+// Function to get image based on event index
+const getEventImage = (index: number): StaticImageData => {
+  return eventImages[index % eventImages.length];
 };
 
 // Utility function to get changed fields between two objects
@@ -80,7 +83,6 @@ interface FormattedEvent {
   name: string;
   description: string;
   image: StaticImageData;
-  date: string;
   location: string;
   startTime: string;
   endTime: string;
@@ -134,12 +136,11 @@ function Events() {
 
         if (isMounted && response.data && response.data.events) {
           const formattedEvents = response.data.events.map(
-            (event: EventFormValues) => ({
+            (event: EventFormValues, index: number) => ({
               id: event.id,
               name: event.name,
               description: event.description,
-              image: placeholderImage, // Using placeholder image
-              date: formatEventDate(event.startTime, event.endTime),
+              image: getEventImage(index),
               location: event.location,
               startTime: event.startTime,
               endTime: event.endTime,
@@ -356,8 +357,9 @@ function Events() {
                       id={event.id}
                       title={event.name}
                       image={event.image}
-                      date={event.date}
                       location={event.location}
+                      startTime={event.startTime}
+                      endTime={event.endTime}
                     />
 
                     <div className="absolute right-4 top-4 z-10 flex gap-2 transition-opacity duration-300">
