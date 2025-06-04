@@ -115,3 +115,16 @@ export type User = {
   isEmailVerified: string;
   __v?: number;
 };
+
+export type EventFormValues = {
+  id: string;
+  name: string;
+  isRegistrationRequired: boolean;
+  description: string;
+  location: string;
+  startTime: string;
+  endTime: string;
+  bufferedStartTime: string;
+  bufferedEndTime: string;
+  requirements: boolean;
+};
