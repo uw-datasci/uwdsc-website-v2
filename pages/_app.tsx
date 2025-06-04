@@ -6,6 +6,7 @@ import Navbar from "@/components/navigation/Navbar";
 import Footer from "@/components/navigation/Footer";
 import SignUp from "@/components/popup/SignUp";
 import SignIn from "@/components/popup/SignIn";
+import { Analytics } from '@vercel/analytics/react';
 
 import "@/styles/globals.css";
 
@@ -27,6 +28,7 @@ export default function App({ Component, pageProps }: AppProps) {
       {!shouldHideLayout && <SignIn />}
       <Component {...pageProps} />
       {!shouldHideLayout && !shouldHideFooter && <Footer />}
+      <Analytics />
     </ReduxProvider>
   );
 }
