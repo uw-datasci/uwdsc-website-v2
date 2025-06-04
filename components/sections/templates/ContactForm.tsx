@@ -47,7 +47,6 @@ export default function ContactForm({
     >
       {includeSideInfo && (
         <>
-          {/* Left column: text */}
           <div>
             <h2 className="mb-3 text-4xl font-bold text-white md:text-8xl lg:-mt-3 xl:text-8xl">
               {title}
@@ -61,8 +60,8 @@ export default function ContactForm({
             {CHIPS.map((chip, i) => (
               <div
                 key={`chip-${i}`}
-                className="w-40 text-sm px-3 py-1" // controlling size here on the wrapper
-                style={{ display: "flex", justifyContent: "center" }} // center content horizontally inside wrapper
+                className="w-40 text-sm px-3 py-1"
+                style={{ display: "flex", justifyContent: "center" }}
               >
                 <Chip icon={chip.icon} href={chip.href}>
                   {chip.label}
