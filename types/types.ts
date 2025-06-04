@@ -73,7 +73,7 @@ export type SponsorTier = {
   value: number;
 };
 
-export type ContactForm = {
+export type Form = {
   name: string;
   email: string;
   purpose: "Sponsorship" | "General Inquiry" | "Other";
