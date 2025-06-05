@@ -9,7 +9,7 @@ import Button from "@/components/UI/Button";
 import Logo from "@/components/UI/Logo";
 
 import PopUpPanels from "../sections/templates/PopUpPanels";
-import ContactForm from "../sections/templates/ContactForm";
+import Form from "../sections/templates/Form";
 import {
   SIGN_IN_FORM_FIELDS,
   FORGOT_PASSWORD_FORM_FIELDS,
@@ -80,7 +80,7 @@ export default function SignInPage() {
             </div>
             <div className="flex max-h-full w-full flex-col justify-center py-10 lg:overflow-auto lg:p-8">
               <div className="max-h-[100%] w-full overflow-auto">
-                <ContactForm
+                <Form
                   title=""
                   id=""
                   includeSideInfo={false}
@@ -149,7 +149,7 @@ export default function SignInPage() {
             </div>
             <div className="flex max-h-full w-full flex-col justify-center py-10 lg:overflow-auto lg:p-8">
               <div className="max-h-[100%] w-full overflow-auto">
-                <ContactForm
+                <Form
                   title=""
                   id=""
                   includeSideInfo={false}

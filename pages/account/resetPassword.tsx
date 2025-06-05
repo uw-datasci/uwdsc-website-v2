@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Button from "@/components/UI/Button";
 import { sendResetPassRequest } from "@/utils/apiCalls";
-import ContactForm from "@/components/sections/templates/ContactForm";
+import Form from "@/components/sections/templates/Form";
 import { RESET_PASSWORD_FORM_FIELDS } from "@/constants/forms";
 import { ResetPasswordFormSchema } from "@/utils/formValidation";
 
@@ -29,7 +29,7 @@ export default function ForgotPassword() {
         Reset Password
       </h1>
 
-      <ContactForm
+      <Form
         title=""
         id=""
         includeSideInfo={false}
