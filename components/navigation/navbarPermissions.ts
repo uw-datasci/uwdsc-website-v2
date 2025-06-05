@@ -11,6 +11,7 @@ export const NAVBAR_ROUTES = {
     { label: "Team", route: "/team" },
     // { label: "QR Code", route: "/qrPage" },
     { label: "Check In", route: "/memCheckIn" },
+    { label: "Calendar", route: "/calendar" },
   ],
   ADMIN: [
     { label: "Home", route: "/" },
@@ -18,6 +19,7 @@ export const NAVBAR_ROUTES = {
     { label: "Team", route: "/team" },
     // { label: "QR Code", route: "/qrPage" },
     { label: "Check In", route: "/memCheckIn" },
+    { label: "Calendar", route: "/calendar" },
     {
       label: "Admin",
       subNavItems: [
