@@ -73,7 +73,7 @@ export type SponsorTier = {
   value: number;
 };
 
-export type ContactForm = {
+export type Form = {
   name: string;
   email: string;
   purpose: "Sponsorship" | "General Inquiry" | "Other";
@@ -113,6 +113,8 @@ export type User = {
   verifier: string;
   paymentLocation: string;
   isEmailVerified: string;
+  isMathSocMember?: boolean;
+  eventList?: string[];
   __v?: number;
 };
 

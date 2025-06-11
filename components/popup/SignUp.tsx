@@ -11,7 +11,7 @@ import Logo from "@/components/UI/Logo";
 import PopUpPanels from "../sections/templates/PopUpPanels";
 import { removeSignUp } from "@/store/slices/signUpPageSlice";
 import { displaySignIn } from "@/store/slices/signInPageSlice";
-import ContactForm from "../sections/templates/ContactForm";
+import Form from "../sections/templates/Form";
 import {
   SIGN_UP_FORM_FIELDS_PART1,
   SIGN_UP_FORM_FIELDS_PART2,
@@ -77,7 +77,7 @@ export default function SignUpPage() {
             </div>
             <div className="lg:overflow-auto-x flex max-h-full w-full flex-col justify-center py-10 lg:p-8">
               <div className="w-full lg:max-h-[100%] lg:overflow-auto">
-                <ContactForm
+                <Form
                   title=""
                   id=""
                   getFormik={getFormik}
@@ -140,7 +140,7 @@ export default function SignUpPage() {
             </div>
             <div className="flex max-h-full w-full flex-col justify-center py-10 lg:overflow-auto lg:p-8">
               <div className="w-full lg:max-h-[100%] lg:overflow-auto">
-                <ContactForm
+                <Form
                   title=""
                   id=""
                   includeSideInfo={false}
