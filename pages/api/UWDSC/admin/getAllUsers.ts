@@ -1,5 +1,6 @@
 import { type NextApiRequest, type NextApiResponse } from "next";
 import axios from "axios";
+import { User } from "@/types/types";
 
 require("dotenv").config();
 
@@ -22,7 +23,7 @@ export default async function handler(
 
     const data = response.data;
 
-    const users = data.map((user: any) => ({
+    const users: User[] = data.map((user: any): User => ({
       _id: user._id,
       watIAM: user.watIAM,
       faculty: user.faculty,
@@ -35,7 +36,9 @@ export default async function handler(
       verifier: user.verifier || "",
       paymentLocation: user.paymentLocation || "",
       isEmailVerified: user.isEmailVerified ? "True" : "False",  // TODO: maybe change to Verified/Unverified but that would cause filtering issues
-    }));
+      isMathSocMember: user.isMathSocMember || false,
+      eventList: user.eventList || [],
+    } as User));
 
     res.status(200).json({ success: true, users });
   } catch (error: any) {
