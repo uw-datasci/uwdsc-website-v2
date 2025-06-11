@@ -4,13 +4,15 @@ import { useSelector } from "react-redux";
 import MemCard from "@/components/cards/memCard";
 import { getCurrentUser } from "@/utils/apiCalls";
 import LoadingSpinner from "@/components/UI/LoadingSpinner";
+import EventPassport from "@/components/cards/EventPassport";
 
-interface UserInfo {
+export interface UserInfo {
   username: string;
   email: string;
   faculty: string;
   hasPaid: boolean;
-  isCheckedIn: boolean;
+  isMathSocMember: boolean;
+  eventList: [];
 }
 
 export default function MemCheckIn() {
@@ -45,8 +47,11 @@ export default function MemCheckIn() {
   }
 
   return (
-    <div className="my-10">
-      <MemCard userInfo={userInfo} />;
+    <div className="mt-10">
+      <div className="flex flex-col items-center px-5">
+        <MemCard userInfo={userInfo} />;
+        <EventPassport userInfo={userInfo} />
+      </div>
     </div>
   );
 }
