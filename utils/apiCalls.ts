@@ -1,4 +1,3 @@
-import { RootState } from "@/store/store";
 import axios from "axios";
 import store from "../store/store";
 
@@ -222,6 +221,18 @@ export const deleteEvent = async (id: string) => {
 export const getLatestEvent = async () => {
   return await axios.post("/api/UWDSC/events/latest", {
     token: store.getState().loginToken.token,
+  });
+};
+
+export const getAllFutureEvents = async () => {
+  return await axios.post("/api/UWDSC/events/future", {
+    token: store.getState().loginToken.token,
+  });
+};
+
+export const getEventById = async (eventId: string) => {
+  return await axios.get("/api/UWDSC/events/getEventById", {
+    params: { eventId },
   });
 };
 
