@@ -29,7 +29,7 @@ async function isPublicDriveFile(fileId: string) {
   }
 }
 
-export const ContactFormSchema = object({
+export const FormSchema = object({
   name: string().required("Please enter your name."),
   email: string()
     .email("Please enter a valid email.")
