@@ -4,6 +4,7 @@ export const NAVBAR_ROUTES = {
     { label: "CxC", route: "/cxc" },
     { label: "Team", route: "/team" },
     { label: "Contact", route: "/#contact" },
+    { label: "Calendar", route: "/calendar" },
   ],
   USER: [
     { label: "Home", route: "/" },
