@@ -1,4 +1,4 @@
-import ContactForm from "@/components/sections/templates/ContactForm";
+import Form from "@/components/sections/templates/Form";
 
 import { SponsorFormSchema } from "@/utils/formValidation";
 import { sendSponsorEmail } from "@/utils/apiCalls";
@@ -6,7 +6,7 @@ import { SPONSOR_FORM_FIELDS } from "@/constants/forms";
 
 export default function SponsorForm() {
   return (
-    <ContactForm
+    <Form
       title="Sponsor Form"
       id="contact"
       includeSideInfo={true}

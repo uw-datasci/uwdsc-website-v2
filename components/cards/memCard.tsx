@@ -10,11 +10,9 @@ import {
   patchCheckInRegistrantByIdUser,
   getLatestEvent,
   getCurrentUserRegistrationByID,
-  getQrCode,
 } from "@/utils/apiCalls";
 import Image from "next/image";
-import { useRouter } from "next/router";
-import { store } from "@/store/store";
+import { UserInfo } from "@/pages/memCheckIn";
 import LoadingSpinner from "../UI/LoadingSpinner";
 
 interface Event {
@@ -23,16 +21,11 @@ interface Event {
   name: string;
 }
 
-interface memCardProps {
-  userInfo: {
-    username: string;
-    email: string;
-    faculty: string;
-    hasPaid: boolean;
-  };
+interface MemCardProps {
+  userInfo: UserInfo;
 }
 
-export default function MemCard(props: memCardProps) {
+export default function MemCard(props: MemCardProps) {
   const dispatch = useDispatch<AppDispatch>();
   const { event: latestEvent, isCheckedIn } = useSelector(
     (state: RootState) => state.latestEvent,
@@ -40,8 +33,7 @@ export default function MemCard(props: memCardProps) {
   const userToken = useSelector((state: RootState) => state.loginToken.token);
   const [time, setTime] = useState("");
   const [loading, setLoading] = useState(true);
-  const router = useRouter();
-  const [eventSecret, setEventSecret] = useState<string>("");
+
 
   const getUserId = () => {
     if (!userToken) return null;
@@ -145,7 +137,7 @@ export default function MemCard(props: memCardProps) {
   }
 
   return (
-    <div className="mx-auto w-[90%] max-w-md overflow-hidden rounded-3xl bg-[url('/membershipCard/memCardBg.svg')] bg-cover bg-center shadow-2xl">
+    <div className="mx-auto w-full max-w-md overflow-hidden rounded-3xl bg-[url('/membershipCard/memCardBg.svg')] bg-cover bg-center shadow-2xl">
       {/* Header */}
       <div
         className={`flex items-center justify-center gap-3 ${
@@ -214,7 +206,7 @@ export default function MemCard(props: memCardProps) {
             {props.userInfo.hasPaid && (
               <div className="grid grid-cols-2 gap-2 md:gap-4">
                 <div>
-                  <p className="md:text-base mb-1 text-xs font-semibold text-[#8ba3d9]">
+                  <p className="md:text-base mb-1 text-sm font-semibold text-[#8ba3d9]">
                     Current Time
                   </p>
                   <p className="text-xl font-bold text-white md:text-2xl">
@@ -222,11 +214,11 @@ export default function MemCard(props: memCardProps) {
                   </p>
                 </div>
                 <div>
-                  <p className="md:text-base mb-1 text-xs font-semibold text-[#8ba3d9]">
+                  <p className="md:text-base mb-1 text-sm font-semibold text-[#8ba3d9]">
                     MathSoc Member
                   </p>
                   <p className="text-xl font-bold text-white md:text-2xl">
-                    {props.userInfo.faculty === "Math" ? "Yes" : "No"}
+                    {props.userInfo.isMathSocMember ? "Yes" : "No"}
                   </p>
                 </div>
               </div>
