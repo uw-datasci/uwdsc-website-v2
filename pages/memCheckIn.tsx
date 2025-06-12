@@ -50,7 +50,7 @@ export default function MemCheckIn() {
     <div className="mt-10">
       <div className="flex flex-col items-center px-5">
         <MemCard userInfo={userInfo} />;
-        <EventPassport userInfo={userInfo} />
+        {userInfo.hasPaid && <EventPassport userInfo={userInfo} />}
       </div>
     </div>
   );
