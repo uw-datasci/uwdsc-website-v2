@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 
 require("dotenv").config();
 
-function Admin() {
+function Memberships() {
   const userRole = useSelector((state: RootState) => state.loginToken.role);
 
   return (
@@ -24,4 +24,4 @@ function Admin() {
   );
 }
 
-export default withAuth(Admin, ["admin", "exec"]);
+export default withAuth(Memberships, ["admin", "exec"]);

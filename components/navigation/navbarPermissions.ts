@@ -19,7 +19,7 @@ export const NAVBAR_ROUTES = {
     {
       label: "Admin",
       subNavItems: [
-        { label: "Memberships", route: "/admin" },
+        { label: "Memberships", route: "/memberships" },
         { label: "Events", route: "/events" },
       ],
     },
@@ -32,7 +32,7 @@ export const NAVBAR_ROUTES = {
     {
       label: "Admin",
       subNavItems: [
-        { label: "Memberships", route: "/admin" },
+        { label: "Memberships", route: "/memberships" },
         { label: "Events", route: "/events" },
       ],
     },
