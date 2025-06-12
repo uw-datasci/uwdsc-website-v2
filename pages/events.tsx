@@ -410,4 +410,4 @@ function Events() {
   );
 }
 
-export default withAuth(Events, ["admin"]);
+export default withAuth(Events, ["admin", "exec"]);
