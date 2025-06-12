@@ -5,6 +5,7 @@ import MemCard from "@/components/cards/memCard";
 import { getCurrentUser } from "@/utils/apiCalls";
 import LoadingSpinner from "@/components/UI/LoadingSpinner";
 import EventPassport from "@/components/cards/EventPassport";
+import SEO from "@/components/SEO/SEO";
 
 export interface UserInfo {
   username: string;
@@ -47,11 +48,14 @@ export default function MemCheckIn() {
   }
 
   return (
+    <>
+    <SEO title="Check In" />
     <div className="mt-10">
       <div className="flex flex-col items-center px-5">
         <MemCard userInfo={userInfo} />;
         <EventPassport userInfo={userInfo} />
       </div>
     </div>
+    </>
   );
 }
