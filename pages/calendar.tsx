@@ -328,7 +328,6 @@ export default function Calendar() {
           <div className="text-xs font-semibold text-grey2 sm:text-sm">
             {day}
           </div>
-          <div className="h-16 space-y-1 sm:h-28"></div>
         </div>,
       );
     }
@@ -369,11 +368,13 @@ export default function Calendar() {
               return (
                 <div
                   key={`${event.id}-${day}`}
-                  className="absolute z-10 cursor-pointer touch-manipulation overflow-hidden whitespace-nowrap rounded-sm bg-blue px-1 py-0.5 text-2xs font-medium text-white transition-colors hover:bg-blue/80 active:bg-blue/60 sm:px-2 sm:py-1 sm:text-xs"
-                  style={{
-                    width: `${spanWidth}%`,
-                    top: `${index * 16}px`, // Reduced stacking for mobile
-                  }}
+                  className="absolute top-[calc(var(--i)*16px)] z-10 cursor-pointer touch-manipulation overflow-hidden whitespace-nowrap rounded-sm bg-blue px-1 py-0.5 text-2xs font-medium text-white transition-colors hover:bg-blue/80 active:bg-blue/60 sm:top-[calc(var(--i)*40px)] sm:px-2 sm:py-1 sm:text-xs"
+                  style={
+                    {
+                      width: `${spanWidth}%`,
+                      "--i": index,
+                    } as React.CSSProperties
+                  }
                   onMouseEnter={(e) => handleEventInteraction(event, e)}
                   onMouseLeave={handleEventLeave}
                   onTouchStart={(e) => handleEventInteraction(event, e)}
