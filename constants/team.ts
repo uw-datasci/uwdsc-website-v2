@@ -1,80 +1,63 @@
 import { Subteam } from "@/types/types";
 
 import team from "@/public/placeholder/team.png";
-//W25 team
-import aaronLiang from "@/public/teams/Aaron-Liang.jpg";
+//S25 team
 import aaryanPatel from "@/public/teams/Aaryan-Patel.png";
 import adnanNasiree from "@/public/teams/Adnan-Nasiree.jpg";
-//import aidenSuh from "@/public/teams/Aiden-Suh";
 import akashLakshmanan from "@/public/teams/Akash-Lakshmanan.png";
-//import amyBui from "@/public/teams/Amy-Bui";
-import amyPeng from "@/public/teams/Amy-Peng.jpg";
 import andrewChu from "@/public/teams/Andrew-Chu.jpg";
 import andrewLin from "@/public/teams/Andrew-Lin.jpg";
-import annaWang from "@/public/teams/Anna-Wang.jpg";
-//import annieGuo from "@/public/teams/Annie-Guo";
-import annieWong from "@/public/teams/Annie-Wong.jpg";
+import annieWong from "@/public/teams/Annie-Wong.jpeg";
 import anTran from "@/public/teams/An-Tran.jpg";
-import ayushAyush from "@/public/teams/Ayush-Garg.jpg";
 import bethanyLiu from "@/public/teams/Bethany-Liu.jpeg";
 import brianAn from "@/public/teams/Brian-An.png";
 import chantalZhang from "@/public/teams/Chantal-Zhang.jpg";
-import chowShengLiang from "@/public/teams/Sheng-Liang-Chow.jpeg";
 import claireLiu from "@/public/teams/Claire-Liu.jpg";
-import dakshBanerjee from "@/public/teams/Daksh-Banerjee.jpg";
-import danielHu from "@/public/teams/Daniel-Hu.jpg";
-import danielSu from "@/public/teams/Daniel-Su.png";
-//import davidHe from "@/public/teams/David-He";
-import dianaZhao from "@/public/teams/Diana-Zhao.jpg";
 import dishitaChawla from "@/public/teams/Dishita-Chawla.jpg";
-//import diyaDang from "@/public/teams/Diya-Dang";
-import ericHuang from "@/public/teams/Eric-Huang.jpg";
-import ethanBencich from "@/public/teams/Ethan-Bencich.jpg";
 import frankChen from "@/public/teams/Frank-Chen.jpeg";
-import giangTran from "@/public/teams/Giang-Tran.jpg";
-import isaacJiang from "@/public/teams/Isaac-Jiang.jpg";
+import giangTran from "@/public/teams/Giang-Tran.png";
 import isabelleLobo from "@/public/teams/Isabelle-Lobo.png";
 import ishirLakhani from "@/public/teams/Ishir-Lakhani.png";
-import jacobYan from "@/public/teams/Jacob-Yan.png";
+import jacobYan from "@/public/teams/Jacob-Yan.jpg";
 import jeffreyKasa from "@/public/teams/Jeffrey-Kasa.jpg";
-import jennyYu from "@/public/teams/Jenny-Yu.jpeg";
+import jennyYu from "@/public/teams/Jenny-Yu.jpg";
 import jessicaYing from "@/public/teams/Jessica-Ying.jpg";
 import jocelynXu from "@/public/teams/Jocelyn-Xu.jpg";
-import joshuaLi from "@/public/teams/Joshua-Li.jpg";
-//import justinBaiyuWang from "@/public/teams/Justin-Wang";
 import karthikViriyala from "@/public/teams/Karthik-Viriyala.jpeg";
-import kateColby from "@/public/teams/Kate-Colby.jpeg";
-import kaushikChatterjee from "@/public/teams/Kaushik-Chatterjee.jpeg";
-import kimGuo from "@/public/teams/Kim-Guo.jpg";
-import lukaSpinoti from "@/public/teams/Luka-Spinoti.jpg";
 import lydiaHe from "@/public/teams/Lydia-He.jpeg";
-import mahdiKhunt from "@/public/teams/Mahdi-Khunt.jpeg";
-import marcusLuong from "@/public/teams/Marcus-Luong.jpg";
-import marcusNg from "@/public/teams/Marcus-Ng.jpg";
-import meeraMehta from "@/public/teams/Meera-Mehta.jpeg";
+import mahdiKhunt from "@/public/teams/Mahdi-Khunt.png";
 import methuliAmarasinghe from "@/public/teams/Methuli-Amarasinghe.jpeg";
-import michaelZhang from "@/public/teams/Michael-Zhang.jpg";
-//import millyChai from "@/public/teams/Milly-Chai";
 import mincyYang from "@/public/teams/Mincy-Yang.png";
 import monicaTrinh from "@/public/teams/Monica-Trinh.jpg";
-
-//import monicaTrinh from "@/public/teams/Monica-Trinh";
 import nahalHabibizadeh from "@/public/teams/Nahal-Habibizadeh.jpeg";
 import nimishPatri from "@/public/teams/Nimish-Patri.jpg";
-import paigeLi from "@/public/teams/Paige-Li.jpg";
-import parithySenthamilarasan from "@/public/teams/Parithy-Senthamilarasan.jpg";
+import paigeLi from "@/public/teams/Paige-Li.jpeg";
+import parithySenthamilarasan from "@/public/teams/Parithy-Senthamilarasan.jpeg";
 import sarahWang from "@/public/teams/Sarah-Wang.jpeg";
 import shashwatMurawala from "@/public/teams/Shashwat-Murawala.png";
 import shae from "@/public/teams/Shae.jpg";
-import simhaKalimipalli from "@/public/teams/Simha-Kalimipalli.jpg";
-import simonHampton from "@/public/teams/Simon-Hampton.jpg";
 import sophiaLin from "@/public/teams/Sophia-Lin.jpeg";
-import stanleyLin from "@/public/teams/Stanley-Lin.png";
-import tanayKashyap from "@/public/teams/Tanay-Kashyap.jpg";
+import tanayKashyap from "@/public/teams/Tanay-Kashyap.jpeg";
 import winstonYu from "@/public/teams/Winston-Yu.jpg";
-import yiJiaHuang from "@/public/teams/Jia-Huang.jpeg";
-import yolandaJian from "@/public/teams/Yolanda-Jian.jpg";
 import aditiJha from "@/public/teams/Aditi-Jha.jpg";
+import simoneCoutinho from "@/public/teams/Simone-Coutinho.jpeg";
+import liaMoradpour from "@/public/teams/Lia-Moradpour.jpeg";
+import sarahWagle from "@/public/teams/Sarah-Wagle.jpg";
+import adhyaSharma from "@/public/teams/Adhya-Sharma.jpg";
+import kevinKang from "@/public/teams/Kevin-Kang.jpg";
+import lunaNguyen from "@/public/teams/Luna-Nguyen.jpg";
+import aminSedaghat from "@/public/teams/Amin-Sedaghat.jpeg";
+import michaelZhang from "@/public/teams/Michael-Zhang.jpeg";
+import chelseaKim from "@/public/teams/Chelsea-Kim.jpg";
+import kapilIyer from "@/public/teams/Kapil-Iyer.jpg";
+import danyaCheng from "@/public/teams/Danya-Cheng.jpg";
+import shirleyXiao from "@/public/teams/Shirley-Xiao.jpg";
+import andrewShum from "@/public/teams/Andrew-Shum.jpeg";
+import alyssaLui from "@/public/teams/Alyssa-Lui.jpg";
+import shreeyaSantha from "@/public/teams/Shreeya-Santha.jpg";
+import maxHan from "@/public/teams/Max-Han.jpg";
+import evanChan from "@/public/teams/Evan-Chan.jpeg";
+import ananyaOhrie from "@/public/teams/Ananya-Ohrie.jpg";
 
 export const TEAM: Subteam[] = [
   {
@@ -83,21 +66,21 @@ export const TEAM: Subteam[] = [
     members: [
       {
         id: "president1",
-        name: "Jacob Yan",
+        name: "Sarah Wang",
         position: "Co-President",
-        image: jacobYan,
+        image: sarahWang,
       },
       {
         id: "president2",
-        name: "Shae-Lynn Stirling",
+        name: "Frank Chen",
         position: "Co-President",
-        image: shae,
+        image: frankChen,
       },
     ],
   },
   {
     id: "developement",
-    name: "Web Development",
+    name: "Development",
     members: [
       {
         id: "winston-yu",
@@ -196,52 +179,46 @@ export const TEAM: Subteam[] = [
     name: "Events",
     members: [
       {
-        id: "an-tran",
-        name: "An Tran",
+        id: "simone-coutinho",
+        name: "Simone Coutinho",
         position: "VP of Events",
-        image: anTran,
+        image: simoneCoutinho,
       },
       {
-        id: "frank",
-        name: "Frank Chen",
+        id: "lia-moradpour",
+        name: "Lia Moradpour",
         position: "VP of Events",
-        image: frankChen,
+        image: liaMoradpour,
       },
       {
-        id: "ayush-ayush",
-        name: "Ayush Ayush",
+        id: "andrew-au",
+        name: "Andrew Au",
         position: "Event Coordinator",
-        image: ayushAyush,
+        image: team,
       },
       {
-        id: "joshua-li",
-        name: "Joshua Li",
+        id: "sarah-wagle",
+        name: "Sarah Sarfaraz Wagle",
         position: "Event Coordinator",
-        image: joshuaLi,
+        image: sarahWagle,
       },
       {
-        id: "claire-liu",
-        name: "Claire Liu",
+        id: "adhya-sharma",
+        name: "Adhya Sharma",
         position: "Event Coordinator",
-        image: claireLiu,
+        image: adhyaSharma,
       },
       {
-        id: "fangjing-zhang",
-        name: "(Fangjing) Michael Zhang",
+        id: "kevin-kang",
+        name: "Kevin Kang",
         position: "Event Coordinator",
-        image: michaelZhang,
+        image: kevinKang,
       },
       {
-        id: "daniel-su",
-        name: "Daniel Su",
+        id: "krish-garg",
+        name: "Krish Garg",
         position: "Event Coordinator",
-        image: danielSu,
-      },
-      {
-        id: "kate-colby",
-        name: "Kate Colby",
-        position: "Event Coordinator",
-        image: kateColby,
+        image: team,
       },
     ],
   },
@@ -250,70 +227,70 @@ export const TEAM: Subteam[] = [
     name: "Education",
     members: [
       {
-        id: "kaushik-chatterjee",
-        name: "Kaushik Chatterjee",
-        position: "VP of Education",
-        image: kaushikChatterjee,
-      },
-      {
-        id: "amy-bui",
-        name: "Amy Bui",
-        position: "Data Science Mentor",
-        image: team,
-      },
-      {
-        id: "akash-lakshmanan",
-        name: "Akash Lakshmanan",
-        position: "Data Science Mentor",
-        image: akashLakshmanan,
-      },
-      {
         id: "ishir-lakhani",
         name: "Ishir Lakhani",
-        position: "Data Science Mentor",
+        position: "VP of Education",
         image: ishirLakhani,
-      },
-      {
-        id: "daniel-hu",
-        name: "Daniel Hu",
-        position: "Data Science Mentor",
-        image: danielHu,
-      },
-      {
-        id: "simha-kalimipalli",
-        name: "Simha Kalimipalli",
-        position: "Data Science Mentor",
-        image: simhaKalimipalli,
-      },
-      {
-        id: "dishita-chawla",
-        name: "Dishita Chawla",
-        position: "Data Science Mentor",
-        image: dishitaChawla,
-      },
-      {
-        id: "jeffrey-kasa",
-        name: "Jeffrey Kasa",
-        position: "Data Science Mentor",
-        image: jeffreyKasa,
-      },
-      {
-        id: "nahal-habibizadeh",
-        name: "Nahal Habibizadeh",
-        position: "Data Science Mentor",
-        image: nahalHabibizadeh,
       },
       {
         id: "tanay-kashyap",
         name: "Tanay Kashyap",
-        position: "Data Science Mentor",
+        position: "VP of Education",
         image: tanayKashyap,
       },
       {
-        id: "eric-huang",
-        name: "Eric Huang",
-        position: "ML Reading Groups",
-        image: ericHuang,
+        id: "dishita-chawla",
+        name: "Dishita Chawla",
+        position: "Workshop Lead",
+        image: dishitaChawla,
+      },
+      {
+        id: "luna-nguyen",
+        name: "Luna Nguyen",
+        position: "Workshop Lead",
+        image: lunaNguyen,
+      },
+      {
+        id: "amin-sedaghat",
+        name: "Amin Sedaghat",
+        position: "Workshop Lead",
+        image: aminSedaghat,
+      },
+      {
+        id: "nahal-habibizadeh",
+        name: "Nahal Habibizadeh",
+        position: "Workshop Lead",
+        image: nahalHabibizadeh,
+      },
+      {
+        id: "michael-zhang",
+        name: "Michael Zhang",
+        position: "Project Lead",
+        image: michaelZhang,
+      },
+      {
+        id: "akash-lakshmanan",
+        name: "Akash Lakshmanan",
+        position: "Project Lead",
+        image: akashLakshmanan,
+      },
+      {
+        id: "jeffrey-kasa",
+        name: "Jeffrey Kasa",
+        position: "Project Lead",
+        image: jeffreyKasa,
+      },
+      {
+        id: "david-he",
+        name: "David He",
+        position: "Project Lead",
+        image: team,
+      },
+      {
+        id: "ananya-ohrie",
+        name: "Ananya Ohrie",
+        position: "Project Lead",
+        image: ananyaOhrie,
       },
     ],
   },
@@ -322,10 +299,10 @@ export const TEAM: Subteam[] = [
     name: "Social Media",
     members: [
       {
-        id: "sarah-wang",
-        name: "Sarah Wang",
+        id: "jenny-yu",
+        name: "Jenny Yu",
         position: "VP of Social Media",
-        image: sarahWang,
+        image: jennyYu,
       },
       {
         id: "isabelle-lobo",
@@ -334,46 +311,22 @@ export const TEAM: Subteam[] = [
         image: isabelleLobo,
       },
       {
-        id: "sophia-lin",
-        name: "Sophia Lin",
+        id: "chelsea-kim",
+        name: "Chelsea Kim",
         position: "Multimedia Coordinator",
-        image: sophiaLin,
+        image: chelseaKim,
       },
       {
-        id: "marcus-luong",
-        name: "Marcus Luong",
-        position: "Multimedia Coordinator",
-        image: marcusLuong,
-      },
-      {
-        id: "jenny-yu",
-        name: "Jenny Yu",
-        position: "Multimedia Coordinator",
-        image: jennyYu,
+        id: "kapil-iyer",
+        name: "Kapil Iyer",
+        position: "Social Media Coordinator",
+        image: kapilIyer,
       },
       {
         id: "adnan-nasiree",
         name: "Adnan Quemarz Nasiree",
         position: "Social Media Coordinator",
         image: adnanNasiree,
-      },
-      {
-        id: "diana-zhao",
-        name: "Diana Zhao",
-        position: "Social Media Coordinator",
-        image: dianaZhao,
-      },
-      {
-        id: "mincy-yang",
-        name: "Mincy Yang",
-        position: "Social Media Coordinator",
-        image: mincyYang,
-      },
-      {
-        id: "diya-dang",
-        name: "Diya Dang",
-        position: "Social Media Coordinator",
-        image: team,
       },
     ],
   },
@@ -382,22 +335,22 @@ export const TEAM: Subteam[] = [
     name: "Design",
     members: [
       {
-        id: "monica-trinh",
-        name: "Monica Trinh",
+        id: "parithy-senthamilarasan",
+        name: "Parithy Senthamilarasan",
         position: "VP of Design",
-        image: team,
+        image: parithySenthamilarasan,
       },
       {
-        id: "stanley-lin",
-        name: "Stanley Lin",
+        id: "danya-cheng",
+        name: "Danya Cheng",
         position: "Graphic Designer",
-        image: stanleyLin,
+        image: danyaCheng,
       },
       {
-        id: "yue-peng",
-        name: "Yue (Amy) Peng",
+        id: "shirley-xiao",
+        name: "Shirley Xiao",
         position: "Graphic Designer",
-        image: amyPeng,
+        image: shirleyXiao,
       },
       {
         id: "milly-chai",
@@ -406,28 +359,10 @@ export const TEAM: Subteam[] = [
         image: team,
       },
       {
-        id: "anna-wang",
-        name: "Anna Wang",
+        id: "claire-liu",
+        name: "Claire Liu",
         position: "Graphic Designer",
-        image: annaWang,
-      },
-      {
-        id: "meera-mehta",
-        name: "Meera Mehta",
-        position: "Graphic Designer",
-        image: meeraMehta,
-      },
-      {
-        id: "kim-guo",
-        name: "Kim Guo",
-        position: "Graphic Designer",
-        image: kimGuo,
-      },
-      {
-        id: "parithy-senthamilarasan",
-        name: "Parithy Senthamilarasan",
-        position: "Graphic Designer",
-        image: parithySenthamilarasan,
+        image: claireLiu,
       },
     ],
   },
@@ -436,28 +371,22 @@ export const TEAM: Subteam[] = [
     name: "Internals",
     members: [
       {
-        id: "shashwat-murawala",
-        name: "Shashwat Murawala",
-        position: "VP of Internals",
-        image: shashwatMurawala,
-      },
-      {
         id: "cathy-zhang",
         name: "Cathy Zhang",
         position: "VP of Internals",
         image: team,
       },
       {
-        id: "luka-spinoti",
-        name: "Luka Spinoti",
-        position: "Internal Coordinator",
-        image: lukaSpinoti,
+        id: "andrew-shum",
+        name: "Andrew Shum",
+        position: "Internals Coordinator",
+        image: andrewShum,
       },
       {
-        id: "daksh-banerjee",
-        name: "Daksh Banerjee",
-        position: "Internal Coordinator",
-        image: dakshBanerjee,
+        id: "bethany-liu",
+        name: "Bethany Liu",
+        position: "Internals Coordinator",
+        image: bethanyLiu,
       },
       {
         id: "paige-li",
@@ -466,22 +395,106 @@ export const TEAM: Subteam[] = [
         image: paigeLi,
       },
       {
+        id: "alyssa-lui",
+        name: "Alyssa Lui",
+        position: "Internals Coordinator",
+        image: alyssaLui,
+      },
+    ],
+  },
+  {
+    id: "finance",
+    name: "Finance",
+    members: [
+      {
         id: "nimish-patri",
         name: "Nimish Patri",
-        position: "Internals Coordinator",
+        position: "VP of Finance",
         image: nimishPatri,
+      },
+      {
+        id: "shreeya-santha",
+        name: "Shreeya Santha",
+        position: "Finance Coordinator",
+        image: shreeyaSantha,
+      },
+      {
+        id: "max-han",
+        name: "Max Han",
+        position: "Finance Coordinator",
+        image: maxHan,
+      },
+      {
+        id: "milly-chai",
+        name: "Milly Chai",
+        position: "Finance Coordinator",
+        image: team,
+      },
+    ],
+  },
+  {
+    id: "outreach",
+    name: "Outreach",
+    members: [
+      {
+        id: "chantal-zhang",
+        name: "Chantal Zhang",
+        position: "VP of Outreach",
+        image: chantalZhang,
+      },
+      {
+        id: "jerry-zhu",
+        name: "Jerry Zhu",
+        position: "VP of Outreach",
+        image: team,
+      },
+      {
+        id: "mincy-yang",
+        name: "Mincy Yang",
+        position: "Outreach Coordinator",
+        image: mincyYang,
+      },
+      {
+        id: "sophia-lin",
+        name: "Sophia Lin",
+        position: "Outreach Coordinator",
+        image: sophiaLin,
+      },
+      {
+        id: "evan-chan",
+        name: "Evan Chan",
+        position: "Outreach Coordinator",
+        image: evanChan,
+      },
+      {
+        id: "annie-wong",
+        name: "Annie Wong",
+        position: "Outreach Coordinator",
+        image: annieWong,
       },
       {
         id: "methuli-amarasinghe",
         name: "Methuli Amarasinghe",
-        position: "Internals Coordinator",
+        position: "Outreach Coordinator",
         image: methuliAmarasinghe,
       },
+    ],
+  },
+  {
+    id: "advisors",
+    name: "Advisors",
+    members: [
       {
-        id: "ethan-bencich",
-        name: "Ethan Bencich",
-        position: "Internals Coordinator",
-        image: ethanBencich,
+        id: "shae-stirling",
+        name: "Shae-Lynn Stirling",
+        position: "Club Advisor",
+        image: shae,
+      },
+      {
+        id: "shashwat-murawala",
+        name: "Shashwat Murawala",
+        position: "Finance Advisor",
+        image: shashwatMurawala,
       },
     ],
   },
