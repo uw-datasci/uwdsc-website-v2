@@ -27,6 +27,7 @@ const TableCell = <TData extends User>({
   const tableMeta = table.options.meta as TableCellProps<TData>["tableMeta"];
   const [value, setValue] = useState<any>(initialValue);
   const adminName = useSelector((state: RootState) => state.loginToken.name);
+  const userRole = useSelector((state: RootState) => state.loginToken.role);
 
   const handleEdit = (e: ChangeEvent<any>) => {
     const newValue = e.target.value;
@@ -107,6 +108,15 @@ const TableCell = <TData extends User>({
   };
 
   if (tableMeta?.editedRowId === row.id) {
+    // Only allow editing userStatus if userRole is admin
+    if (
+      column.id === "userStatus" &&
+      userRole !== "admin"
+    ) {
+      return <span>{initialValue}</span>;
+    }
+
+
     return columnMeta?.type === ColumnType.Select ? (
       <select
         onChange={handleEdit}

@@ -57,6 +57,8 @@ export default function Navbar() {
     if (signedIn) {
       if (userRole === "admin") {
         setRoutes(NAVBAR_ROUTES.ADMIN);
+      } else if (userRole === "exec") {
+        setRoutes(NAVBAR_ROUTES.EXEC);
       } else {
         setRoutes(NAVBAR_ROUTES.USER);
       }
