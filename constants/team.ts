@@ -2,6 +2,7 @@ import { Subteam } from "@/types/types";
 
 import team from "@/public/placeholder/team.png";
 //S25 team
+import cathyv2 from "@/public/teams/cathy_v2.png";
 import aaryanPatel from "@/public/teams/Aaryan-Patel.png";
 import adnanNasiree from "@/public/teams/Adnan-Nasiree.jpg";
 import akashLakshmanan from "@/public/teams/Akash-Lakshmanan.png";
@@ -374,7 +375,7 @@ export const TEAM: Subteam[] = [
         id: "cathy-zhang",
         name: "Cathy Zhang",
         position: "VP of Internals",
-        image: team,
+        image: cathyv2,
       },
       {
         id: "andrew-shum",
