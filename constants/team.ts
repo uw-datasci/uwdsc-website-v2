@@ -2,7 +2,6 @@ import { Subteam } from "@/types/types";
 
 import team from "@/public/placeholder/team.png";
 //S25 team
-import cathyv2 from "@/public/teams/cathy_v2.png";
 import aaryanPatel from "@/public/teams/Aaryan-Patel.png";
 import adnanNasiree from "@/public/teams/Adnan-Nasiree.jpg";
 import akashLakshmanan from "@/public/teams/Akash-Lakshmanan.png";
@@ -12,6 +11,7 @@ import annieWong from "@/public/teams/Annie-Wong.jpeg";
 import anTran from "@/public/teams/An-Tran.jpg";
 import bethanyLiu from "@/public/teams/Bethany-Liu.jpeg";
 import brianAn from "@/public/teams/Brian-An.png";
+import cathyZhang from "@/public/teams/Cathy-Zhang.jpeg";
 import chantalZhang from "@/public/teams/Chantal-Zhang.jpg";
 import claireLiu from "@/public/teams/Claire-Liu.jpg";
 import dishitaChawla from "@/public/teams/Dishita-Chawla.jpg";
@@ -375,7 +375,7 @@ export const TEAM: Subteam[] = [
         id: "cathy-zhang",
         name: "Cathy Zhang",
         position: "VP of Internals",
-        image: cathyv2,
+        image: cathyZhang,
       },
       {
         id: "andrew-shum",
