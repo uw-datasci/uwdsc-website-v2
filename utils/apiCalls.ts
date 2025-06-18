@@ -70,12 +70,6 @@ export const sendResetPassRequest = async (values: Record<string, string>) => {
   return await axios.post("/api/UWDSC/user/resetPassword", values);
 };
 
-export const getQrCode = async () => {
-  return await axios.post("/api/UWDSC/user/getQrPayload", {
-    token: store.getState().loginToken.token,
-  });
-};
-
 export const sendForgotPassRequest = async (values: Record<string, string>) => {
   return await axios.post("/api/UWDSC/user/sendForgotPasswordEmail", values);
 };

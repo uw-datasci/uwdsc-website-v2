@@ -9,21 +9,18 @@ export const NAVBAR_ROUTES = {
     { label: "Home", route: "/" },
     { label: "CxC", route: "/cxc" },
     { label: "Team", route: "/team" },
-    // { label: "QR Code", route: "/qrPage" },
     { label: "Check In", route: "/memCheckIn" },
   ],
   ADMIN: [
     { label: "Home", route: "/" },
     { label: "CxC", route: "/cxc" },
     { label: "Team", route: "/team" },
-    // { label: "QR Code", route: "/qrPage" },
     { label: "Check In", route: "/memCheckIn" },
     {
       label: "Admin",
       subNavItems: [
         { label: "Memberships", route: "/admin" },
         { label: "Events", route: "/events" },
-        // { label: "QR Scanner", route: "/qrScanner" },
       ],
     },
   ],
