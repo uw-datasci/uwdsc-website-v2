@@ -253,7 +253,7 @@ const AdminTable = () => {
         cell: TableCell,
         meta: {
           type: ColumnType.Select,
-          options: ["admin", "member"],
+          options: ["admin", "exec", "member"],
         },
       },
       {
