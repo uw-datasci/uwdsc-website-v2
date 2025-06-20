@@ -46,7 +46,7 @@ function AddEvent() {
         additionalFieldsSchema: {}
       });
       console.log("Event created successfully:", response.data);
-      router.push("/admin"); // Redirect to admin page after successful creation
+      router.push("/memberships"); // Redirect to admin page after successful creation
     } catch (error) {
       console.error("Error creating event:", error);
     }
