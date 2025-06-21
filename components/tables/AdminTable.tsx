@@ -113,6 +113,7 @@ const AdminTable = () => {
   const [editedRowId, setEditedRowId] = useState<string | null>(null);
   const [globalFilter, setGlobalFilter] = useState<string>("");
   const [autoResetPageIndex, skipAutoResetPageIndex] = useSkipper();
+  console.log(data);
 
   const handleSaveClick = async () => {
     if (!editFormData) {

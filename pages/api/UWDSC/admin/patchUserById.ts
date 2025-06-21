@@ -29,6 +29,7 @@ export default async function handler(
         password: newUser.password,
         userStatus: newUser.userStatus,
         isEmailVerified: newUser.isEmailVerified === "True",
+        isMathSocMember: newUser.isMathSocMember === "True",
         hasPaid: newUser.hasPaid === "True",
         paymentMethod: newUser.paymentMethod,
         verifier: newUser.verifier,
