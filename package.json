@@ -32,8 +32,6 @@
     "moment-timezone": "^0.5.47",
     "next": "^13.4.12",
     "postcss": "8.4.27",
-    "qr-scanner": "^1.4.2",
-    "qrcode": "^1.5.4",
     "react": "^18.2.0",
     "react-animate-height": "^3.2.2",
     "react-device-detect": "^2.2.3",
@@ -54,9 +52,7 @@
   },
   "devDependencies": {
     "@types/fuzzy-search": "^2.1.5",
-    "@types/qrcode": "^1.5.5",
     "@vercel/analytics": "^1.5.0",
-    "html5-qrcode": "^2.3.8",
     "lucide-react": "^0.511.0",
     "prettier": "^3.0.1",
     "prettier-plugin-tailwindcss": "^0.4.1"
