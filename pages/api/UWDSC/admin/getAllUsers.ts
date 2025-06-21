@@ -36,7 +36,7 @@ export default async function handler(
       verifier: user.verifier || "",
       paymentLocation: user.paymentLocation || "",
       isEmailVerified: user.isEmailVerified ? "True" : "False",  // TODO: maybe change to Verified/Unverified but that would cause filtering issues
-      isMathSocMember: user.isMathSocMember || false,
+      isMathSocMember: user.isMathSocMember ? "True": "False",
       eventList: user.eventList || [],
     } as User));
 

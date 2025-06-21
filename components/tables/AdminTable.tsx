@@ -17,7 +17,7 @@ import {
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import UserFormCard from "../cards/UserFormCard";
-import { deleteUser, fetchUsers, createUser, editUser } from "@/utils/apiCalls";
+import { deleteUser, fetchUsers, createUser, editUser, getCurrentUser, getLatestEvent } from "@/utils/apiCalls";
 import TableCell from "./TableCell";
 import EditCell from "./EditCell";
 import Pagination from "./Pagination";
@@ -115,6 +115,14 @@ const AdminTable = () => {
   const [autoResetPageIndex, skipAutoResetPageIndex] = useSkipper();
 
   const handleSaveClick = async () => {
+    const user = (await getCurrentUser()).data.user;
+    const adminName = user.username;
+    const event = (await getLatestEvent());
+    let currentEvent = "Not an event";
+    if (event && event.data) {
+      currentEvent = event.data.name;
+    }
+    
     if (!editFormData) {
       return;
     }
@@ -139,10 +147,16 @@ const AdminTable = () => {
       return;
     }
 
+    const updatedUser = {
+      ...editFormData,
+      verifier: hasPaid === "True" ? adminName : "",
+      paymentLocation: hasPaid === "True" ? currentEvent : "",
+    };
+
     await editUser({
       token: token,
       userId: editFormData._id,
-      newUser: editFormData,
+      newUser: updatedUser,
     });
     setEditedRowId(null);
     setEditFormData(null);
@@ -286,7 +300,8 @@ const AdminTable = () => {
       {
         accessorKey: "verifier",
         header: "Verified By",
-        cell: TableCell,
+        cell: ({ row }) => row.original.verifier,
+        // cell: TableCell,
         meta: {
           type: ColumnType.Text,
         },
@@ -294,7 +309,8 @@ const AdminTable = () => {
       {
         accessorKey: "paymentLocation",
         header: "Payment Location",
-        cell: TableCell,
+        cell: ({ row }) => row.original.paymentLocation,
+        // cell: TableCell,
         meta: {
           type: ColumnType.Text,
         },
