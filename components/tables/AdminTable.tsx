@@ -17,7 +17,14 @@ import {
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import UserFormCard from "../cards/UserFormCard";
-import { deleteUser, fetchUsers, createUser, editUser, getCurrentUser, getLatestEvent } from "@/utils/apiCalls";
+import {
+  deleteUser,
+  fetchUsers,
+  createUser,
+  editUser,
+  getCurrentUser,
+  getLatestEvent,
+} from "@/utils/apiCalls";
 import TableCell from "./TableCell";
 import EditCell from "./EditCell";
 import Pagination from "./Pagination";
@@ -117,30 +124,24 @@ const AdminTable = () => {
   const handleSaveClick = async () => {
     const user = (await getCurrentUser()).data.user;
     const adminName = user.username;
-    const event = (await getLatestEvent());
+    const event = await getLatestEvent();
     let currentEvent = "Not an event";
     if (event && event.data) {
       currentEvent = event.data.name;
     }
-    
+
     if (!editFormData) {
       return;
     }
 
-    const { password, hasPaid, paymentMethod, verifier, paymentLocation } =
-      editFormData;
+    const { hasPaid, paymentMethod, verifier } = editFormData;
 
-    if (
-      hasPaid == "True" &&
-      (!paymentMethod || !verifier || !paymentLocation)
-    ) {
-      alert(
-        "If member has paid, you need to fill out the method, verifier, and location.",
-      );
+    if (hasPaid == "True" && !paymentMethod) {
+      alert("Please fill in the payment method.");
       return;
     }
 
-    if (hasPaid == "False" && (paymentMethod || verifier || paymentLocation)) {
+    if (hasPaid == "False" && (paymentMethod || verifier)) {
       alert(
         "If member has not paid, the payment method, verifier, and location should be empty.",
       );
@@ -235,15 +236,15 @@ const AdminTable = () => {
           type: ColumnType.Text,
         },
       },
-      {
-        accessorKey: "password",
-        header: "Password",
-        cell: TableCell,
-        meta: {
-          type: ColumnType.Text,
-          hideFilter: true,
-        },
-      },
+      // {
+      //   accessorKey: "password",
+      //   header: "Password",
+      //   cell: TableCell,
+      //   meta: {
+      //     type: ColumnType.Text,
+      //     hideFilter: true,
+      //   },
+      // },
       // {
       //   accessorKey: "faculty",
       //   header: "Faculty",
@@ -252,7 +253,7 @@ const AdminTable = () => {
       //     type: ColumnType.Text
       //   },
       // },
-       {
+      {
         accessorKey: "isMathSocMember",
         header: "MathSoc Member",
         cell: TableCell,
@@ -300,8 +301,7 @@ const AdminTable = () => {
       {
         accessorKey: "verifier",
         header: "Verified By",
-        cell: ({ row }) => row.original.verifier,
-        // cell: TableCell,
+        cell: TableCell,
         meta: {
           type: ColumnType.Text,
         },
@@ -309,8 +309,7 @@ const AdminTable = () => {
       {
         accessorKey: "paymentLocation",
         header: "Payment Location",
-        cell: ({ row }) => row.original.paymentLocation,
-        // cell: TableCell,
+        cell: TableCell,
         meta: {
           type: ColumnType.Text,
         },
