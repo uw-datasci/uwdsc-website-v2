@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ChangeEvent } from "react";
+import React, { useState, ChangeEvent } from "react";
 import { CellContext, Column } from "@tanstack/react-table";
 import { User } from "@/types/types";
 import { ColumnType } from "./AdminTable";
@@ -134,7 +134,6 @@ const TableCell = <TData extends User>({
       (column.id === "userStatus" && userRole !== "admin") ||
       // Disable editing for payment-related fields
       column.id === "verifier" ||
-      column.id === "paymentLocation" ||
       column.id === "paymentLocation" ||
       (column.id === "paymentMethod" &&
         tableMeta?.editFormData?.hasPaid === "False")
