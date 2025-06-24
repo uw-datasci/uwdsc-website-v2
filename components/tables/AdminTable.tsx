@@ -301,8 +301,7 @@ const AdminTable = () => {
       {
         accessorKey: "verifier",
         header: "Verified By",
-        cell: ({ row }) => row.original.verifier,
-        // cell: TableCell,
+        cell: TableCell,
         meta: {
           type: ColumnType.Text,
         },
@@ -310,8 +309,7 @@ const AdminTable = () => {
       {
         accessorKey: "paymentLocation",
         header: "Payment Location",
-        cell: ({ row }) => row.original.paymentLocation,
-        // cell: TableCell,
+        cell: TableCell,
         meta: {
           type: ColumnType.Text,
         },
