@@ -31,6 +31,7 @@ export default function MemCard(props: MemCardProps) {
     (state: RootState) => state.latestEvent,
   ) as { event: Event | null; isCheckedIn: boolean };
   const userToken = useSelector((state: RootState) => state.loginToken.token);
+
   const [time, setTime] = useState("");
   const [loading, setLoading] = useState(true);
 

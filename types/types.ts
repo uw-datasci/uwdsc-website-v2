@@ -113,7 +113,7 @@ export type User = {
   verifier: string;
   paymentLocation: string;
   isEmailVerified: string;
-  isMathSocMember?: boolean;
+  isMathSocMember?: string;
   eventList?: string[];
   __v?: number;
 };
