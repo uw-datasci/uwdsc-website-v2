@@ -236,15 +236,15 @@ const AdminTable = () => {
           type: ColumnType.Text,
         },
       },
-      // {
-      //   accessorKey: "password",
-      //   header: "Password",
-      //   cell: TableCell,
-      //   meta: {
-      //     type: ColumnType.Text,
-      //     hideFilter: true,
-      //   },
-      // },
+      {
+        accessorKey: "password",
+        header: "Password",
+        cell: TableCell,
+        meta: {
+          type: ColumnType.Text,
+          hideFilter: true,
+        },
+      },
       // {
       //   accessorKey: "faculty",
       //   header: "Faculty",
