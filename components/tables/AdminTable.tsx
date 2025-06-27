@@ -236,23 +236,23 @@ const AdminTable = () => {
           type: ColumnType.Text,
         },
       },
-      // {
-      //   accessorKey: "password",
-      //   header: "Password",
-      //   cell: TableCell,
-      //   meta: {
-      //     type: ColumnType.Text,
-      //     hideFilter: true,
-      //   },
-      // },
-      // {
-      //   accessorKey: "faculty",
-      //   header: "Faculty",
-      //   cell: TableCell,
-      //   meta: {
-      //     type: ColumnType.Text
-      //   },
-      // },
+      {
+        accessorKey: "password",
+        header: "Password",
+        cell: TableCell,
+        meta: {
+          type: ColumnType.Text,
+          hideFilter: true,
+        },
+      },
+      {
+        accessorKey: "faculty",
+        header: "Faculty",
+        cell: TableCell,
+        meta: {
+          type: ColumnType.Text
+        },
+      },
       {
         accessorKey: "isMathSocMember",
         header: "MathSoc Member",
