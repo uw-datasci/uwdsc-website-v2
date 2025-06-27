@@ -34,7 +34,7 @@ export const NAVBAR_ROUTES = {
     { label: "Check In", route: "/memCheckIn" },
     { label: "Calendar", route: "/calendar" },
     {
-      label: "Admin",
+      label: "Exec",
       subNavItems: [
         { label: "Memberships", route: "/memberships" },
         { label: "Events", route: "/events" },
