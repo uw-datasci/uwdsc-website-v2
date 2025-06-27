@@ -245,14 +245,14 @@ const AdminTable = () => {
           hideFilter: true,
         },
       },
-      {
-        accessorKey: "faculty",
-        header: "Faculty",
-        cell: TableCell,
-        meta: {
-          type: ColumnType.Text
-        },
-      },
+      // {
+      //   accessorKey: "faculty",
+      //   header: "Faculty",
+      //   cell: TableCell,
+      //   meta: {
+      //     type: ColumnType.Text
+      //   },
+      // },
       {
         accessorKey: "isMathSocMember",
         header: "MathSoc Member",
