@@ -27,11 +27,12 @@ export const NAVBAR_ROUTES = {
       ],
     },
   ],
-   EXEC: [
+  EXEC: [
     { label: "Home", route: "/" },
     { label: "CxC", route: "/cxc" },
     { label: "Team", route: "/team" },
     { label: "Check In", route: "/memCheckIn" },
+    { label: "Calendar", route: "/calendar" },
     {
       label: "Admin",
       subNavItems: [
