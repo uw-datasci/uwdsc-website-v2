@@ -3,22 +3,22 @@ import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-
 import SEO from "@/components/SEO/SEO";
 import { RootState } from "@/store/store";
 import {
   getCurrentTerm,
   createApplication,
   getCurrentUserApplication,
+  patchApplication,
 } from "@/utils/apiCalls";
 
 // Form Components
-import ApplicationIntro from "@/components/forms/applcation/ApplicationIntro";
-import PersonalDetails from "@/components/forms/applcation/PersonalDetails";
-import Experience from "@/components/forms/applcation/Experience";
-import Positions from "@/components/forms/applcation/Positions";
-import Supplementary from "@/components/forms/applcation/Supplementary";
-import Submitted from "@/components/forms/applcation/Submitted";
+import ApplicationIntro from "@/components/forms/application/ApplicationIntro";
+import PersonalDetails from "@/components/forms/application/PersonalDetails";
+import Experience from "@/components/forms/application/Experience";
+import Positions from "@/components/forms/application/Positions";
+import Supplementary from "@/components/forms/application/Supplementary";
+import Submitted from "@/components/forms/application/Submitted";
 
 // UI Components
 import InputFeedback from "@/components/UI/Inputs/UWDSC/InputFeedback";
@@ -59,7 +59,65 @@ export default function ApplyPage() {
   // Step navigation functions
   const goToNextStep = () => setCurrentStep((prev) => prev + 1);
   const goToPreviousStep = () => setCurrentStep((prev) => prev - 1);
-  const startApplication = () => setCurrentStep(1);
+  const startApplication = async () => {
+    if (!currentTerm) return;
+    try {
+      await patchApplication({
+        termApplyingFor: currentTerm.id,
+        personalInfo: {
+          uwEmail: "",
+          personalEmail: "",
+          fullName: "",
+        },
+        academicInfo: {
+          program: "",
+          academicTerm: "",
+          location: "",
+        },
+        clubExperience: {
+          previousMember: false,
+          previousExperience: "",
+        },
+        questionAnswers: {},
+        resumeUrl: "",
+        status: "draft",
+      });
+      setCurrentStep(1);
+    } catch (error) {
+      console.error("Failed to start application:", error);
+    }
+  };
+  
+  const saveSectionAndNext = async () => {
+    if (!currentTerm) return;
+
+    try {
+      await patchApplication({
+        termApplyingFor: currentTerm.id,
+        personalInfo: {
+          uwEmail: formik.values.uwEmail,
+          personalEmail: formik.values.personalEmail,
+          fullName: formik.values.fullName,
+        },
+        academicInfo: {
+          program: formik.values.program,
+          academicTerm: formik.values.academicTerm,
+          location: formik.values.location,
+        },
+        clubExperience: {
+          previousMember: formik.values.previousMember,
+          previousExperience: formik.values.previousExperience,
+        },
+        questionAnswers: formik.values.questionAnswers,
+        resumeUrl: formik.values.resumeUrl,
+        status: "draft",
+      });
+
+      goToNextStep();
+    } catch (error) {
+      console.error("Failed to save application section:", error);
+    }
+  };
 
   const formik = useFormik<ApplicationFormValues>({
     initialValues: {
@@ -219,12 +277,12 @@ export default function ApplyPage() {
           />
         );
       case 1:
-        return <PersonalDetails formik={formik} onNext={goToNextStep} />;
+        return <PersonalDetails formik={formik} onNext={saveSectionAndNext} />;
       case 2:
         return (
           <Experience
             formik={formik}
-            onNext={goToNextStep}
+            onNext={saveSectionAndNext}
             onBack={goToPreviousStep}
           />
         );
@@ -233,7 +291,7 @@ export default function ApplyPage() {
           <Positions
             formik={formik}
             questions={currentTerm.questions}
-            onNext={goToNextStep}
+            onNext={saveSectionAndNext}
             onBack={goToPreviousStep}
           />
         );
