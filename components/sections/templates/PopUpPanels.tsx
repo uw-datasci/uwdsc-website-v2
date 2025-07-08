@@ -100,7 +100,9 @@ export default function PopUpPanels({
               translate
             }
           >
-            {panels.map((panel) => panel)}
+            {panels.map((panel, i) => (
+              <div key={panel.key ?? i}>{panel}</div>
+            ))}
           </div>
         </div>
       </div>
