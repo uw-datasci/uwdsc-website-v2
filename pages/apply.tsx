@@ -150,9 +150,7 @@ export default function ApplyPage() {
       setSubmitSuccess(true);
       setCurrentStep(5); // Move to success step
     } catch (error: any) {
-      setSubmitError(
-        error.response?.data?.error || "Failed to submit application",
-      );
+      setSubmitError(error.response?.data?.error || "Failed to submit");
     } finally {
       setIsLoading(false);
     }
