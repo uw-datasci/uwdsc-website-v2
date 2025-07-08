@@ -7,7 +7,6 @@ import SEO from "@/components/SEO/SEO";
 import { RootState } from "@/store/store";
 import {
   getCurrentTerm,
-  createApplication,
   getCurrentUserApplication,
   patchApplication,
 } from "@/utils/apiCalls";
@@ -59,6 +58,7 @@ export default function ApplyPage() {
   // Step navigation functions
   const goToNextStep = () => setCurrentStep((prev) => prev + 1);
   const goToPreviousStep = () => setCurrentStep((prev) => prev - 1);
+
   const startApplication = async () => {
     if (!currentTerm) return;
     try {
@@ -87,7 +87,7 @@ export default function ApplyPage() {
       console.error("Failed to start application:", error);
     }
   };
-  
+
   const saveSectionAndNext = async () => {
     if (!currentTerm) return;
 
@@ -119,6 +119,45 @@ export default function ApplyPage() {
     }
   };
 
+  const submitApplication = async (values: ApplicationFormValues) => {
+    if (!currentTerm) return;
+
+    setIsLoading(true);
+    setSubmitError("");
+
+    try {
+      await patchApplication({
+        termApplyingFor: currentTerm.id,
+        personalInfo: {
+          uwEmail: values.uwEmail,
+          personalEmail: values.personalEmail,
+          fullName: values.fullName,
+        },
+        academicInfo: {
+          program: values.program,
+          academicTerm: values.academicTerm,
+          location: values.location,
+        },
+        clubExperience: {
+          previousMember: values.previousMember,
+          previousExperience: values.previousExperience,
+        },
+        questionAnswers: values.questionAnswers,
+        resumeUrl: values.resumeUrl,
+        status: "submitted",
+      });
+
+      setSubmitSuccess(true);
+      setCurrentStep(5); // Move to success step
+    } catch (error: any) {
+      setSubmitError(
+        error.response?.data?.error || "Failed to submit application",
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const formik = useFormik<ApplicationFormValues>({
     initialValues: {
       uwEmail: "",
@@ -133,43 +172,7 @@ export default function ApplyPage() {
       questionAnswers: {},
     },
     validationSchema,
-    onSubmit: async (values) => {
-      if (!currentTerm) return;
-
-      setIsLoading(true);
-      setSubmitError("");
-
-      try {
-        await createApplication({
-          termApplyingFor: currentTerm.id,
-          personalInfo: {
-            uwEmail: values.uwEmail,
-            personalEmail: values.personalEmail,
-            fullName: values.fullName,
-          },
-          academicInfo: {
-            program: values.program,
-            academicTerm: values.academicTerm,
-            location: values.location,
-          },
-          clubExperience: {
-            previousMember: values.previousMember,
-            previousExperience: values.previousExperience,
-          },
-          questionAnswers: values.questionAnswers,
-          resumeUrl: values.resumeUrl,
-        });
-
-        setSubmitSuccess(true);
-        setCurrentStep(5); // Move to success step
-      } catch (error: any) {
-        setSubmitError(
-          error.response?.data?.error || "Failed to submit application",
-        );
-      } finally {
-        setIsLoading(false);
-      }
-    },
+    onSubmit: submitApplication,
   });
 
   // Fetch data on component mount and when signed in status changes
