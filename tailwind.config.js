@@ -29,6 +29,13 @@ module.exports = {
       pureWhite: "#FFFFFF",
       cxcGrey: "#332F39",
       cxcLightGrey: "#B1B1B1",
+      yellowText: "#FCD34D",
+      yellowBackground: "#FCD34D33",
+      yellowBorder: "#FBBF2466",
+      lightBlue: "#5D84D4",
+      lighterBlue: "#A9C2FD",
+      darkBlue: "#222949",
+      slateBlue: "#2B345B",
     },
     fontFamily: {
       sans: ["Satoshi-Variable", "sans-serif"],
@@ -102,6 +109,9 @@ module.exports = {
         4.5: "18px",
         5.5: "22px",
         18: "72px",
+      },
+      borderWidth: {
+        0.5: "0.5px",
       },
       keyframes: {
         typing: {

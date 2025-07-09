@@ -37,8 +37,8 @@ body {
 }
 
 @font-face {
-  font-family: 'Jersey-10';
-  src: 
+  font-family: "Jersey-10";
+  src:
     url("../public/fonts/Jersey-10.woff2") format("woff2"),
     url("../public/fonts/Jersey-10.woff") format("woff"),
     url("../public/fonts/Jersey-10.ttf") format("truetype");
@@ -71,6 +71,16 @@ body {
     @apply bg-gradient-to-tr from-pink to-blue;
   }
 
+  .bg-gradient-blue {
+    background: linear-gradient(
+      127.32deg,
+      rgba(129, 145, 216, 0.75) 18.28%,
+      rgba(56, 73, 149, 0.75) 72.12%,
+      rgba(62, 79, 153, 0.75) 74.88%,
+      rgba(166, 195, 234, 0.75) 125.61%
+    );
+  }
+
   .gradient-text {
     @apply inline bg-clip-text text-transparent;
   }
@@ -85,7 +95,12 @@ body {
   }
 
   .neon-lights {
-    filter:brightness(1);
-    text-shadow: 0 0 .5vh var(--lights), 0 0 .5vh var(--lights), 0 0 .5vh var(--lights), 0 0 .5vh var(--lights), 0 0 1vh var(--lights);
+    filter: brightness(1);
+    text-shadow:
+      0 0 0.5vh var(--lights),
+      0 0 0.5vh var(--lights),
+      0 0 0.5vh var(--lights),
+      0 0 0.5vh var(--lights),
+      0 0 1vh var(--lights);
   }
 }

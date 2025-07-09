@@ -10,6 +10,7 @@ export const NAVBAR_ROUTES = {
     { label: "Home", route: "/" },
     { label: "CxC", route: "/cxc" },
     { label: "Team", route: "/team" },
+    { label: "Apply", route: "/apply" },
     { label: "Check In", route: "/memCheckIn" },
     { label: "Calendar", route: "/calendar" },
   ],
@@ -17,6 +18,7 @@ export const NAVBAR_ROUTES = {
     { label: "Home", route: "/" },
     { label: "CxC", route: "/cxc" },
     { label: "Team", route: "/team" },
+    { label: "Apply", route: "/apply" },
     { label: "Check In", route: "/memCheckIn" },
     { label: "Calendar", route: "/calendar" },
     {
@@ -31,6 +33,7 @@ export const NAVBAR_ROUTES = {
     { label: "Home", route: "/" },
     { label: "CxC", route: "/cxc" },
     { label: "Team", route: "/team" },
+    { label: "Apply", route: "/apply" },
     { label: "Check In", route: "/memCheckIn" },
     { label: "Calendar", route: "/calendar" },
     {
