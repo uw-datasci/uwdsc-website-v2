@@ -31,6 +31,24 @@ export default function Supplementary({
       !q.question.toLowerCase().includes("leadership"),
   );
 
+  const isStepValid = () => {
+    // Check if resume URL is provided and valid
+    if (!formik.values.resumeUrl || formik.errors.resumeUrl) {
+      return false;
+    }
+
+    // Check if all required supplementary questions are answered
+    const requiredQuestions = supplementaryQuestions.filter(q => q.required);
+    
+    return requiredQuestions.every(question => {
+      const value = formik.values.questionAnswers[question.id];
+      if (question.type === "checkbox") {
+        return Array.isArray(value) && value.length > 0;
+      }
+      return value && value.toString().trim() !== "";
+    });
+  };
+
   const renderDynamicQuestion = (question: Question) => {
     const value = formik.values.questionAnswers[question.id] || "";
 
@@ -170,7 +188,7 @@ export default function Supplementary({
           <Button
             type="submit"
             hierarchy="primary"
-            disabled={isLoading}
+            disabled={isLoading || !isStepValid()}
             rounded="rounded-md"
           >
             {isLoading ? "Submitting..." : "Submit Application"}

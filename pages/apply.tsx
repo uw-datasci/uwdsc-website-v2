@@ -20,11 +20,16 @@ import Supplementary from "@/components/forms/application/Supplementary";
 import Submitted from "@/components/forms/application/Submitted";
 
 // UI Components
-import InputFeedback from "@/components/UI/Inputs/UWDSC/InputFeedback";
 import Button from "@/components/UI/Button";
 
 // Types
 import { ApplicationFormValues, Term } from "@/types/application";
+import { CircleUserRound, ClockIcon, MoveLeft, MoveRight } from "lucide-react";
+import {
+  PERSONAL_FIELDS,
+  STEP_NAMES,
+  BLANK_APPLICATION,
+} from "@/constants/application";
 
 const validationSchema = Yup.object({
   uwEmail: Yup.string()
@@ -38,6 +43,13 @@ const validationSchema = Yup.object({
   program: Yup.string().required("Program is required"),
   academicTerm: Yup.string().required("Academic Term is required"),
   location: Yup.string().required("Location is required"),
+  pastExecutive: Yup.string().required("Past Executive field is required"),
+  pastExecutiveRoles: Yup.string().when("pastExecutive", {
+    is: "Yes",
+    then: (schema) =>
+      schema.required("Please describe your past executive roles"),
+    otherwise: (schema) => schema.notRequired(),
+  }),
   resumeUrl: Yup.string()
     .url("Must be a valid URL")
     .required("Resume URL is required"),
@@ -54,34 +66,77 @@ export default function ApplyPage() {
   const [isApplicationsOpen, setIsApplicationsOpen] = useState(false);
   const [loadingTerm, setLoadingTerm] = useState(true);
   const [currentStep, setCurrentStep] = useState(0); // 0: intro, 1: personal, 2: experience, 3: positions, 4: supplementary
+  const [hasExistingApplication, setHasExistingApplication] = useState(false);
 
   // Step navigation functions
   const goToNextStep = () => setCurrentStep((prev) => prev + 1);
   const goToPreviousStep = () => setCurrentStep((prev) => prev - 1);
 
+  // Validation logic for each step
+  const isStepValid = (step: number) => {
+    switch (step) {
+      case 1:
+        const hasEmptyPersonalFields = PERSONAL_FIELDS.some(
+          (field) => !formik.values[field as keyof typeof formik.values],
+        );
+
+        const hasPersonalErrors = PERSONAL_FIELDS.some(
+          (field) => formik.errors[field as keyof typeof formik.errors],
+        );
+
+        const pastExecutiveRolesRequired =
+          formik.values.pastExecutive === "Yes" &&
+          !formik.values.pastExecutiveRoles;
+
+        return (
+          !hasEmptyPersonalFields &&
+          !hasPersonalErrors &&
+          !pastExecutiveRolesRequired
+        );
+
+      case 2: // Experience
+        // Add experience validation logic here
+        return true;
+
+      case 3: // Positions
+        // Add positions validation logic here
+        return true;
+
+      case 4: // Supplementary
+        // Add supplementary validation logic here
+        return true;
+
+      default:
+        return true;
+    }
+  };
+
+  const handleNext = async () => {
+    if (!isStepValid(currentStep)) {
+      // Touch all fields to show errors based on current step
+      if (currentStep === 1) {
+        PERSONAL_FIELDS.forEach((field) => formik.setFieldTouched(field, true));
+        if (formik.values.pastExecutive === "Yes") {
+          formik.setFieldTouched("pastExecutiveRoles", true);
+        }
+      }
+      return;
+    }
+
+    await saveSectionAndNext();
+  };
+
+  const handlePrevious = () => goToPreviousStep();
+
   const startApplication = async () => {
     if (!currentTerm) return;
     try {
-      await patchApplication({
-        termApplyingFor: currentTerm.id,
-        personalInfo: {
-          uwEmail: "",
-          personalEmail: "",
-          fullName: "",
-        },
-        academicInfo: {
-          program: "",
-          academicTerm: "",
-          location: "",
-        },
-        clubExperience: {
-          previousMember: false,
-          previousExperience: "",
-        },
-        questionAnswers: {},
-        resumeUrl: "",
-        status: "draft",
-      });
+      if (!hasExistingApplication) {
+        await patchApplication({
+          termApplyingFor: currentTerm.id,
+          ...BLANK_APPLICATION,
+        });
+      }
       setCurrentStep(1);
     } catch (error) {
       console.error("Failed to start application:", error);
@@ -164,6 +219,8 @@ export default function ApplyPage() {
       program: "",
       academicTerm: "",
       location: "",
+      pastExecutive: "",
+      pastExecutiveRoles: "",
       previousMember: false,
       previousExperience: "",
       resumeUrl: "",
@@ -201,6 +258,8 @@ export default function ApplyPage() {
                 program: application.academicInfo?.program || "",
                 academicTerm: application.academicInfo?.academicTerm || "",
                 location: application.academicInfo?.location || "",
+                pastExecutive: application.pastExecutive || "",
+                pastExecutiveRoles: application.pastExecutiveRoles || "",
                 previousMember:
                   application.clubExperience?.previousMember || false,
                 previousExperience:
@@ -208,6 +267,7 @@ export default function ApplyPage() {
                 resumeUrl: application.resumeUrl || "",
                 questionAnswers: application.questionAnswers || {},
               });
+              setHasExistingApplication(true);
             }
           } catch (error) {
             console.error("Error fetching application data:", error);
@@ -223,6 +283,7 @@ export default function ApplyPage() {
     };
 
     fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [signedIn]);
 
   // Redirect if not signed in
@@ -273,12 +334,12 @@ export default function ApplyPage() {
       case 0:
         return (
           <ApplicationIntro
-            currentTerm={currentTerm}
             onStart={startApplication}
+            hasExistingApplication={hasExistingApplication}
           />
         );
       case 1:
-        return <PersonalDetails formik={formik} onNext={saveSectionAndNext} />;
+        return <PersonalDetails formik={formik} />;
       case 2:
         return (
           <Experience
@@ -313,15 +374,37 @@ export default function ApplyPage() {
     }
   };
 
+  if (!currentTerm) return <div>No apps lol</div>;
+
   return (
     <>
-      <SEO title="Apply to DSC" />
+      <SEO title="DSC Application" />
       <div className="min-h-screen bg-black px-4 py-20">
+        <div className="mx-auto mb-8 max-w-4xl text-center">
+          <div className="mb-2 flex justify-center">
+            <div className="inline-flex items-center rounded-full border-yellowBorder bg-yellowBackground px-10 py-2 text-xs font-semibold text-yellowText">
+              <span className="mr-2 flex items-center">
+                <ClockIcon className="h-4 w-4" />
+              </span>
+              {new Date(currentTerm.appDeadline).toLocaleDateString("en-US", {
+                month: "short",
+                day: "numeric",
+                year: "numeric",
+              })}
+            </div>
+          </div>
+          <h1 className="mb-2 text-3xl font-bold text-white">
+            DSC Exec Application Form
+          </h1>
+          <p className="text-2xl font-semibold text-lightBlue">
+            {currentTerm.termName}
+          </p>
+        </div>
         {currentStep === 0 || currentStep === 5 ? (
           renderCurrentStep()
         ) : (
           <div className="mx-auto max-w-4xl">
-            {/* Progress indicator */}
+            {/* Progress indicator - CHANGE LATER */}
             <div className="mb-8">
               <div className="mb-4 flex items-center justify-between text-sm text-grey1">
                 <span
@@ -352,7 +435,74 @@ export default function ApplyPage() {
               />
             </div>
 
-            <form onSubmit={formik.handleSubmit}>{renderCurrentStep()}</form>
+            <form onSubmit={formik.handleSubmit}>
+              <div className="mx-auto max-w-4xl rounded-lg bg-darkBlue pb-4">
+                <div className="bg-gradient-blue flex items-center justify-between rounded-t-lg p-4 text-center backdrop-blur-md">
+                  <div className="flex items-center justify-center px-2">
+                    <CircleUserRound className="mr-3 h-6 w-6 text-white" />
+                    <h1 className="text-xl font-bold text-white">
+                      {STEP_NAMES[currentStep]}
+                    </h1>
+                  </div>
+                  <p className="text-gray-400 text-sm text-white">
+                    Mandatory fields are marked with an asterisk (*)
+                  </p>
+                </div>
+                {renderCurrentStep()}
+
+                {/* Navigation Section */}
+                {currentStep >= 1 && currentStep <= 4 && (
+                  <div className="mx-6 flex items-center justify-between">
+                    <Button
+                      type="button"
+                      hierarchy="secondary"
+                      rounded="rounded-full"
+                      onClick={handlePrevious}
+                      border="border border-grey1 border-solid"
+                      classes="transition-all duration-300 hover:scale-105 hover:shadow-lg bg-transparent hover:text-white hover:bg-grey1"
+                    >
+                      <div className="flex items-center text-grey1">
+                        <MoveLeft className="mr-2 h-4 w-4" />
+                        Previous
+                      </div>
+                    </Button>
+                    <div className="flex justify-center space-x-2 py-4">
+                      {STEP_NAMES.slice(1).map((_, index) => (
+                        <div
+                          key={index}
+                          className={`h-2 rounded-full transition-all duration-300 ease-in-out ${
+                            index + 1 == currentStep
+                              ? "w-8 bg-lightBlue"
+                              : index + 1 < currentStep
+                              ? "w-2 bg-green"
+                              : "w-2 bg-grey1"
+                          }`}
+                        />
+                      ))}
+                    </div>
+                    <div className="flex items-center justify-end">
+                      <Button
+                        type="button"
+                        hierarchy="secondary"
+                        rounded="rounded-full"
+                        onClick={handleNext}
+                        disabled={!isStepValid(currentStep)}
+                        classes={`transition-all duration-300 hover:scale-105 hover:shadow-lg ${
+                          isStepValid(currentStep)
+                            ? "bg-white hover:bg-grey1"
+                            : "bg-grey1 opacity-50 cursor-not-allowed"
+                        }`}
+                      >
+                        <div className="flex items-center text-darkBlue">
+                          Next
+                          <MoveRight className="ml-2 h-4 w-4" />
+                        </div>
+                      </Button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </form>
           </div>
         )}
       </div>

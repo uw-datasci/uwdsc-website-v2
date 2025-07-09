@@ -9,6 +9,7 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "react-feather";
+import SEO from "@/components/SEO/SEO";
 
 interface EventData {
   id: string;
@@ -432,174 +433,178 @@ export default function Calendar() {
   };
 
   return (
-    <div className="mx-container mb-section mt-8 px-2 sm:mt-14 sm:px-4 lg:mt-20">
-      <h1 className="mb-8 text-center text-2xl font-bold text-white 3xs:text-4xl xs:text-3xl sm:mb-14 sm:text-6xl lg:text-8xl xl:text-10xl 2xl:text-12xl">
-        Event Calendar
-      </h1>
+    <>
+      <SEO title="Event Calendar" />
+      <div className="mx-container mb-section mt-8 px-2 sm:mt-14 sm:px-4 lg:mt-20">
+        <h1 className="mb-8 text-center text-2xl font-bold text-white 3xs:text-4xl xs:text-3xl sm:mb-14 sm:text-6xl lg:text-8xl xl:text-10xl 2xl:text-12xl">
+          Event Calendar
+        </h1>
 
-      {error && (
-        <div className="sm:text-base mb-4 rounded-lg border border-red bg-red/20 p-3 text-center text-sm text-red sm:mb-6 sm:p-4">
-          {error}
-        </div>
-      )}
-
-      <div className="rounded-lg bg-grey4/50 p-3 sm:p-6">
-        {/* Mobile Header - Inline Navigation */}
-        <div className="mb-4 flex items-center justify-between sm:mb-6 sm:hidden">
-          <div className="flex flex-col items-center gap-2">
-            <h2 className="text-center text-lg font-bold text-white">
-              {MONTHS[currentDate.getMonth()]} {currentDate.getFullYear()}
-            </h2>
+        {error && (
+          <div className="sm:text-base mb-4 rounded-lg border border-red bg-red/20 p-3 text-center text-sm text-red sm:mb-6 sm:p-4">
+            {error}
           </div>
+        )}
 
-          <div className="flex items-center gap-2">
-            <Button
-              type="button"
-              hierarchy="secondary"
-              font="font-medium"
-              rounded="rounded-md"
-              padding="p-1"
-              onClick={goToPreviousMonth}
-              classes="hover:bg-grey4 flex items-center justify-center"
-            >
-              <ChevronLeft className="h-5 w-5 text-white" />
-            </Button>
-            <Button
-              type="button"
-              hierarchy="secondary"
-              font="font-medium"
-              rounded="rounded-md"
-              padding="px-3 py-1"
-              onClick={goToToday}
-              classes={`text-xs ${
-                isCurrentMonth()
-                  ? "bg-blue/20 hover:cursor-default"
-                  : "hover:bg-grey4"
-              }`}
-              disabled={isCurrentMonth()}
-            >
-              Today
-            </Button>
-            <Button
-              type="button"
-              hierarchy="secondary"
-              font="font-medium"
-              rounded="rounded-md"
-              padding="p-1"
-              onClick={goToNextMonth}
-              classes="hover:bg-grey4 flex items-center justify-center"
-            >
-              <ChevronRight className="h-5 w-5 text-white" />
-            </Button>
-          </div>
-        </div>
-
-        {/* Desktop Header - Original Layout */}
-        <div className="mb-4 hidden items-center justify-between sm:mb-6 sm:flex">
-          <div className="flex items-center gap-4">
-            <h2 className="text-center text-2xl font-bold text-white">
-              {MONTHS[currentDate.getMonth()]} {currentDate.getFullYear()}
-            </h2>
-          </div>
-
-          <div className="flex items-center gap-3">
-            <Button
-              type="button"
-              hierarchy="secondary"
-              font="font-medium"
-              rounded="rounded-md"
-              padding="p-2"
-              onClick={goToPreviousMonth}
-              classes="hover:bg-grey4 flex items-center justify-center"
-            >
-              <ChevronLeft className="h-5 w-5 text-white" />
-            </Button>
-
-            <Button
-              type="button"
-              hierarchy="secondary"
-              font="font-medium"
-              rounded="rounded-md"
-              padding="px-3 py-2"
-              onClick={goToToday}
-              classes={`${
-                isCurrentMonth()
-                  ? "bg-blue/20 hover:cursor-default"
-                  : "hover:bg-grey4"
-              }`}
-              disabled={isCurrentMonth()}
-            >
-              Today
-            </Button>
-
-            <Button
-              type="button"
-              hierarchy="secondary"
-              font="font-medium"
-              rounded="rounded-md"
-              padding="p-2"
-              onClick={goToNextMonth}
-              classes="hover:bg-grey4 flex items-center justify-center"
-            >
-              <ChevronRight className="h-5 w-5 text-white" />
-            </Button>
-          </div>
-        </div>
-
-        <div className="mb-2 grid grid-cols-7 gap-0">
-          {DAYS_OF_WEEK.map((day, index) => (
-            <div
-              key={day}
-              className="border-b border-grey3 p-2 text-center text-xs font-semibold text-grey1 sm:p-3 sm:text-sm"
-            >
-              <span className="hidden sm:inline">{day}</span>
-              <span className="sm:hidden">{DAYS_OF_WEEK_MOBILE[index]}</span>
+        <div className="rounded-lg bg-grey4/50 p-3 sm:p-6">
+          {/* Mobile Header - Inline Navigation */}
+          <div className="mb-4 flex items-center justify-between sm:mb-6 sm:hidden">
+            <div className="flex flex-col items-center gap-2">
+              <h2 className="text-center text-lg font-bold text-white">
+                {MONTHS[currentDate.getMonth()]} {currentDate.getFullYear()}
+              </h2>
             </div>
-          ))}
-        </div>
 
-        <div className="grid min-h-[480px] grid-cols-7 gap-0 sm:min-h-[720px]">
-          {renderCalendarDays()}
-        </div>
-
-        <div className="mt-4 flex flex-wrap items-center justify-center gap-2 text-xs text-grey1 sm:mt-6 sm:gap-4 sm:text-sm">
-          <div className="flex items-center gap-2">
-            <div className="rounded h-3 w-3 bg-blue sm:h-4 sm:w-4"></div>
-            <span>Events</span>
+            <div className="flex items-center gap-2">
+              <Button
+                type="button"
+                hierarchy="secondary"
+                font="font-medium"
+                rounded="rounded-md"
+                padding="p-1"
+                onClick={goToPreviousMonth}
+                classes="hover:bg-grey4 flex items-center justify-center"
+              >
+                <ChevronLeft className="h-5 w-5 text-white" />
+              </Button>
+              <Button
+                type="button"
+                hierarchy="secondary"
+                font="font-medium"
+                rounded="rounded-md"
+                padding="px-3 py-1"
+                onClick={goToToday}
+                classes={`text-xs ${
+                  isCurrentMonth()
+                    ? "bg-blue/20 hover:cursor-default"
+                    : "hover:bg-grey4"
+                }`}
+                disabled={isCurrentMonth()}
+              >
+                Today
+              </Button>
+              <Button
+                type="button"
+                hierarchy="secondary"
+                font="font-medium"
+                rounded="rounded-md"
+                padding="p-1"
+                onClick={goToNextMonth}
+                classes="hover:bg-grey4 flex items-center justify-center"
+              >
+                <ChevronRight className="h-5 w-5 text-white" />
+              </Button>
+            </div>
           </div>
-          <div className="flex items-center gap-2">
-            <div className="rounded h-3 w-3 border border-blue bg-blue/20 sm:h-4 sm:w-4"></div>
-            <span>Today</span>
-          </div>
-        </div>
 
-        <div className="mt-6 text-center text-grey1 sm:mt-8">
-          <p className="sm:text-base text-sm">
-            {loading ? (
-              <>
-                Loading events for {MONTHS[currentDate.getMonth()]}{" "}
-                {currentDate.getFullYear()}...
-              </>
-            ) : (
-              <>
-                Showing {events.length} event{events.length !== 1 ? "s" : ""}{" "}
-                for {MONTHS[currentDate.getMonth()]} {currentDate.getFullYear()}
-              </>
-            )}
-          </p>
-          {!loading && events.length > 0 && (
-            <p className="mt-2 text-xs sm:text-sm">
-              Tap events to see more details
+          {/* Desktop Header - Original Layout */}
+          <div className="mb-4 hidden items-center justify-between sm:mb-6 sm:flex">
+            <div className="flex items-center gap-4">
+              <h2 className="text-center text-2xl font-bold text-white">
+                {MONTHS[currentDate.getMonth()]} {currentDate.getFullYear()}
+              </h2>
+            </div>
+
+            <div className="flex items-center gap-3">
+              <Button
+                type="button"
+                hierarchy="secondary"
+                font="font-medium"
+                rounded="rounded-md"
+                padding="p-2"
+                onClick={goToPreviousMonth}
+                classes="hover:bg-grey4 flex items-center justify-center"
+              >
+                <ChevronLeft className="h-5 w-5 text-white" />
+              </Button>
+
+              <Button
+                type="button"
+                hierarchy="secondary"
+                font="font-medium"
+                rounded="rounded-md"
+                padding="px-3 py-2"
+                onClick={goToToday}
+                classes={`${
+                  isCurrentMonth()
+                    ? "bg-blue/20 hover:cursor-default"
+                    : "hover:bg-grey4"
+                }`}
+                disabled={isCurrentMonth()}
+              >
+                Today
+              </Button>
+
+              <Button
+                type="button"
+                hierarchy="secondary"
+                font="font-medium"
+                rounded="rounded-md"
+                padding="p-2"
+                onClick={goToNextMonth}
+                classes="hover:bg-grey4 flex items-center justify-center"
+              >
+                <ChevronRight className="h-5 w-5 text-white" />
+              </Button>
+            </div>
+          </div>
+
+          <div className="mb-2 grid grid-cols-7 gap-0">
+            {DAYS_OF_WEEK.map((day, index) => (
+              <div
+                key={day}
+                className="border-b border-grey3 p-2 text-center text-xs font-semibold text-grey1 sm:p-3 sm:text-sm"
+              >
+                <span className="hidden sm:inline">{day}</span>
+                <span className="sm:hidden">{DAYS_OF_WEEK_MOBILE[index]}</span>
+              </div>
+            ))}
+          </div>
+
+          <div className="grid min-h-[480px] grid-cols-7 gap-0 sm:min-h-[720px]">
+            {renderCalendarDays()}
+          </div>
+
+          <div className="mt-4 flex flex-wrap items-center justify-center gap-2 text-xs text-grey1 sm:mt-6 sm:gap-4 sm:text-sm">
+            <div className="flex items-center gap-2">
+              <div className="rounded h-3 w-3 bg-blue sm:h-4 sm:w-4"></div>
+              <span>Events</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="rounded h-3 w-3 border border-blue bg-blue/20 sm:h-4 sm:w-4"></div>
+              <span>Today</span>
+            </div>
+          </div>
+
+          <div className="mt-6 text-center text-grey1 sm:mt-8">
+            <p className="sm:text-base text-sm">
+              {loading ? (
+                <>
+                  Loading events for {MONTHS[currentDate.getMonth()]}{" "}
+                  {currentDate.getFullYear()}...
+                </>
+              ) : (
+                <>
+                  Showing {events.length} event{events.length !== 1 ? "s" : ""}{" "}
+                  for {MONTHS[currentDate.getMonth()]}{" "}
+                  {currentDate.getFullYear()}
+                </>
+              )}
             </p>
-          )}
+            {!loading && events.length > 0 && (
+              <p className="mt-2 text-xs sm:text-sm">
+                Tap events to see more details
+              </p>
+            )}
+          </div>
         </div>
-      </div>
 
-      <EventTooltip
-        event={hoveredEvent}
-        position={tooltipPosition}
-        isVisible={isTooltipVisible}
-      />
-    </div>
+        <EventTooltip
+          event={hoveredEvent}
+          position={tooltipPosition}
+          isVisible={isTooltipVisible}
+        />
+      </div>
+    </>
   );
 }

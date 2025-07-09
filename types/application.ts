@@ -9,6 +9,10 @@ export interface ApplicationFormValues {
   academicTerm: string;
   location: string;
 
+  // Past Executive Experience
+  pastExecutive: string;
+  pastExecutiveRoles?: string;
+
   // Club Experience
   previousMember: boolean;
   previousExperience: string;
@@ -36,7 +40,7 @@ export interface Question {
 export interface Term {
   id: string;
   termName: string;
-  appReleaseDate: string;
-  appDeadline: string;
+  appReleaseDate: Date;
+  appDeadline: Date;
   questions: Question[];
 }

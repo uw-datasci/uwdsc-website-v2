@@ -28,6 +28,32 @@ export default function Positions({
       q.question.toLowerCase().includes("leadership"),
   );
 
+  const isStepValid = () => {
+    // Check if all required position questions are answered
+    const requiredQuestions = positionQuestions.filter(q => q.required);
+    
+    return requiredQuestions.every(question => {
+      const value = formik.values.questionAnswers[question.id];
+      if (question.type === "checkbox") {
+        return Array.isArray(value) && value.length > 0;
+      }
+      return value && value.toString().trim() !== "";
+    });
+  };
+
+  const handleNext = () => {
+    if (!isStepValid()) {
+      // Touch all required fields to show errors
+      positionQuestions.forEach(question => {
+        if (question.required) {
+          formik.setFieldTouched(`questionAnswers.${question.id}`, true);
+        }
+      });
+      return;
+    }
+    onNext();
+  };
+
   const renderDynamicQuestion = (question: Question) => {
     const value = formik.values.questionAnswers[question.id] || "";
 
@@ -123,7 +149,8 @@ export default function Positions({
             type="button"
             hierarchy="primary"
             rounded="rounded-md"
-            onClick={onNext}
+            onClick={handleNext}
+            disabled={!isStepValid()}
           >
             Next
           </Button>
@@ -164,15 +191,16 @@ export default function Positions({
         >
           Back
         </Button>
-        <Button
-          type="button"
-          hierarchy="primary"
-          rounded="rounded-md"
-          onClick={onNext}
-        >
-          Next
-        </Button>
+                  <Button
+            type="button"
+            hierarchy="primary"
+            rounded="rounded-md"
+            onClick={handleNext}
+            disabled={!isStepValid()}
+          >
+            Next
+          </Button>
+        </div>
       </div>
-    </div>
-  );
-}
+    );
+  }

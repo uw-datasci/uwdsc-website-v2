@@ -1,33 +1,13 @@
 import Button from "@/components/UI/Button";
-import { Term } from "@/types/application";
 
 interface ApplicationIntroProps {
-  currentTerm: Term;
   onStart: () => void;
+  hasExistingApplication?: boolean;
 }
 
-export default function ApplicationIntro({
-  currentTerm,
-  onStart,
-}: ApplicationIntroProps) {
+export default function ApplicationIntro({ onStart, hasExistingApplication = false }: ApplicationIntroProps) {
   return (
     <div className="mx-auto max-w-4xl text-center">
-      <div className="mb-8">
-        <h1 className="mb-4 text-4xl font-bold text-white">
-          Apply to UW Data Science Club
-        </h1>
-        <p className="text-lg text-grey1">
-          Applying for:{" "}
-          <span className="font-semibold text-white">
-            {currentTerm.termName}
-          </span>
-        </p>
-        <p className="text-grey1">
-          Application deadline:{" "}
-          {new Date(currentTerm.appDeadline).toLocaleDateString()}
-        </p>
-      </div>
-
       <div className="mb-8 rounded-lg bg-grey4 p-8">
         <h2 className="mb-6 text-2xl font-bold text-white">
           Ready to Join Our Community?
@@ -70,7 +50,7 @@ export default function ApplicationIntro({
         rounded="rounded-md"
         onClick={onStart}
       >
-        Start Application
+        {hasExistingApplication ? "Continue Application" : "Start Application"}
       </Button>
     </div>
   );
