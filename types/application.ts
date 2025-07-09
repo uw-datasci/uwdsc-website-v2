@@ -9,10 +9,6 @@ export interface ApplicationFormValues {
   academicTerm: string;
   location: string;
 
-  // Past Executive Experience
-  pastExecutive: string;
-  pastExecutiveRoles?: string;
-
   // Club Experience
   previousMember: boolean;
   previousExperience: string;

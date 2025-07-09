@@ -29,6 +29,7 @@ import {
   PERSONAL_FIELDS,
   STEP_NAMES,
   BLANK_APPLICATION,
+  NO_PREV_EXPERIENCE,
 } from "@/constants/application";
 
 const validationSchema = Yup.object({
@@ -43,13 +44,8 @@ const validationSchema = Yup.object({
   program: Yup.string().required("Program is required"),
   academicTerm: Yup.string().required("Academic Term is required"),
   location: Yup.string().required("Location is required"),
-  pastExecutive: Yup.string().required("Past Executive field is required"),
-  pastExecutiveRoles: Yup.string().when("pastExecutive", {
-    is: "Yes",
-    then: (schema) =>
-      schema.required("Please describe your past executive roles"),
-    otherwise: (schema) => schema.notRequired(),
-  }),
+  previousMember: Yup.boolean(),
+  previousExperience: Yup.string(),
   resumeUrl: Yup.string()
     .url("Must be a valid URL")
     .required("Resume URL is required"),
@@ -84,15 +80,12 @@ export default function ApplyPage() {
           (field) => formik.errors[field as keyof typeof formik.errors],
         );
 
-        const pastExecutiveRolesRequired =
-          formik.values.pastExecutive === "Yes" &&
-          !formik.values.pastExecutiveRoles;
+        // Check if club experience section is properly filled
+        const clubExperienceIncomplete = 
+          formik.values.previousExperience === "" || // No selection made
+          (formik.values.previousMember === true && !formik.values.previousExperience);
 
-        return (
-          !hasEmptyPersonalFields &&
-          !hasPersonalErrors &&
-          !pastExecutiveRolesRequired
-        );
+        return !hasEmptyPersonalFields && !hasPersonalErrors && !clubExperienceIncomplete;
 
       case 2: // Experience
         // Add experience validation logic here
@@ -116,11 +109,20 @@ export default function ApplyPage() {
       // Touch all fields to show errors based on current step
       if (currentStep === 1) {
         PERSONAL_FIELDS.forEach((field) => formik.setFieldTouched(field, true));
-        if (formik.values.pastExecutive === "Yes") {
-          formik.setFieldTouched("pastExecutiveRoles", true);
+        
+        // Touch club experience fields based on current state
+        if (formik.values.previousExperience === "") {
+          formik.setFieldTouched("previousMember", true);
+        } else if (formik.values.previousMember === true) {
+          formik.setFieldTouched("previousExperience", true);
         }
       }
       return;
+    }
+
+    // Set previousExperience to NO_PREV_EXPERIENCE if previousMember is false
+    if (currentStep === 1 && formik.values.previousMember === false) {
+      formik.setFieldValue("previousExperience", NO_PREV_EXPERIENCE);
     }
 
     await saveSectionAndNext();
@@ -219,8 +221,6 @@ export default function ApplyPage() {
       program: "",
       academicTerm: "",
       location: "",
-      pastExecutive: "",
-      pastExecutiveRoles: "",
       previousMember: false,
       previousExperience: "",
       resumeUrl: "",
@@ -250,6 +250,13 @@ export default function ApplyPage() {
             const application = applicationResponse.data.application;
 
             if (application) {
+              const previousExperience = application.clubExperience?.previousExperience || "";
+              const previousMember = previousExperience === NO_PREV_EXPERIENCE 
+                ? false 
+                : previousExperience !== "" 
+                  ? true 
+                  : false;
+
               formik.setValues({
                 ...formik.values,
                 uwEmail: application.personalInfo?.uwEmail || "",
@@ -258,12 +265,8 @@ export default function ApplyPage() {
                 program: application.academicInfo?.program || "",
                 academicTerm: application.academicInfo?.academicTerm || "",
                 location: application.academicInfo?.location || "",
-                pastExecutive: application.pastExecutive || "",
-                pastExecutiveRoles: application.pastExecutiveRoles || "",
-                previousMember:
-                  application.clubExperience?.previousMember || false,
-                previousExperience:
-                  application.clubExperience?.previousExperience || "",
+                previousMember,
+                previousExperience,
                 resumeUrl: application.resumeUrl || "",
                 questionAnswers: application.questionAnswers || {},
               });

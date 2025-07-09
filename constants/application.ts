@@ -13,7 +13,6 @@ export const PERSONAL_FIELDS = [
   "program",
   "academicTerm",
   "location",
-  "pastExecutive",
 ];
 
 export const BLANK_APPLICATION = {
@@ -35,3 +34,5 @@ export const BLANK_APPLICATION = {
   resumeUrl: "",
   status: "draft",
 };
+
+export const NO_PREV_EXPERIENCE = "N/A"

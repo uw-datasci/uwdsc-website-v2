@@ -5,6 +5,7 @@ import InputFeedback from "@/components/UI/Inputs/UWDSC/InputFeedback";
 import TextArea from "@/components/UI/Inputs/UWDSC/TextArea";
 import { ApplicationFormValues } from "@/types/application";
 import { User, GraduationCap } from "lucide-react";
+import { NO_PREV_EXPERIENCE } from "@/constants/application";
 
 interface PersonalDetailsProps {
   formik: FormikProps<ApplicationFormValues>;
@@ -174,26 +175,31 @@ export default function PersonalDetails({ formik }: PersonalDetailsProps) {
         </div>
       </div>
 
-      {/* Past Executive Experience */}
+      {/* Club Experience */}
       <div className="m-6 rounded-lg border-0.5 border-solid border-white/20 bg-slateBlue p-6">
         <h2 className="mb-6 text-xl font-semibold text-white">
-          Past Executive Experience
+          Club Experience
         </h2>
 
         <div className="space-y-4">
           <div>
             <label className="mb-3 block text-sm font-medium text-white">
-              Have you been a DSC in the past?{" "}
+              Have you been a member of the UW Data Science Club before?{" "}
               <span className="text-red">*</span>
             </label>
             <div className="flex space-x-6">
               <label className="flex items-center">
                 <input
                   type="radio"
-                  name="pastExecutive"
-                  value="Yes"
-                  checked={formik.values.pastExecutive === "Yes"}
-                  onChange={formik.handleChange}
+                  name="previousMember"
+                  value="true"
+                  checked={formik.values.previousMember === true && formik.values.previousExperience !== ""}
+                  onChange={() => {
+                    formik.setFieldValue("previousMember", true);
+                    if (formik.values.previousExperience === NO_PREV_EXPERIENCE) {
+                      formik.setFieldValue("previousExperience", "");
+                    }
+                  }}
                   className="text-blue-600 bg-gray-700 border-gray-600 focus:ring-blue-500 mr-2 h-4 w-4"
                 />
                 <span className="text-white">Yes</span>
@@ -201,42 +207,45 @@ export default function PersonalDetails({ formik }: PersonalDetailsProps) {
               <label className="flex items-center">
                 <input
                   type="radio"
-                  name="pastExecutive"
-                  value="No"
-                  checked={formik.values.pastExecutive === "No"}
-                  onChange={formik.handleChange}
+                  name="previousMember"
+                  value="false"
+                  checked={formik.values.previousMember === false && formik.values.previousExperience === NO_PREV_EXPERIENCE}
+                  onChange={() => {
+                    formik.setFieldValue("previousMember", false);
+                    formik.setFieldValue("previousExperience", NO_PREV_EXPERIENCE);
+                  }}
                   className="text-blue-600 bg-gray-700 border-gray-600 focus:ring-blue-500 mr-2 h-4 w-4"
                 />
                 <span className="text-white">No</span>
               </label>
             </div>
-            {formik.touched.pastExecutive && formik.errors.pastExecutive && (
+            {formik.touched.previousMember && formik.errors.previousMember && (
               <InputFeedback state="error">
-                {formik.errors.pastExecutive}
+                {formik.errors.previousMember}
               </InputFeedback>
             )}
           </div>
 
-          {formik.values.pastExecutive === "Yes" && (
+          {formik.values.previousMember === true && formik.values.previousExperience !== NO_PREV_EXPERIENCE && (
             <div>
               <label className="mb-2 block text-sm font-medium text-white">
-                What role(s) were you in and which term(s)?{" "}
+                Tell us about your previous experience with the club, data science, or related activities{" "}
                 <span className="text-red">*</span>
               </label>
               <TextArea
-                id="pastExecutiveRoles"
-                name="pastExecutiveRoles"
-                placeholder=""
-                value={formik.values.pastExecutiveRoles || ""}
+                id="previousExperience"
+                name="previousExperience"
+                placeholder="Describe your experience, involvement, or interest in data science..."
+                value={formik.values.previousExperience || ""}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 rows={4}
                 background="bg-white/10"
               />
-              {formik.touched.pastExecutiveRoles &&
-                formik.errors.pastExecutiveRoles && (
+              {formik.touched.previousExperience &&
+                formik.errors.previousExperience && (
                   <InputFeedback state="error">
-                    {formik.errors.pastExecutiveRoles}
+                    {formik.errors.previousExperience}
                   </InputFeedback>
                 )}
             </div>
