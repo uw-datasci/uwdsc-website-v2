@@ -24,7 +24,7 @@ export default function PersonalDetails({ formik }: PersonalDetailsProps) {
   return (
     <>
       {/* Main Content Grid */}
-      <div className="m-6 grid grid-cols-1 gap-8 lg:grid-cols-2">
+      <div className="mb-6 grid grid-cols-1 gap-8 lg:grid-cols-2">
         {/* Basic Information */}
         <div className="rounded-lg border-0.5 border-solid border-white/20 bg-slateBlue p-6">
           <div className="mb-6 flex items-center">
@@ -176,7 +176,7 @@ export default function PersonalDetails({ formik }: PersonalDetailsProps) {
       </div>
 
       {/* Club Experience */}
-      <div className="m-6 rounded-lg border-0.5 border-solid border-white/20 bg-slateBlue p-6">
+      <div className="rounded-lg border-0.5 border-solid border-white/20 bg-slateBlue p-6">
         <h2 className="mb-6 text-xl font-semibold text-white">
           Club Experience
         </h2>
@@ -193,10 +193,15 @@ export default function PersonalDetails({ formik }: PersonalDetailsProps) {
                   type="radio"
                   name="previousMember"
                   value="true"
-                  checked={formik.values.previousMember === true && formik.values.previousExperience !== ""}
+                  checked={
+                    formik.values.previousMember === true &&
+                    formik.values.previousExperience !== ""
+                  }
                   onChange={() => {
                     formik.setFieldValue("previousMember", true);
-                    if (formik.values.previousExperience === NO_PREV_EXPERIENCE) {
+                    if (
+                      formik.values.previousExperience === NO_PREV_EXPERIENCE
+                    ) {
                       formik.setFieldValue("previousExperience", "");
                     }
                   }}
@@ -209,10 +214,16 @@ export default function PersonalDetails({ formik }: PersonalDetailsProps) {
                   type="radio"
                   name="previousMember"
                   value="false"
-                  checked={formik.values.previousMember === false && formik.values.previousExperience === NO_PREV_EXPERIENCE}
+                  checked={
+                    formik.values.previousMember === false &&
+                    formik.values.previousExperience === NO_PREV_EXPERIENCE
+                  }
                   onChange={() => {
                     formik.setFieldValue("previousMember", false);
-                    formik.setFieldValue("previousExperience", NO_PREV_EXPERIENCE);
+                    formik.setFieldValue(
+                      "previousExperience",
+                      NO_PREV_EXPERIENCE,
+                    );
                   }}
                   className="text-blue-600 bg-gray-700 border-gray-600 focus:ring-blue-500 mr-2 h-4 w-4"
                 />
@@ -226,30 +237,32 @@ export default function PersonalDetails({ formik }: PersonalDetailsProps) {
             )}
           </div>
 
-          {formik.values.previousMember === true && formik.values.previousExperience !== NO_PREV_EXPERIENCE && (
-            <div>
-              <label className="mb-2 block text-sm font-medium text-white">
-                Tell us about your previous experience with the club, data science, or related activities{" "}
-                <span className="text-red">*</span>
-              </label>
-              <TextArea
-                id="previousExperience"
-                name="previousExperience"
-                placeholder="Describe your experience, involvement, or interest in data science..."
-                value={formik.values.previousExperience || ""}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                rows={4}
-                background="bg-white/10"
-              />
-              {formik.touched.previousExperience &&
-                formik.errors.previousExperience && (
-                  <InputFeedback state="error">
-                    {formik.errors.previousExperience}
-                  </InputFeedback>
-                )}
-            </div>
-          )}
+          {formik.values.previousMember === true &&
+            formik.values.previousExperience !== NO_PREV_EXPERIENCE && (
+              <div>
+                <label className="mb-2 block text-sm font-medium text-white">
+                  Tell us about your previous experience with the club, data
+                  science, or related activities{" "}
+                  <span className="text-red">*</span>
+                </label>
+                <TextArea
+                  id="previousExperience"
+                  name="previousExperience"
+                  placeholder="Describe your experience, involvement, or interest in data science..."
+                  value={formik.values.previousExperience || ""}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  rows={4}
+                  background="bg-white/10"
+                />
+                {formik.touched.previousExperience &&
+                  formik.errors.previousExperience && (
+                    <InputFeedback state="error">
+                      {formik.errors.previousExperience}
+                    </InputFeedback>
+                  )}
+              </div>
+            )}
         </div>
       </div>
     </>

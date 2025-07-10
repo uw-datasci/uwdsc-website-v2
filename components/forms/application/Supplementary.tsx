@@ -6,6 +6,7 @@ import MultipleDropdown from "@/components/UI/Inputs/UWDSC/MultipleDropdown";
 import InputFeedback from "@/components/UI/Inputs/UWDSC/InputFeedback";
 import Button from "@/components/UI/Button";
 import { ApplicationFormValues, Question } from "@/types/application";
+import { HelpCircle, FileText } from "lucide-react";
 
 interface SupplementaryProps {
   formik: FormikProps<ApplicationFormValues>;
@@ -38,9 +39,9 @@ export default function Supplementary({
     }
 
     // Check if all required supplementary questions are answered
-    const requiredQuestions = supplementaryQuestions.filter(q => q.required);
-    
-    return requiredQuestions.every(question => {
+    const requiredQuestions = supplementaryQuestions.filter((q) => q.required);
+
+    return requiredQuestions.every((question) => {
       const value = formik.values.questionAnswers[question.id];
       if (question.type === "checkbox") {
         return Array.isArray(value) && value.length > 0;
@@ -68,6 +69,7 @@ export default function Supplementary({
             value={value}
             onChange={(e) => handleQuestionChange(e.target.value)}
             onBlur={formik.handleBlur}
+            classes="bg-white/10"
           />
         );
 
@@ -82,6 +84,7 @@ export default function Supplementary({
             onChange={(e) => handleQuestionChange(e.target.value)}
             onBlur={formik.handleBlur}
             rows={4}
+            background="bg-white/10"
           />
         );
 
@@ -95,6 +98,7 @@ export default function Supplementary({
             options={question.options || []}
             value={value}
             onChange={(e) => handleQuestionChange(e.target.value)}
+            background="bg-white/10"
           />
         );
 
@@ -121,20 +125,24 @@ export default function Supplementary({
     <div className="space-y-8">
       {/* Dynamic Questions */}
       {supplementaryQuestions.length > 0 && (
-        <div className="rounded-lg bg-grey4 p-6">
-          <h2 className="mb-6 text-2xl font-bold text-white">
-            Additional Questions
-          </h2>
+        <div className="rounded-lg border-0.5 border-solid border-white/20 bg-slateBlue p-6">
+          <div className="mb-4 flex items-center">
+            <HelpCircle className="mr-2 h-5 w-5 text-lighterBlue" />
+            <h2 className="text-xl font-semibold text-white">
+              Additional Questions
+            </h2>
+          </div>
 
           <div className="space-y-6">
             {supplementaryQuestions.map((question) => (
               <div key={question.id}>
                 <label className="mb-2 block text-sm font-medium text-white">
-                  {question.question} {question.required && "*"}
+                  {question.question}{" "}
+                  {question.required && <span className="text-red">*</span>}
                 </label>
                 {renderDynamicQuestion(question)}
                 {question.helpText && (
-                  <p className="mt-1 text-sm text-grey1">{question.helpText}</p>
+                  <p className="mt-1 text-sm text-grey2">{question.helpText}</p>
                 )}
               </div>
             ))}
@@ -143,12 +151,15 @@ export default function Supplementary({
       )}
 
       {/* Resume */}
-      <div className="rounded-lg bg-grey4 p-6">
-        <h2 className="mb-6 text-2xl font-bold text-white">Resume</h2>
+      <div className="rounded-lg border-0.5 border-solid border-white/20 bg-slateBlue p-6">
+        <div className="mb-4 flex items-center">
+          <FileText className="mr-2 h-5 w-5 text-lighterBlue" />
+          <h2 className="text-xl font-semibold text-white">Resume</h2>
+        </div>
 
         <div>
           <label className="mb-2 block text-sm font-medium text-white">
-            Resume URL *
+            Resume URL <span className="text-red">*</span>
           </label>
           <TextInput
             id="resumeUrl"
@@ -158,41 +169,16 @@ export default function Supplementary({
             value={formik.values.resumeUrl}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
+            classes="bg-white/10"
           />
           {formik.touched.resumeUrl && formik.errors.resumeUrl && (
             <InputFeedback state="error">
               {formik.errors.resumeUrl}
             </InputFeedback>
           )}
-          <p className="mt-1 text-sm text-grey1">
+          <p className="mt-1 text-sm text-grey2">
             Please provide a link to your resume (Google Drive, Dropbox, etc.)
           </p>
-        </div>
-      </div>
-
-      {/* Submit */}
-      <div className="flex flex-col items-center space-y-4">
-        {submitError && (
-          <InputFeedback state="error">{submitError}</InputFeedback>
-        )}
-
-        <div className="flex w-full justify-between">
-          <Button
-            type="button"
-            hierarchy="secondary"
-            rounded="rounded-md"
-            onClick={onBack}
-          >
-            Back
-          </Button>
-          <Button
-            type="submit"
-            hierarchy="primary"
-            disabled={isLoading || !isStepValid()}
-            rounded="rounded-md"
-          >
-            {isLoading ? "Submitting..." : "Submit Application"}
-          </Button>
         </div>
       </div>
     </div>

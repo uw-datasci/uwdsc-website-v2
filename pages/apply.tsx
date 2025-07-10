@@ -12,7 +12,7 @@ import {
 } from "@/utils/apiCalls";
 
 // Form Components
-import ApplicationIntro from "@/components/forms/application/ApplicationIntro";
+import AppIntro from "@/components/forms/application/AppIntro";
 import PersonalDetails from "@/components/forms/application/PersonalDetails";
 import Experience from "@/components/forms/application/Experience";
 import Positions from "@/components/forms/application/Positions";
@@ -24,7 +24,7 @@ import Button from "@/components/UI/Button";
 
 // Types
 import { ApplicationFormValues, Term } from "@/types/application";
-import { CircleUserRound, ClockIcon, MoveLeft, MoveRight } from "lucide-react";
+import { ClockIcon, MoveLeft, MoveRight, User } from "lucide-react";
 import {
   PERSONAL_FIELDS,
   STEP_NAMES,
@@ -62,7 +62,7 @@ export default function ApplyPage() {
   const [isApplicationsOpen, setIsApplicationsOpen] = useState(false);
   const [loadingTerm, setLoadingTerm] = useState(true);
   const [currentStep, setCurrentStep] = useState(0); // 0: intro, 1: personal, 2: experience, 3: positions, 4: supplementary
-  const [hasExistingApplication, setHasExistingApplication] = useState(false);
+  const [appExists, setHasExistingApplication] = useState(false);
 
   // Step navigation functions
   const goToNextStep = () => setCurrentStep((prev) => prev + 1);
@@ -81,11 +81,16 @@ export default function ApplyPage() {
         );
 
         // Check if club experience section is properly filled
-        const clubExperienceIncomplete = 
+        const clubExperienceIncomplete =
           formik.values.previousExperience === "" || // No selection made
-          (formik.values.previousMember === true && !formik.values.previousExperience);
+          (formik.values.previousMember === true &&
+            !formik.values.previousExperience);
 
-        return !hasEmptyPersonalFields && !hasPersonalErrors && !clubExperienceIncomplete;
+        return (
+          !hasEmptyPersonalFields &&
+          !hasPersonalErrors &&
+          !clubExperienceIncomplete
+        );
 
       case 2: // Experience
         // Add experience validation logic here
@@ -109,7 +114,7 @@ export default function ApplyPage() {
       // Touch all fields to show errors based on current step
       if (currentStep === 1) {
         PERSONAL_FIELDS.forEach((field) => formik.setFieldTouched(field, true));
-        
+
         // Touch club experience fields based on current state
         if (formik.values.previousExperience === "") {
           formik.setFieldTouched("previousMember", true);
@@ -133,7 +138,7 @@ export default function ApplyPage() {
   const startApplication = async () => {
     if (!currentTerm) return;
     try {
-      if (!hasExistingApplication) {
+      if (!appExists) {
         await patchApplication({
           termApplyingFor: currentTerm.id,
           ...BLANK_APPLICATION,
@@ -250,11 +255,13 @@ export default function ApplyPage() {
             const application = applicationResponse.data.application;
 
             if (application) {
-              const previousExperience = application.clubExperience?.previousExperience || "";
-              const previousMember = previousExperience === NO_PREV_EXPERIENCE 
-                ? false 
-                : previousExperience !== "" 
-                  ? true 
+              const previousExperience =
+                application.clubExperience?.previousExperience || "";
+              const previousMember =
+                previousExperience === NO_PREV_EXPERIENCE
+                  ? false
+                  : previousExperience !== ""
+                  ? true
                   : false;
 
               formik.setValues({
@@ -335,22 +342,11 @@ export default function ApplyPage() {
 
     switch (currentStep) {
       case 0:
-        return (
-          <ApplicationIntro
-            onStart={startApplication}
-            hasExistingApplication={hasExistingApplication}
-          />
-        );
+        return <AppIntro onStart={startApplication} appExists={appExists} />;
       case 1:
         return <PersonalDetails formik={formik} />;
       case 2:
-        return (
-          <Experience
-            formik={formik}
-            onNext={saveSectionAndNext}
-            onBack={goToPreviousStep}
-          />
-        );
+        return <Experience questions={currentTerm.questions} formik={formik} />;
       case 3:
         return (
           <Positions
@@ -382,31 +378,36 @@ export default function ApplyPage() {
   return (
     <>
       <SEO title="DSC Application" />
-      <div className="min-h-screen bg-black px-4 py-20">
-        <div className="mx-auto mb-8 max-w-4xl text-center">
-          <div className="mb-2 flex justify-center">
-            <div className="inline-flex items-center rounded-full border-yellowBorder bg-yellowBackground px-10 py-2 text-xs font-semibold text-yellowText">
-              <span className="mr-2 flex items-center">
-                <ClockIcon className="h-4 w-4" />
-              </span>
-              {new Date(currentTerm.appDeadline).toLocaleDateString("en-US", {
-                month: "short",
-                day: "numeric",
-                year: "numeric",
-              })}
-            </div>
-          </div>
-          <h1 className="mb-2 text-3xl font-bold text-white">
-            DSC Exec Application Form
-          </h1>
-          <p className="text-2xl font-semibold text-lightBlue">
-            {currentTerm.termName}
-          </p>
-        </div>
+      <div className="min-h-screen bg-black px-4 py-20 shadow-md backdrop-blur-md">
         {currentStep === 0 || currentStep === 5 ? (
           renderCurrentStep()
         ) : (
           <div className="mx-auto max-w-4xl">
+            {/* Application Header & Deadline */}
+            <div className="mx-auto mb-8 max-w-4xl text-center">
+              <div className="mb-2 flex justify-center">
+                <div className="inline-flex items-center rounded-full border-yellowBorder bg-yellowBackground px-10 py-2 text-xs font-semibold text-yellowText">
+                  <span className="mr-2 flex items-center">
+                    <ClockIcon className="h-4 w-4" />
+                  </span>
+                  {new Date(currentTerm.appDeadline).toLocaleDateString(
+                    "en-US",
+                    {
+                      month: "short",
+                      day: "numeric",
+                      year: "numeric",
+                    },
+                  )}
+                </div>
+              </div>
+              <h1 className="mb-2 text-3xl font-bold text-white">
+                DSC Exec Application Form
+              </h1>
+              <p className="text-2xl font-semibold text-lightBlue">
+                {currentTerm.termName}
+              </p>
+            </div>
+
             {/* Progress indicator - CHANGE LATER */}
             <div className="mb-8">
               <div className="mb-4 flex items-center justify-between text-sm text-grey1">
@@ -432,7 +433,7 @@ export default function ApplyPage() {
                 </span>
               </div>
               <progress
-                value={currentStep}
+                value={currentStep - 1}
                 max={4}
                 className="[&::-webkit-progress-value]:bg-primary [&::-moz-progress-bar]:bg-primary h-2 w-full rounded-full bg-grey4 [&::-moz-progress-bar]:rounded-full [&::-webkit-progress-bar]:rounded-full [&::-webkit-progress-bar]:bg-grey4 [&::-webkit-progress-value]:rounded-full"
               />
@@ -442,16 +443,22 @@ export default function ApplyPage() {
               <div className="mx-auto max-w-4xl rounded-lg bg-darkBlue pb-4">
                 <div className="bg-gradient-blue flex items-center justify-between rounded-t-lg p-4 text-center backdrop-blur-md">
                   <div className="flex items-center justify-center px-2">
-                    <CircleUserRound className="mr-3 h-6 w-6 text-white" />
+                    <div className="bg-gradient-profile mr-3 flex h-10 w-10 items-center justify-center rounded-full">
+                      <User
+                        className="h-5 w-5 text-white"
+                        fill="currentColor"
+                      />
+                    </div>
                     <h1 className="text-xl font-bold text-white">
                       {STEP_NAMES[currentStep]}
                     </h1>
                   </div>
+
                   <p className="text-gray-400 text-sm text-white">
                     Mandatory fields are marked with an asterisk (*)
                   </p>
                 </div>
-                {renderCurrentStep()}
+                <div className="m-6">{renderCurrentStep()}</div>
 
                 {/* Navigation Section */}
                 {currentStep >= 1 && currentStep <= 4 && (
@@ -462,10 +469,10 @@ export default function ApplyPage() {
                       rounded="rounded-full"
                       onClick={handlePrevious}
                       border="border border-grey1 border-solid"
-                      classes="transition-all duration-300 hover:scale-105 hover:shadow-lg bg-transparent hover:text-white hover:bg-grey1"
+                      classes="transition-all duration-300 hover:scale-105 hover:shadow-lg bg-transparent hover:text-white hover:bg-grey1 w-32"
                     >
-                      <div className="flex items-center text-grey1">
-                        <MoveLeft className="mr-2 h-4 w-4" />
+                      <div className="flex items-center justify-between text-grey1">
+                        <MoveLeft className="h-4 w-4" />
                         Previous
                       </div>
                     </Button>
@@ -473,12 +480,12 @@ export default function ApplyPage() {
                       {STEP_NAMES.slice(1).map((_, index) => (
                         <div
                           key={index}
-                          className={`h-2 rounded-full transition-all duration-300 ease-in-out ${
+                          className={`h-3 rounded-full transition-all duration-300 ease-in-out ${
                             index + 1 == currentStep
-                              ? "w-8 bg-lightBlue"
+                              ? "w-10 bg-lightBlue"
                               : index + 1 < currentStep
-                              ? "w-2 bg-green"
-                              : "w-2 bg-grey1"
+                              ? "w-3 bg-green"
+                              : "w-3 bg-grey1"
                           }`}
                         />
                       ))}
@@ -490,15 +497,15 @@ export default function ApplyPage() {
                         rounded="rounded-full"
                         onClick={handleNext}
                         disabled={!isStepValid(currentStep)}
-                        classes={`transition-all duration-300 hover:scale-105 hover:shadow-lg ${
+                        classes={`transition-all duration-300 hover:scale-105 hover:shadow-lg w-32 ${
                           isStepValid(currentStep)
                             ? "bg-white hover:bg-grey1"
                             : "bg-grey1 opacity-50 cursor-not-allowed"
                         }`}
                       >
-                        <div className="flex items-center text-darkBlue">
-                          Next
-                          <MoveRight className="ml-2 h-4 w-4" />
+                        <div className="flex items-center justify-between text-darkBlue">
+                          {currentStep === 4 ? "Submit" : "Next"}
+                          <MoveRight className="h-4 w-4" />
                         </div>
                       </Button>
                     </div>

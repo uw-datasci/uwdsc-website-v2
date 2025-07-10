@@ -1,10 +1,8 @@
 import { FormikProps } from "formik";
-import TextInput from "@/components/UI/Inputs/UWDSC/TextInput";
 import TextArea from "@/components/UI/Inputs/UWDSC/TextArea";
-import Dropdown from "@/components/UI/Dropdown";
-import MultipleDropdown from "@/components/UI/Inputs/UWDSC/MultipleDropdown";
 import Button from "@/components/UI/Button";
 import { ApplicationFormValues, Question } from "@/types/application";
+import { Crown, Users } from "lucide-react";
 
 interface PositionsProps {
   formik: FormikProps<ApplicationFormValues>;
@@ -19,188 +17,101 @@ export default function Positions({
   onNext,
   onBack,
 }: PositionsProps) {
-  // Filter questions that are position-related (you can customize this logic)
-  const positionQuestions = questions.filter(
+  // Find position preferences question
+  const positionQuestion = questions.find(
     (q) =>
-      q.question.toLowerCase().includes("position") ||
-      q.question.toLowerCase().includes("role") ||
-      q.question.toLowerCase().includes("team") ||
-      q.question.toLowerCase().includes("leadership"),
+      q.id === "positionPreferences" ||
+      (q.question.toLowerCase().includes("position") &&
+        q.question.toLowerCase().includes("preference")),
   );
 
   const isStepValid = () => {
-    // Check if all required position questions are answered
-    const requiredQuestions = positionQuestions.filter(q => q.required);
-    
-    return requiredQuestions.every(question => {
-      const value = formik.values.questionAnswers[question.id];
-      if (question.type === "checkbox") {
-        return Array.isArray(value) && value.length > 0;
-      }
+    if (!positionQuestion) return true;
+
+    const value = formik.values.questionAnswers[positionQuestion.id];
+    if (positionQuestion.required) {
       return value && value.toString().trim() !== "";
-    });
+    }
+    return true;
   };
 
   const handleNext = () => {
-    if (!isStepValid()) {
-      // Touch all required fields to show errors
-      positionQuestions.forEach(question => {
-        if (question.required) {
-          formik.setFieldTouched(`questionAnswers.${question.id}`, true);
-        }
-      });
+    if (!isStepValid() && positionQuestion) {
+      formik.setFieldTouched(`questionAnswers.${positionQuestion.id}`, true);
       return;
     }
     onNext();
   };
 
-  const renderDynamicQuestion = (question: Question) => {
-    const value = formik.values.questionAnswers[question.id] || "";
-
-    const handleQuestionChange = (value: any) => {
-      formik.setFieldValue(`questionAnswers.${question.id}`, value);
-    };
-
-    switch (question.type) {
-      case "text":
-        return (
-          <TextInput
-            key={question.id}
-            id={question.id}
-            name={`questionAnswers.${question.id}`}
-            type="text"
-            placeholder={question.placeholder || ""}
-            value={value}
-            onChange={(e) => handleQuestionChange(e.target.value)}
-            onBlur={formik.handleBlur}
-          />
-        );
-
-      case "textarea":
-        return (
-          <TextArea
-            key={question.id}
-            id={question.id}
-            name={`questionAnswers.${question.id}`}
-            placeholder={question.placeholder || ""}
-            value={value}
-            onChange={(e) => handleQuestionChange(e.target.value)}
-            onBlur={formik.handleBlur}
-            rows={4}
-          />
-        );
-
-      case "multiple_choice":
-        return (
-          <Dropdown
-            key={question.id}
-            id={question.id}
-            name={`questionAnswers.${question.id}`}
-            placeholder={question.placeholder || "Select an option"}
-            options={question.options || []}
-            value={value}
-            onChange={(e) => handleQuestionChange(e.target.value)}
-          />
-        );
-
-      case "checkbox":
-        return (
-          <MultipleDropdown
-            key={question.id}
-            id={question.id}
-            name={`questionAnswers.${question.id}`}
-            placeholder={question.placeholder || "Select options"}
-            options={question.options || []}
-            value={Array.isArray(value) ? value : []}
-            onChange={(e) => handleQuestionChange(e.target.value)}
-            maxSelection={question.options?.length || 10}
-          />
-        );
-
-      default:
-        return null;
-    }
-  };
-
-  // Don't render if no position-related questions
-  if (positionQuestions.length === 0) {
-    return (
-      <div className="space-y-8">
-        <div className="rounded-lg bg-grey4 p-6">
-          <h2 className="mb-6 text-2xl font-bold text-white">
-            Position Preferences
-          </h2>
-          <p className="text-grey1">
-            No position-related questions for this term.
-          </p>
-        </div>
-
-        {/* Navigation */}
-        <div className="flex justify-between">
-          <Button
-            type="button"
-            hierarchy="secondary"
-            rounded="rounded-md"
-            onClick={onBack}
-          >
-            Back
-          </Button>
-          <Button
-            type="button"
-            hierarchy="primary"
-            rounded="rounded-md"
-            onClick={handleNext}
-            disabled={!isStepValid()}
-          >
-            Next
-          </Button>
-        </div>
-      </div>
-    );
-  }
+  const positionPreferencesPlaceholder = `List your preferred positions in order of preference. For example:
+1. Vice President of Education
+2. Education Team Lead
+3. Workshop Coordinator
+Remember: There is no upper limit on the number of positions you can indicate interest for.`;
 
   return (
     <div className="space-y-8">
-      <div className="rounded-lg bg-grey4 p-6">
-        <h2 className="mb-6 text-2xl font-bold text-white">
-          Position Preferences
-        </h2>
+      {/* VP Role Consideration Banner */}
+      <div className="flex gap-4 rounded-lg border border-solid border-aqua/50 bg-aqua/30 p-4">
+        <div className="mx-2 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-aquaTextPrimary/20">
+          <Crown className="h-4 w-4 text-aquaTextPrimary" />
+        </div>
 
-        <div className="space-y-6">
-          {positionQuestions.map((question) => (
-            <div key={question.id}>
-              <label className="mb-2 block text-sm font-medium text-white">
-                {question.question} {question.required && "*"}
-              </label>
-              {renderDynamicQuestion(question)}
-              {question.helpText && (
-                <p className="mt-1 text-sm text-grey1">{question.helpText}</p>
-              )}
-            </div>
-          ))}
+        <div className="flex-1">
+          <p className="font-semibold text-aquaTextPrimary">
+            VP Role Consideration:
+          </p>
+          <p className="text-sm text-aquaTextSecondary">
+            If you are applying for a VP Role, we will also consider you for an
+            exec role in the same sub-team. Make sure to clearly indicate your
+            preferences!
+          </p>
         </div>
       </div>
 
-      {/* Navigation */}
-      <div className="flex justify-between">
-        <Button
-          type="button"
-          hierarchy="secondary"
-          rounded="rounded-md"
-          onClick={onBack}
-        >
-          Back
-        </Button>
-                  <Button
-            type="button"
-            hierarchy="primary"
-            rounded="rounded-md"
-            onClick={handleNext}
-            disabled={!isStepValid()}
-          >
-            Next
-          </Button>
+      {/* Position Preferences Card */}
+      <div className="rounded-lg border-0.5 border-solid border-white/20 bg-slateBlue p-6">
+        <div className="mb-4 flex items-center">
+          <Users className="mr-2 h-5 w-5 text-lighterBlue" />
+          <h2 className="text-xl font-semibold text-white">
+            Position Preferences
+          </h2>
+        </div>
+
+        <div className="mb-4">
+          <label className="mb-2 block text-sm font-medium text-white">
+            Which positions are you interested in?{" "}
+            <span className="text-red">*</span>
+          </label>
+          <p className="mb-3 text-sm text-grey2">
+            Please list (and number) in order of preference, with 1 being the
+            position you are most interested in.
+          </p>
+          <TextArea
+            id={positionQuestion?.id || "positionPreferences"}
+            name={`questionAnswers.${
+              positionQuestion?.id || "positionPreferences"
+            }`}
+            placeholder={positionPreferencesPlaceholder}
+            value={
+              formik.values.questionAnswers[
+                positionQuestion?.id || "positionPreferences"
+              ] || ""
+            }
+            onChange={(e) =>
+              formik.setFieldValue(
+                `questionAnswers.${
+                  positionQuestion?.id || "positionPreferences"
+                }`,
+                e.target.value,
+              )
+            }
+            onBlur={formik.handleBlur}
+            rows={8}
+            background="bg-white/10"
+          />
         </div>
       </div>
-    );
-  }
+    </div>
+  );
+}

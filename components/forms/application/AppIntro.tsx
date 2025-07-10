@@ -2,10 +2,13 @@ import Button from "@/components/UI/Button";
 
 interface ApplicationIntroProps {
   onStart: () => void;
-  hasExistingApplication?: boolean;
+  appExists?: boolean;
 }
 
-export default function ApplicationIntro({ onStart, hasExistingApplication = false }: ApplicationIntroProps) {
+export default function AppIntro({
+  onStart,
+  appExists = false,
+}: ApplicationIntroProps) {
   return (
     <div className="mx-auto max-w-4xl text-center">
       <div className="mb-8 rounded-lg bg-grey4 p-8">
@@ -50,7 +53,7 @@ export default function ApplicationIntro({ onStart, hasExistingApplication = fal
         rounded="rounded-md"
         onClick={onStart}
       >
-        {hasExistingApplication ? "Continue Application" : "Start Application"}
+        {appExists ? "Continue Application" : "Start Application"}
       </Button>
     </div>
   );

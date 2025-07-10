@@ -81,6 +81,10 @@ body {
     );
   }
 
+  .bg-gradient-profile {
+    background: linear-gradient(179.52deg, #2B345B 0.42%, #0D544C 169.01%);
+  }
+
   .gradient-text {
     @apply inline bg-clip-text text-transparent;
   }
