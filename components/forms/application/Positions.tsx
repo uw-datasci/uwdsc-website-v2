@@ -52,16 +52,16 @@ Remember: There is no upper limit on the number of positions you can indicate in
   return (
     <div className="space-y-8">
       {/* VP Role Consideration Banner */}
-      <div className="flex gap-4 rounded-lg border border-solid border-aqua/50 bg-aqua/30 p-4">
-        <div className="mx-2 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-aquaTextPrimary/20">
-          <Crown className="h-4 w-4 text-aquaTextPrimary" />
+      <div className="flex gap-4 rounded-lg border border-solid border-orange/50 bg-orange/30 p-4">
+        <div className="mx-2 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-orangeText/20">
+          <Crown className="h-4 w-4 text-orangeText" />
         </div>
 
         <div className="flex-1">
-          <p className="font-semibold text-aquaTextPrimary">
+          <p className="font-semibold text-orangeText">
             VP Role Consideration:
           </p>
-          <p className="text-sm text-aquaTextSecondary">
+          <p className="text-sm text-orange">
             If you are applying for a VP Role, we will also consider you for an
             exec role in the same sub-team. Make sure to clearly indicate your
             preferences!

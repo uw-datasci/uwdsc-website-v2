@@ -39,6 +39,9 @@ module.exports = {
       aqua: "#90FFE4",
       aquaTextPrimary: "#1DE4C2",
       aquaTextSecondary: "#C7FFF1",
+      orange: "#FDE68A",
+      orangeText: "#FBBF24",
+      darkBlue2: "#101431",
     },
     fontFamily: {
       sans: ["Satoshi-Variable", "sans-serif"],

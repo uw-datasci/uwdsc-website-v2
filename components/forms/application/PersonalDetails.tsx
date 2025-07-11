@@ -193,19 +193,12 @@ export default function PersonalDetails({ formik }: PersonalDetailsProps) {
                   type="radio"
                   name="previousMember"
                   value="true"
-                  checked={
-                    formik.values.previousMember === true &&
-                    formik.values.previousExperience !== ""
-                  }
+                  checked={formik.values.previousMember === true}
                   onChange={() => {
                     formik.setFieldValue("previousMember", true);
-                    if (
-                      formik.values.previousExperience === NO_PREV_EXPERIENCE
-                    ) {
-                      formik.setFieldValue("previousExperience", "");
-                    }
+                    formik.setFieldValue("previousExperience", "");
                   }}
-                  className="text-blue-600 bg-gray-700 border-gray-600 focus:ring-blue-500 mr-2 h-4 w-4"
+                  className="mr-2 h-4 w-4 border-grey2 bg-grey3 text-lightBlue focus:ring-lightBlue"
                 />
                 <span className="text-white">Yes</span>
               </label>
@@ -225,7 +218,7 @@ export default function PersonalDetails({ formik }: PersonalDetailsProps) {
                       NO_PREV_EXPERIENCE,
                     );
                   }}
-                  className="text-blue-600 bg-gray-700 border-gray-600 focus:ring-blue-500 mr-2 h-4 w-4"
+                  className="mr-2 h-4 w-4 border-grey2 bg-grey3 text-lightBlue focus:ring-lightBlue"
                 />
                 <span className="text-white">No</span>
               </label>

@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import Image from "next/image";
 import SEO from "@/components/SEO/SEO";
 import { RootState } from "@/store/store";
 import {
@@ -378,11 +379,49 @@ export default function ApplyPage() {
   return (
     <>
       <SEO title="DSC Application" />
-      <div className="min-h-screen bg-black px-4 py-20 shadow-md backdrop-blur-md">
+
+      <progress
+        value={currentStep - 1}
+        max={4}
+        className="p- 0 [&::-webkit-progress-value]:duration-700[&::-webkit-progress-value]:ease-in-out
+        relative z-20 m-0 block h-2 w-full bg-grey4 transition-all duration-700 ease-in-out
+        [&::-moz-progress-bar]:bg-lightBlue [&::-moz-progress-bar]:transition-all [&::-moz-progress-bar]:duration-700
+        [&::-moz-progress-bar]:ease-in-out [&::-webkit-progress-bar]:bg-grey4  [&::-webkit-progress-value]:bg-lightBlue
+        [&::-webkit-progress-value]:transition-all"
+      />
+
+      <div className="relative min-h-screen overflow-hidden bg-darkBlue2 px-4 py-20 shadow-md backdrop-blur-md">
+        {/* Background Elements */}
+        <div className="pointer-events-none absolute inset-0 z-0">
+          {/* Left Whale */}
+          <div className="absolute">
+            <Image
+              src="/execApps/B-light-bulb.svg"
+              alt=""
+              width={450}
+              height={450}
+            />
+          </div>
+
+          {/* Right Whale on Cloud */}
+          <div className="absolute right-0 top-[20%] z-20">
+            <Image
+              src="/execApps/B-stand.svg"
+              alt=""
+              width={250}
+              height={250}
+            />
+          </div>
+
+          <div className="absolute right-0 top-1/2 z-10">
+            <Image src="/execApps/cloud.svg" alt="" width={240} height={144} />
+          </div>
+        </div>
+
         {currentStep === 0 || currentStep === 5 ? (
-          renderCurrentStep()
+          <div className="relative z-10">{renderCurrentStep()}</div>
         ) : (
-          <div className="mx-auto max-w-4xl">
+          <div className="relative z-10 mx-auto max-w-4xl">
             {/* Application Header & Deadline */}
             <div className="mx-auto mb-8 max-w-4xl text-center">
               <div className="mb-2 flex justify-center">
@@ -392,53 +431,17 @@ export default function ApplyPage() {
                   </span>
                   {new Date(currentTerm.appDeadline).toLocaleDateString(
                     "en-US",
-                    {
-                      month: "short",
-                      day: "numeric",
-                      year: "numeric",
-                    },
+                    { month: "short", day: "numeric", year: "numeric" },
                   )}
                 </div>
               </div>
               <h1 className="mb-2 text-3xl font-bold text-white">
                 DSC Exec Application Form
               </h1>
-              <p className="text-2xl font-semibold text-lightBlue">
+              <p className="text-3xl font-semibold text-lightBlue">
                 {currentTerm.termName}
               </p>
             </div>
-
-            {/* Progress indicator - CHANGE LATER */}
-            <div className="mb-8">
-              <div className="mb-4 flex items-center justify-between text-sm text-grey1">
-                <span
-                  className={currentStep >= 1 ? "font-semibold text-white" : ""}
-                >
-                  Personal Details
-                </span>
-                <span
-                  className={currentStep >= 2 ? "font-semibold text-white" : ""}
-                >
-                  Experience
-                </span>
-                <span
-                  className={currentStep >= 3 ? "font-semibold text-white" : ""}
-                >
-                  Positions
-                </span>
-                <span
-                  className={currentStep >= 4 ? "font-semibold text-white" : ""}
-                >
-                  Supplementary
-                </span>
-              </div>
-              <progress
-                value={currentStep - 1}
-                max={4}
-                className="[&::-webkit-progress-value]:bg-primary [&::-moz-progress-bar]:bg-primary h-2 w-full rounded-full bg-grey4 [&::-moz-progress-bar]:rounded-full [&::-webkit-progress-bar]:rounded-full [&::-webkit-progress-bar]:bg-grey4 [&::-webkit-progress-value]:rounded-full"
-              />
-            </div>
-
             <form onSubmit={formik.handleSubmit}>
               <div className="mx-auto max-w-4xl rounded-lg bg-darkBlue pb-4">
                 <div className="bg-gradient-blue flex items-center justify-between rounded-t-lg p-4 text-center backdrop-blur-md">
@@ -453,13 +456,11 @@ export default function ApplyPage() {
                       {STEP_NAMES[currentStep]}
                     </h1>
                   </div>
-
                   <p className="text-gray-400 text-sm text-white">
                     Mandatory fields are marked with an asterisk (*)
                   </p>
                 </div>
                 <div className="m-6">{renderCurrentStep()}</div>
-
                 {/* Navigation Section */}
                 {currentStep >= 1 && currentStep <= 4 && (
                   <div className="mx-6 flex items-center justify-between">
@@ -497,13 +498,22 @@ export default function ApplyPage() {
                         rounded="rounded-full"
                         onClick={handleNext}
                         disabled={!isStepValid(currentStep)}
-                        classes={`transition-all duration-300 hover:scale-105 hover:shadow-lg w-32 ${
-                          isStepValid(currentStep)
-                            ? "bg-white hover:bg-grey1"
-                            : "bg-grey1 opacity-50 cursor-not-allowed"
+                        classes={`transition-all duration-300 hover:scale-105 w-32 ${
+                          currentStep === 4
+                            ? "bg-gradient-orange submit-button-hover hover:font-semibold"
+                            : isStepValid(currentStep)
+                            ? "bg-white hover:bg-grey1 hover:shadow-lg"
+                            : "bg-grey1 opacity-50 cursor-not-allowed hover:shadow-lg"
                         }`}
                       >
-                        <div className="flex items-center justify-between text-darkBlue">
+                        <div
+                          className={`flex items-center justify-between
+                              ${
+                                currentStep === 4
+                                  ? "text-white"
+                                  : "text-darkBlue"
+                              }`}
+                        >
                           {currentStep === 4 ? "Submit" : "Next"}
                           <MoveRight className="h-4 w-4" />
                         </div>

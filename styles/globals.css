@@ -81,6 +81,10 @@ body {
     );
   }
 
+  .bg-gradient-orange {
+    background: linear-gradient(180deg, #D97706 0%, #F59E0B 100%);
+  }
+
   .bg-gradient-profile {
     background: linear-gradient(179.52deg, #2B345B 0.42%, #0D544C 169.01%);
   }
@@ -106,5 +110,9 @@ body {
       0 0 0.5vh var(--lights),
       0 0 0.5vh var(--lights),
       0 0 1vh var(--lights);
+  }
+
+  .submit-button-hover:hover {
+    box-shadow: 0px 0px 10px 5px rgba(202, 218, 243, 0.20);
   }
 }

@@ -11,7 +11,7 @@ export default function AppIntro({
 }: ApplicationIntroProps) {
   return (
     <div className="mx-auto max-w-4xl text-center">
-      <div className="mb-8 rounded-lg bg-grey4 p-8">
+      <div className="bg-gradient-blue mb-8 rounded-lg p-8 shadow-md backdrop-blur-md">
         <h2 className="mb-6 text-2xl font-bold text-white">
           Ready to Join Our Community?
         </h2>

@@ -22,7 +22,7 @@ export default function Submitted() {
   return (
     <>
       <SEO title="Application Submitted" />
-      <div className="flex min-h-[60vh] items-center justify-center bg-black px-4">
+      <div className="flex min-h-[60vh] items-center justify-center px-4">
         {/* Confetti Effect */}
         <AnimatePresence>{showConfetti && <ConfettiEffect />}</AnimatePresence>
 
