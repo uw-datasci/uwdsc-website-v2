@@ -404,17 +404,17 @@ export default function ApplyPage() {
           </div>
 
           {/* Right Whale on Cloud */}
-          <div className="absolute right-0 top-[20%] z-20">
+          <div className="absolute right-0 top-[10%] z-20">
             <Image
               src="/execApps/B-stand.svg"
               alt=""
-              width={250}
-              height={250}
+              width={350}
+              height={350}
             />
           </div>
 
           <div className="absolute right-0 top-1/2 z-10">
-            <Image src="/execApps/cloud.svg" alt="" width={240} height={144} />
+            <Image src="/execApps/cloud.svg" alt="" width={380} height={144} />
           </div>
         </div>
 
