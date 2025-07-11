@@ -1,28 +1,13 @@
 export interface ApplicationFormValues {
-  // Personal Information
-  uwEmail: string;
-  personalEmail: string;
-  fullName: string;
-
-  // Academic Information
-  program: string;
-  academicTerm: string;
-  location: string;
-
-  // Club Experience
-  previousMember: boolean;
-  previousExperience: string;
-
-  // Resume
+  rolesApplyingFor: string[];
+  roleQuestionAnswers: Record<string, Record<string, any>>;
   resumeUrl: string;
-
-  // Dynamic questions
-  questionAnswers: Record<string, any>;
 }
 
 export interface Question {
   id: string;
-  type: string;
+  role: string;
+  type: "text" | "textarea" | "multiple_choice" | "file_upload" | "checkbox" | "date" | "number";
   question: string;
   required: boolean;
   order: number;
