@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Script from 'next/script'
+import Script from "next/script";
 
 type ButtonProps = {
   type: "button" | "submit" | "route" | "link" | "luma-button";
@@ -20,7 +20,6 @@ const EMBED_BASE_URL =
   process.env.NODE_ENV === "production"
     ? "https://embed.lu.ma"
     : "http://127.0.0.1:333";
-
 
 export default function Button({
   type,
@@ -48,13 +47,23 @@ export default function Button({
   switch (type) {
     case "button":
       return (
-        <button type="button" onClick={disabled? ()=>{} : onClick} className={`${classes}`}>
+        <button
+          type="button"
+          disabled={disabled}
+          onClick={disabled ? () => {} : onClick}
+          className={`group ${classes}`}
+        >
           {children}
         </button>
       );
     case "submit":
       return (
-        <button type="submit" onClick={disabled? ()=>{} : onClick} className={`${classes}`}>
+        <button
+          type="submit"
+          disabled={disabled}
+          onClick={disabled ? () => {} : onClick}
+          className={`group ${classes}`}
+        >
           {children}
         </button>
       );
@@ -87,13 +96,12 @@ export default function Button({
           >
             {children}
           </a>
-        
+
           <Script
             id="luma-checkout"
             src={`${EMBED_BASE_URL}/checkout-button.js`}
           />
         </>
-          
       );
     default:
       return <></>;

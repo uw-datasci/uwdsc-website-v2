@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import { useFormik } from "formik";
@@ -9,7 +9,7 @@ import { RootState } from "@/store/store";
 import {
   getCurrentTerm,
   getCurrentUserApplication,
-  patchApplication,
+  createOrUpdateApplication,
 } from "@/utils/apiCalls";
 
 // Form Components
@@ -31,25 +31,44 @@ import {
   STEP_NAMES,
   BLANK_APPLICATION,
   NO_PREV_EXPERIENCE,
+  EXPERIENCE_FIELDS,
 } from "@/constants/application";
 
 const validationSchema = Yup.object({
-  uwEmail: Yup.string()
-    .email("Invalid email format")
-    .matches(/@(uwaterloo\.ca|edu\.uwaterloo\.ca)$/, "Must be a UW email")
-    .required("UW Email is required"),
-  personalEmail: Yup.string()
-    .email("Invalid email format")
-    .required("Personal Email is required"),
-  fullName: Yup.string().required("Full Name is required"),
-  program: Yup.string().required("Program is required"),
-  academicTerm: Yup.string().required("Academic Term is required"),
-  location: Yup.string().required("Location is required"),
-  previousMember: Yup.boolean(),
-  previousExperience: Yup.string(),
   resumeUrl: Yup.string()
     .url("Must be a valid URL")
     .required("Resume URL is required"),
+
+  roleQuestionAnswers: Yup.object().shape({
+    general: Yup.object().shape({
+      full_name: Yup.string().required("Full Name is required"),
+      personal_email: Yup.string()
+        .email("Invalid email format")
+        .required("Personal Email is required"),
+      waterloo_email: Yup.string()
+        .email("Invalid email format")
+        .matches(/@(uwaterloo\.ca|edu\.uwaterloo\.ca)$/, "Must be a UW email")
+        .required("UW Email is required"),
+      program: Yup.string().required("Program is required"),
+      academic_term: Yup.string().required("Academic Term is required"),
+      location: Yup.string().required("Location is required"),
+
+      previous_member: Yup.string().required(
+        "Please indicate if you've been a previous member.",
+      ), // Ensure this radio button is selected
+
+      // club_experience needs to be required conditionally
+      club_experience: Yup.string().when("previous_member", {
+        is: (val: string) => val === "true", // If previous_member is "true"
+        then: (schema) =>
+          schema.required("Please describe your previous experience."), // Then club_experience is required
+        otherwise: (schema) => schema.equals([NO_PREV_EXPERIENCE]), // Otherwise, it must be the NO_PREV_EXPERIENCE constant
+      }),
+
+      skills: Yup.string().required("Skills is required"),
+      motivation: Yup.string().required("Motivation is required"),
+    }),
+  }),
 });
 
 export default function ApplyPage() {
@@ -65,27 +84,49 @@ export default function ApplyPage() {
   const [currentStep, setCurrentStep] = useState(0); // 0: intro, 1: personal, 2: experience, 3: positions, 4: supplementary
   const [appExists, setHasExistingApplication] = useState(false);
 
+  const [isPositionsPageValid, setIsPositionsPageValid] = useState(false);
+  const [isSupplementaryPageValid, setIsSupplementaryPageValid] =
+    useState(false);
+
   // Step navigation functions
   const goToNextStep = () => setCurrentStep((prev) => prev + 1);
   const goToPreviousStep = () => setCurrentStep((prev) => prev - 1);
 
   // Validation logic for each step
   const isStepValid = (step: number) => {
+    const allGeneralAnswers = formik.values.roleQuestionAnswers?.general || {};
+    const allGeneralErrors = formik.errors.roleQuestionAnswers?.general || {};
     switch (step) {
       case 1:
+        const { skills, motivation, ...generalPersonalAnswers } =
+          allGeneralAnswers;
+        const {
+          skills: errSkills,
+          motivation: errMotivation,
+          ...generalPersonalErrors
+        } = allGeneralErrors;
+
         const hasEmptyPersonalFields = PERSONAL_FIELDS.some(
-          (field) => !formik.values[field as keyof typeof formik.values],
+          (field) =>
+            !generalPersonalAnswers[
+              field as keyof typeof generalPersonalAnswers
+            ] ||
+            generalPersonalAnswers[
+              field as keyof typeof generalPersonalAnswers
+            ] === "",
         );
 
-        const hasPersonalErrors = PERSONAL_FIELDS.some(
-          (field) => formik.errors[field as keyof typeof formik.errors],
+        const hasPersonalErrors = PERSONAL_FIELDS.some((field) =>
+          Boolean(
+            generalPersonalErrors[field as keyof typeof generalPersonalErrors],
+          ),
         );
 
-        // Check if club experience section is properly filled
         const clubExperienceIncomplete =
-          formik.values.previousExperience === "" || // No selection made
-          (formik.values.previousMember === true &&
-            !formik.values.previousExperience);
+          !generalPersonalAnswers.club_experience ||
+          generalPersonalAnswers.club_experience === "" ||
+          (generalPersonalAnswers.previous_experience === "true" &&
+            !generalPersonalAnswers.club_experience);
 
         return (
           !hasEmptyPersonalFields &&
@@ -93,17 +134,35 @@ export default function ApplyPage() {
           !clubExperienceIncomplete
         );
 
-      case 2: // Experience
-        // Add experience validation logic here
-        return true;
+      case 2: // Positions
+        // handled with IsPositionsPageValid
+        return false;
 
-      case 3: // Positions
-        // Add positions validation logic here
-        return true;
+      case 3: // Experience
+        const experienceAnswers = {
+          skills: allGeneralAnswers.skills,
+          motivation: allGeneralAnswers.motivation,
+        };
+
+        const experienceErrors = {
+          skills: allGeneralErrors.skills,
+          motivation: allGeneralErrors.motivation,
+        };
+
+        const hasEmptyExperienceAnswers = EXPERIENCE_FIELDS.some(
+          (field) =>
+            !experienceAnswers[field as keyof typeof experienceAnswers] ||
+            experienceAnswers[field as keyof typeof experienceAnswers] === "",
+        );
+        const hasExperienceErrors = EXPERIENCE_FIELDS.some((field) =>
+          Boolean(experienceErrors[field as keyof typeof experienceErrors]),
+        );
+
+        return !hasEmptyExperienceAnswers && !hasExperienceErrors;
 
       case 4: // Supplementary
-        // Add supplementary validation logic here
-        return true;
+        // handled with setIsSupplementaryPageValid
+        return false;
 
       default:
         return true;
@@ -111,24 +170,15 @@ export default function ApplyPage() {
   };
 
   const handleNext = async () => {
-    if (!isStepValid(currentStep)) {
-      // Touch all fields to show errors based on current step
-      if (currentStep === 1) {
-        PERSONAL_FIELDS.forEach((field) => formik.setFieldTouched(field, true));
-
-        // Touch club experience fields based on current state
-        if (formik.values.previousExperience === "") {
-          formik.setFieldTouched("previousMember", true);
-        } else if (formik.values.previousMember === true) {
-          formik.setFieldTouched("previousExperience", true);
-        }
-      }
-      return;
-    }
-
     // Set previousExperience to NO_PREV_EXPERIENCE if previousMember is false
-    if (currentStep === 1 && formik.values.previousMember === false) {
-      formik.setFieldValue("previousExperience", NO_PREV_EXPERIENCE);
+    if (
+      currentStep === 1 &&
+      formik.values.roleQuestionAnswers?.general?.previous_member === "false"
+    ) {
+      formik.setFieldValue(
+        "roleQuestionAnswers.general.club_experience",
+        NO_PREV_EXPERIENCE,
+      );
     }
 
     await saveSectionAndNext();
@@ -140,7 +190,7 @@ export default function ApplyPage() {
     if (!currentTerm) return;
     try {
       if (!appExists) {
-        await patchApplication({
+        await createOrUpdateApplication({
           termApplyingFor: currentTerm.id,
           ...BLANK_APPLICATION,
         });
@@ -153,25 +203,30 @@ export default function ApplyPage() {
 
   const saveSectionAndNext = async () => {
     if (!currentTerm) return;
-
     try {
-      await patchApplication({
+      // if user filled out questions for a role and switched out of the role,
+      // clear their previous answers for unselected roles before submitting
+      const selectedRoles = [
+        ...formik.values.rolesApplyingFor,
+        "general",
+        "supplementary",
+      ];
+      let roleQA = formik.values.roleQuestionAnswers;
+      for (const [role, answers] of Object.entries(roleQA)) {
+        if (!selectedRoles.includes(role)) {
+          delete roleQA[role];
+        }
+      }
+
+      await createOrUpdateApplication({
         termApplyingFor: currentTerm.id,
-        personalInfo: {
-          uwEmail: formik.values.uwEmail,
-          personalEmail: formik.values.personalEmail,
-          fullName: formik.values.fullName,
-        },
-        academicInfo: {
-          program: formik.values.program,
-          academicTerm: formik.values.academicTerm,
-          location: formik.values.location,
-        },
-        clubExperience: {
-          previousMember: formik.values.previousMember,
-          previousExperience: formik.values.previousExperience,
-        },
-        questionAnswers: formik.values.questionAnswers,
+        rolesApplyingFor:
+          currentStep > 1
+            ? formik.values.rolesApplyingFor.filter(
+                (role) => role !== "None" && role,
+              )
+            : [],
+        roleQuestionAnswers: roleQA,
         resumeUrl: formik.values.resumeUrl,
         status: "draft",
       });
@@ -189,23 +244,12 @@ export default function ApplyPage() {
     setSubmitError("");
 
     try {
-      await patchApplication({
+      await createOrUpdateApplication({
         termApplyingFor: currentTerm.id,
-        personalInfo: {
-          uwEmail: values.uwEmail,
-          personalEmail: values.personalEmail,
-          fullName: values.fullName,
-        },
-        academicInfo: {
-          program: values.program,
-          academicTerm: values.academicTerm,
-          location: values.location,
-        },
-        clubExperience: {
-          previousMember: values.previousMember,
-          previousExperience: values.previousExperience,
-        },
-        questionAnswers: values.questionAnswers,
+        rolesApplyingFor: formik.values.rolesApplyingFor.filter(
+          (role) => role !== "None" && role,
+        ),
+        roleQuestionAnswers: values.roleQuestionAnswers,
         resumeUrl: values.resumeUrl,
         status: "submitted",
       });
@@ -221,16 +265,12 @@ export default function ApplyPage() {
 
   const formik = useFormik<ApplicationFormValues>({
     initialValues: {
-      uwEmail: "",
-      personalEmail: "",
-      fullName: "",
-      program: "",
-      academicTerm: "",
-      location: "",
-      previousMember: false,
-      previousExperience: "",
       resumeUrl: "",
-      questionAnswers: {},
+      roleQuestionAnswers: {
+        general: {},
+        supplementary: {},
+      },
+      rolesApplyingFor: [],
     },
     validationSchema,
     onSubmit: submitApplication,
@@ -256,29 +296,16 @@ export default function ApplyPage() {
             const application = applicationResponse.data.application;
 
             if (application) {
-              const previousExperience =
-                application.clubExperience?.previousExperience || "";
-              const previousMember =
-                previousExperience === NO_PREV_EXPERIENCE
-                  ? false
-                  : previousExperience !== ""
-                  ? true
-                  : false;
-
               formik.setValues({
                 ...formik.values,
-                uwEmail: application.personalInfo?.uwEmail || "",
-                personalEmail: application.personalInfo?.personalEmail || "",
-                fullName: application.personalInfo?.fullName || "",
-                program: application.academicInfo?.program || "",
-                academicTerm: application.academicInfo?.academicTerm || "",
-                location: application.academicInfo?.location || "",
-                previousMember,
-                previousExperience,
+                rolesApplyingFor: application.rolesApplyingFor || [],
                 resumeUrl: application.resumeUrl || "",
-                questionAnswers: application.questionAnswers || {},
+                roleQuestionAnswers: application.roleQuestionAnswers || {},
               });
               setHasExistingApplication(true);
+              if (application.status === "submitted") {
+                setCurrentStep(5); // reroute to submitted page if application submitted
+              }
             }
           } catch (error) {
             console.error("Error fetching application data:", error);
@@ -345,26 +372,25 @@ export default function ApplyPage() {
       case 0:
         return <AppIntro onStart={startApplication} appExists={appExists} />;
       case 1:
-        return <PersonalDetails formik={formik} />;
+        return (
+          <PersonalDetails formik={formik} questions={currentTerm.questions} />
+        );
       case 2:
-        return <Experience questions={currentTerm.questions} formik={formik} />;
-      case 3:
         return (
           <Positions
             formik={formik}
             questions={currentTerm.questions}
-            onNext={saveSectionAndNext}
-            onBack={goToPreviousStep}
+            isNextValid={setIsPositionsPageValid}
           />
         );
+      case 3:
+        return <Experience questions={currentTerm.questions} formik={formik} />;
       case 4:
         return (
           <Supplementary
             formik={formik}
             questions={currentTerm.questions}
-            onBack={goToPreviousStep}
-            isLoading={isLoading}
-            submitError={submitError}
+            isNextValid={setIsSupplementaryPageValid}
           />
         );
       case 5:
@@ -456,23 +482,24 @@ export default function ApplyPage() {
                       {STEP_NAMES[currentStep]}
                     </h1>
                   </div>
-                  <p className="text-gray-400 text-sm text-white">
-                    Mandatory fields are marked with an asterisk (*)
+                  <p className="text-gray-400 text-md text-white">
+                    Mandatory fields are marked with an asterisk (
+                    <span className="text-red">*</span>)
                   </p>
                 </div>
                 <div className="m-6">{renderCurrentStep()}</div>
                 {/* Navigation Section */}
                 {currentStep >= 1 && currentStep <= 4 && (
-                  <div className="mx-6 flex items-center justify-between">
+                  <div className="mx-6 flex items-center justify-between py-6">
                     <Button
                       type="button"
                       hierarchy="secondary"
                       rounded="rounded-full"
                       onClick={handlePrevious}
                       border="border border-grey1 border-solid"
-                      classes="transition-all duration-300 hover:scale-105 hover:shadow-lg bg-transparent hover:text-white hover:bg-grey1 w-32"
+                      classes="transition-all duration-300 bg-transparent hover:scale-105 hover:shadow-lg hover:bg-grey1 w-32"
                     >
-                      <div className="flex items-center justify-between text-grey1">
+                      <div className="flex items-center justify-between text-grey1 group-hover:text-darkBlue">
                         <MoveLeft className="h-4 w-4" />
                         Previous
                       </div>
@@ -493,15 +520,26 @@ export default function ApplyPage() {
                     </div>
                     <div className="flex items-center justify-end">
                       <Button
-                        type="button"
+                        type={`${currentStep === 4 ? "submit" : "button"}`}
                         hierarchy="secondary"
                         rounded="rounded-full"
-                        onClick={handleNext}
-                        disabled={!isStepValid(currentStep)}
-                        classes={`transition-all duration-300 hover:scale-105 w-32 ${
+                        onClick={currentStep === 4 ? undefined : handleNext}
+                        disabled={
                           currentStep === 4
-                            ? "bg-gradient-orange submit-button-hover hover:font-semibold"
-                            : isStepValid(currentStep)
+                            ? !isSupplementaryPageValid
+                            : currentStep === 2
+                            ? !isPositionsPageValid
+                            : !isStepValid(currentStep)
+                        }
+                        classes={`transition-all duration-300 w-32 ${
+                          currentStep === 4
+                            ? `bg-gradient-orange ${
+                                !isSupplementaryPageValid
+                                  ? "cursor-not-allowed disabled"
+                                  : "hover:scale-105 hover:font-semibold submit-button-hover"
+                              }`
+                            : isStepValid(currentStep) ||
+                              (currentStep === 2 && isPositionsPageValid)
                             ? "bg-white hover:bg-grey1 hover:shadow-lg"
                             : "bg-grey1 opacity-50 cursor-not-allowed hover:shadow-lg"
                         }`}

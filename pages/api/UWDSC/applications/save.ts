@@ -8,20 +8,23 @@ export default async function handler(
   res: NextApiResponse,
 ) {
   if (req.method !== "POST") {
-    return res.status(405).json({ success: false, error: "Method Not Allowed" });
+    return res
+      .status(405)
+      .json({ success: false, error: "Method Not Allowed" });
   }
 
   try {
+    const { token, ...applicationData } = req.body;
     const response = await axios({
       url:
         process.env.NEXT_PUBLIC_UWDSC_WEBSITE_SERVER_URL +
-        "/api/applications/save", 
+        "/api/applications/save",
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${req.body.token}`,
+        Authorization: `Bearer ${token}`,
       },
-      data: req.body,
+      data: applicationData,
     });
 
     res.status(200).json(response.data);

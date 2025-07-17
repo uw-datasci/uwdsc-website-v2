@@ -1,9 +1,8 @@
 import { FormikProps } from "formik";
-import Checkbox from "@/components/UI/Inputs/UWDSC/Checkbox";
 import TextArea from "@/components/UI/Inputs/UWDSC/TextArea";
-import Button from "@/components/UI/Button";
 import { ApplicationFormValues, Question } from "@/types/application";
 import { Briefcase, Heart, User } from "lucide-react";
+import InputFeedback from "@/components/UI/Inputs/UWDSC/InputFeedback";
 
 interface ExperienceProps {
   formik: FormikProps<ApplicationFormValues>;
@@ -12,20 +11,8 @@ interface ExperienceProps {
 
 export default function Experience({ formik, questions }: ExperienceProps) {
   // Find skills and motivation questions
-  const skillsQuestion = questions.find(
-    (q) =>
-      q.id === "skills" ||
-      (q.question.toLowerCase().includes("skill") &&
-        q.question.toLowerCase().includes("experience")),
-  );
-
-  const motivationQuestion = questions.find(
-    (q) =>
-      q.id === "motivation" ||
-      q.question.toLowerCase().includes("motivation") ||
-      (q.question.toLowerCase().includes("why") &&
-        q.question.toLowerCase().includes("join")),
-  );
+  const skillsQuestion = questions.find((q) => q.id === "skills");
+  const motivationQuestion = questions.find((q) => q.id === "motivation");
 
   const skillsPlaceholder = `Describe your relevant skills and experiences for the positions you're interested in. Include specific examples of:
   • Leadership experience
@@ -42,7 +29,7 @@ export default function Experience({ formik, questions }: ExperienceProps) {
   • Your vision for the club`;
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-10">
       {/* Tip Banner */}
       <div className="flex gap-4 rounded-lg border border-solid border-aqua/50 bg-aqua/30 p-4">
         <div className="mx-2 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-aquaTextPrimary/20">
@@ -80,15 +67,24 @@ export default function Experience({ formik, questions }: ExperienceProps) {
           </p>
           <TextArea
             id={skillsQuestion?.id || "skills"}
-            name={`questionAnswers.${skillsQuestion?.id || "skills"}`}
-            placeholder={skillsPlaceholder}
+            name={`roleQuestionAnswers.general.${
+              skillsQuestion?.id || "skills"
+            }`}
+            placeholder={skillsQuestion?.placeholder || skillsPlaceholder}
             value={
-              formik.values.questionAnswers[skillsQuestion?.id || "skills"] ||
-              ""
+              formik.values.roleQuestionAnswers.general?.[
+                skillsQuestion?.id || "skills"
+              ]
+                ? String(
+                    formik.values.roleQuestionAnswers.general?.[
+                      skillsQuestion?.id || "skills"
+                    ],
+                  )
+                : ""
             }
             onChange={(e) =>
               formik.setFieldValue(
-                `questionAnswers.${skillsQuestion?.id || "skills"}`,
+                `roleQuestionAnswers.general.${skillsQuestion?.id || "skills"}`,
                 e.target.value,
               )
             }
@@ -96,6 +92,20 @@ export default function Experience({ formik, questions }: ExperienceProps) {
             rows={8}
             background="bg-white/10"
           />
+          {formik.touched.roleQuestionAnswers?.general?.[
+            skillsQuestion?.id || "skills"
+          ] &&
+            formik.errors.roleQuestionAnswers?.general?.[
+              skillsQuestion?.id || "skills"
+            ] && (
+              <InputFeedback classes="px-2 pt-1 leading-relaxed" state="error">
+                {
+                  formik.errors.roleQuestionAnswers?.general?.[
+                    skillsQuestion?.id || "skills"
+                  ]
+                }
+              </InputFeedback>
+            )}
         </div>
       </div>
 
@@ -112,16 +122,28 @@ export default function Experience({ formik, questions }: ExperienceProps) {
           </label>
           <TextArea
             id={motivationQuestion?.id || "motivation"}
-            name={`questionAnswers.${motivationQuestion?.id || "motivation"}`}
-            placeholder={motivationPlaceholder}
+            name={`roleQuestionAnswers.general.${
+              motivationQuestion?.id || "motivation"
+            }`}
+            placeholder={
+              motivationQuestion?.placeholder || motivationPlaceholder
+            }
             value={
-              formik.values.questionAnswers[
+              formik.values.roleQuestionAnswers.general?.[
                 motivationQuestion?.id || "motivation"
-              ] || ""
+              ]
+                ? String(
+                    formik.values.roleQuestionAnswers.general?.[
+                      motivationQuestion?.id || "motivation"
+                    ],
+                  )
+                : ""
             }
             onChange={(e) =>
               formik.setFieldValue(
-                `questionAnswers.${motivationQuestion?.id || "motivation"}`,
+                `roleQuestionAnswers.general.${
+                  motivationQuestion?.id || "motivation"
+                }`,
                 e.target.value,
               )
             }
@@ -129,6 +151,20 @@ export default function Experience({ formik, questions }: ExperienceProps) {
             rows={6}
             background="bg-white/10"
           />
+          {formik.touched.roleQuestionAnswers?.general?.[
+            motivationQuestion?.id || "motivation"
+          ] &&
+            formik.errors.roleQuestionAnswers?.general?.[
+              motivationQuestion?.id || "motivation"
+            ] && (
+              <InputFeedback classes="px-2 pt-1 leading-relaxed" state="error">
+                {
+                  formik.errors.roleQuestionAnswers?.general?.[
+                    motivationQuestion?.id || "motivation"
+                  ]
+                }
+              </InputFeedback>
+            )}
         </div>
       </div>
     </div>

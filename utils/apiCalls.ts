@@ -248,10 +248,10 @@ export const getCurrentTerm = async () => {
   return await axios.get("/api/UWDSC/applications/currentTerm");
 };
 
-export const patchApplication = async (
+export const createOrUpdateApplication = async (
   applicationData: Record<string, any>,
 ) => {
-  return await axios.post("/api/UWDSC/applications/patch", {
+  return await axios.post("/api/UWDSC/applications/save", {
     token: store.getState().loginToken.token,
     ...applicationData,
   });

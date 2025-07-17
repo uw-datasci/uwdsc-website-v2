@@ -3,12 +3,13 @@ import TextInput from "@/components/UI/Inputs/UWDSC/TextInput";
 import Dropdown from "@/components/UI/Dropdown";
 import InputFeedback from "@/components/UI/Inputs/UWDSC/InputFeedback";
 import TextArea from "@/components/UI/Inputs/UWDSC/TextArea";
-import { ApplicationFormValues } from "@/types/application";
+import { ApplicationFormValues, Question } from "@/types/application";
 import { User, GraduationCap } from "lucide-react";
 import { NO_PREV_EXPERIENCE } from "@/constants/application";
 
 interface PersonalDetailsProps {
   formik: FormikProps<ApplicationFormValues>;
+  questions: Question[];
 }
 
 const locationOptions = [
@@ -20,7 +21,27 @@ const locationOptions = [
 
 const terms = ["1A", "1B", "2A", "2B", "3A", "3B", "4A", "4B", "5A", "5B"];
 
-export default function PersonalDetails({ formik }: PersonalDetailsProps) {
+export default function PersonalDetails({
+  formik,
+  questions,
+}: PersonalDetailsProps) {
+  const generalAnswers = formik.values.roleQuestionAnswers.general || {};
+
+  const getValue = (field: string) => {
+    if (field === "previous_member") {
+      return generalAnswers[field as keyof typeof generalAnswers];
+    }
+    return generalAnswers[field as keyof typeof generalAnswers] || "";
+  };
+
+  const handleChange =
+    (field: string) =>
+    (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>
+      formik.setFieldValue(
+        `roleQuestionAnswers.general.${field}`,
+        e.target.value,
+      );
+
   return (
     <>
       {/* Main Content Grid */}
@@ -39,21 +60,26 @@ export default function PersonalDetails({ formik }: PersonalDetailsProps) {
               <label className="mb-2 block text-sm font-medium text-white">
                 Full Name <span className="text-red">*</span>
               </label>
+              <p>{formik.touched.roleQuestionAnswers?.general?.full_name}</p>
               <TextInput
-                id="fullName"
-                name="fullName"
+                id="roleQuestionAnswers.general.full_name"
+                name="roleQuestionAnswers.general.full_name"
                 type="text"
                 placeholder="Enter your full name"
-                value={formik.values.fullName}
-                onChange={formik.handleChange}
+                value={String(getValue("full_name"))}
+                onChange={handleChange("full_name")}
                 onBlur={formik.handleBlur}
                 classes="bg-white/10"
               />
-              {formik.touched.fullName && formik.errors.fullName && (
-                <InputFeedback state="error">
-                  {formik.errors.fullName}
-                </InputFeedback>
-              )}
+              {formik.touched.roleQuestionAnswers?.general?.full_name &&
+                formik.errors.roleQuestionAnswers?.general?.full_name && (
+                  <InputFeedback
+                    classes="px-2 pt-1 leading-relaxed"
+                    state="error"
+                  >
+                    {formik.errors.roleQuestionAnswers?.general?.full_name}
+                  </InputFeedback>
+                )}
             </div>
 
             <div>
@@ -61,20 +87,24 @@ export default function PersonalDetails({ formik }: PersonalDetailsProps) {
                 Personal Email Address <span className="text-red">*</span>
               </label>
               <TextInput
-                id="personalEmail"
-                name="personalEmail"
+                id="roleQuestionAnswers.general.personal_email"
+                name="roleQuestionAnswers.general.personal_email"
                 type="email"
                 placeholder="someone@example.com"
-                value={formik.values.personalEmail}
-                onChange={formik.handleChange}
+                value={String(getValue("personal_email"))}
+                onChange={handleChange("personal_email")}
                 onBlur={formik.handleBlur}
                 classes="bg-white/10"
               />
-              {formik.touched.personalEmail && formik.errors.personalEmail && (
-                <InputFeedback state="error">
-                  {formik.errors.personalEmail}
-                </InputFeedback>
-              )}
+              {formik.touched.roleQuestionAnswers?.general?.personal_email &&
+                formik.errors.roleQuestionAnswers?.general?.personal_email && (
+                  <InputFeedback
+                    classes="px-2 pt-1 leading-relaxed"
+                    state="error"
+                  >
+                    {formik.errors.roleQuestionAnswers?.general?.personal_email}
+                  </InputFeedback>
+                )}
             </div>
 
             <div>
@@ -82,20 +112,24 @@ export default function PersonalDetails({ formik }: PersonalDetailsProps) {
                 UW Email Address <span className="text-red">*</span>
               </label>
               <TextInput
-                id="uwEmail"
-                name="uwEmail"
+                id="roleQuestionAnswers.general.waterloo_email"
+                name="roleQuestionAnswers.general.waterloo_email"
                 type="email"
                 placeholder="someone@uwaterloo.ca"
-                value={formik.values.uwEmail}
-                onChange={formik.handleChange}
+                value={String(getValue("waterloo_email"))}
+                onChange={handleChange("waterloo_email")}
                 onBlur={formik.handleBlur}
                 classes="bg-white/10"
               />
-              {formik.touched.uwEmail && formik.errors.uwEmail && (
-                <InputFeedback state="error">
-                  {formik.errors.uwEmail}
-                </InputFeedback>
-              )}
+              {formik.touched.roleQuestionAnswers?.general?.waterloo_email &&
+                formik.errors.roleQuestionAnswers?.general?.waterloo_email && (
+                  <InputFeedback
+                    classes="px-2 pt-1 leading-relaxed"
+                    state="error"
+                  >
+                    {formik.errors.roleQuestionAnswers?.general?.waterloo_email}
+                  </InputFeedback>
+                )}
             </div>
           </div>
         </div>
@@ -115,20 +149,24 @@ export default function PersonalDetails({ formik }: PersonalDetailsProps) {
                 Program <span className="text-red">*</span>
               </label>
               <TextInput
-                id="program"
-                name="program"
+                id="roleQuestionAnswers.general.program"
+                name="roleQuestionAnswers.general.program"
                 type="text"
                 placeholder="Computer Science"
-                value={formik.values.program}
-                onChange={formik.handleChange}
+                value={String(getValue("program"))}
+                onChange={handleChange("program")}
                 onBlur={formik.handleBlur}
                 classes="bg-white/10"
               />
-              {formik.touched.program && formik.errors.program && (
-                <InputFeedback state="error">
-                  {formik.errors.program}
-                </InputFeedback>
-              )}
+              {formik.touched.roleQuestionAnswers?.general?.program &&
+                formik.errors.roleQuestionAnswers?.general?.program && (
+                  <InputFeedback
+                    classes="px-2 pt-1 leading-relaxed"
+                    state="error"
+                  >
+                    {formik.errors.roleQuestionAnswers?.general?.program}
+                  </InputFeedback>
+                )}
             </div>
 
             <div>
@@ -137,19 +175,17 @@ export default function PersonalDetails({ formik }: PersonalDetailsProps) {
                 <span className="text-red">*</span>
               </label>
               <Dropdown
-                id="academicTerm"
-                name="academicTerm"
+                id="academic_term"
+                name="academic_term"
                 placeholder="Select your academic term"
-                options={terms}
-                value={formik.values.academicTerm}
-                onChange={formik.handleChange}
+                options={
+                  questions.find((q) => q.id === "academic_term")?.options ||
+                  terms
+                }
+                value={String(getValue("academic_term"))}
+                onChange={handleChange("academic_term")}
                 background="bg-white/10"
               />
-              {formik.touched.academicTerm && formik.errors.academicTerm && (
-                <InputFeedback state="error">
-                  {formik.errors.academicTerm}
-                </InputFeedback>
-              )}
             </div>
 
             <div>
@@ -160,16 +196,14 @@ export default function PersonalDetails({ formik }: PersonalDetailsProps) {
                 id="location"
                 name="location"
                 placeholder="Select where you will be next term"
-                options={locationOptions}
-                value={formik.values.location}
-                onChange={formik.handleChange}
+                options={
+                  questions.find((q) => q.id === "location")?.options ||
+                  locationOptions
+                }
+                value={String(getValue("location"))}
+                onChange={handleChange("location")}
                 background="bg-white/10"
               />
-              {formik.touched.location && formik.errors.location && (
-                <InputFeedback state="error">
-                  {formik.errors.location}
-                </InputFeedback>
-              )}
             </div>
           </div>
         </div>
@@ -191,12 +225,18 @@ export default function PersonalDetails({ formik }: PersonalDetailsProps) {
               <label className="flex items-center">
                 <input
                   type="radio"
-                  name="previousMember"
+                  name="roleQuestionAnswers.general.previous_member"
                   value="true"
-                  checked={formik.values.previousMember === true}
+                  checked={getValue("previous_member") === "true"}
                   onChange={() => {
-                    formik.setFieldValue("previousMember", true);
-                    formik.setFieldValue("previousExperience", "");
+                    formik.setFieldValue(
+                      "roleQuestionAnswers.general.previous_member",
+                      "true",
+                    );
+                    formik.setFieldValue(
+                      "roleQuestionAnswers.general.club_experience",
+                      "",
+                    );
                   }}
                   className="mr-2 h-4 w-4 border-grey2 bg-grey3 text-lightBlue focus:ring-lightBlue"
                 />
@@ -205,16 +245,19 @@ export default function PersonalDetails({ formik }: PersonalDetailsProps) {
               <label className="flex items-center">
                 <input
                   type="radio"
-                  name="previousMember"
+                  name="roleQuestionAnswers.general.previous_member"
                   value="false"
                   checked={
-                    formik.values.previousMember === false &&
-                    formik.values.previousExperience === NO_PREV_EXPERIENCE
+                    getValue("previous_member") === "false" &&
+                    getValue("club_experience") === NO_PREV_EXPERIENCE
                   }
                   onChange={() => {
-                    formik.setFieldValue("previousMember", false);
                     formik.setFieldValue(
-                      "previousExperience",
+                      "roleQuestionAnswers.general.previous_member",
+                      "false",
+                    );
+                    formik.setFieldValue(
+                      "roleQuestionAnswers.general.club_experience",
                       NO_PREV_EXPERIENCE,
                     );
                   }}
@@ -223,15 +266,19 @@ export default function PersonalDetails({ formik }: PersonalDetailsProps) {
                 <span className="text-white">No</span>
               </label>
             </div>
-            {formik.touched.previousMember && formik.errors.previousMember && (
-              <InputFeedback state="error">
-                {formik.errors.previousMember}
-              </InputFeedback>
-            )}
+            {formik.touched.roleQuestionAnswers?.general?.club_experience &&
+              formik.errors.roleQuestionAnswers?.general?.club_experience && (
+                <InputFeedback
+                  classes="px-2 pt-1 leading-relaxed"
+                  state="error"
+                >
+                  {formik.errors.roleQuestionAnswers?.general?.previous_member}
+                </InputFeedback>
+              )}
           </div>
 
-          {formik.values.previousMember === true &&
-            formik.values.previousExperience !== NO_PREV_EXPERIENCE && (
+          {getValue("previous_member") === "true" &&
+            getValue("club_experience") !== NO_PREV_EXPERIENCE && (
               <div>
                 <label className="mb-2 block text-sm font-medium text-white">
                   Tell us about your previous experience with the club, data
@@ -239,19 +286,26 @@ export default function PersonalDetails({ formik }: PersonalDetailsProps) {
                   <span className="text-red">*</span>
                 </label>
                 <TextArea
-                  id="previousExperience"
-                  name="previousExperience"
+                  id="roleQuestionAnswers.general.club_experience"
+                  name="roleQuestionAnswers.general.club_experience"
                   placeholder="Describe your experience, involvement, or interest in data science..."
-                  value={formik.values.previousExperience || ""}
+                  value={String(getValue("club_experience")) || ""}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   rows={4}
                   background="bg-white/10"
                 />
-                {formik.touched.previousExperience &&
-                  formik.errors.previousExperience && (
-                    <InputFeedback state="error">
-                      {formik.errors.previousExperience}
+                {formik.touched.roleQuestionAnswers?.general?.club_experience &&
+                  formik.errors.roleQuestionAnswers?.general
+                    ?.club_experience && (
+                    <InputFeedback
+                      classes="px-2 pt-1 leading-relaxed"
+                      state="error"
+                    >
+                      {
+                        formik.errors.roleQuestionAnswers?.general
+                          ?.club_experience
+                      }
                     </InputFeedback>
                   )}
               </div>
