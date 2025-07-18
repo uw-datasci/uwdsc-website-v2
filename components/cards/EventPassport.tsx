@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { ChevronUp, PlaneTakeoff, Stamp } from "lucide-react";
+import { CiPassport1 } from "react-icons/ci";
 import { AnimatePresence, motion } from "framer-motion";
 import { Poppins } from "next/font/google";
 import EventSnippet from "./EventSnippet";
@@ -100,12 +101,12 @@ export default function EventPassport(props: EventPassportProps) {
       <div
         className={`${expanded ? "invisible" : ""} ${
           poppins.className
-        } h-full w-full max-w-md cursor-pointer rounded-tl-lg rounded-tr-lg border-x-2 border-t-2 border-[#FFF7F780] border-opacity-50 bg-[url('/membershipCard/hidden_passport_bg.svg')] bg-cover p-5`}
+        } bg-gradient-blue h-full w-full max-w-md cursor-pointer rounded-tl-lg rounded-tr-lg border-x-2 border-t-2 border-[#FFF7F780] border-opacity-50 bg-cover p-5 backdrop-blur-md`}
         onClick={toggleExpanded}
       >
         <div className="flex flex-row items-center justify-between">
           <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#3B477A]">
-            <img src="/membershipCard/passport_icon.svg" className="h-8 w-8" />
+            <CiPassport1 className="h-8 w-8 text-white" strokeWidth={1} />
           </div>
           <div className="flex flex-col">
             <div className="flex flex-row items-center justify-between">
@@ -143,9 +144,9 @@ export default function EventPassport(props: EventPassportProps) {
               <div className="flex-1 overflow-y-auto bg-cover bg-center">
                 <div className="flex h-[30%] w-full flex-col items-center justify-center gap-1 bg-[url('/membershipCard/whale_bg.svg')] bg-cover bg-center">
                   <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#03135C]/70">
-                    <img
-                      src="/membershipCard/passport_icon.svg"
-                      className="h-5 w-5"
+                    <CiPassport1
+                      className="h-6 w-6 text-white"
+                      strokeWidth={1}
                     />
                   </div>
                   <p className="text-xl font-semibold">EVENTS PASSPORT</p>

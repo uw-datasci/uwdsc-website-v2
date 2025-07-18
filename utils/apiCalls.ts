@@ -244,6 +244,31 @@ export const removeUserFromEvents = async (userId: string) => {
   });
 };
 
+export const getAllTerms = async () => {
+  return await axios.get("/api/UWDSC/admin/getAllTerms", {
+    headers: {
+      Authorization: `Bearer ${store.getState().loginToken.token}`,
+    },
+  });
+};
+
+export const getAllAppsByTerm = async (termId: string) => {
+  return await axios.get("/api/UWDSC/admin/getAllAppsByTerm", {
+    headers: {
+      Authorization: `Bearer ${store.getState().loginToken.token}`,
+    },
+    params: { termId },
+  });
+};
+
+export const getAllApplications = async () => {
+  return await axios.get("/api/UWDSC/admin/getAllApplications", {
+    headers: {
+      Authorization: `Bearer ${store.getState().loginToken.token}`,
+    },
+  });
+};
+
 export const getCurrentTerm = async () => {
   return await axios.get("/api/UWDSC/applications/currentTerm");
 };

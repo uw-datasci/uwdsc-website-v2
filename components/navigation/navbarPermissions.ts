@@ -1,14 +1,12 @@
 export const NAVBAR_ROUTES = {
   NOT_LOGGED_IN: [
     { label: "Home", route: "/" },
-    { label: "CxC", route: "/cxc" },
     { label: "Team", route: "/team" },
     { label: "Contact", route: "/#contact" },
     { label: "Calendar", route: "/calendar" },
   ],
   USER: [
     { label: "Home", route: "/" },
-    { label: "CxC", route: "/cxc" },
     { label: "Team", route: "/team" },
     { label: "Apply", route: "/apply" },
     { label: "Check In", route: "/memCheckIn" },
@@ -16,7 +14,6 @@ export const NAVBAR_ROUTES = {
   ],
   ADMIN: [
     { label: "Home", route: "/" },
-    { label: "CxC", route: "/cxc" },
     { label: "Team", route: "/team" },
     { label: "Apply", route: "/apply" },
     { label: "Check In", route: "/memCheckIn" },
@@ -26,12 +23,12 @@ export const NAVBAR_ROUTES = {
       subNavItems: [
         { label: "Memberships", route: "/memberships" },
         { label: "Events", route: "/events" },
+        { label: "Exec Apps", route: "/execAppView"},
       ],
     },
   ],
   EXEC: [
     { label: "Home", route: "/" },
-    { label: "CxC", route: "/cxc" },
     { label: "Team", route: "/team" },
     { label: "Apply", route: "/apply" },
     { label: "Check In", route: "/memCheckIn" },
@@ -41,6 +38,7 @@ export const NAVBAR_ROUTES = {
       subNavItems: [
         { label: "Memberships", route: "/memberships" },
         { label: "Events", route: "/events" },
+        { label: "Exec Apps", route: "/execAppView"},
       ],
     },
   ],

@@ -38,3 +38,5 @@ export const BLANK_APPLICATION = {
 };
 
 export const NO_PREV_EXPERIENCE = "N/A";
+
+export const MAX_ALLOWED_ROLES_TO_APPLY = 3;
