@@ -34,8 +34,7 @@ export default function RenderDynamicQuestion({
           </p>
           <p className="mb-3 text-sm text-grey2">{question.helpText}</p>
           <TextInput
-            key={`${question.id}-${question.role}`}
-            id={`${question.id}-${question.role}`}
+            id={`${question.id.replace(/\s+/g, "-")}-${question.role.replace(/\s+/g, "-")}`}
             name={`roleQuestionAnswers.${question.role}.${question.id}`}
             type="text"
             placeholder={question.placeholder || ""}
@@ -68,8 +67,7 @@ export default function RenderDynamicQuestion({
           </p>
           <p className="mb-3 text-sm text-grey2">{question.helpText}</p>
           <TextArea
-            key={`${question.id}-${question.role}`}
-            id={`${question.id}-${question.role}`}
+            id={`${question.id.replace(/\s+/g, "-")}-${question.role.replace(/\s+/g, "-")}`}
             name={`roleQuestionAnswers.${question.role}.${question.id}`}
             placeholder={question.placeholder || ""}
             value={String(value)}
@@ -102,8 +100,7 @@ export default function RenderDynamicQuestion({
           </p>
           <p className="mb-3 text-sm text-grey2">{question.helpText}</p>
           <Dropdown
-            key={`${question.id}-${question.role}`}
-            id={`${question.id}-${question.role}`}
+            id={`${question.id.replace(/\s+/g, "-")}-${question.role.replace(/\s+/g, "-")}`}
             name={`roleQuestionAnswers.${question.role}.${question.id}`}
             placeholder={question.placeholder || "Select an option"}
             options={question.options || []}
@@ -123,8 +120,7 @@ export default function RenderDynamicQuestion({
           </p>
           <p className="mb-3 text-sm text-grey2">{question.helpText}</p>
           <MultipleDropdown
-            key={`${question.id}-${question.role}`}
-            id={`${question.id}-${question.role}`}
+            id={`${question.id.replace(/\s+/g, "-")}-${question.role.replace(/\s+/g, "-")}`}
             name={`roleQuestionAnswers.${question.role}.${question.id}`}
             placeholder={question.placeholder || "Select options"}
             options={question.options || []}

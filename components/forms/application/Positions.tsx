@@ -43,12 +43,6 @@ export default function Positions({
       setPositionError("Please select at least one role.");
       return false;
     }
-    // check if all roles chosen are unique
-    if (lenWithoutNone !== new Set(currentRolesWithoutNone).size) {
-      setPositionError("Selected roles must be unique.");
-      console.log(formik.errors);
-      return false;
-    }
 
     // find last index a valid role appears
     const reversedIndex = [...currentRoles]
@@ -71,6 +65,12 @@ export default function Positions({
       setPositionError(
         "Role preferences must be in consecutive order and no gaps in rank (i.e. selecting #1 and #3 is invalid).",
       );
+      return false;
+    }
+
+    // check if all roles chosen are unique
+    if (lenWithoutNone !== new Set(currentRolesWithoutNone).size) {
+      setPositionError("Selected roles must be unique.");
       return false;
     }
 

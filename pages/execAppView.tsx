@@ -179,8 +179,8 @@ export default function ExecAppView() {
       if (maxQuestions) {
         headers.push(`Role ${i + 1}`);
         for (let j = 0; j < maxQuestions; j++) {
-          headers.push(`Q${j + 1}`);
-          headers.push(`Q${j + 1} Answer`);
+          headers.push(`Role ${i + 1} - Q${j + 1}`);
+          headers.push(`Role ${i + 1} - Q${j + 1} Answer`);
         }
       }
     }
@@ -220,14 +220,20 @@ export default function ExecAppView() {
             const question = roleQuestions?.[j];
             if (question) {
               row.push(question.question);
-              row.push(app.roleQuestionAnswers[roleApplyingFor][question.id]);
+              row.push(
+                app.roleQuestionAnswers[roleApplyingFor]?.[question.id] ?? "",
+              );
             } else {
               row.push(""); // empty question
               row.push(""); // empty ans
             }
           }
         } else {
-          break; // undefined element represents end of rolesApplyingFor array
+          row.push(""); // empty role
+          for (let j = 0; j < maxQuetionsPerRoleRank[i]; j++) {
+            row.push(""); // empty question
+            row.push(""); // empty ans
+          }
         }
       }
 
