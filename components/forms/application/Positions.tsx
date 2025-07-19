@@ -5,6 +5,7 @@ import Dropdown from "@/components/UI/Dropdown";
 import RenderDynamicQuestion from "@/components/forms/application/RenderDynamicQuestions";
 import { useEffect, useState } from "react";
 import InputFeedback from "@/components/UI/Inputs/UWDSC/InputFeedback";
+import { MAX_ALLOWED_ROLES_TO_APPLY } from "@/constants/application";
 
 interface PositionsProps {
   formik: FormikProps<ApplicationFormValues>;
@@ -119,8 +120,10 @@ export default function Positions({
     isNextValid(isStepValid());
   }, [formik.values]);
 
-  const positionPreferences = [0, 1, 2];
-  const positionPreferencesLen = positionPreferences.length;
+  const positionPreferences = Array.from(
+    { length: MAX_ALLOWED_ROLES_TO_APPLY },
+    (_, i) => i,
+  );
 
   // update roleApplyingFor accordingly when user changes dropdown role choice
   const handlePositionChange = (val: any, index: number) => {
@@ -182,65 +185,56 @@ export default function Positions({
       </div>
 
       {/* Position Preferences Card */}
-      <div className="rounded-lg border-0.5 border-solid border-white/20 bg-slateBlue p-8">
-        <div className="mb-5 flex flex-col gap-3">
-          <div className="flex items-center">
-            <Users className="mr-2 h-5 w-5 text-lighterBlue" />
-            <h2 className="text-xl font-semibold text-white">
-              Position Preferences
-            </h2>
-          </div>
-          <p className="mb-2 block text-md text-white">
-            Please select <b>at least 1 and up to 3</b> positions you are
-            interested in, and answer the corresponding questions.
-          </p>
+      <div className="mb-5 flex flex-col gap-3">
+        <div className="flex items-center">
+          <Users className="mr-2 h-5 w-5 text-lighterBlue" />
+          <h2 className="text-xl font-semibold text-white">
+            Position Preferences
+          </h2>
         </div>
-        {positionPreferences.map((pos, i) => {
-          const selectedRole = formik.values.rolesApplyingFor[i];
-          const roleQuestions = selectedRole
-            ? getRoleSpecificQuestions(selectedRole)
-            : [];
-          return (
-            <div key={i} className="mb-4">
-              <p className="my-2 block text-md font-semibold text-white">
-                Position Preference #{i + 1}{" "}
-                {i === 0 && <span className="text-red">*</span>}
-              </p>
-              <Dropdown
-                id={`role_choice_${i}`}
-                name={`rolesApplyingFor[${i}]`}
-                placeholder={`Select position #${i + 1}`}
-                options={roles || []}
-                value={selectedRole || ""}
-                onChange={(e) => handlePositionChange(e.target.value, i)}
-                background="bg-white/10"
-              />
-              {/* render specific questions for each role if they exists */}
-              {formik.values.rolesApplyingFor[i] &&
-                roleQuestions.length > 0 &&
-                roleQuestions.map((q, index) => (
-                  <div
-                    key={index}
-                    className={`${
-                      index === roleQuestions.length - 1 &&
-                      i !== positionPreferencesLen - 1
-                        ? "pb-5"
-                        : ""
-                    } ${index === 0 ? "pt-5" : ""}`}
-                  >
-                    <RenderDynamicQuestion formik={formik} question={q} />
-                  </div>
-                ))}
-            </div>
-          );
-        })}
-        {/* dynamic error message if inputs are invalid */}
-        {positionError && (
-          <InputFeedback classes="mt-10" state="error">
-            {positionError}
-          </InputFeedback>
-        )}
+        <p className="mb-2 block text-md text-white">
+          Please select <b>at least 1 and up to 3</b> positions you are
+          interested in, and answer the corresponding questions.
+        </p>
       </div>
+      {positionPreferences.map((pos, i) => {
+        const selectedRole = formik.values.rolesApplyingFor[i];
+        const roleQuestions = selectedRole
+          ? getRoleSpecificQuestions(selectedRole)
+          : [];
+        return (
+          <div
+            key={i}
+            className="mb-4 rounded-lg border-0.5 border-solid border-white/20 bg-slateBlue px-8 pb-8 pt-6"
+          >
+            <p className="mb-2 block text-md font-semibold text-white">
+              Position Preference #{i + 1}{" "}
+              {i === 0 && <span className="text-red">*</span>}
+            </p>
+            <Dropdown
+              id={`role_choice_${i}`}
+              name={`rolesApplyingFor[${i}]`}
+              placeholder={`Select position #${i + 1}`}
+              options={roles || []}
+              value={selectedRole || ""}
+              onChange={(e) => handlePositionChange(e.target.value, i)}
+              background="bg-white/10"
+            />
+            {/* render specific questions for each role if they exists */}
+            {formik.values.rolesApplyingFor[i] &&
+              roleQuestions.length > 0 &&
+              roleQuestions.map((q, index) => (
+                <div key={index} className={`${index === 0 ? "pt-10" : ""}`}>
+                  <RenderDynamicQuestion formik={formik} question={q} />
+                </div>
+              ))}
+          </div>
+        );
+      })}
+      {/* dynamic error message if inputs are invalid */}
+      {positionError && (
+        <InputFeedback state="error">{positionError}</InputFeedback>
+      )}
     </div>
   );
 }

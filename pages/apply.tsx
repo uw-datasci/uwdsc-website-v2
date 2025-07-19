@@ -497,10 +497,11 @@ export default function ApplyPage() {
                       rounded="rounded-full"
                       onClick={handlePrevious}
                       border="border border-grey1 border-solid"
-                      classes="transition-all duration-300 bg-transparent hover:scale-105 hover:shadow-lg hover:bg-grey1 w-32"
+                      classes="transition-all duration-300 bg-transparent hover:scale-105 hover:shadow-lg hover:bg-grey1 w-24 sm:w-32"
+                      padding="px-3 py-2 sm:px-5 sm:py-3"
                     >
-                      <div className="flex items-center justify-between text-grey1 group-hover:text-darkBlue">
-                        <MoveLeft className="h-4 w-4" />
+                      <div className="flex items-center justify-between text-sm text-grey1 group-hover:text-darkBlue sm:text-md">
+                        <MoveLeft className="h-3 w-3 sm:h-4 sm:w-4" />
                         Previous
                       </div>
                     </Button>
@@ -508,12 +509,12 @@ export default function ApplyPage() {
                       {STEP_NAMES.slice(1).map((_, index) => (
                         <div
                           key={index}
-                          className={`h-3 rounded-full transition-all duration-300 ease-in-out ${
+                          className={`h-2 rounded-full transition-all duration-300 ease-in-out sm:h-3 ${
                             index + 1 == currentStep
-                              ? "w-10 bg-lightBlue"
+                              ? "w-8 bg-lightBlue sm:w-10"
                               : index + 1 < currentStep
-                              ? "w-3 bg-green"
-                              : "w-3 bg-grey1"
+                              ? "w-2 bg-green sm:w-3"
+                              : "w-2 bg-grey1 sm:w-3"
                           }`}
                         />
                       ))}
@@ -531,7 +532,7 @@ export default function ApplyPage() {
                             ? !isPositionsPageValid
                             : !isStepValid(currentStep)
                         }
-                        classes={`transition-all duration-300 w-32 ${
+                        classes={`transition-all duration-300 w-24 sm:w-32 ${
                           currentStep === 4
                             ? `bg-gradient-orange ${
                                 !isSupplementaryPageValid
@@ -543,9 +544,10 @@ export default function ApplyPage() {
                             ? "bg-white hover:bg-grey1 hover:shadow-lg"
                             : "bg-grey1 opacity-50 cursor-not-allowed hover:shadow-lg"
                         }`}
+                        padding="px-3 py-2 sm:px-5 sm:py-3"
                       >
                         <div
-                          className={`flex items-center justify-between
+                          className={`flex items-center justify-between text-sm sm:text-md
                               ${
                                 currentStep === 4
                                   ? "text-white"
@@ -553,7 +555,7 @@ export default function ApplyPage() {
                               }`}
                         >
                           {currentStep === 4 ? "Submit" : "Next"}
-                          <MoveRight className="h-4 w-4" />
+                          <MoveRight className="h-3 w-3 sm:h-4 sm:w-4" />
                         </div>
                       </Button>
                     </div>
