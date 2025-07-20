@@ -8,12 +8,14 @@ export const NAVBAR_ROUTES = {
   USER: [
     { label: "Home", route: "/" },
     { label: "Team", route: "/team" },
+    // { label: "Apply", route: "/apply" },
     { label: "Check In", route: "/memCheckIn" },
     { label: "Calendar", route: "/calendar" },
   ],
   ADMIN: [
     { label: "Home", route: "/" },
     { label: "Team", route: "/team" },
+    // { label: "Apply", route: "/apply" },
     { label: "Check In", route: "/memCheckIn" },
     { label: "Calendar", route: "/calendar" },
     {
@@ -21,13 +23,14 @@ export const NAVBAR_ROUTES = {
       subNavItems: [
         { label: "Memberships", route: "/memberships" },
         { label: "Events", route: "/events" },
-        { label: "Exec Apps", route: "/execAppView"},
+        { label: "Exec Apps", route: "/execAppView" },
       ],
     },
   ],
   EXEC: [
     { label: "Home", route: "/" },
     { label: "Team", route: "/team" },
+    // { label: "Apply", route: "/apply" },
     { label: "Check In", route: "/memCheckIn" },
     { label: "Calendar", route: "/calendar" },
     {
@@ -35,7 +38,7 @@ export const NAVBAR_ROUTES = {
       subNavItems: [
         { label: "Memberships", route: "/memberships" },
         { label: "Events", route: "/events" },
-        { label: "Exec Apps", route: "/execAppView"},
+        { label: "Exec Apps", route: "/execAppView" },
       ],
     },
   ],

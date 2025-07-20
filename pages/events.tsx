@@ -33,6 +33,7 @@ import eventImage10 from "@/public/placeholder/event.png";
 import EventForm from "@/components/forms/EventForm";
 import { EventFormValues } from "@/types/types";
 import { Edit3, Trash2 } from "react-feather";
+import SEO from "@/components/SEO/SEO";
 
 // Array of event images to cycle through
 const eventImages: StaticImageData[] = [
@@ -319,94 +320,102 @@ function Events() {
   };
 
   return (
-    <section className="mx-container mb-section mt-14 lg:mt-20">
-      <h1 className="mb-14 text-center text-3xl font-bold text-white 3xs:text-6xl sm:text-8xl lg:text-10xl 2xl:text-12xl">
-        Manage Events
-      </h1>
-      <div className="flex flex-col gap-2 overflow-visible">
-        <div className="mx-auto mb-12 w-full max-w-2xl text-center">
-          <Button
-            type="button"
-            hierarchy="primary"
-            font="font-bold"
-            text="sm:text-lg 2xl:text-xl"
-            padding="py-3 sm:px-7 sm:py-4"
-            rounded="rounded-[15px]"
-            classes="w-full max-w-md mx-auto"
-            onClick={handleOpenEventForm}
-          >
-            Create New Event
-          </Button>
-        </div>
+    <>
+      <SEO title="Manage Events" />
+      <section className="mx-container mb-section mt-14 lg:mt-20">
+        <h1 className="mb-14 text-center text-3xl font-bold text-white 3xs:text-6xl sm:text-8xl lg:text-10xl 2xl:text-12xl">
+          Manage Events
+        </h1>
+        <div className="flex flex-col gap-2 overflow-visible">
+          <div className="mx-auto mb-12 w-full max-w-2xl text-center">
+            <Button
+              type="button"
+              hierarchy="primary"
+              font="font-bold"
+              text="sm:text-lg 2xl:text-xl"
+              padding="py-3 sm:px-7 sm:py-4"
+              rounded="rounded-[15px]"
+              classes="w-full max-w-md mx-auto"
+              onClick={handleOpenEventForm}
+            >
+              Create New Event
+            </Button>
+          </div>
 
-        <div className="mb-12">
-          <SectionTitle mb="mb-6">Upcoming Events</SectionTitle>
+          <div className="mb-12">
+            <SectionTitle mb="mb-6">Upcoming Events</SectionTitle>
 
-          {loading ? (
-            <p className="text-center text-white">Loading events...</p>
-          ) : fetchError ? (
-            <p className="text-red-500 text-center">{fetchError}</p>
-          ) : upcomingEvents.length === 0 ? (
-            <p className="text-center text-white">No upcoming events found.</p>
-          ) : (
-            <div className="flex flex-wrap gap-6 pb-4 pt-2">
-              {upcomingEvents.map((event) => (
-                <div key={event.id} className="group relative">
-                  <EventCard
-                    id={event.id}
-                    title={event.name}
-                    image={event.image}
-                    location={event.location}
-                    startTime={event.startTime}
-                    endTime={event.endTime}
-                  />
+            {loading ? (
+              <p className="text-center text-white">Loading events...</p>
+            ) : fetchError ? (
+              <p className="text-red-500 text-center">{fetchError}</p>
+            ) : upcomingEvents.length === 0 ? (
+              <p className="text-center text-white">
+                No upcoming events found.
+              </p>
+            ) : (
+              <div className="flex flex-wrap gap-6 pb-4 pt-2">
+                {upcomingEvents.map((event) => (
+                  <div key={event.id} className="group relative">
+                    <EventCard
+                      id={event.id}
+                      title={event.name}
+                      image={event.image}
+                      location={event.location}
+                      startTime={event.startTime}
+                      endTime={event.endTime}
+                    />
 
-                  <div className="absolute right-4 top-4 z-10 flex gap-2 transition-opacity duration-300">
-                    <button
-                      onClick={() => handleEditEvent(event)}
-                      className="bg-gray-800 cursor-pointer rounded-full p-2 text-white hover:text-grey1"
-                      aria-label="Edit event"
-                    >
-                      <Edit3 size={20} />
-                    </button>
-                    <button
-                      onClick={() => handleDeleteEvent(event.id)}
-                      className="bg-gray-800 cursor-pointer rounded-full p-2 text-white hover:text-darkRed"
-                      aria-label="Delete event"
-                    >
-                      <Trash2 size={20} />
-                    </button>
+                    <div className="absolute right-4 top-4 z-10 flex gap-2 transition-opacity duration-300">
+                      <button
+                        onClick={() => handleEditEvent(event)}
+                        className="bg-gray-800 cursor-pointer rounded-full p-2 text-white hover:text-grey1"
+                        aria-label="Edit event"
+                      >
+                        <Edit3 size={20} />
+                      </button>
+                      <button
+                        onClick={() => handleDeleteEvent(event.id)}
+                        className="bg-gray-800 cursor-pointer rounded-full p-2 text-white hover:text-darkRed"
+                        aria-label="Delete event"
+                      >
+                        <Trash2 size={20} />
+                      </button>
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-
-        <PopUpPanels
-          isPopUp={eventFormOpen}
-          moveDownFunc={handleCloseEventForm}
-          panelIndex={0}
-          panels={[
-            <div key="event-form" className="no-scrollbar w-full overflow-auto">
-              <div className="mx-auto w-full max-w-2xl p-6">
-                <p className="text-gray-300 mb-8">
-                  {selectedEvent
-                    ? "Edit the event details below."
-                    : "Fill out the form below to create a new event."}
-                </p>
-                <EventForm
-                  formik={formik}
-                  success={success}
-                  error={error}
-                  isEditing={!!selectedEvent}
-                />
+                ))}
               </div>
-            </div>,
-          ]}
-        />
-      </div>
-    </section>
+            )}
+          </div>
+
+          <PopUpPanels
+            isPopUp={eventFormOpen}
+            moveDownFunc={handleCloseEventForm}
+            panelIndex={0}
+            panels={[
+              <div
+                key="event-form"
+                className="no-scrollbar w-full overflow-auto"
+              >
+                <div className="mx-auto w-full max-w-2xl p-6">
+                  <p className="text-gray-300 mb-8">
+                    {selectedEvent
+                      ? "Edit the event details below."
+                      : "Fill out the form below to create a new event."}
+                  </p>
+                  <EventForm
+                    formik={formik}
+                    success={success}
+                    error={error}
+                    isEditing={!!selectedEvent}
+                  />
+                </div>
+              </div>,
+            ]}
+          />
+        </div>
+      </section>
+    </>
   );
 }
 

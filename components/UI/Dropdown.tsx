@@ -9,6 +9,7 @@ type DropdownProps = {
   value: string;
   onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   classes?: string;
+  background?: string;
 };
 
 export default function Dropdown({
@@ -19,6 +20,7 @@ export default function Dropdown({
   value,
   onChange,
   classes,
+  background = "bg-black",
 }: DropdownProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
@@ -46,9 +48,8 @@ export default function Dropdown({
       <div
         id={`dropdown-${id}`}
         onClick={() => setIsOpen((prev) => !prev)}
-        className={`transition-300 relative cursor-pointer rounded-md border px-4.5 py-3.5 xl:rounded-lg xl:px-6 xl:py-4.5 ${
-          isOpen ? "border-white" : "border-grey1"
-        }`}
+        className={`transition-300 relative cursor-pointer rounded-md border px-4.5 py-3.5 xl:rounded-lg xl:px-6 xl:py-4.5
+          ${background} ${isOpen ? "border-white" : "border-grey1"}`}
       >
         <p className={`transition-300 ${value ? "text-white" : "text-grey1"}`}>
           {value ? value : placeholder}
@@ -60,19 +61,16 @@ export default function Dropdown({
         />
       </div>
       <div
-        className={`transition-300 absolute inset-x-0 top-[calc(100%+16px)] max-h-[15rem] overflow-auto rounded-lg border border-grey1 bg-black px-2 py-2 ${
-          isOpen ? "" : "pointer-events-none opacity-0"
-        }`}
+        className={`transition-300 absolute inset-x-0 top-[calc(100%+16px)] max-h-[15rem] overflow-auto rounded-lg border
+          border-grey1 px-2 py-2 ${background} z-50 bg-opacity-100 backdrop-blur-lg ${
+            isOpen ? "" : "pointer-events-none opacity-0"
+          }`}
       >
         {options.map((option, i) => (
           <p
             onClick={() => {
               onChange({
-                target: {
-                  id,
-                  name,
-                  value: option,
-                },
+                target: { id, name, value: option },
               } as React.ChangeEvent<HTMLSelectElement>);
               setIsOpen(false);
             }}

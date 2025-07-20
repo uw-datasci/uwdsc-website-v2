@@ -244,6 +244,25 @@ export const removeUserFromEvents = async (userId: string) => {
   });
 };
 
+export const getCurrentTerm = async () => {
+  return await axios.get("/api/UWDSC/applications/currentTerm");
+};
+
+export const patchApplication = async (
+  applicationData: Record<string, any>,
+) => {
+  return await axios.post("/api/UWDSC/applications/patch", {
+    token: store.getState().loginToken.token,
+    ...applicationData,
+  });
+};
+
+export const getCurrentUserApplication = async () => {
+  return await axios.post("/api/UWDSC/applications/user", {
+    token: store.getState().loginToken.token,
+  });
+};
+
 export const getAllTerms = async () => {
   return await axios.get("/api/UWDSC/admin/getAllTerms", {
     headers: {
@@ -268,3 +287,4 @@ export const getAllApplications = async () => {
     },
   });
 }
+
