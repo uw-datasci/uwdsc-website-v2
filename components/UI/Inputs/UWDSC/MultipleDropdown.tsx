@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ChevronDown } from "react-feather";
 
 // To change value and option to include option to hide value
@@ -8,9 +8,11 @@ type MultipleDropdownProps = {
   placeholder: string;
   options: string[];
   value: string[];
-  onChange: (e: React.ChangeEvent<any>) => void;
+  onChange?: (e: React.ChangeEvent<any>) => void;
+  execAppOnChange?: (value: string[]) => void;
   maxSelection: number;
   wrapperClasses?: string;
+  background?: string;
 };
 
 export default function MultipleDropdown({
@@ -20,17 +22,20 @@ export default function MultipleDropdown({
   options,
   value,
   onChange,
+  execAppOnChange,
   wrapperClasses,
+  background = "bg-black",
 }: MultipleDropdownProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     function handleOutsideClick(e: MouseEvent) {
       if (
         isOpen &&
-        !e
-          .composedPath()
-          .includes(document.querySelector(`#dropdown-${id}`) as HTMLElement)
+        dropdownRef.current &&
+        !dropdownRef.current.contains(e.target as Node)
       ) {
         setIsOpen(false);
       }
@@ -41,7 +46,7 @@ export default function MultipleDropdown({
     return () => {
       document.removeEventListener("click", handleOutsideClick);
     };
-  }, [id, isOpen]);
+  }, [isOpen]);
 
   function handleCheckboxChange(e: React.ChangeEvent<HTMLInputElement>) {
     const { checked, value: clickedValue } = e.target;
@@ -52,22 +57,24 @@ export default function MultipleDropdown({
     } else {
       newValue = newValue.filter((item) => item !== clickedValue);
     }
-
-    const syntheticEvent = {
-      ...e,
-      target: {
-        ...e.target,
-        name,
-        value: newValue,
-      },
-    } as React.ChangeEvent<any>;
-
-    onChange(syntheticEvent);
+    if (onChange) {
+      const syntheticEvent = {
+        ...e,
+        target: {
+          ...e.target,
+          name,
+          value: newValue,
+        },
+      } as React.ChangeEvent<any>;
+      onChange(syntheticEvent);
+    } else if (execAppOnChange) {
+      execAppOnChange(newValue);
+    }
   }
-
   return (
     <div
       id={`dropdown-${id}`}
+      ref={dropdownRef}
       className={wrapperClasses ? wrapperClasses : "relative cursor-pointer"}
     >
       <div
@@ -90,7 +97,7 @@ export default function MultipleDropdown({
         />
       </div>
       <div
-        className={`transition-300 absolute inset-x-0 top-[calc(100%+16px)] max-h-[15rem] overflow-auto rounded-lg border border-grey1 bg-black px-2 py-2 ${
+        className={`transition-300 absolute inset-x-0 top-[calc(100%+16px)] max-h-[15rem] overflow-auto rounded-lg border border-grey1 ${background} px-2 py-2 ${
           isOpen ? "z-10" : "pointer-events-none opacity-0"
         }`}
       >

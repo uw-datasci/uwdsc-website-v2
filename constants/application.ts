@@ -1,38 +1,42 @@
 export const STEP_NAMES = [
   "",
   "Personal Details",
-  "Experience",
   "Positions",
+  "Experience",
   "Supplementary Information",
 ];
 
 export const PERSONAL_FIELDS = [
-  "uwEmail",
-  "personalEmail",
-  "fullName",
+  "waterloo_email",
+  "personal_email",
+  "full_name",
   "program",
-  "academicTerm",
+  "academic_term",
   "location",
 ];
 
+export const EXPERIENCE_FIELDS = ["skills", "motivation"];
+
 export const BLANK_APPLICATION = {
-  personalInfo: {
-    uwEmail: "",
-    personalEmail: "",
-    fullName: "",
+  rolesApplyingFor: [],
+  roleQuestionAnswers: {
+    general: {
+      full_name: "",
+      personal_email: "",
+      waterloo_email: "",
+      program: "",
+      academic_term: "",
+      location: "",
+      previous_member: "",
+      club_experience: "",
+      skills: "",
+      motivation: "",
+    },
   },
-  academicInfo: {
-    program: "",
-    academicTerm: "",
-    location: "",
-  },
-  clubExperience: {
-    previousMember: false,
-    previousExperience: "",
-  },
-  questionAnswers: {},
   resumeUrl: "",
   status: "draft",
 };
 
-export const NO_PREV_EXPERIENCE = "N/A"
+export const NO_PREV_EXPERIENCE = "N/A";
+
+export const MAX_ALLOWED_ROLES_TO_APPLY = 3;

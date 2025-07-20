@@ -1,117 +1,240 @@
 import { FormikProps } from "formik";
-import TextArea from "@/components/UI/Inputs/UWDSC/TextArea";
-import Button from "@/components/UI/Button";
 import { ApplicationFormValues, Question } from "@/types/application";
-import { Crown, Users } from "lucide-react";
+import { Crown, Users, InfoIcon } from "lucide-react";
+import Dropdown from "@/components/UI/Dropdown";
+import RenderDynamicQuestion from "@/components/forms/application/RenderDynamicQuestions";
+import { useEffect, useState } from "react";
+import InputFeedback from "@/components/UI/Inputs/UWDSC/InputFeedback";
+import { MAX_ALLOWED_ROLES_TO_APPLY } from "@/constants/application";
 
 interface PositionsProps {
   formik: FormikProps<ApplicationFormValues>;
   questions: Question[];
-  onNext: () => void;
-  onBack: () => void;
+  isNextValid: (valid: boolean) => void;
 }
 
 export default function Positions({
   formik,
   questions,
-  onNext,
-  onBack,
+  isNextValid,
 }: PositionsProps) {
-  // Find position preferences question
-  const positionQuestion = questions.find(
-    (q) =>
-      q.id === "positionPreferences" ||
-      (q.question.toLowerCase().includes("position") &&
-        q.question.toLowerCase().includes("preference")),
+  const [positionError, setPositionError] = useState("");
+
+  const roles = Array.from(
+    new Set([
+      ...questions
+        .filter((q) => !["general", "supplementary"].includes(q.role))
+        .map((q) => q.role)
+        .sort(),
+      "None",
+    ]),
   );
 
+  // determine if all questions in position page is filled out correctly
   const isStepValid = () => {
-    if (!positionQuestion) return true;
+    const currentRoles = formik.values.rolesApplyingFor;
+    const currentRolesWithoutNone = currentRoles.filter(
+      (role) => role !== "None",
+    );
 
-    const value = formik.values.questionAnswers[positionQuestion.id];
-    if (positionQuestion.required) {
-      return value && value.toString().trim() !== "";
+    const len = currentRoles.length;
+    const lenWithoutNone = currentRolesWithoutNone.length;
+
+    if (!currentRolesWithoutNone || lenWithoutNone === 0) {
+      setPositionError("Please select at least one role.");
+      return false;
     }
-    return true;
+
+    // find last index a valid role appears
+    const reversedIndex = [...currentRoles]
+      .reverse()
+      .findIndex((role) => role && role !== "None");
+    const lastRoleIndex =
+      reversedIndex === -1 ? -1 : currentRoles.length - 1 - reversedIndex;
+    // find first occurance an empty gap appears
+    const firstEmptyIndex = [...currentRoles].findIndex(
+      (role) => !role || role === "None",
+    );
+
+    // check that chosen roles have consecutive order (i.e. 1,3 or 2,3 is not valid => 1, 2 or 1 is)
+    // if first empty gap appears before last role -> invalid
+    if (
+      firstEmptyIndex !== -1 &&
+      lastRoleIndex !== -1 &&
+      firstEmptyIndex < lastRoleIndex
+    ) {
+      setPositionError(
+        "Role preferences must be in consecutive order and no gaps in rank (i.e. selecting #1 and #3 is invalid).",
+      );
+      return false;
+    }
+
+    // check if all roles chosen are unique
+    if (lenWithoutNone !== new Set(currentRolesWithoutNone).size) {
+      setPositionError("Selected roles must be unique.");
+      return false;
+    }
+
+    // check that all required qeustions for chosen roles are answered
+    const validRequired = currentRolesWithoutNone.every((role) => {
+      const roleRequiredQuestions = getRoleSpecificQuestions(role).filter(
+        (q) => q.required,
+      );
+      if (roleRequiredQuestions.length === 0) {
+        return true;
+      }
+
+      return roleRequiredQuestions.every((question) => {
+        const value = formik.values.roleQuestionAnswers?.[role]?.[question.id];
+        if (!value) {
+          setPositionError(
+            "Please answer all required questions for each role selected.",
+          );
+          return false;
+        }
+        if (question.type === "checkbox") {
+          const noCheckboxError = Array.isArray(value) && value.length > 0;
+          if (!noCheckboxError) {
+            setPositionError(
+              "Please select at least one option for all required multi-select questions.",
+            );
+          }
+          return noCheckboxError;
+        }
+        const noError = value && value.toString().trim() !== "";
+        if (!noError) {
+          setPositionError(
+            "Please answer all required questions for each role selected.",
+          );
+        }
+        return noError;
+      });
+    });
+    if (validRequired) {
+      setPositionError("");
+    }
+    return validRequired;
   };
 
-  const handleNext = () => {
-    if (!isStepValid() && positionQuestion) {
-      formik.setFieldTouched(`questionAnswers.${positionQuestion.id}`, true);
-      return;
+  useEffect(() => {
+    isNextValid(isStepValid());
+  }, [formik.values]);
+
+  const positionPreferences = Array.from(
+    { length: MAX_ALLOWED_ROLES_TO_APPLY },
+    (_, i) => i,
+  );
+
+  // update roleApplyingFor accordingly when user changes dropdown role choice
+  const handlePositionChange = (val: any, index: number) => {
+    const roles = formik.values.rolesApplyingFor || [];
+    const updatedRoles = [...roles];
+    const len = updatedRoles.length;
+    if (len > index) {
+      updatedRoles[index] = val;
+    } else {
+      for (let i = 0; i < index - len; i++) {
+        updatedRoles.push("");
+      }
+      updatedRoles.push(val);
     }
-    onNext();
+    formik.setFieldValue("rolesApplyingFor", updatedRoles);
   };
 
-  const positionPreferencesPlaceholder = `List your preferred positions in order of preference. For example:
-1. Vice President of Education
-2. Education Team Lead
-3. Workshop Coordinator
-Remember: There is no upper limit on the number of positions you can indicate interest for.`;
+  const getRoleSpecificQuestions = (role: string) => {
+    const roleSpecificQuestions = questions.filter((q) => q.role === role);
+    return roleSpecificQuestions;
+  };
 
   return (
-    <div className="space-y-8">
-      {/* VP Role Consideration Banner */}
-      <div className="flex gap-4 rounded-lg border border-solid border-orange/50 bg-orange/30 p-4">
-        <div className="mx-2 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-orangeText/20">
-          <Crown className="h-4 w-4 text-orangeText" />
-        </div>
+    <div className="space-y-10">
+      <div className="flex flex-col gap-3">
+        {/* VP Role Consideration Banner */}
+        <div className="flex gap-4 rounded-lg border border-solid border-orange/50 bg-orange/30 p-4">
+          <div className="mx-2 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-orangeText/20">
+            <Crown className="h-4 w-4 text-orangeText" />
+          </div>
 
-        <div className="flex-1">
-          <p className="font-semibold text-orangeText">
-            VP Role Consideration:
-          </p>
-          <p className="text-sm text-orange">
-            If you are applying for a VP Role, we will also consider you for an
-            exec role in the same sub-team. Make sure to clearly indicate your
-            preferences!
-          </p>
+          <div className="flex-1">
+            <p className="font-semibold text-orangeText">
+              VP Role Consideration:
+            </p>
+            <p className="text-sm text-orange">
+              If you are applying for a VP Role, we will also consider you for
+              an exec role in the same sub-team. Make sure to clearly indicate
+              your preferences!
+            </p>
+          </div>
+        </div>
+        {/* Info about Overlapping Questions Banner */}
+        <div className="flex gap-4 rounded-lg border border-solid border-aqua/50 bg-aqua/30 p-4">
+          <div className="mx-2 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-aquaTextPrimary/20">
+            <InfoIcon className="h-4 w-4 text-aquaTextPrimary" />
+          </div>
+
+          <div className="flex-1">
+            <p className="font-semibold text-aquaTextPrimary">
+              Duplicate Questions:
+            </p>
+            <p className="text-sm text-aquaTextSecondary">
+              If any roles have overlapping questions, please only answer one
+              and put &apos;N/A&apos; for the overlapping
+            </p>
+          </div>
         </div>
       </div>
 
       {/* Position Preferences Card */}
-      <div className="rounded-lg border-0.5 border-solid border-white/20 bg-slateBlue p-6">
-        <div className="mb-4 flex items-center">
+      <div className="mb-5 flex flex-col gap-3">
+        <div className="flex items-center">
           <Users className="mr-2 h-5 w-5 text-lighterBlue" />
           <h2 className="text-xl font-semibold text-white">
             Position Preferences
           </h2>
         </div>
-
-        <div className="mb-4">
-          <label className="mb-2 block text-sm font-medium text-white">
-            Which positions are you interested in?{" "}
-            <span className="text-red">*</span>
-          </label>
-          <p className="mb-3 text-sm text-grey2">
-            Please list (and number) in order of preference, with 1 being the
-            position you are most interested in.
-          </p>
-          <TextArea
-            id={positionQuestion?.id || "positionPreferences"}
-            name={`questionAnswers.${
-              positionQuestion?.id || "positionPreferences"
-            }`}
-            placeholder={positionPreferencesPlaceholder}
-            value={
-              formik.values.questionAnswers[
-                positionQuestion?.id || "positionPreferences"
-              ] || ""
-            }
-            onChange={(e) =>
-              formik.setFieldValue(
-                `questionAnswers.${
-                  positionQuestion?.id || "positionPreferences"
-                }`,
-                e.target.value,
-              )
-            }
-            onBlur={formik.handleBlur}
-            rows={8}
-            background="bg-white/10"
-          />
-        </div>
+        <p className="mb-2 block text-md text-white">
+          Please select <b>at least 1 and up to 3</b> positions you are
+          interested in, and answer the corresponding questions.
+        </p>
       </div>
+      {positionPreferences.map((pos, i) => {
+        const selectedRole = formik.values.rolesApplyingFor[i];
+        const roleQuestions = selectedRole
+          ? getRoleSpecificQuestions(selectedRole)
+          : [];
+        return (
+          <div
+            key={i}
+            className="mb-4 rounded-lg border-0.5 border-solid border-white/20 bg-slateBlue px-8 pb-8 pt-6"
+          >
+            <p className="mb-2 block text-md font-semibold text-white">
+              Position Preference #{i + 1}{" "}
+              {i === 0 && <span className="text-red">*</span>}
+            </p>
+            <Dropdown
+              id={`role_choice_${i}`}
+              name={`rolesApplyingFor[${i}]`}
+              placeholder={`Select position #${i + 1}`}
+              options={roles || []}
+              value={selectedRole || ""}
+              onChange={(e) => handlePositionChange(e.target.value, i)}
+              background="bg-white/10"
+            />
+            {/* render specific questions for each role if they exists */}
+            {formik.values.rolesApplyingFor[i] &&
+              roleQuestions.length > 0 &&
+              roleQuestions.map((q, index) => (
+                <div key={index} className={`${index === 0 ? "pt-10" : ""}`}>
+                  <RenderDynamicQuestion formik={formik} question={q} />
+                </div>
+              ))}
+          </div>
+        );
+      })}
+      {/* dynamic error message if inputs are invalid */}
+      {positionError && (
+        <InputFeedback state="error">{positionError}</InputFeedback>
+      )}
     </div>
   );
 }

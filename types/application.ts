@@ -1,34 +1,49 @@
 export interface ApplicationFormValues {
-  // Personal Information
-  uwEmail: string;
-  personalEmail: string;
-  fullName: string;
-
-  // Academic Information
-  program: string;
-  academicTerm: string;
-  location: string;
-
-  // Club Experience
-  previousMember: boolean;
-  previousExperience: string;
-
   // Resume
   resumeUrl: string;
-
   // Dynamic questions
-  questionAnswers: Record<string, any>;
+  roleQuestionAnswers: {
+    [role: string]: {
+      [questionId: string]: string | string[];
+    };
+  };
+  rolesApplyingFor: string[];
 }
 
+export type Role =
+  | "Events Exec"
+  | "Events Co-VP"
+  | "Design Exec"
+  | "Education Exec"
+  | "Internal Exec"
+  | "Outreach Exec"
+  | "Outreach Co-VP"
+  | "Development Exec"
+  | "Development Co-VP"
+  | "Social Media Exec"
+  | "Social Media VP"
+  | "general"
+  | "supplementary";
+
+export type QuestionType =
+  | "text"
+  | "textarea"
+  | "multiple_choice"
+  | "file_upload"
+  | "checkbox"
+  | "date"
+  | "number";
+
 export interface Question {
-  id: string;
-  type: string;
+  id: string; // unique identifier for question
+  role: Role;
+  type: QuestionType;
   question: string;
-  required: boolean;
+  required?: boolean;
   order: number;
-  maxLength?: number;
-  options?: string[];
-  acceptedTypes?: string[];
+  maxLength?: number; // only valid for "text" or "textarea"
+  options?: string[]; // only valid for "multiple_choice" or "checkbox"
+  acceptedTypes?: string[]; // only valid for "file_upload"
   placeholder?: string;
   helpText?: string;
 }

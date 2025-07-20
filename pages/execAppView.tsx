@@ -1,23 +1,35 @@
 import { getAllAppsByTerm, getAllTerms } from "@/utils/apiCalls";
-import { Check, Download, ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  Check,
+  Download,
+  ChevronLeft,
+  ChevronRight,
+  NotebookPen,
+} from "lucide-react";
 import { Poppins } from "next/font/google";
 import { useEffect, useState } from "react";
 import LoadingSpinner from "@/components/UI/LoadingSpinner";
+import { MAX_ALLOWED_ROLES_TO_APPLY } from "@/constants/application";
 
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
 });
 
-interface question {
+interface Question {
   id: string;
+  role: string;
   question: string;
+}
+
+interface QuestionByRole {
+  [role: string]: Question[];
 }
 
 interface TermData {
   id: string;
   termName: string;
-  questions: question[];
+  questions: Question[];
 }
 
 interface ExecApp {
@@ -30,21 +42,27 @@ interface ExecApp {
   termApplyingFor: {
     termName: string;
   };
-  academicInfo: {
-    program: string;
-    academicTerm: string;
-    location: string;
+  rolesApplyingFor: string[];
+  roleQuestionAnswers: {
+    [role: string]: {
+      [questionId: string]: string | string[];
+    };
   };
-  clubExperience: {
-    previousMember: boolean;
-    previousExperience: string;
-  };
-  personalInfo: {
-    uwEmail: string;
-    personalEmail: string;
-    fullName: string;
-  };
-  questionAnswers: any;
+  // academicInfo: {
+  //   program: string;
+  //   academicTerm: string;
+  //   location: string;
+  // };
+  // clubExperience: {
+  //   previousMember: boolean;
+  //   previousExperience: string;
+  // };
+  // personalInfo: {
+  //   uwEmail: string;
+  //   personalEmail: string;
+  //   fullName: string;
+  // };
+  // questionAnswers: any;
 }
 
 export default function ExecAppView() {
@@ -110,6 +128,7 @@ export default function ExecAppView() {
       console.log("Current term or term applications are undefined");
       return null;
     }
+    // defined hard coded headers
     const headers = [
       "Application ID",
       "Full Name",
@@ -122,30 +141,107 @@ export default function ExecAppView() {
       "Resume URL",
       "Previous Member",
       "Previous Experience",
+      "Role Preferences (in order)",
     ];
-    // add each question as header
-    currentTerm.questions.forEach((q) => {
-      headers.push(q.question);
-    });
+
+    const maxQuetionsPerRoleRank = new Array(MAX_ALLOWED_ROLES_TO_APPLY).fill(
+      0,
+    );
+
+    // add role specific headers for each ranked role
+    for (let i = 0; i < MAX_ALLOWED_ROLES_TO_APPLY; i++) {
+      // Get all unique roles for role ranked {i}
+      const allRoles = Array.from(
+        new Set(
+          termApps
+            .map((app) => app.rolesApplyingFor?.[i])
+            .filter((role): role is string => Boolean(role)),
+        ),
+      );
+
+      const questionsByRole: QuestionByRole = {};
+      // group questions by role
+      allRoles.forEach((role) => {
+        const roleQuestions = currentTerm.questions.filter(
+          (q) => q.role === role,
+        );
+        questionsByRole[role] = roleQuestions;
+      });
+
+      // calculate max number of qeustions possible that can appear in role rank
+      let maxQuestions = 0;
+      for (const role in questionsByRole) {
+        maxQuestions = Math.max(questionsByRole[role].length, maxQuestions);
+      }
+      maxQuetionsPerRoleRank[i] = maxQuestions;
+
+      // add max question headers
+      if (maxQuestions) {
+        headers.push(`Role ${i + 1}`);
+        for (let j = 0; j < maxQuestions; j++) {
+          headers.push(`Role ${i + 1} - Q${j + 1}`);
+          headers.push(`Role ${i + 1} - Q${j + 1} Answer`);
+        }
+      }
+    }
+    // add supplementary question headers
+    const supplementaryQuestions = currentTerm.questions.filter(
+      (q) => q.role === "supplementary",
+    );
+    supplementaryQuestions.forEach((q) => headers.push(q.question));
+
+    // formulate applicant data info
     const csvData = termApps.map((app) => {
       const row = [
         app._id,
-        app.personalInfo.fullName,
-        app.personalInfo.uwEmail,
-        app.personalInfo.personalEmail,
-        app.academicInfo.program,
-        app.academicInfo.academicTerm,
-        app.academicInfo.location,
+        app.roleQuestionAnswers.general.full_name,
+        app.roleQuestionAnswers.general.waterloo_email,
+        app.roleQuestionAnswers.general.personal_email,
+        app.roleQuestionAnswers.general.program,
+        app.roleQuestionAnswers.general.academic_term,
+        app.roleQuestionAnswers.general.location,
         app.status,
         app.resumeUrl,
-        app.clubExperience.previousMember,
-        app.clubExperience.previousExperience,
+        app.roleQuestionAnswers.general.previous_member,
+        app.roleQuestionAnswers.general.club_experience,
+        app.rolesApplyingFor.join(", "),
       ];
-      // add answers to term questions if they exist
-      currentTerm.questions.forEach((q) => {
-        const answer = app.questionAnswers[q.id] || "";
-        row.push(answer);
+
+      // add role specific question answer pair for each ranked role
+      for (let i = 0; i < MAX_ALLOWED_ROLES_TO_APPLY; i++) {
+        const roleApplyingFor = app.rolesApplyingFor?.[i];
+        if (roleApplyingFor) {
+          row.push(roleApplyingFor);
+          const roleQuestions = currentTerm.questions.filter(
+            (q) => q.role === roleApplyingFor,
+          );
+          // add question answer pair for role specific questions
+          for (let j = 0; j < maxQuetionsPerRoleRank[i]; j++) {
+            const question = roleQuestions?.[j];
+            if (question) {
+              row.push(question.question);
+              row.push(
+                app.roleQuestionAnswers[roleApplyingFor]?.[question.id] ?? "",
+              );
+            } else {
+              row.push(""); // empty question
+              row.push(""); // empty ans
+            }
+          }
+        } else {
+          row.push(""); // empty role
+          for (let j = 0; j < maxQuetionsPerRoleRank[i]; j++) {
+            row.push(""); // empty question
+            row.push(""); // empty ans
+          }
+        }
+      }
+
+      // add supplementary question answer data
+      supplementaryQuestions.forEach((q, i) => {
+        row.push(app.roleQuestionAnswers.supplementary?.[q.id] || "");
       });
+
       return row;
     });
 
@@ -229,7 +325,7 @@ export default function ExecAppView() {
           {/* Total Applications Card */}
           <div className="flex w-fit items-center gap-4 rounded-lg border-[1px] border-[#7CA3DE] bg-[#CADAF3] px-4 py-2 sm:px-6 sm:py-4">
             <div className="rounded-sm bg-[#5c7fe1] p-3">
-              <img src="/execAppView/checklist_icon.svg" alt="checklist icon" />
+              <NotebookPen className="h-6 w-6 text-white" />
             </div>
             <div className="font-medium text-[#314077]">
               <div className="text-xl sm:text-lg lg:text-xl">
@@ -290,13 +386,13 @@ export default function ExecAppView() {
                   {app._id}
                 </p>
                 <div className="col-span-1 flex flex-col items-start break-all">
-                  <span>{app.personalInfo.fullName}</span>
+                  <span>{app.roleQuestionAnswers.general.full_name}</span>
                   <span className="text-black/70">
-                    {app.personalInfo.uwEmail}
+                    {app.roleQuestionAnswers.general.waterloo_email}
                   </span>
                 </div>
                 <p className="col-span-1 flex items-center break-all">
-                  {app.academicInfo.program}
+                  {app.roleQuestionAnswers.general.program}
                 </p>
                 <p className="col-span-1 flex items-center break-all">
                   {app.submittedAt ? formatDate(app.submittedAt) : app.status}
