@@ -19,6 +19,7 @@ export default function Positions({
   isNextValid,
 }: PositionsProps) {
   const [positionError, setPositionError] = useState("");
+  const [formTouched, setFormTouched] = useState(false);
 
   const roles = Array.from(
     new Set([
@@ -117,8 +118,19 @@ export default function Positions({
   };
 
   useEffect(() => {
-    isNextValid(isStepValid());
-  }, [formik.values]);
+    // Only validate and update next button state if the form has been touched
+    // or if there are already roles selected (for when returning to this step)
+    const hasRoles = formik.values.rolesApplyingFor.some(
+      (role) => role && role !== "None",
+    );
+    if (formTouched || hasRoles) {
+      isNextValid(isStepValid());
+    } else {
+      // Initially disable next button without showing an error
+      isNextValid(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formik.values, formTouched]);
 
   const positionPreferences = Array.from(
     { length: MAX_ALLOWED_ROLES_TO_APPLY },
@@ -127,6 +139,9 @@ export default function Positions({
 
   // update roleApplyingFor accordingly when user changes dropdown role choice
   const handlePositionChange = (val: any, index: number) => {
+    // Mark the form as touched when user makes a selection
+    setFormTouched(true);
+
     const roles = formik.values.rolesApplyingFor || [];
     const updatedRoles = [...roles];
     const len = updatedRoles.length;
@@ -139,6 +154,13 @@ export default function Positions({
       updatedRoles.push(val);
     }
     formik.setFieldValue("rolesApplyingFor", updatedRoles);
+  };
+
+  // Handle form interaction for dynamic questions
+  const handleFieldInteraction = () => {
+    if (!formTouched) {
+      setFormTouched(true);
+    }
   };
 
   const getRoleSpecificQuestions = (role: string) => {
@@ -225,14 +247,18 @@ export default function Positions({
               roleQuestions.length > 0 &&
               roleQuestions.map((q, index) => (
                 <div key={index} className={`${index === 0 ? "pt-10" : ""}`}>
-                  <RenderDynamicQuestion formik={formik} question={q} />
+                  <RenderDynamicQuestion
+                    formik={formik}
+                    question={q}
+                    onInteract={handleFieldInteraction}
+                  />
                 </div>
               ))}
           </div>
         );
       })}
       {/* dynamic error message if inputs are invalid */}
-      {positionError && (
+      {positionError && formTouched && (
         <InputFeedback state="error">{positionError}</InputFeedback>
       )}
     </div>

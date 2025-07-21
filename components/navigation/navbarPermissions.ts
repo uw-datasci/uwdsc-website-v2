@@ -8,14 +8,14 @@ export const NAVBAR_ROUTES = {
   USER: [
     { label: "Home", route: "/" },
     { label: "Team", route: "/team" },
-    // { label: "Apply", route: "/apply" },
+    { label: "Apply", route: "/apply" },
     { label: "Check In", route: "/memCheckIn" },
     { label: "Calendar", route: "/calendar" },
   ],
   ADMIN: [
     { label: "Home", route: "/" },
     { label: "Team", route: "/team" },
-    // { label: "Apply", route: "/apply" },
+    { label: "Apply", route: "/apply" },
     { label: "Check In", route: "/memCheckIn" },
     { label: "Calendar", route: "/calendar" },
     {
@@ -30,7 +30,7 @@ export const NAVBAR_ROUTES = {
   EXEC: [
     { label: "Home", route: "/" },
     { label: "Team", route: "/team" },
-    // { label: "Apply", route: "/apply" },
+    { label: "Apply", route: "/apply" },
     { label: "Check In", route: "/memCheckIn" },
     { label: "Calendar", route: "/calendar" },
     {

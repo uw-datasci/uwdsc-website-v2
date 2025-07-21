@@ -180,7 +180,6 @@ export default function ApplyPage() {
         NO_PREV_EXPERIENCE,
       );
     }
-
     await saveSectionAndNext();
   };
 

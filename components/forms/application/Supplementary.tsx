@@ -18,6 +18,7 @@ export default function Supplementary({
   isNextValid,
 }: SupplementaryProps) {
   const [supplementaryError, setSupplementaryError] = useState("");
+  const [formTouched, setFormTouched] = useState(false);
 
   // Filter for supplementary questions
   const supplementaryQuestions = questions.filter(
@@ -82,8 +83,28 @@ export default function Supplementary({
   };
 
   useEffect(() => {
-    isNextValid(isStepValid());
-  }, [formik.values, formik.errors]);
+    // Check if form already has values (e.g., if user is returning to this step)
+    const hasResumeUrl =
+      formik.values.resumeUrl && formik.values.resumeUrl.trim() !== "";
+    const hasSupplementaryAnswers =
+      formik.values.roleQuestionAnswers?.supplementary &&
+      Object.keys(formik.values.roleQuestionAnswers.supplementary).length > 0;
+
+    if (formTouched || hasResumeUrl || hasSupplementaryAnswers) {
+      isNextValid(isStepValid());
+    } else {
+      // Initially disable next button without showing an error
+      isNextValid(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formik.values, formik.errors, formTouched]);
+
+  // Mark the form as touched when user interacts with any field
+  const handleFieldInteraction = () => {
+    if (!formTouched) {
+      setFormTouched(true);
+    }
+  };
 
   return (
     <div className="space-y-10">
@@ -103,11 +124,12 @@ export default function Supplementary({
                 key={i}
                 formik={formik}
                 question={question}
+                onInteract={handleFieldInteraction}
               />
             ))}
           </div>
           {/* dynamic error message if inputs are invalid */}
-          {supplementaryError && (
+          {supplementaryError && formTouched && (
             <InputFeedback classes="mt-7" state="error">
               {supplementaryError}
             </InputFeedback>
@@ -132,7 +154,10 @@ export default function Supplementary({
             type="url"
             placeholder="https://drive.google.com/your-resume"
             value={formik.values.resumeUrl}
-            onChange={formik.handleChange}
+            onChange={(e) => {
+              handleFieldInteraction();
+              formik.handleChange(e);
+            }}
             onBlur={formik.handleBlur}
             classes="bg-white/10"
           />

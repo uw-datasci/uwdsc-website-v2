@@ -9,15 +9,20 @@ import { FormikProps } from "formik";
 interface DynamicQuestionProps {
   formik: FormikProps<ApplicationFormValues>;
   question: Question;
+  onInteract?: () => void;
 }
 export default function RenderDynamicQuestion({
   formik,
   question,
+  onInteract,
 }: DynamicQuestionProps) {
   const value =
     formik.values.roleQuestionAnswers[question.role]?.[question.id] || "";
 
   const handleQuestionChange = (value: any) => {
+    if (onInteract) {
+      onInteract();
+    }
     formik.setFieldValue(
       `roleQuestionAnswers.${question.role}.${question.id}`,
       value,
@@ -34,7 +39,10 @@ export default function RenderDynamicQuestion({
           </p>
           <p className="mb-3 text-sm text-grey2">{question.helpText}</p>
           <TextInput
-            id={`${question.id.replace(/\s+/g, "-")}-${question.role.replace(/\s+/g, "-")}`}
+            id={`${question.id.replace(/\s+/g, "-")}-${question.role.replace(
+              /\s+/g,
+              "-",
+            )}`}
             name={`roleQuestionAnswers.${question.role}.${question.id}`}
             type="text"
             placeholder={question.placeholder || ""}
@@ -67,7 +75,10 @@ export default function RenderDynamicQuestion({
           </p>
           <p className="mb-3 text-sm text-grey2">{question.helpText}</p>
           <TextArea
-            id={`${question.id.replace(/\s+/g, "-")}-${question.role.replace(/\s+/g, "-")}`}
+            id={`${question.id.replace(/\s+/g, "-")}-${question.role.replace(
+              /\s+/g,
+              "-",
+            )}`}
             name={`roleQuestionAnswers.${question.role}.${question.id}`}
             placeholder={question.placeholder || ""}
             value={String(value)}
@@ -100,7 +111,10 @@ export default function RenderDynamicQuestion({
           </p>
           <p className="mb-3 text-sm text-grey2">{question.helpText}</p>
           <Dropdown
-            id={`${question.id.replace(/\s+/g, "-")}-${question.role.replace(/\s+/g, "-")}`}
+            id={`${question.id.replace(/\s+/g, "-")}-${question.role.replace(
+              /\s+/g,
+              "-",
+            )}`}
             name={`roleQuestionAnswers.${question.role}.${question.id}`}
             placeholder={question.placeholder || "Select an option"}
             options={question.options || []}
@@ -120,7 +134,10 @@ export default function RenderDynamicQuestion({
           </p>
           <p className="mb-3 text-sm text-grey2">{question.helpText}</p>
           <MultipleDropdown
-            id={`${question.id.replace(/\s+/g, "-")}-${question.role.replace(/\s+/g, "-")}`}
+            id={`${question.id.replace(/\s+/g, "-")}-${question.role.replace(
+              /\s+/g,
+              "-",
+            )}`}
             name={`roleQuestionAnswers.${question.role}.${question.id}`}
             placeholder={question.placeholder || "Select options"}
             options={question.options || []}
