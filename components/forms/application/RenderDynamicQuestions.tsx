@@ -34,14 +34,15 @@ export default function RenderDynamicQuestion({
   // Helper function to check if question should be rendered based on Events Co-VP/Exec logic
   const shouldRenderQuestion = () => {
     // Check if this is an Events Co-VP or Events Exec option A/B question
-    const isEventsCoVPOptionA = question.id === "Events Co-VP_q4a";
-    const isEventsCoVPOptionB = question.id === "Events Co-VP_q4b";
+    // Note: Question IDs still use "Events VP" format, but role field is now "Events Co-VP"
+    const isEventsCoVPOptionA = question.id === "Events VP_q4a";
+    const isEventsCoVPOptionB = question.id === "Events VP_q4b";
     const isEventsExecOptionA = question.id === "Events Exec_q3a";
     const isEventsExecOptionB = question.id === "Events Exec_q3b";
 
     if (isEventsCoVPOptionA || isEventsCoVPOptionB) {
       const selectedOption =
-        formik.values.roleQuestionAnswers["Events Co-VP"]?.["Events Co-VP_q3"];
+        formik.values.roleQuestionAnswers["Events Co-VP"]?.["Events VP_q3"];
       if (isEventsCoVPOptionA) {
         return selectedOption === "Option A - Leadership Experience Question";
       }
@@ -71,7 +72,8 @@ export default function RenderDynamicQuestion({
   // Helper function to get filtered options for Events Co-VP/Exec multiple choice questions
   const getFilteredOptions = () => {
     const selectedRoles = formik.values.rolesApplyingFor || [];
-    const isEventsCoVPMultipleChoice = question.id === "Events Co-VP_q3";
+    // Note: Question IDs still use "Events VP" format, but role field is now "Events Co-VP"
+    const isEventsCoVPMultipleChoice = question.id === "Events VP_q3";
     const isEventsExecMultipleChoice = question.id === "Events Exec_q2";
 
     if (!isEventsCoVPMultipleChoice && !isEventsExecMultipleChoice) {
@@ -101,7 +103,7 @@ export default function RenderDynamicQuestion({
 
     if (isEventsExecMultipleChoice) {
       const eventsCoVPSelection =
-        formik.values.roleQuestionAnswers["Events Co-VP"]?.["Events Co-VP_q3"];
+        formik.values.roleQuestionAnswers["Events Co-VP"]?.["Events VP_q3"];
       if (eventsCoVPSelection === "Option A - Leadership Experience Question") {
         return ["Option B - Event Planning Experience Question"];
       } else if (

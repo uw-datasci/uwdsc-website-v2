@@ -81,10 +81,9 @@ export default function Positions({
     const hasEventsExec = currentRolesWithoutNone.includes("Events Exec");
 
     if (hasEventsCoVP && hasEventsExec) {
+      // Note: Question IDs still use "Events VP" format, but role field is now "Events Co-VP"
       const eventsCoVPSelection =
-        formik.values.roleQuestionAnswers?.["Events Co-VP"]?.[
-          "Events Co-VP_q3"
-        ];
+        formik.values.roleQuestionAnswers?.["Events Co-VP"]?.["Events VP_q3"];
       const eventsExecSelection =
         formik.values.roleQuestionAnswers?.["Events Exec"]?.["Events Exec_q2"];
 
@@ -111,8 +110,8 @@ export default function Positions({
 
       return roleRequiredQuestions.every((question) => {
         // Special handling for Events Co-VP and Events Exec conditional questions
-        const isEventsCoVPOptionA = question.id === "Events Co-VP_q4a";
-        const isEventsCoVPOptionB = question.id === "Events Co-VP_q4b";
+        const isEventsCoVPOptionA = question.id === "Events VP_q4a";
+        const isEventsCoVPOptionB = question.id === "Events VP_q4b";
         const isEventsExecOptionA = question.id === "Events Exec_q3a";
         const isEventsExecOptionB = question.id === "Events Exec_q3b";
 
@@ -120,7 +119,7 @@ export default function Positions({
         if (isEventsCoVPOptionA || isEventsCoVPOptionB) {
           const selectedOption =
             formik.values.roleQuestionAnswers?.["Events Co-VP"]?.[
-              "Events Co-VP_q3"
+              "Events VP_q3"
             ];
           if (
             isEventsCoVPOptionA &&
@@ -203,8 +202,9 @@ export default function Positions({
 
   // Effect to clear option A/B answers when Events Co-VP/Exec option selection changes
   useEffect(() => {
+    // Note: Question IDs still use "Events VP" format, but role field is now "Events Co-VP"
     const eventsCoVPSelection =
-      formik.values.roleQuestionAnswers?.["Events Co-VP"]?.["Events Co-VP_q3"];
+      formik.values.roleQuestionAnswers?.["Events Co-VP"]?.["Events VP_q3"];
     const eventsExecSelection =
       formik.values.roleQuestionAnswers?.["Events Exec"]?.["Events Exec_q2"];
 
@@ -215,9 +215,9 @@ export default function Positions({
 
       if (eventsCoVPSelection === "Option A - Leadership Experience Question") {
         // Clear Option B answer if it exists
-        if (currentCoVPAnswers["Events Co-VP_q4b"]) {
+        if (currentCoVPAnswers["Events VP_q4b"]) {
           formik.setFieldValue(
-            "roleQuestionAnswers.Events Co-VP.Events Co-VP_q4b",
+            "roleQuestionAnswers.Events Co-VP.Events VP_q4b",
             "",
           );
         }
@@ -225,9 +225,9 @@ export default function Positions({
         eventsCoVPSelection === "Option B - Event Planning Experience Question"
       ) {
         // Clear Option A answer if it exists
-        if (currentCoVPAnswers["Events Co-VP_q4a"]) {
+        if (currentCoVPAnswers["Events VP_q4a"]) {
           formik.setFieldValue(
-            "roleQuestionAnswers.Events Co-VP.Events Co-VP_q4a",
+            "roleQuestionAnswers.Events Co-VP.Events VP_q4a",
             "",
           );
         }
@@ -261,7 +261,7 @@ export default function Positions({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
-    formik.values.roleQuestionAnswers?.["Events Co-VP"]?.["Events Co-VP_q3"],
+    formik.values.roleQuestionAnswers?.["Events Co-VP"]?.["Events VP_q3"],
     formik.values.roleQuestionAnswers?.["Events Exec"]?.["Events Exec_q2"],
   ]);
 
