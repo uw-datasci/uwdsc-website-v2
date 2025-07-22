@@ -1,8 +1,8 @@
 export const STEP_NAMES = [
   "",
   "Personal Details",
+  "General",
   "Positions",
-  "Experience",
   "Supplementary Information",
 ];
 
@@ -13,9 +13,10 @@ export const PERSONAL_FIELDS = [
   "program",
   "academic_term",
   "location",
+  "club_experience",
 ];
 
-export const EXPERIENCE_FIELDS = ["skills", "motivation"];
+export const GENERAL_FIELDS = ["skills", "motivation"];
 
 export const BLANK_APPLICATION = {
   rolesApplyingFor: [],
@@ -27,8 +28,7 @@ export const BLANK_APPLICATION = {
       program: "",
       academic_term: "",
       location: "",
-      previous_member: "",
-      club_experience: "",
+      club_experience: false,
       skills: "",
       motivation: "",
     },
@@ -36,7 +36,5 @@ export const BLANK_APPLICATION = {
   resumeUrl: "",
   status: "draft",
 };
-
-export const NO_PREV_EXPERIENCE = "N/A";
 
 export const MAX_ALLOWED_ROLES_TO_APPLY = 3;

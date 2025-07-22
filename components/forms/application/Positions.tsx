@@ -261,7 +261,9 @@ export default function Positions({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     formik.values.roleQuestionAnswers?.["Events Co-VP"]?.["Events VP_q3"],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     formik.values.roleQuestionAnswers?.["Events Exec"]?.["Events Exec_q2"],
   ]);
 

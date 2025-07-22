@@ -15,7 +15,7 @@ import {
 // Form Components
 import AppIntro from "@/components/forms/application/AppIntro";
 import PersonalDetails from "@/components/forms/application/PersonalDetails";
-import Experience from "@/components/forms/application/Experience";
+import General from "@/components/forms/application/General";
 import Positions from "@/components/forms/application/Positions";
 import Supplementary from "@/components/forms/application/Supplementary";
 import Submitted from "@/components/forms/application/Submitted";
@@ -30,8 +30,7 @@ import {
   PERSONAL_FIELDS,
   STEP_NAMES,
   BLANK_APPLICATION,
-  NO_PREV_EXPERIENCE,
-  EXPERIENCE_FIELDS,
+  GENERAL_FIELDS,
 } from "@/constants/application";
 
 const validationSchema = Yup.object({
@@ -53,17 +52,11 @@ const validationSchema = Yup.object({
       academic_term: Yup.string().required("Academic Term is required"),
       location: Yup.string().required("Location is required"),
 
-      previous_member: Yup.string().required(
-        "Please indicate if you've been a previous member.",
-      ), // Ensure this radio button is selected
-
-      // club_experience needs to be required conditionally
-      club_experience: Yup.string().when("previous_member", {
-        is: (val: string) => val === "true", // If previous_member is "true"
-        then: (schema) =>
-          schema.required("Please describe your previous experience."), // Then club_experience is required
-        otherwise: (schema) => schema.equals([NO_PREV_EXPERIENCE]), // Otherwise, it must be the NO_PREV_EXPERIENCE constant
-      }),
+      club_experience: Yup.boolean().test(
+        "is-defined",
+        "Please indicate if you've been a member of the UW Data Science Club before.",
+        (value) => value !== undefined && value !== null,
+      ),
 
       skills: Yup.string().required("Skills is required"),
       motivation: Yup.string().required("Motivation is required"),
@@ -81,7 +74,7 @@ export default function ApplyPage() {
   const [currentTerm, setCurrentTerm] = useState<Term | null>(null);
   const [isApplicationsOpen, setIsApplicationsOpen] = useState(false);
   const [loadingTerm, setLoadingTerm] = useState(true);
-  const [currentStep, setCurrentStep] = useState(0); // 0: intro, 1: personal, 2: experience, 3: positions, 4: supplementary
+  const [currentStep, setCurrentStep] = useState(0); // 0: intro, 1: personal, 2: general, 3: positions, 4: supplementary
   const [appExists, setHasExistingApplication] = useState(false);
 
   const [isPositionsPageValid, setIsPositionsPageValid] = useState(false);
@@ -106,15 +99,18 @@ export default function ApplyPage() {
           ...generalPersonalErrors
         } = allGeneralErrors;
 
-        const hasEmptyPersonalFields = PERSONAL_FIELDS.some(
-          (field) =>
-            !generalPersonalAnswers[
-              field as keyof typeof generalPersonalAnswers
-            ] ||
+        const hasEmptyPersonalFields = PERSONAL_FIELDS.some((field) => {
+          const value =
             generalPersonalAnswers[
               field as keyof typeof generalPersonalAnswers
-            ] === "",
-        );
+            ];
+          // For boolean fields, check if they are undefined/null, not falsy
+          if (typeof value === "boolean") {
+            return value === undefined || value === null;
+          }
+          // For string fields, check if empty or undefined
+          return !value || value === "";
+        });
 
         const hasPersonalErrors = PERSONAL_FIELDS.some((field) =>
           Boolean(
@@ -122,43 +118,33 @@ export default function ApplyPage() {
           ),
         );
 
-        const clubExperienceIncomplete =
-          !generalPersonalAnswers.club_experience ||
-          generalPersonalAnswers.club_experience === "" ||
-          (generalPersonalAnswers.previous_experience === "true" &&
-            !generalPersonalAnswers.club_experience);
+        return !hasEmptyPersonalFields && !hasPersonalErrors;
 
-        return (
-          !hasEmptyPersonalFields &&
-          !hasPersonalErrors &&
-          !clubExperienceIncomplete
-        );
-
-      case 2: // Positions
-        // handled with IsPositionsPageValid
-        return false;
-
-      case 3: // Experience
-        const experienceAnswers = {
+      case 2: // General
+        const generalAnswers = {
           skills: allGeneralAnswers.skills,
           motivation: allGeneralAnswers.motivation,
         };
 
-        const experienceErrors = {
+        const generalErrors = {
           skills: allGeneralErrors.skills,
           motivation: allGeneralErrors.motivation,
         };
 
-        const hasEmptyExperienceAnswers = EXPERIENCE_FIELDS.some(
+        const hasEmptyGeneralAnswers = GENERAL_FIELDS.some(
           (field) =>
-            !experienceAnswers[field as keyof typeof experienceAnswers] ||
-            experienceAnswers[field as keyof typeof experienceAnswers] === "",
+            !generalAnswers[field as keyof typeof generalAnswers] ||
+            generalAnswers[field as keyof typeof generalAnswers] === "",
         );
-        const hasExperienceErrors = EXPERIENCE_FIELDS.some((field) =>
-          Boolean(experienceErrors[field as keyof typeof experienceErrors]),
+        const hasGeneralErrors = GENERAL_FIELDS.some((field) =>
+          Boolean(generalErrors[field as keyof typeof generalErrors]),
         );
 
-        return !hasEmptyExperienceAnswers && !hasExperienceErrors;
+        return !hasEmptyGeneralAnswers && !hasGeneralErrors;
+
+      case 3: // Positions
+        // handled with IsPositionsPageValid
+        return false;
 
       case 4: // Supplementary
         // handled with setIsSupplementaryPageValid
@@ -170,16 +156,6 @@ export default function ApplyPage() {
   };
 
   const handleNext = async () => {
-    // Set previousExperience to NO_PREV_EXPERIENCE if previousMember is false
-    if (
-      currentStep === 1 &&
-      formik.values.roleQuestionAnswers?.general?.previous_member === "false"
-    ) {
-      formik.setFieldValue(
-        "roleQuestionAnswers.general.club_experience",
-        NO_PREV_EXPERIENCE,
-      );
-    }
     await saveSectionAndNext();
   };
 
@@ -375,6 +351,8 @@ export default function ApplyPage() {
           <PersonalDetails formik={formik} questions={currentTerm.questions} />
         );
       case 2:
+        return <General questions={currentTerm.questions} formik={formik} />;
+      case 3:
         return (
           <Positions
             formik={formik}
@@ -382,8 +360,6 @@ export default function ApplyPage() {
             isNextValid={setIsPositionsPageValid}
           />
         );
-      case 3:
-        return <Experience questions={currentTerm.questions} formik={formik} />;
       case 4:
         return (
           <Supplementary
@@ -527,7 +503,7 @@ export default function ApplyPage() {
                         disabled={
                           currentStep === 4
                             ? !isSupplementaryPageValid
-                            : currentStep === 2
+                            : currentStep === 3
                             ? !isPositionsPageValid
                             : !isStepValid(currentStep)
                         }
@@ -539,7 +515,7 @@ export default function ApplyPage() {
                                   : "hover:scale-105 hover:font-semibold submit-button-hover"
                               }`
                             : isStepValid(currentStep) ||
-                              (currentStep === 2 && isPositionsPageValid)
+                              (currentStep === 3 && isPositionsPageValid)
                             ? "bg-white hover:bg-grey1 hover:shadow-lg"
                             : "bg-grey1 opacity-50 cursor-not-allowed hover:shadow-lg"
                         }`}
