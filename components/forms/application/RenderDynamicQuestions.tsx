@@ -31,21 +31,21 @@ export default function RenderDynamicQuestion({
     );
   };
 
-  // Helper function to check if question should be rendered based on Events VP/Exec logic
+  // Helper function to check if question should be rendered based on Events Co-VP/Exec logic
   const shouldRenderQuestion = () => {
-    // Check if this is an Events VP or Events Exec option A/B question
-    const isEventsVPOptionA = question.id === "Events VP_q4a";
-    const isEventsVPOptionB = question.id === "Events VP_q4b";
+    // Check if this is an Events Co-VP or Events Exec option A/B question
+    const isEventsCoVPOptionA = question.id === "Events Co-VP_q4a";
+    const isEventsCoVPOptionB = question.id === "Events Co-VP_q4b";
     const isEventsExecOptionA = question.id === "Events Exec_q3a";
     const isEventsExecOptionB = question.id === "Events Exec_q3b";
 
-    if (isEventsVPOptionA || isEventsVPOptionB) {
+    if (isEventsCoVPOptionA || isEventsCoVPOptionB) {
       const selectedOption =
-        formik.values.roleQuestionAnswers["Events VP"]?.["Events VP_q3"];
-      if (isEventsVPOptionA) {
+        formik.values.roleQuestionAnswers["Events Co-VP"]?.["Events Co-VP_q3"];
+      if (isEventsCoVPOptionA) {
         return selectedOption === "Option A - Leadership Experience Question";
       }
-      if (isEventsVPOptionB) {
+      if (isEventsCoVPOptionB) {
         return (
           selectedOption === "Option B - Event Planning Experience Question"
         );
@@ -68,26 +68,26 @@ export default function RenderDynamicQuestion({
     return true; // Render all other questions normally
   };
 
-  // Helper function to get filtered options for Events VP/Exec multiple choice questions
+  // Helper function to get filtered options for Events Co-VP/Exec multiple choice questions
   const getFilteredOptions = () => {
     const selectedRoles = formik.values.rolesApplyingFor || [];
-    const isEventsVPMultipleChoice = question.id === "Events VP_q3";
+    const isEventsCoVPMultipleChoice = question.id === "Events Co-VP_q3";
     const isEventsExecMultipleChoice = question.id === "Events Exec_q2";
 
-    if (!isEventsVPMultipleChoice && !isEventsExecMultipleChoice) {
+    if (!isEventsCoVPMultipleChoice && !isEventsExecMultipleChoice) {
       return question.options || [];
     }
 
-    // Check if both Events VP and Events Exec are selected
-    const hasEventsVP = selectedRoles.includes("Events VP");
+    // Check if both Events Co-VP and Events Exec are selected
+    const hasEventsCoVP = selectedRoles.includes("Events Co-VP");
     const hasEventsExec = selectedRoles.includes("Events Exec");
 
-    if (!hasEventsVP || !hasEventsExec) {
+    if (!hasEventsCoVP || !hasEventsExec) {
       return question.options || []; // No filtering needed if only one role is selected
     }
 
     // Get the other role's selection
-    if (isEventsVPMultipleChoice) {
+    if (isEventsCoVPMultipleChoice) {
       const eventsExecSelection =
         formik.values.roleQuestionAnswers["Events Exec"]?.["Events Exec_q2"];
       if (eventsExecSelection === "Option A - Leadership Experience Question") {
@@ -100,12 +100,12 @@ export default function RenderDynamicQuestion({
     }
 
     if (isEventsExecMultipleChoice) {
-      const eventsVPSelection =
-        formik.values.roleQuestionAnswers["Events VP"]?.["Events VP_q3"];
-      if (eventsVPSelection === "Option A - Leadership Experience Question") {
+      const eventsCoVPSelection =
+        formik.values.roleQuestionAnswers["Events Co-VP"]?.["Events Co-VP_q3"];
+      if (eventsCoVPSelection === "Option A - Leadership Experience Question") {
         return ["Option B - Event Planning Experience Question"];
       } else if (
-        eventsVPSelection === "Option B - Event Planning Experience Question"
+        eventsCoVPSelection === "Option B - Event Planning Experience Question"
       ) {
         return ["Option A - Leadership Experience Question"];
       }

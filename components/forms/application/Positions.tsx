@@ -76,22 +76,24 @@ export default function Positions({
       return false;
     }
 
-    // Special validation for Events VP and Events Exec
-    const hasEventsVP = currentRolesWithoutNone.includes("Events VP");
+    // Special validation for Events Co-VP and Events Exec
+    const hasEventsCoVP = currentRolesWithoutNone.includes("Events Co-VP");
     const hasEventsExec = currentRolesWithoutNone.includes("Events Exec");
 
-    if (hasEventsVP && hasEventsExec) {
-      const eventsVPSelection =
-        formik.values.roleQuestionAnswers?.["Events VP"]?.["Events VP_q3"];
+    if (hasEventsCoVP && hasEventsExec) {
+      const eventsCoVPSelection =
+        formik.values.roleQuestionAnswers?.["Events Co-VP"]?.[
+          "Events Co-VP_q3"
+        ];
       const eventsExecSelection =
         formik.values.roleQuestionAnswers?.["Events Exec"]?.["Events Exec_q2"];
 
       // Check if both have made a selection
-      if (eventsVPSelection && eventsExecSelection) {
+      if (eventsCoVPSelection && eventsExecSelection) {
         // They must select different options
-        if (eventsVPSelection === eventsExecSelection) {
+        if (eventsCoVPSelection === eventsExecSelection) {
           setPositionError(
-            "When applying for both Events VP and Events Exec, you must answer different options (A and B).",
+            "When applying for both Events Co-VP and Events Exec, you must answer different options (A and B).",
           );
           return false;
         }
@@ -108,24 +110,26 @@ export default function Positions({
       }
 
       return roleRequiredQuestions.every((question) => {
-        // Special handling for Events VP and Events Exec conditional questions
-        const isEventsVPOptionA = question.id === "Events VP_q4a";
-        const isEventsVPOptionB = question.id === "Events VP_q4b";
+        // Special handling for Events Co-VP and Events Exec conditional questions
+        const isEventsCoVPOptionA = question.id === "Events Co-VP_q4a";
+        const isEventsCoVPOptionB = question.id === "Events Co-VP_q4b";
         const isEventsExecOptionA = question.id === "Events Exec_q3a";
         const isEventsExecOptionB = question.id === "Events Exec_q3b";
 
         // Check if this is a conditional question that should be skipped
-        if (isEventsVPOptionA || isEventsVPOptionB) {
+        if (isEventsCoVPOptionA || isEventsCoVPOptionB) {
           const selectedOption =
-            formik.values.roleQuestionAnswers?.["Events VP"]?.["Events VP_q3"];
+            formik.values.roleQuestionAnswers?.["Events Co-VP"]?.[
+              "Events Co-VP_q3"
+            ];
           if (
-            isEventsVPOptionA &&
+            isEventsCoVPOptionA &&
             selectedOption !== "Option A - Leadership Experience Question"
           ) {
             return true; // Skip validation for this question
           }
           if (
-            isEventsVPOptionB &&
+            isEventsCoVPOptionB &&
             selectedOption !== "Option B - Event Planning Experience Question"
           ) {
             return true; // Skip validation for this question
@@ -197,33 +201,33 @@ export default function Positions({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formik.values, formTouched]);
 
-  // Effect to clear option A/B answers when Events VP/Exec option selection changes
+  // Effect to clear option A/B answers when Events Co-VP/Exec option selection changes
   useEffect(() => {
-    const eventsVPSelection =
-      formik.values.roleQuestionAnswers?.["Events VP"]?.["Events VP_q3"];
+    const eventsCoVPSelection =
+      formik.values.roleQuestionAnswers?.["Events Co-VP"]?.["Events Co-VP_q3"];
     const eventsExecSelection =
       formik.values.roleQuestionAnswers?.["Events Exec"]?.["Events Exec_q2"];
 
-    // Clear Events VP option answers when selection changes
-    if (eventsVPSelection) {
-      const currentVPAnswers =
-        formik.values.roleQuestionAnswers?.["Events VP"] || {};
+    // Clear Events Co-VP option answers when selection changes
+    if (eventsCoVPSelection) {
+      const currentCoVPAnswers =
+        formik.values.roleQuestionAnswers?.["Events Co-VP"] || {};
 
-      if (eventsVPSelection === "Option A - Leadership Experience Question") {
+      if (eventsCoVPSelection === "Option A - Leadership Experience Question") {
         // Clear Option B answer if it exists
-        if (currentVPAnswers["Events VP_q4b"]) {
+        if (currentCoVPAnswers["Events Co-VP_q4b"]) {
           formik.setFieldValue(
-            "roleQuestionAnswers.Events VP.Events VP_q4b",
+            "roleQuestionAnswers.Events Co-VP.Events Co-VP_q4b",
             "",
           );
         }
       } else if (
-        eventsVPSelection === "Option B - Event Planning Experience Question"
+        eventsCoVPSelection === "Option B - Event Planning Experience Question"
       ) {
         // Clear Option A answer if it exists
-        if (currentVPAnswers["Events VP_q4a"]) {
+        if (currentCoVPAnswers["Events Co-VP_q4a"]) {
           formik.setFieldValue(
-            "roleQuestionAnswers.Events VP.Events VP_q4a",
+            "roleQuestionAnswers.Events Co-VP.Events Co-VP_q4a",
             "",
           );
         }
@@ -257,7 +261,7 @@ export default function Positions({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
-    formik.values.roleQuestionAnswers?.["Events VP"]?.["Events VP_q3"],
+    formik.values.roleQuestionAnswers?.["Events Co-VP"]?.["Events Co-VP_q3"],
     formik.values.roleQuestionAnswers?.["Events Exec"]?.["Events Exec_q2"],
   ]);
 
