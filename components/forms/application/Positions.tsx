@@ -76,6 +76,28 @@ export default function Positions({
       return false;
     }
 
+    // Special validation for Events VP and Events Exec
+    const hasEventsVP = currentRolesWithoutNone.includes("Events VP");
+    const hasEventsExec = currentRolesWithoutNone.includes("Events Exec");
+
+    if (hasEventsVP && hasEventsExec) {
+      const eventsVPSelection =
+        formik.values.roleQuestionAnswers?.["Events VP"]?.["Events VP_q3"];
+      const eventsExecSelection =
+        formik.values.roleQuestionAnswers?.["Events Exec"]?.["Events Exec_q2"];
+
+      // Check if both have made a selection
+      if (eventsVPSelection && eventsExecSelection) {
+        // They must select different options
+        if (eventsVPSelection === eventsExecSelection) {
+          setPositionError(
+            "When applying for both Events VP and Events Exec, you must answer different options (A and B).",
+          );
+          return false;
+        }
+      }
+    }
+
     // check that all required qeustions for chosen roles are answered
     const validRequired = currentRolesWithoutNone.every((role) => {
       const roleRequiredQuestions = getRoleSpecificQuestions(role).filter(
@@ -86,6 +108,49 @@ export default function Positions({
       }
 
       return roleRequiredQuestions.every((question) => {
+        // Special handling for Events VP and Events Exec conditional questions
+        const isEventsVPOptionA = question.id === "Events VP_q4a";
+        const isEventsVPOptionB = question.id === "Events VP_q4b";
+        const isEventsExecOptionA = question.id === "Events Exec_q3a";
+        const isEventsExecOptionB = question.id === "Events Exec_q3b";
+
+        // Check if this is a conditional question that should be skipped
+        if (isEventsVPOptionA || isEventsVPOptionB) {
+          const selectedOption =
+            formik.values.roleQuestionAnswers?.["Events VP"]?.["Events VP_q3"];
+          if (
+            isEventsVPOptionA &&
+            selectedOption !== "Option A - Leadership Experience Question"
+          ) {
+            return true; // Skip validation for this question
+          }
+          if (
+            isEventsVPOptionB &&
+            selectedOption !== "Option B - Event Planning Experience Question"
+          ) {
+            return true; // Skip validation for this question
+          }
+        }
+
+        if (isEventsExecOptionA || isEventsExecOptionB) {
+          const selectedOption =
+            formik.values.roleQuestionAnswers?.["Events Exec"]?.[
+              "Events Exec_q2"
+            ];
+          if (
+            isEventsExecOptionA &&
+            selectedOption !== "Option A - Leadership Experience Question"
+          ) {
+            return true; // Skip validation for this question
+          }
+          if (
+            isEventsExecOptionB &&
+            selectedOption !== "Option B - Event Planning Experience Question"
+          ) {
+            return true; // Skip validation for this question
+          }
+        }
+
         const value = formik.values.roleQuestionAnswers?.[role]?.[question.id];
         if (!value) {
           setPositionError(
@@ -132,10 +197,93 @@ export default function Positions({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formik.values, formTouched]);
 
+  // Effect to clear option A/B answers when Events VP/Exec option selection changes
+  useEffect(() => {
+    const eventsVPSelection =
+      formik.values.roleQuestionAnswers?.["Events VP"]?.["Events VP_q3"];
+    const eventsExecSelection =
+      formik.values.roleQuestionAnswers?.["Events Exec"]?.["Events Exec_q2"];
+
+    // Clear Events VP option answers when selection changes
+    if (eventsVPSelection) {
+      const currentVPAnswers =
+        formik.values.roleQuestionAnswers?.["Events VP"] || {};
+
+      if (eventsVPSelection === "Option A - Leadership Experience Question") {
+        // Clear Option B answer if it exists
+        if (currentVPAnswers["Events VP_q4b"]) {
+          formik.setFieldValue(
+            "roleQuestionAnswers.Events VP.Events VP_q4b",
+            "",
+          );
+        }
+      } else if (
+        eventsVPSelection === "Option B - Event Planning Experience Question"
+      ) {
+        // Clear Option A answer if it exists
+        if (currentVPAnswers["Events VP_q4a"]) {
+          formik.setFieldValue(
+            "roleQuestionAnswers.Events VP.Events VP_q4a",
+            "",
+          );
+        }
+      }
+    }
+
+    // Clear Events Exec option answers when selection changes
+    if (eventsExecSelection) {
+      const currentExecAnswers =
+        formik.values.roleQuestionAnswers?.["Events Exec"] || {};
+
+      if (eventsExecSelection === "Option A - Leadership Experience Question") {
+        // Clear Option B answer if it exists
+        if (currentExecAnswers["Events Exec_q3b"]) {
+          formik.setFieldValue(
+            "roleQuestionAnswers.Events Exec.Events Exec_q3b",
+            "",
+          );
+        }
+      } else if (
+        eventsExecSelection === "Option B - Event Planning Experience Question"
+      ) {
+        // Clear Option A answer if it exists
+        if (currentExecAnswers["Events Exec_q3a"]) {
+          formik.setFieldValue(
+            "roleQuestionAnswers.Events Exec.Events Exec_q3a",
+            "",
+          );
+        }
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    formik.values.roleQuestionAnswers?.["Events VP"]?.["Events VP_q3"],
+    formik.values.roleQuestionAnswers?.["Events Exec"]?.["Events Exec_q2"],
+  ]);
+
   const positionPreferences = Array.from(
     { length: MAX_ALLOWED_ROLES_TO_APPLY },
     (_, i) => i,
   );
+
+  // Get filtered roles for a specific position preference index
+  const getFilteredRoles = (currentIndex: number) => {
+    const selectedRoles = formik.values.rolesApplyingFor || [];
+    const filteredRoles = roles.filter((role) => {
+      // Always allow "None" option
+      if (role === "None") return true;
+
+      // Filter out roles already selected in previous preferences
+      for (let i = 0; i < currentIndex; i++) {
+        if (selectedRoles[i] && selectedRoles[i] === role) {
+          return false;
+        }
+      }
+      return true;
+    });
+
+    return filteredRoles;
+  };
 
   // update roleApplyingFor accordingly when user changes dropdown role choice
   const handlePositionChange = (val: any, index: number) => {
@@ -153,6 +301,15 @@ export default function Positions({
       }
       updatedRoles.push(val);
     }
+
+    // Clear any subsequent selections that might now be invalid
+    // (in case user selected the same role later that they just selected here)
+    for (let i = index + 1; i < updatedRoles.length; i++) {
+      if (updatedRoles[i] === val && val !== "None" && val !== "") {
+        updatedRoles[i] = "";
+      }
+    }
+
     formik.setFieldValue("rolesApplyingFor", updatedRoles);
   };
 
@@ -237,7 +394,7 @@ export default function Positions({
               id={`role_choice_${i}`}
               name={`rolesApplyingFor[${i}]`}
               placeholder={`Select position #${i + 1}`}
-              options={roles || []}
+              options={getFilteredRoles(i)}
               value={selectedRole || ""}
               onChange={(e) => handlePositionChange(e.target.value, i)}
               background="bg-white/10"
@@ -251,6 +408,7 @@ export default function Positions({
                     formik={formik}
                     question={q}
                     onInteract={handleFieldInteraction}
+                    allQuestions={questions}
                   />
                 </div>
               ))}

@@ -10,11 +10,13 @@ interface DynamicQuestionProps {
   formik: FormikProps<ApplicationFormValues>;
   question: Question;
   onInteract?: () => void;
+  allQuestions?: Question[]; // Add this to access all questions for filtering
 }
 export default function RenderDynamicQuestion({
   formik,
   question,
   onInteract,
+  allQuestions = [],
 }: DynamicQuestionProps) {
   const value =
     formik.values.roleQuestionAnswers[question.role]?.[question.id] || "";
@@ -28,6 +30,94 @@ export default function RenderDynamicQuestion({
       value,
     );
   };
+
+  // Helper function to check if question should be rendered based on Events VP/Exec logic
+  const shouldRenderQuestion = () => {
+    // Check if this is an Events VP or Events Exec option A/B question
+    const isEventsVPOptionA = question.id === "Events VP_q4a";
+    const isEventsVPOptionB = question.id === "Events VP_q4b";
+    const isEventsExecOptionA = question.id === "Events Exec_q3a";
+    const isEventsExecOptionB = question.id === "Events Exec_q3b";
+
+    if (isEventsVPOptionA || isEventsVPOptionB) {
+      const selectedOption =
+        formik.values.roleQuestionAnswers["Events VP"]?.["Events VP_q3"];
+      if (isEventsVPOptionA) {
+        return selectedOption === "Option A - Leadership Experience Question";
+      }
+      if (isEventsVPOptionB) {
+        return (
+          selectedOption === "Option B - Event Planning Experience Question"
+        );
+      }
+    }
+
+    if (isEventsExecOptionA || isEventsExecOptionB) {
+      const selectedOption =
+        formik.values.roleQuestionAnswers["Events Exec"]?.["Events Exec_q2"];
+      if (isEventsExecOptionA) {
+        return selectedOption === "Option A - Leadership Experience Question";
+      }
+      if (isEventsExecOptionB) {
+        return (
+          selectedOption === "Option B - Event Planning Experience Question"
+        );
+      }
+    }
+
+    return true; // Render all other questions normally
+  };
+
+  // Helper function to get filtered options for Events VP/Exec multiple choice questions
+  const getFilteredOptions = () => {
+    const selectedRoles = formik.values.rolesApplyingFor || [];
+    const isEventsVPMultipleChoice = question.id === "Events VP_q3";
+    const isEventsExecMultipleChoice = question.id === "Events Exec_q2";
+
+    if (!isEventsVPMultipleChoice && !isEventsExecMultipleChoice) {
+      return question.options || [];
+    }
+
+    // Check if both Events VP and Events Exec are selected
+    const hasEventsVP = selectedRoles.includes("Events VP");
+    const hasEventsExec = selectedRoles.includes("Events Exec");
+
+    if (!hasEventsVP || !hasEventsExec) {
+      return question.options || []; // No filtering needed if only one role is selected
+    }
+
+    // Get the other role's selection
+    if (isEventsVPMultipleChoice) {
+      const eventsExecSelection =
+        formik.values.roleQuestionAnswers["Events Exec"]?.["Events Exec_q2"];
+      if (eventsExecSelection === "Option A - Leadership Experience Question") {
+        return ["Option B - Event Planning Experience Question"];
+      } else if (
+        eventsExecSelection === "Option B - Event Planning Experience Question"
+      ) {
+        return ["Option A - Leadership Experience Question"];
+      }
+    }
+
+    if (isEventsExecMultipleChoice) {
+      const eventsVPSelection =
+        formik.values.roleQuestionAnswers["Events VP"]?.["Events VP_q3"];
+      if (eventsVPSelection === "Option A - Leadership Experience Question") {
+        return ["Option B - Event Planning Experience Question"];
+      } else if (
+        eventsVPSelection === "Option B - Event Planning Experience Question"
+      ) {
+        return ["Option A - Leadership Experience Question"];
+      }
+    }
+
+    return question.options || [];
+  };
+
+  // Don't render if this question should be conditionally hidden
+  if (!shouldRenderQuestion()) {
+    return null;
+  }
 
   switch (question.type) {
     case "text":
@@ -103,6 +193,7 @@ export default function RenderDynamicQuestion({
       );
 
     case "multiple_choice":
+      const filteredOptions = getFilteredOptions();
       return (
         <div className="mb-4">
           <p className="mb-2 block text-md text-white">
@@ -117,7 +208,7 @@ export default function RenderDynamicQuestion({
             )}`}
             name={`roleQuestionAnswers.${question.role}.${question.id}`}
             placeholder={question.placeholder || "Select an option"}
-            options={question.options || []}
+            options={filteredOptions}
             value={String(value)}
             onChange={(e) => handleQuestionChange(e.target.value)}
             background="bg-white/10"
