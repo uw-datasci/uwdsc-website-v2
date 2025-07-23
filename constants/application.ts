@@ -3,7 +3,7 @@ export const STEP_NAMES = [
   "Personal Details",
   "General",
   "Positions",
-  "Supplementary Information",
+  "Resume",
 ];
 
 export const PERSONAL_FIELDS = [
@@ -16,22 +16,10 @@ export const PERSONAL_FIELDS = [
   "club_experience",
 ];
 
-export const GENERAL_FIELDS = ["skills", "motivation"];
-
 export const BLANK_APPLICATION = {
   rolesApplyingFor: [],
   roleQuestionAnswers: {
-    general: {
-      full_name: "",
-      personal_email: "",
-      waterloo_email: "",
-      program: "",
-      academic_term: "",
-      location: "",
-      club_experience: false,
-      skills: "",
-      motivation: "",
-    },
+    general: {},
   },
   resumeUrl: "",
   status: "draft",
