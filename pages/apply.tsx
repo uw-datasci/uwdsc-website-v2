@@ -568,8 +568,8 @@ export default function ApplyPage() {
                     where your strengths could make the biggest impact.
                   </p>
                 </div>
-              </Link>
-            </motion.div>
+              </motion.div>
+            </Link>
 
             <form onSubmit={formik.handleSubmit}>
               <div className="mx-auto max-w-4xl rounded-lg bg-darkBlue pb-4">
