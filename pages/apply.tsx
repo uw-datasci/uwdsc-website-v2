@@ -23,6 +23,7 @@ import Submitted from "@/components/forms/application/Submitted";
 
 // UI Components
 import Button from "@/components/UI/Button";
+import LoadingSpinner from "@/components/UI/LoadingSpinner";
 
 // Types
 import { ApplicationFormValues, Term } from "@/types/application";
@@ -71,6 +72,7 @@ export default function ApplyPage() {
   const signedIn = useSelector((state: RootState) => state.loginToken.name);
 
   const [isLoading, setIsLoading] = useState(false);
+  const [isSavingSection, setIsSavingSection] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [submitError, setSubmitError] = useState("");
   const [currentTerm, setCurrentTerm] = useState<Term | null>(null);
@@ -158,7 +160,14 @@ export default function ApplyPage() {
   };
 
   const handleNext = async () => {
-    await saveSectionAndNext();
+    setIsSavingSection(true);
+    try {
+      await saveSectionAndNext();
+    } catch (error) {
+      console.error("Failed to save and continue:", error);
+    } finally {
+      setIsSavingSection(false);
+    }
   };
 
   const handlePrevious = () => goToPreviousStep();
@@ -211,6 +220,7 @@ export default function ApplyPage() {
       goToNextStep();
     } catch (error) {
       console.error("Failed to save application section:", error);
+      throw error; // Re-throw to be handled by handleNext
     }
   };
 
@@ -565,19 +575,20 @@ export default function ApplyPage() {
                             ? !isSupplementaryPageValid
                             : currentStep === 3
                             ? !isPositionsPageValid
-                            : !isStepValid(currentStep)
+                            : !isStepValid(currentStep) || isSavingSection
                         }
                         classes={`transition-all duration-300 w-24 sm:w-32 ${
                           currentStep === 4
                             ? `bg-gradient-orange ${
-                                !isSupplementaryPageValid
-                                  ? "cursor-not-allowed disabled"
+                                !isSupplementaryPageValid || isLoading
+                                  ? "cursor-not-allowed disabled opacity-50"
                                   : "hover:scale-105 hover:font-semibold submit-button-hover"
                               }`
-                            : isStepValid(currentStep) ||
-                              (currentStep === 3 && isPositionsPageValid)
-                            ? "bg-white hover:bg-grey1 hover:shadow-lg"
-                            : "bg-grey1 opacity-50 cursor-not-allowed hover:shadow-lg"
+                            : (isStepValid(currentStep) ||
+                                (currentStep === 3 && isPositionsPageValid)) &&
+                              !isSavingSection
+                            ? "bg-white hover:bg-grey1 hover:shadow-lg hover:scale-105"
+                            : "bg-grey1 opacity-50 cursor-not-allowed"
                         }`}
                         padding="px-3 py-2 sm:px-5 sm:py-3"
                       >
@@ -589,8 +600,29 @@ export default function ApplyPage() {
                                   : "text-darkBlue"
                               }`}
                         >
-                          {currentStep === 4 ? "Submit" : "Next"}
-                          <MoveRight className="h-3 w-3 sm:h-4 sm:w-4" />
+                          {currentStep === 4 ? (
+                            isLoading ? (
+                              <>
+                                <LoadingSpinner size={16} classes="mr-1" />
+                                Submitting...
+                              </>
+                            ) : (
+                              <>
+                                Submit
+                                <MoveRight className="h-3 w-3 sm:h-4 sm:w-4" />
+                              </>
+                            )
+                          ) : isSavingSection ? (
+                            <>
+                              <LoadingSpinner size={16} classes="mr-1" />
+                              Saving...
+                            </>
+                          ) : (
+                            <>
+                              Next
+                              <MoveRight className="h-3 w-3 sm:h-4 sm:w-4" />
+                            </>
+                          )}
                         </div>
                       </Button>
                     </div>
