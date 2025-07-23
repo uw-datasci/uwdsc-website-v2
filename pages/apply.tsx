@@ -405,29 +405,33 @@ export default function ApplyPage() {
 
       <div className="relative min-h-screen overflow-hidden bg-darkBlue2 px-4 py-20 shadow-md backdrop-blur-md">
         {/* Background Elements */}
-        <div className="pointer-events-none fixed inset-0 z-0">
+        <div className="pointer-events-none absolute inset-0 z-0">
           {/* Left Whale */}
-          <div className="fixed left-0 top-20">
+          <div
+            className={`absolute ${
+              currentStep === 5 || currentStep === 0 ? "" : "top-[20%]"
+            }`}
+          >
             <Image
               src="/execApps/B-light-bulb.svg"
-              alt=""
+              alt="whale with light bulb"
               width={450}
               height={450}
             />
           </div>
 
           {/* Right Whale on Cloud */}
-          <div className="fixed right-0 top-[15vh] z-20">
+          <div
+            className={`absolute right-0 ${
+              currentStep === 5 || currentStep === 0 ? "top-[10%]" : "top-[5%]"
+            } z-20 translate-x-1/3 transform`}
+          >
             <Image
-              src="/execApps/B-stand.svg"
-              alt=""
-              width={350}
-              height={350}
+              src="/execApps/B-float.svg"
+              alt="whale floating on cloud"
+              width={500}
+              height={500}
             />
-          </div>
-
-          <div className="fixed right-0 top-[50vh] z-10">
-            <Image src="/execApps/cloud.svg" alt="" width={380} height={144} />
           </div>
         </div>
 
@@ -457,9 +461,13 @@ export default function ApplyPage() {
             </div>
 
             {/* Join DSC Notion Link */}
-            <Link href="https://uw-dsc.notion.site/join-dsc" target="_blank">
+            <Link
+              href="https://uw-dsc.notion.site/join-dsc"
+              target="_blank"
+              className="mb-4 block sm:mx-48"
+            >
               <motion.div
-                className="relative mb-4 flex gap-4 overflow-hidden rounded-lg border border-solid border-lightBlue/50 bg-lightBlue/30 p-4 sm:mx-48"
+                className="relative flex gap-4 overflow-hidden rounded-lg border border-solid border-lightBlue/50 bg-lightBlue/30 p-4"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{
                   opacity: 1,

@@ -48,21 +48,6 @@ interface ExecApp {
       [questionId: string]: string | string[];
     };
   };
-  // academicInfo: {
-  //   program: string;
-  //   academicTerm: string;
-  //   location: string;
-  // };
-  // clubExperience: {
-  //   previousMember: boolean;
-  //   previousExperience: string;
-  // };
-  // personalInfo: {
-  //   uwEmail: string;
-  //   personalEmail: string;
-  //   fullName: string;
-  // };
-  // questionAnswers: any;
 }
 
 export default function ExecAppView() {
@@ -139,8 +124,7 @@ export default function ExecAppView() {
       "Location",
       "Status",
       "Resume URL",
-      "Previous Member",
-      "Previous Experience",
+      "Previous Club Experience",
       "Role Preferences (in order)",
     ];
 
@@ -202,7 +186,6 @@ export default function ExecAppView() {
         app.roleQuestionAnswers.general.location,
         app.status,
         app.resumeUrl,
-        app.roleQuestionAnswers.general.previous_member,
         app.roleQuestionAnswers.general.club_experience,
         app.rolesApplyingFor.join(", "),
       ];
@@ -395,7 +378,9 @@ export default function ExecAppView() {
                   {app.roleQuestionAnswers.general.program}
                 </p>
                 <p className="col-span-1 flex items-center break-all">
-                  {app.submittedAt ? formatDate(app.submittedAt) : app.status}
+                  {app.submittedAt && app.status === "submitted"
+                    ? formatDate(app.submittedAt)
+                    : app.status}
                 </p>
               </div>
               {i !== displayedApplications.length - 1 && (
