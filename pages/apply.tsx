@@ -461,36 +461,36 @@ export default function ApplyPage() {
             </div>
 
             {/* Join DSC Notion Link */}
-            <Link
-              href="https://uw-dsc.notion.site/join-dsc"
-              target="_blank"
-              className="mb-4 block sm:mx-48"
+            <motion.div
+              className="relative flex gap-4 overflow-hidden rounded-lg border border-solid border-lightBlue/50 bg-lightBlue/30 p-4"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{
+                opacity: 1,
+                y: 0,
+                boxShadow: [
+                  "0 0 0 0 rgba(59, 130, 246, 0)",
+                  "0 0 0 4px rgba(59, 130, 246, 0.1)",
+                  "0 0 0 0 rgba(59, 130, 246, 0)",
+                ],
+              }}
+              transition={{
+                duration: 0.6,
+                boxShadow: {
+                  duration: 3,
+                  repeat: Infinity,
+                  repeatDelay: 4,
+                },
+              }}
+              whileHover={{
+                scale: 1.02,
+                boxShadow: "0 8px 25px rgba(59, 130, 246, 0.15)",
+                transition: { duration: 0.2 },
+              }}
             >
-              <motion.div
-                className="relative flex gap-4 overflow-hidden rounded-lg border border-solid border-lightBlue/50 bg-lightBlue/30 p-4"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{
-                  opacity: 1,
-                  y: 0,
-                  boxShadow: [
-                    "0 0 0 0 rgba(59, 130, 246, 0)",
-                    "0 0 0 4px rgba(59, 130, 246, 0.1)",
-                    "0 0 0 0 rgba(59, 130, 246, 0)",
-                  ],
-                }}
-                transition={{
-                  duration: 0.6,
-                  boxShadow: {
-                    duration: 3,
-                    repeat: Infinity,
-                    repeatDelay: 4,
-                  },
-                }}
-                whileHover={{
-                  scale: 1.02,
-                  boxShadow: "0 8px 25px rgba(59, 130, 246, 0.15)",
-                  transition: { duration: 0.2 },
-                }}
+              <Link
+                href="https://uw-dsc.notion.site/join-dsc"
+                target="_blank"
+                className="mb-4 block sm:mx-48"
               >
                 {/* Shimmer overlay */}
                 <motion.div
@@ -518,8 +518,8 @@ export default function ApplyPage() {
                     where your strengths could make the biggest impact.
                   </p>
                 </div>
-              </motion.div>
-            </Link>
+              </Link>
+            </motion.div>
 
             <form onSubmit={formik.handleSubmit}>
               <div className="mx-auto max-w-4xl rounded-lg bg-darkBlue pb-4">
