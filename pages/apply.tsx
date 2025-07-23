@@ -302,7 +302,6 @@ export default function ApplyPage() {
       };
       createOrUpdateLocalStorageApplication(updatedApplicationData);
 
-      goToNextStep();
     } catch (error: any) {
       console.error("Failed to save application section:", error);
       setWarningDialogMessage(
