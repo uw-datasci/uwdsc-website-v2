@@ -1,96 +1,32 @@
 import { FormikProps } from "formik";
 import TextInput from "@/components/UI/Inputs/UWDSC/TextInput";
 import InputFeedback from "@/components/UI/Inputs/UWDSC/InputFeedback";
-import { ApplicationFormValues, Question } from "@/types/application";
-import { HelpCircle, FileText } from "lucide-react";
-import RenderDynamicQuestion from "./RenderDynamicQuestions";
+import { ApplicationFormValues } from "@/types/application";
+import { FileText } from "lucide-react";
 import { useEffect, useState } from "react";
 
 interface SupplementaryProps {
   formik: FormikProps<ApplicationFormValues>;
-  questions: Question[];
   isNextValid: (valid: boolean) => void;
 }
 
 export default function Supplementary({
   formik,
-  questions,
   isNextValid,
 }: SupplementaryProps) {
-  const [supplementaryError, setSupplementaryError] = useState("");
   const [formTouched, setFormTouched] = useState(false);
-
-  // Filter for supplementary questions
-  const supplementaryQuestions = questions.filter(
-    (q) => q.role === "supplementary",
-  );
 
   const isStepValid = () => {
     // Check if resume URL is provided and valid
-    if (!formik.values.resumeUrl || formik.errors.resumeUrl) {
-      return false;
-    }
-
-    // Check if all required supplementary questions are answered
-    const requiredQuestions = supplementaryQuestions.filter((q) => q.required);
-    const currentSuppplementaryQuestions =
-      formik.values.roleQuestionAnswers.supplementary;
-    if (!currentSuppplementaryQuestions) {
-      setSupplementaryError(
-        "Please answer all required supplementary questions.",
-      );
-      return false;
-    }
-    if (
-      Object.keys(currentSuppplementaryQuestions).length <
-      requiredQuestions.length
-    ) {
-      setSupplementaryError(
-        "Please answer all required supplementary questions.",
-      );
-      return false;
-    }
-    const validRequired = requiredQuestions.every((question) => {
-      const value =
-        formik.values.roleQuestionAnswers?.["supplementary"]?.[question.id];
-      if (!value) {
-        setSupplementaryError(
-          "Please answer all required supplementary questions.",
-        );
-        return false;
-      }
-      if (question.type === "checkbox") {
-        const noCheckboxError = Array.isArray(value) && value.length > 0;
-        if (!noCheckboxError) {
-          setSupplementaryError(
-            "Please select at least one option for all required multi-select questions.",
-          );
-        }
-        return noCheckboxError;
-      }
-      const noError = value && value.toString().trim() !== "";
-      if (!noError) {
-        setSupplementaryError(
-          "Please answer all required questions for each role selected.",
-        );
-      }
-      return noError;
-    });
-    if (validRequired) {
-      setSupplementaryError("");
-    }
-    return validRequired;
+    return !!(formik.values.resumeUrl && !formik.errors.resumeUrl);
   };
 
   useEffect(() => {
     // Check if form already has values (e.g., if user is returning to this step)
     const hasResumeUrl =
       formik.values.resumeUrl && formik.values.resumeUrl.trim() !== "";
-    const hasSupplementaryAnswers =
-      formik.values.roleQuestionAnswers?.supplementary &&
-      Object.keys(formik.values.roleQuestionAnswers.supplementary).length > 0;
 
-    if (formTouched || hasResumeUrl || hasSupplementaryAnswers) {
+    if (formTouched || hasResumeUrl) {
       isNextValid(isStepValid());
     } else {
       // Initially disable next button without showing an error
@@ -108,35 +44,6 @@ export default function Supplementary({
 
   return (
     <div className="space-y-10">
-      {/* Dynamic Questions */}
-      {supplementaryQuestions.length > 0 && (
-        <div className="rounded-lg border-0.5 border-solid border-white/20 bg-slateBlue p-6">
-          <div className="mb-4 flex items-center">
-            <HelpCircle className="mr-2 h-5 w-5 text-lighterBlue" />
-            <h2 className="text-xl font-semibold text-white">
-              Additional Questions
-            </h2>
-          </div>
-
-          <div className="space-y-6">
-            {supplementaryQuestions.map((question, i) => (
-              <RenderDynamicQuestion
-                key={i}
-                formik={formik}
-                question={question}
-                onInteract={handleFieldInteraction}
-              />
-            ))}
-          </div>
-          {/* dynamic error message if inputs are invalid */}
-          {supplementaryError && formTouched && (
-            <InputFeedback classes="mt-7" state="error">
-              {supplementaryError}
-            </InputFeedback>
-          )}
-        </div>
-      )}
-
       {/* Resume */}
       <div className="rounded-lg border-0.5 border-solid border-white/20 bg-slateBlue p-6">
         <div className="mb-4 flex items-center">

@@ -27,46 +27,58 @@ import LoadingSpinner from "@/components/UI/LoadingSpinner";
 import WarningDialog from "@/components/UI/WarningDialog";
 
 // Types
-import { ApplicationFormValues, Term } from "@/types/application";
+import { ApplicationFormValues, Term, Question } from "@/types/application";
 import { ClockIcon, LinkIcon, MoveLeft, MoveRight, User } from "lucide-react";
 import {
   PERSONAL_FIELDS,
   STEP_NAMES,
   BLANK_APPLICATION,
-  GENERAL_FIELDS,
 } from "@/constants/application";
 import Link from "next/link";
 
-const validationSchema = Yup.object({
-  resumeUrl: Yup.string()
-    .url("Must be a valid URL")
-    .required("Resume URL is required"),
+// Create dynamic validation schema based on current term questions
+const createValidationSchema = (questions: Question[]) => {
+  const generalQuestions = questions.filter((q) => q.role === "general");
+  const generalShape: any = {};
 
-  roleQuestionAnswers: Yup.object().shape({
-    general: Yup.object().shape({
-      full_name: Yup.string().required("Full Name is required"),
-      personal_email: Yup.string()
-        .email("Invalid email format")
-        .required("Personal Email is required"),
-      waterloo_email: Yup.string()
-        .email("Invalid email format")
-        .matches(/@(uwaterloo\.ca|edu\.uwaterloo\.ca)$/, "Must be a UW email")
-        .required("UW Email is required"),
-      program: Yup.string().required("Program is required"),
-      academic_term: Yup.string().required("Academic Term is required"),
-      location: Yup.string().required("Location is required"),
+  generalQuestions.forEach((question) => {
+    if (question.required) {
+      switch (question.type) {
+        case "text":
+        case "textarea":
+          generalShape[question.id] = Yup.string().required(
+            `${question.question} is required`,
+          );
+          break;
+        case "multiple_choice":
+          generalShape[question.id] = Yup.string().required(
+            `${question.question} is required`,
+          );
+          break;
+        case "checkbox":
+          generalShape[question.id] = Yup.array().min(
+            1,
+            `${question.question} is required`,
+          );
+          break;
+        default:
+          generalShape[question.id] = Yup.string().required(
+            `${question.question} is required`,
+          );
+      }
+    }
+  });
 
-      club_experience: Yup.boolean().test(
-        "is-defined",
-        "Please indicate if you've been a member of the UW Data Science Club before.",
-        (value) => value !== undefined && value !== null,
-      ),
+  return Yup.object({
+    resumeUrl: Yup.string()
+      .url("Must be a valid URL")
+      .required("Resume URL is required"),
 
-      skills: Yup.string().required("Skills is required"),
-      motivation: Yup.string().required("Motivation is required"),
+    roleQuestionAnswers: Yup.object().shape({
+      general: Yup.object().shape(generalShape),
     }),
-  }),
-});
+  });
+};
 
 export default function ApplyPage() {
   const router = useRouter();
@@ -100,53 +112,53 @@ export default function ApplyPage() {
     const allGeneralErrors = formik.errors.roleQuestionAnswers?.general || {};
     switch (step) {
       case 1:
-        const { skills, motivation, ...generalPersonalAnswers } =
-          allGeneralAnswers;
-        const {
-          skills: errSkills,
-          motivation: errMotivation,
-          ...generalPersonalErrors
-        } = allGeneralErrors;
+        // Get general questions that are not role-specific (personal details)
+        const generalQuestions =
+          currentTerm?.questions.filter((q) => q.role === "general") || [];
+        const personalDetailQuestions = generalQuestions.filter((q) =>
+          PERSONAL_FIELDS.includes(q.id),
+        );
 
-        const hasEmptyPersonalFields = PERSONAL_FIELDS.some((field) => {
-          const value =
-            generalPersonalAnswers[
-              field as keyof typeof generalPersonalAnswers
-            ];
-          // For boolean fields, check if they are undefined/null, not falsy
-          if (typeof value === "boolean") {
-            return value === undefined || value === null;
-          }
-          // For string fields, check if empty or undefined
-          return !value || value === "";
-        });
+        const hasEmptyPersonalFields = personalDetailQuestions.some(
+          (question) => {
+            if (!question.required) return false;
+            const value = allGeneralAnswers[question.id];
+            // For boolean fields, check if they are undefined/null, not falsy
+            if (typeof value === "boolean") {
+              return value === undefined || value === null;
+            }
+            // For string fields, check if empty or undefined
+            return !value || value === "";
+          },
+        );
 
-        const hasPersonalErrors = PERSONAL_FIELDS.some((field) =>
-          Boolean(
-            generalPersonalErrors[field as keyof typeof generalPersonalErrors],
-          ),
+        const hasPersonalErrors = personalDetailQuestions.some((question) =>
+          Boolean(allGeneralErrors[question.id]),
         );
 
         return !hasEmptyPersonalFields && !hasPersonalErrors;
 
       case 2: // General
-        const generalAnswers = {
-          skills: allGeneralAnswers.skills,
-          motivation: allGeneralAnswers.motivation,
-        };
-
-        const generalErrors = {
-          skills: allGeneralErrors.skills,
-          motivation: allGeneralErrors.motivation,
-        };
-
-        const hasEmptyGeneralAnswers = GENERAL_FIELDS.some(
-          (field) =>
-            !generalAnswers[field as keyof typeof generalAnswers] ||
-            generalAnswers[field as keyof typeof generalAnswers] === "",
+        // Get general questions that are NOT personal details
+        const generalQuestions2 =
+          currentTerm?.questions.filter((q) => q.role === "general") || [];
+        const nonPersonalGeneralQuestions = generalQuestions2.filter(
+          (q) => !PERSONAL_FIELDS.includes(q.id),
         );
-        const hasGeneralErrors = GENERAL_FIELDS.some((field) =>
-          Boolean(generalErrors[field as keyof typeof generalErrors]),
+
+        const hasEmptyGeneralAnswers = nonPersonalGeneralQuestions.some(
+          (question) => {
+            if (!question.required) return false;
+            const value = allGeneralAnswers[question.id];
+            if (question.type === "checkbox") {
+              return !Array.isArray(value) || value.length === 0;
+            }
+            return !value || value.toString().trim() === "";
+          },
+        );
+
+        const hasGeneralErrors = nonPersonalGeneralQuestions.some((question) =>
+          Boolean(allGeneralErrors[question.id]),
         );
 
         return !hasEmptyGeneralAnswers && !hasGeneralErrors;
@@ -155,7 +167,7 @@ export default function ApplyPage() {
         // handled with IsPositionsPageValid
         return false;
 
-      case 4: // Supplementary
+      case 4: // Supplementary (Resume only)
         // handled with setIsSupplementaryPageValid
         return false;
 
@@ -203,11 +215,7 @@ export default function ApplyPage() {
     try {
       // if user filled out questions for a role and switched out of the role,
       // clear their previous answers for unselected roles before submitting
-      const selectedRoles = [
-        ...formik.values.rolesApplyingFor,
-        "general",
-        "supplementary",
-      ];
+      const selectedRoles = [...formik.values.rolesApplyingFor, "general"];
       let roleQA = formik.values.roleQuestionAnswers;
       for (const [role, answers] of Object.entries(roleQA)) {
         if (!selectedRoles.includes(role)) {
@@ -305,11 +313,12 @@ export default function ApplyPage() {
       resumeUrl: "",
       roleQuestionAnswers: {
         general: {},
-        supplementary: {},
       },
       rolesApplyingFor: [],
     },
-    validationSchema,
+    validationSchema: currentTerm
+      ? createValidationSchema(currentTerm.questions)
+      : undefined,
     onSubmit: submitApplication,
   });
 
@@ -426,7 +435,6 @@ export default function ApplyPage() {
         return (
           <Supplementary
             formik={formik}
-            questions={currentTerm.questions}
             isNextValid={setIsSupplementaryPageValid}
           />
         );
