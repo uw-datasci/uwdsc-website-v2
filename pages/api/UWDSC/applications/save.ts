@@ -33,9 +33,9 @@ export default async function handler(
     res.status(error.response?.status || 500).json({
       success: false,
       error:
-        error.response?.data?.message ||
-        error.message ||
-        "Internal Server Error",
+        // error.response?.data?.message ||
+        // error.message ||
+        "Internal Server Error: please try again later or contact us",
     });
   }
 }
