@@ -37,7 +37,7 @@ export default function AppIntro({
             </li>
             <li>
               <strong className="text-white">Additional Questions:</strong>{" "}
-              Supplementary information and resume
+              Resume
             </li>
           </ul>
           <p>
