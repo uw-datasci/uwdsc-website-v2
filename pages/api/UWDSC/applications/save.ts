@@ -29,13 +29,13 @@ export default async function handler(
 
     res.status(200).json(response.data);
   } catch (error: any) {
-    console.error("Error updating application:", error);
+    console.error("Error patching application draft:", error);
     res.status(error.response?.status || 500).json({
       success: false,
       error:
-        // error.response?.data?.message ||
-        // error.message ||
-        "Internal Server Error: please try again later or contact us",
+        error.response?.data?.message ||
+        error.message ||
+        "Internal Server Error",
     });
   }
 }
