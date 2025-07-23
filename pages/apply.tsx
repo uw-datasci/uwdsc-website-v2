@@ -276,27 +276,26 @@ export default function ApplyPage() {
     isLoading: boolean,
     isSavingSection: boolean,
   ) => {
-    return currentStep === 4 ? (
-      isLoading ? (
-        <>
-          <LoadingSpinner size={16} classes="mr-1" />
-          Submitting...
-        </>
-      ) : (
-        <>
-          Submit
-          <MoveRight className="h-3 w-3 sm:h-4 sm:w-4" />
-        </>
-      )
-    ) : isSavingSection ? (
-      <>
-        <LoadingSpinner size={16} classes="mr-1" />
-        Saving...
-      </>
+    const isLoadingState = (isLoading && currentStep === 4) || isSavingSection;
+    const icon = isLoadingState ? (
+      <LoadingSpinner size={16} classes="mr-1" />
     ) : (
+      <MoveRight className="h-3 w-3 sm:h-4 sm:w-4" />
+    );
+
+    const text =
+      isLoading && currentStep === 4
+        ? "Submitting..."
+        : isSavingSection
+        ? "Saving..."
+        : currentStep === 4
+        ? "Submit"
+        : "Next";
+
+    return (
       <>
-        Next
-        <MoveRight className="h-3 w-3 sm:h-4 sm:w-4" />
+        {(isLoading && currentStep === 4) || isSavingSection ? icon : text}
+        {(isLoading && currentStep === 4) || isSavingSection ? text : icon}
       </>
     );
   };
