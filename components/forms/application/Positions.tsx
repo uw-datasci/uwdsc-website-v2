@@ -351,6 +351,7 @@ export default function Positions({
             </p>
           </div>
         </div>
+
         {/* Info about Overlapping Questions Banner */}
         <div className="flex gap-4 rounded-lg border border-solid border-aqua/50 bg-aqua/30 p-4">
           <div className="mx-2 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-aquaTextPrimary/20">
@@ -370,7 +371,7 @@ export default function Positions({
       </div>
 
       {/* Position Preferences Card */}
-      <div className="mb-5 flex flex-col gap-3">
+      <div className="mb-5 flex flex-col gap-3 px-4">
         <div className="flex items-center">
           <Users className="mr-2 h-5 w-5 text-lighterBlue" />
           <h2 className="text-xl font-semibold text-white">

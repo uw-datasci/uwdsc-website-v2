@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Image from "next/image";
+import { motion } from "framer-motion";
 import SEO from "@/components/SEO/SEO";
 import { RootState } from "@/store/store";
 import {
@@ -25,13 +26,14 @@ import Button from "@/components/UI/Button";
 
 // Types
 import { ApplicationFormValues, Term } from "@/types/application";
-import { ClockIcon, MoveLeft, MoveRight, User } from "lucide-react";
+import { ClockIcon, LinkIcon, MoveLeft, MoveRight, User } from "lucide-react";
 import {
   PERSONAL_FIELDS,
   STEP_NAMES,
   BLANK_APPLICATION,
   GENERAL_FIELDS,
 } from "@/constants/application";
+import Link from "next/link";
 
 const validationSchema = Yup.object({
   resumeUrl: Yup.string()
@@ -433,7 +435,7 @@ export default function ApplyPage() {
                   {new Date(currentTerm.appDeadline).toLocaleDateString(
                     "en-US",
                     { month: "short", day: "numeric", year: "numeric" },
-                  )}
+                  ) || "Jul 30, 2025"}
                 </div>
               </div>
               <h1 className="mb-2 text-3xl font-bold text-white">
@@ -443,6 +445,64 @@ export default function ApplyPage() {
                 {currentTerm.termName}
               </p>
             </div>
+
+            {/* Join DSC Notion Link */}
+            <Link href="https://uw-dsc.notion.site/join-dsc" target="_blank">
+              <motion.div
+                className="relative mx-48 mb-4 flex gap-4 overflow-hidden rounded-lg border border-solid border-lightBlue/50 bg-lightBlue/30 p-4"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{
+                  opacity: 1,
+                  y: 0,
+                  boxShadow: [
+                    "0 0 0 0 rgba(59, 130, 246, 0)",
+                    "0 0 0 4px rgba(59, 130, 246, 0.1)",
+                    "0 0 0 0 rgba(59, 130, 246, 0)",
+                  ],
+                }}
+                transition={{
+                  duration: 0.6,
+                  boxShadow: {
+                    duration: 3,
+                    repeat: Infinity,
+                    repeatDelay: 4,
+                  },
+                }}
+                whileHover={{
+                  scale: 1.02,
+                  boxShadow: "0 8px 25px rgba(59, 130, 246, 0.15)",
+                  transition: { duration: 0.2 },
+                }}
+              >
+                {/* Shimmer overlay */}
+                <motion.div
+                  className="absolute inset-0 -skew-x-12 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+                  initial={{ x: "-100%" }}
+                  animate={{ x: "200%" }}
+                  transition={{
+                    duration: 2,
+                    repeat: Infinity,
+                    repeatDelay: 5,
+                    ease: "easeInOut",
+                  }}
+                />
+
+                <div className="mx-2 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-lightBlue/20">
+                  <LinkIcon className="h-4 w-4 text-lighterBlue" />
+                </div>
+
+                <div className="flex-1">
+                  <p className="font-semibold text-lighterBlue">
+                    Available Positions
+                  </p>
+                  <p className="text-sm text-lighterBlue/80">
+                    Check out all available positions, their skillsets, and
+                    where your strengths could make the biggest impact.
+                  </p>
+                </div>
+              </motion.div>
+            </Link>
+
             <form onSubmit={formik.handleSubmit}>
               <div className="mx-auto max-w-4xl rounded-lg bg-darkBlue pb-4">
                 <div className="bg-gradient-blue flex items-center justify-between rounded-t-lg p-4 text-center backdrop-blur-md">
