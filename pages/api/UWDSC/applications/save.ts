@@ -29,7 +29,7 @@ export default async function handler(
 
     res.status(200).json(response.data);
   } catch (error: any) {
-    console.error("Error patching application draft:", error);
+    console.error("Error updating application:", error);
     res.status(error.response?.status || 500).json({
       success: false,
       error:
