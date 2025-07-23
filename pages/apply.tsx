@@ -405,9 +405,9 @@ export default function ApplyPage() {
 
       <div className="relative min-h-screen overflow-hidden bg-darkBlue2 px-4 py-20 shadow-md backdrop-blur-md">
         {/* Background Elements */}
-        <div className="pointer-events-none absolute inset-0 z-0">
+        <div className="pointer-events-none fixed inset-0 z-0">
           {/* Left Whale */}
-          <div className="absolute">
+          <div className="fixed left-0 top-20">
             <Image
               src="/execApps/B-light-bulb.svg"
               alt=""
@@ -417,7 +417,7 @@ export default function ApplyPage() {
           </div>
 
           {/* Right Whale on Cloud */}
-          <div className="absolute right-0 top-[10%] z-20">
+          <div className="fixed right-0 top-[15vh] z-20">
             <Image
               src="/execApps/B-stand.svg"
               alt=""
@@ -426,7 +426,7 @@ export default function ApplyPage() {
             />
           </div>
 
-          <div className="absolute right-0 top-1/2 z-10">
+          <div className="fixed right-0 top-[50vh] z-10">
             <Image src="/execApps/cloud.svg" alt="" width={380} height={144} />
           </div>
         </div>
