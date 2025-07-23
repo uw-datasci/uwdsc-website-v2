@@ -41,8 +41,29 @@ const createValidationSchema = (questions: Question[]) => {
   const generalQuestions = questions.filter((q) => q.role === "general");
   const generalShape: any = {};
 
+  // Add hardcoded personal detail field validations
+  generalShape.full_name = Yup.string().required("Full Name is required");
+  generalShape.personal_email = Yup.string()
+    .email("Invalid email format")
+    .required("Personal Email is required");
+  generalShape.waterloo_email = Yup.string()
+    .email("Invalid email format")
+    .matches(/@(uwaterloo\.ca|edu\.uwaterloo\.ca)$/, "Must be a UW email")
+    .required("UW Email is required");
+  generalShape.program = Yup.string().required("Program is required");
+  generalShape.academic_term = Yup.string().required(
+    "Academic Term is required",
+  );
+  generalShape.location = Yup.string().required("Location is required");
+  generalShape.club_experience = Yup.boolean().test(
+    "is-defined",
+    "Please indicate if you've been a member of the UW Data Science Club before.",
+    (value) => value !== undefined && value !== null,
+  );
+
+  // Add dynamic general questions from term object (excluding personal fields)
   generalQuestions.forEach((question) => {
-    if (question.required) {
+    if (question.required && !PERSONAL_FIELDS.includes(question.id)) {
       switch (question.type) {
         case "text":
         case "textarea":
@@ -112,28 +133,19 @@ export default function ApplyPage() {
     const allGeneralErrors = formik.errors.roleQuestionAnswers?.general || {};
     switch (step) {
       case 1:
-        // Get general questions that are not role-specific (personal details)
-        const generalQuestions =
-          currentTerm?.questions.filter((q) => q.role === "general") || [];
-        const personalDetailQuestions = generalQuestions.filter((q) =>
-          PERSONAL_FIELDS.includes(q.id),
-        );
+        // Check hardcoded personal detail fields (these are always required)
+        const hasEmptyPersonalFields = PERSONAL_FIELDS.some((field) => {
+          const value = allGeneralAnswers[field];
+          // For boolean fields (like club_experience), check if they are undefined/null
+          if (field === "club_experience") {
+            return value === undefined || value === null;
+          }
+          // For string fields, check if empty or undefined
+          return !value || value === "";
+        });
 
-        const hasEmptyPersonalFields = personalDetailQuestions.some(
-          (question) => {
-            if (!question.required) return false;
-            const value = allGeneralAnswers[question.id];
-            // For boolean fields, check if they are undefined/null, not falsy
-            if (typeof value === "boolean") {
-              return value === undefined || value === null;
-            }
-            // For string fields, check if empty or undefined
-            return !value || value === "";
-          },
-        );
-
-        const hasPersonalErrors = personalDetailQuestions.some((question) =>
-          Boolean(allGeneralErrors[question.id]),
+        const hasPersonalErrors = PERSONAL_FIELDS.some((field) =>
+          Boolean(allGeneralErrors[field]),
         );
 
         return !hasEmptyPersonalFields && !hasPersonalErrors;
