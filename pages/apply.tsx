@@ -24,6 +24,7 @@ import Submitted from "@/components/forms/application/Submitted";
 // UI Components
 import Button from "@/components/UI/Button";
 import LoadingSpinner from "@/components/UI/LoadingSpinner";
+import WarningDialog from "@/components/UI/WarningDialog";
 
 // Types
 import { ApplicationFormValues, Term } from "@/types/application";
@@ -84,6 +85,10 @@ export default function ApplyPage() {
   const [isPositionsPageValid, setIsPositionsPageValid] = useState(false);
   const [isSupplementaryPageValid, setIsSupplementaryPageValid] =
     useState(false);
+
+  // Warning dialog state
+  const [isWarningDialogOpen, setIsWarningDialogOpen] = useState(false);
+  const [warningDialogMessage, setWarningDialogMessage] = useState("");
 
   // Step navigation functions
   const goToNextStep = () => setCurrentStep((prev) => prev + 1);
@@ -165,6 +170,7 @@ export default function ApplyPage() {
       await saveSectionAndNext();
     } catch (error) {
       console.error("Failed to save and continue:", error);
+      // Error dialog is already shown in saveSectionAndNext
     } finally {
       setIsSavingSection(false);
     }
@@ -182,8 +188,13 @@ export default function ApplyPage() {
         });
       }
       setCurrentStep(1);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Failed to start application:", error);
+      setWarningDialogMessage(
+        error.response?.data?.error ||
+          "Failed to start your application. Please check your internet connection and try again.",
+      );
+      setIsWarningDialogOpen(true);
     }
   };
 
@@ -218,8 +229,13 @@ export default function ApplyPage() {
       });
 
       goToNextStep();
-    } catch (error) {
+    } catch (error: any) {
       console.error("Failed to save application section:", error);
+      setWarningDialogMessage(
+        error.response?.data?.error ||
+          "Failed to save your progress. Please check your internet connection and try again.",
+      );
+      setIsWarningDialogOpen(true);
       throw error; // Re-throw to be handled by handleNext
     }
   };
@@ -244,10 +260,45 @@ export default function ApplyPage() {
       setSubmitSuccess(true);
       setCurrentStep(5); // Move to success step
     } catch (error: any) {
-      setSubmitError(error.response?.data?.error || "Failed to submit");
+      const errorMessage =
+        error.response?.data?.error ||
+        "Failed to submit your application. Please try again.";
+      setSubmitError(errorMessage);
+      setWarningDialogMessage(errorMessage);
+      setIsWarningDialogOpen(true);
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const renderButtonContent = (
+    currentStep: number,
+    isLoading: boolean,
+    isSavingSection: boolean,
+  ) => {
+    return currentStep === 4 ? (
+      isLoading ? (
+        <>
+          <LoadingSpinner size={16} classes="mr-1" />
+          Submitting...
+        </>
+      ) : (
+        <>
+          Submit
+          <MoveRight className="h-3 w-3 sm:h-4 sm:w-4" />
+        </>
+      )
+    ) : isSavingSection ? (
+      <>
+        <LoadingSpinner size={16} classes="mr-1" />
+        Saving...
+      </>
+    ) : (
+      <>
+        Next
+        <MoveRight className="h-3 w-3 sm:h-4 sm:w-4" />
+      </>
+    );
   };
 
   const formik = useFormik<ApplicationFormValues>({
@@ -600,28 +651,10 @@ export default function ApplyPage() {
                                   : "text-darkBlue"
                               }`}
                         >
-                          {currentStep === 4 ? (
-                            isLoading ? (
-                              <>
-                                <LoadingSpinner size={16} classes="mr-1" />
-                                Submitting...
-                              </>
-                            ) : (
-                              <>
-                                Submit
-                                <MoveRight className="h-3 w-3 sm:h-4 sm:w-4" />
-                              </>
-                            )
-                          ) : isSavingSection ? (
-                            <>
-                              <LoadingSpinner size={16} classes="mr-1" />
-                              Saving...
-                            </>
-                          ) : (
-                            <>
-                              Next
-                              <MoveRight className="h-3 w-3 sm:h-4 sm:w-4" />
-                            </>
+                          {renderButtonContent(
+                            currentStep,
+                            isLoading,
+                            isSavingSection,
                           )}
                         </div>
                       </Button>
@@ -633,6 +666,14 @@ export default function ApplyPage() {
           </div>
         )}
       </div>
+
+      {/* Warning Dialog */}
+      <WarningDialog
+        isOpen={isWarningDialogOpen}
+        onClose={() => setIsWarningDialogOpen(false)}
+        title="Application Error"
+        message={warningDialogMessage}
+      />
     </>
   );
 }
