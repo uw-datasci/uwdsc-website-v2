@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import { useFormik } from "formik";
@@ -162,7 +162,8 @@ export default function ApplyPage() {
   const handleNext = async () => {
     setIsSavingSection(true);
     try {
-      await saveSectionAndNext();
+      await saveSection();
+      goToNextStep();
     } catch (error) {
       console.error("Failed to save and continue:", error);
     } finally {
@@ -170,13 +171,24 @@ export default function ApplyPage() {
     }
   };
 
-  const handlePrevious = () => goToPreviousStep();
+  const handlePrevious = async () => {
+    try {
+      saveSectionToLocalStorage();
+      goToPreviousStep();
+    } catch (error) {
+      console.error("Failed to go to previous step:", error);
+    }
+  };
 
   const startApplication = async () => {
     if (!currentTerm) return;
     try {
       if (!appExists) {
         await createOrUpdateApplication({
+          termApplyingFor: currentTerm.id,
+          ...BLANK_APPLICATION,
+        });
+        createOrUpdateLocalStorageApplication({
           termApplyingFor: currentTerm.id,
           ...BLANK_APPLICATION,
         });
@@ -187,7 +199,30 @@ export default function ApplyPage() {
     }
   };
 
-  const saveSectionAndNext = async () => {
+  const createOrUpdateLocalStorageApplication = (applicationData: Record<string, any>) => {
+    const existingApplication = JSON.parse(localStorage.getItem("application") || "{}");
+    const updatedApplication = { ...existingApplication, ...applicationData };
+    localStorage.setItem("application", JSON.stringify(updatedApplication));
+    localStorage.setItem("applicationUpdatedAt", new Date().toISOString());
+  };
+
+  const getLocalStorageApplication = () => {
+    const application = localStorage.getItem("application");
+    if (application) {
+      return JSON.parse(application);
+    }
+    return null;
+  };
+
+  const getLocalStorageApplicationUpdatedAt = () => {
+    const updatedAt = localStorage.getItem("applicationUpdatedAt");
+    if (updatedAt) {
+      return new Date(updatedAt);
+    }
+    return null;
+  };
+
+  const saveSection = async () => {
     if (!currentTerm) return;
     try {
       // if user filled out questions for a role and switched out of the role,
@@ -204,7 +239,7 @@ export default function ApplyPage() {
         }
       }
 
-      await createOrUpdateApplication({
+      const updatedApplicationData = {
         termApplyingFor: currentTerm.id,
         rolesApplyingFor:
           currentStep > 1
@@ -215,9 +250,47 @@ export default function ApplyPage() {
         roleQuestionAnswers: roleQA,
         resumeUrl: formik.values.resumeUrl,
         status: "draft",
-      });
+      };
+      await createOrUpdateApplication(updatedApplicationData);
+      createOrUpdateLocalStorageApplication(updatedApplicationData);
 
-      goToNextStep();
+    } catch (error) {
+      console.error("Failed to save application section:", error);
+      throw error; // Re-throw to be handled by handleNext
+    }
+  };
+
+  const saveSectionToLocalStorage = async () => {
+    if (!currentTerm) return;
+    try {
+      // if user filled out questions for a role and switched out of the role,
+      // clear their previous answers for unselected roles before submitting
+      const selectedRoles = [
+        ...formik.values.rolesApplyingFor,
+        "general",
+        "supplementary",
+      ];
+      let roleQA = formik.values.roleQuestionAnswers;
+      for (const [role, answers] of Object.entries(roleQA)) {
+        if (!selectedRoles.includes(role)) {
+          delete roleQA[role];
+        }
+      }
+
+      const updatedApplicationData = {
+        termApplyingFor: currentTerm.id,
+        rolesApplyingFor:
+          currentStep > 1
+            ? formik.values.rolesApplyingFor.filter(
+                (role) => role !== "None" && role,
+              )
+            : [],
+        roleQuestionAnswers: roleQA,
+        resumeUrl: formik.values.resumeUrl,
+        status: "draft",
+      };
+      createOrUpdateLocalStorageApplication(updatedApplicationData);
+
     } catch (error) {
       console.error("Failed to save application section:", error);
       throw error; // Re-throw to be handled by handleNext
@@ -231,7 +304,7 @@ export default function ApplyPage() {
     setSubmitError("");
 
     try {
-      await createOrUpdateApplication({
+      const updatedApplicationData = {
         termApplyingFor: currentTerm.id,
         rolesApplyingFor: formik.values.rolesApplyingFor.filter(
           (role) => role !== "None" && role,
@@ -239,7 +312,10 @@ export default function ApplyPage() {
         roleQuestionAnswers: values.roleQuestionAnswers,
         resumeUrl: values.resumeUrl,
         status: "submitted",
-      });
+      };
+
+      await createOrUpdateApplication(updatedApplicationData);
+      createOrUpdateLocalStorageApplication(updatedApplicationData);
 
       setSubmitSuccess(true);
       setCurrentStep(5); // Move to success step
@@ -263,6 +339,28 @@ export default function ApplyPage() {
     onSubmit: submitApplication,
   });
 
+  const handleUpdate = useCallback(async () => {
+    console.log("Updating application section...");
+    console.log(formik.values);
+    try {
+      await saveSectionToLocalStorage();
+    } catch (error) {
+      console.error("Failed to save application locally:", error);
+    }
+  }, [formik.values, saveSectionToLocalStorage]);
+
+  // Debounced save to local storage when form values change
+  useEffect(() => {
+    if (currentStep > 0 && currentTerm) {
+      const timeoutId = setTimeout(() => {
+        handleUpdate();
+      }, 500); // 500ms debounce
+
+      return () => clearTimeout(timeoutId);
+    }
+  }, [formik.values, handleUpdate, currentStep, currentTerm]);
+
+
   // Fetch data on component mount and when signed in status changes
   useEffect(() => {
     const fetchData = async () => {
@@ -283,12 +381,30 @@ export default function ApplyPage() {
             const application = applicationResponse.data.application;
 
             if (application) {
-              formik.setValues({
-                ...formik.values,
-                rolesApplyingFor: application.rolesApplyingFor || [],
-                resumeUrl: application.resumeUrl || "",
-                roleQuestionAnswers: application.roleQuestionAnswers || {},
-              });
+              const localStorageApplicationUpdatedAt = getLocalStorageApplicationUpdatedAt();
+              const applicationUpdatedAt = new Date(application.updatedAt);
+
+              // Only use local storage data if it is more recent than the fetched application
+              if (localStorageApplicationUpdatedAt &&
+                  localStorageApplicationUpdatedAt > applicationUpdatedAt) {
+                const localStorageApplication = getLocalStorageApplication();
+                formik.setValues({
+                  ...formik.values,
+                  rolesApplyingFor: localStorageApplication.rolesApplyingFor || [],
+                  resumeUrl: localStorageApplication.resumeUrl || "",
+                  roleQuestionAnswers: localStorageApplication.roleQuestionAnswers || {},
+                });
+                createOrUpdateApplication(localStorageApplication);
+              } else {
+                createOrUpdateLocalStorageApplication(application);
+                formik.setValues({
+                  ...formik.values,
+                  rolesApplyingFor: application.rolesApplyingFor || [],
+                  resumeUrl: application.resumeUrl || "",
+                  roleQuestionAnswers: application.roleQuestionAnswers || {},
+                });
+              }
+
               setHasExistingApplication(true);
               if (application.status === "submitted") {
                 setCurrentStep(5); // reroute to submitted page if application submitted
