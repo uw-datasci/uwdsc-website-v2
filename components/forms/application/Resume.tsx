@@ -76,6 +76,9 @@ export default function Supplementary({
           <p className="mt-1 text-sm text-grey2">
             Please provide a link to your resume (Google Drive, Dropbox, etc.)
           </p>
+          <p className="mt-1 text-sm text-red">
+            Please make the link is publically viewable.
+          </p>
         </div>
       </div>
     </div>

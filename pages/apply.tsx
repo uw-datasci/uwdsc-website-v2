@@ -18,7 +18,7 @@ import AppIntro from "@/components/forms/application/AppIntro";
 import PersonalDetails from "@/components/forms/application/PersonalDetails";
 import General from "@/components/forms/application/General";
 import Positions from "@/components/forms/application/Positions";
-import Supplementary from "@/components/forms/application/Supplementary";
+import Supplementary from "@/components/forms/application/Resume";
 import Submitted from "@/components/forms/application/Submitted";
 
 // UI Components
@@ -68,23 +68,23 @@ const createValidationSchema = (questions: Question[]) => {
         case "text":
         case "textarea":
           generalShape[question.id] = Yup.string().required(
-            `${question.question} is required`,
+            "This question is required",
           );
           break;
         case "multiple_choice":
           generalShape[question.id] = Yup.string().required(
-            `${question.question} is required`,
+            "This question is required",
           );
           break;
         case "checkbox":
           generalShape[question.id] = Yup.array().min(
             1,
-            `${question.question} is required`,
+            "This question is required",
           );
           break;
         default:
           generalShape[question.id] = Yup.string().required(
-            `${question.question} is required`,
+            "This question is required",
           );
       }
     }
