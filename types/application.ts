@@ -4,7 +4,7 @@ export interface ApplicationFormValues {
   // Dynamic questions
   roleQuestionAnswers: {
     [role: string]: {
-      [questionId: string]: string | string[];
+      [questionId: string]: string | string[] | boolean;
     };
   };
   rolesApplyingFor: string[];

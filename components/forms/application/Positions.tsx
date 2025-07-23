@@ -19,6 +19,7 @@ export default function Positions({
   isNextValid,
 }: PositionsProps) {
   const [positionError, setPositionError] = useState("");
+  const [formTouched, setFormTouched] = useState(false);
 
   const roles = Array.from(
     new Set([
@@ -75,6 +76,29 @@ export default function Positions({
       return false;
     }
 
+    // Special validation for Events Co-VP and Events Exec
+    const hasEventsCoVP = currentRolesWithoutNone.includes("Events Co-VP");
+    const hasEventsExec = currentRolesWithoutNone.includes("Events Exec");
+
+    if (hasEventsCoVP && hasEventsExec) {
+      // Note: Question IDs still use "Events VP" format, but role field is now "Events Co-VP"
+      const eventsCoVPSelection =
+        formik.values.roleQuestionAnswers?.["Events Co-VP"]?.["Events VP_q3"];
+      const eventsExecSelection =
+        formik.values.roleQuestionAnswers?.["Events Exec"]?.["Events Exec_q2"];
+
+      // Check if both have made a selection
+      if (eventsCoVPSelection && eventsExecSelection) {
+        // They must select different options
+        if (eventsCoVPSelection === eventsExecSelection) {
+          setPositionError(
+            "When applying for both Events Co-VP and Events Exec, you must answer different options (A and B).",
+          );
+          return false;
+        }
+      }
+    }
+
     // check that all required qeustions for chosen roles are answered
     const validRequired = currentRolesWithoutNone.every((role) => {
       const roleRequiredQuestions = getRoleSpecificQuestions(role).filter(
@@ -85,6 +109,51 @@ export default function Positions({
       }
 
       return roleRequiredQuestions.every((question) => {
+        // Special handling for Events Co-VP and Events Exec conditional questions
+        const isEventsCoVPOptionA = question.id === "Events VP_q4a";
+        const isEventsCoVPOptionB = question.id === "Events VP_q4b";
+        const isEventsExecOptionA = question.id === "Events Exec_q3a";
+        const isEventsExecOptionB = question.id === "Events Exec_q3b";
+
+        // Check if this is a conditional question that should be skipped
+        if (isEventsCoVPOptionA || isEventsCoVPOptionB) {
+          const selectedOption =
+            formik.values.roleQuestionAnswers?.["Events Co-VP"]?.[
+              "Events VP_q3"
+            ];
+          if (
+            isEventsCoVPOptionA &&
+            selectedOption !== "Option A - Leadership Experience Question"
+          ) {
+            return true; // Skip validation for this question
+          }
+          if (
+            isEventsCoVPOptionB &&
+            selectedOption !== "Option B - Event Planning Experience Question"
+          ) {
+            return true; // Skip validation for this question
+          }
+        }
+
+        if (isEventsExecOptionA || isEventsExecOptionB) {
+          const selectedOption =
+            formik.values.roleQuestionAnswers?.["Events Exec"]?.[
+              "Events Exec_q2"
+            ];
+          if (
+            isEventsExecOptionA &&
+            selectedOption !== "Option A - Leadership Experience Question"
+          ) {
+            return true; // Skip validation for this question
+          }
+          if (
+            isEventsExecOptionB &&
+            selectedOption !== "Option B - Event Planning Experience Question"
+          ) {
+            return true; // Skip validation for this question
+          }
+        }
+
         const value = formik.values.roleQuestionAnswers?.[role]?.[question.id];
         if (!value) {
           setPositionError(
@@ -117,16 +186,116 @@ export default function Positions({
   };
 
   useEffect(() => {
-    isNextValid(isStepValid());
-  }, [formik.values]);
+    // Only validate and update next button state if the form has been touched
+    // or if there are already roles selected (for when returning to this step)
+    const hasRoles = formik.values.rolesApplyingFor.some(
+      (role) => role && role !== "None",
+    );
+    if (formTouched || hasRoles) {
+      isNextValid(isStepValid());
+    } else {
+      // Initially disable next button without showing an error
+      isNextValid(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formik.values, formTouched]);
+
+  // Effect to clear option A/B answers when Events Co-VP/Exec option selection changes
+  useEffect(() => {
+    // Note: Question IDs still use "Events VP" format, but role field is now "Events Co-VP"
+    const eventsCoVPSelection =
+      formik.values.roleQuestionAnswers?.["Events Co-VP"]?.["Events VP_q3"];
+    const eventsExecSelection =
+      formik.values.roleQuestionAnswers?.["Events Exec"]?.["Events Exec_q2"];
+
+    // Clear Events Co-VP option answers when selection changes
+    if (eventsCoVPSelection) {
+      const currentCoVPAnswers =
+        formik.values.roleQuestionAnswers?.["Events Co-VP"] || {};
+
+      if (eventsCoVPSelection === "Option A - Leadership Experience Question") {
+        // Clear Option B answer if it exists
+        if (currentCoVPAnswers["Events VP_q4b"]) {
+          formik.setFieldValue(
+            "roleQuestionAnswers.Events Co-VP.Events VP_q4b",
+            "",
+          );
+        }
+      } else if (
+        eventsCoVPSelection === "Option B - Event Planning Experience Question"
+      ) {
+        // Clear Option A answer if it exists
+        if (currentCoVPAnswers["Events VP_q4a"]) {
+          formik.setFieldValue(
+            "roleQuestionAnswers.Events Co-VP.Events VP_q4a",
+            "",
+          );
+        }
+      }
+    }
+
+    // Clear Events Exec option answers when selection changes
+    if (eventsExecSelection) {
+      const currentExecAnswers =
+        formik.values.roleQuestionAnswers?.["Events Exec"] || {};
+
+      if (eventsExecSelection === "Option A - Leadership Experience Question") {
+        // Clear Option B answer if it exists
+        if (currentExecAnswers["Events Exec_q3b"]) {
+          formik.setFieldValue(
+            "roleQuestionAnswers.Events Exec.Events Exec_q3b",
+            "",
+          );
+        }
+      } else if (
+        eventsExecSelection === "Option B - Event Planning Experience Question"
+      ) {
+        // Clear Option A answer if it exists
+        if (currentExecAnswers["Events Exec_q3a"]) {
+          formik.setFieldValue(
+            "roleQuestionAnswers.Events Exec.Events Exec_q3a",
+            "",
+          );
+        }
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    formik.values.roleQuestionAnswers?.["Events Co-VP"]?.["Events VP_q3"],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    formik.values.roleQuestionAnswers?.["Events Exec"]?.["Events Exec_q2"],
+  ]);
 
   const positionPreferences = Array.from(
     { length: MAX_ALLOWED_ROLES_TO_APPLY },
     (_, i) => i,
   );
 
+  // Get filtered roles for a specific position preference index
+  const getFilteredRoles = (currentIndex: number) => {
+    const selectedRoles = formik.values.rolesApplyingFor || [];
+    const filteredRoles = roles.filter((role) => {
+      // Always allow "None" option
+      if (role === "None") return true;
+
+      // Filter out roles already selected in previous preferences
+      for (let i = 0; i < currentIndex; i++) {
+        if (selectedRoles[i] && selectedRoles[i] === role) {
+          return false;
+        }
+      }
+      return true;
+    });
+
+    return filteredRoles;
+  };
+
   // update roleApplyingFor accordingly when user changes dropdown role choice
   const handlePositionChange = (val: any, index: number) => {
+    // Mark the form as touched when user makes a selection
+    setFormTouched(true);
+
     const roles = formik.values.rolesApplyingFor || [];
     const updatedRoles = [...roles];
     const len = updatedRoles.length;
@@ -138,7 +307,23 @@ export default function Positions({
       }
       updatedRoles.push(val);
     }
+
+    // Clear any subsequent selections that might now be invalid
+    // (in case user selected the same role later that they just selected here)
+    for (let i = index + 1; i < updatedRoles.length; i++) {
+      if (updatedRoles[i] === val && val !== "None" && val !== "") {
+        updatedRoles[i] = "";
+      }
+    }
+
     formik.setFieldValue("rolesApplyingFor", updatedRoles);
+  };
+
+  // Handle form interaction for dynamic questions
+  const handleFieldInteraction = () => {
+    if (!formTouched) {
+      setFormTouched(true);
+    }
   };
 
   const getRoleSpecificQuestions = (role: string) => {
@@ -166,6 +351,7 @@ export default function Positions({
             </p>
           </div>
         </div>
+
         {/* Info about Overlapping Questions Banner */}
         <div className="flex gap-4 rounded-lg border border-solid border-aqua/50 bg-aqua/30 p-4">
           <div className="mx-2 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-aquaTextPrimary/20">
@@ -185,7 +371,7 @@ export default function Positions({
       </div>
 
       {/* Position Preferences Card */}
-      <div className="mb-5 flex flex-col gap-3">
+      <div className="mb-5 flex flex-col gap-3 px-4">
         <div className="flex items-center">
           <Users className="mr-2 h-5 w-5 text-lighterBlue" />
           <h2 className="text-xl font-semibold text-white">
@@ -215,7 +401,7 @@ export default function Positions({
               id={`role_choice_${i}`}
               name={`rolesApplyingFor[${i}]`}
               placeholder={`Select position #${i + 1}`}
-              options={roles || []}
+              options={getFilteredRoles(i)}
               value={selectedRole || ""}
               onChange={(e) => handlePositionChange(e.target.value, i)}
               background="bg-white/10"
@@ -225,14 +411,19 @@ export default function Positions({
               roleQuestions.length > 0 &&
               roleQuestions.map((q, index) => (
                 <div key={index} className={`${index === 0 ? "pt-10" : ""}`}>
-                  <RenderDynamicQuestion formik={formik} question={q} />
+                  <RenderDynamicQuestion
+                    formik={formik}
+                    question={q}
+                    onInteract={handleFieldInteraction}
+                    allQuestions={questions}
+                  />
                 </div>
               ))}
           </div>
         );
       })}
       {/* dynamic error message if inputs are invalid */}
-      {positionError && (
+      {positionError && formTouched && (
         <InputFeedback state="error">{positionError}</InputFeedback>
       )}
     </div>

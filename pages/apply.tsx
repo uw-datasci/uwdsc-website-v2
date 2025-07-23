@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Image from "next/image";
+import { motion } from "framer-motion";
 import SEO from "@/components/SEO/SEO";
 import { RootState } from "@/store/store";
 import {
@@ -15,24 +16,26 @@ import {
 // Form Components
 import AppIntro from "@/components/forms/application/AppIntro";
 import PersonalDetails from "@/components/forms/application/PersonalDetails";
-import Experience from "@/components/forms/application/Experience";
+import General from "@/components/forms/application/General";
 import Positions from "@/components/forms/application/Positions";
 import Supplementary from "@/components/forms/application/Supplementary";
 import Submitted from "@/components/forms/application/Submitted";
 
 // UI Components
 import Button from "@/components/UI/Button";
+import LoadingSpinner from "@/components/UI/LoadingSpinner";
+import WarningDialog from "@/components/UI/WarningDialog";
 
 // Types
 import { ApplicationFormValues, Term } from "@/types/application";
-import { ClockIcon, MoveLeft, MoveRight, User } from "lucide-react";
+import { ClockIcon, LinkIcon, MoveLeft, MoveRight, User } from "lucide-react";
 import {
   PERSONAL_FIELDS,
   STEP_NAMES,
   BLANK_APPLICATION,
-  NO_PREV_EXPERIENCE,
-  EXPERIENCE_FIELDS,
+  GENERAL_FIELDS,
 } from "@/constants/application";
+import Link from "next/link";
 
 const validationSchema = Yup.object({
   resumeUrl: Yup.string()
@@ -53,17 +56,11 @@ const validationSchema = Yup.object({
       academic_term: Yup.string().required("Academic Term is required"),
       location: Yup.string().required("Location is required"),
 
-      previous_member: Yup.string().required(
-        "Please indicate if you've been a previous member.",
-      ), // Ensure this radio button is selected
-
-      // club_experience needs to be required conditionally
-      club_experience: Yup.string().when("previous_member", {
-        is: (val: string) => val === "true", // If previous_member is "true"
-        then: (schema) =>
-          schema.required("Please describe your previous experience."), // Then club_experience is required
-        otherwise: (schema) => schema.equals([NO_PREV_EXPERIENCE]), // Otherwise, it must be the NO_PREV_EXPERIENCE constant
-      }),
+      club_experience: Yup.boolean().test(
+        "is-defined",
+        "Please indicate if you've been a member of the UW Data Science Club before.",
+        (value) => value !== undefined && value !== null,
+      ),
 
       skills: Yup.string().required("Skills is required"),
       motivation: Yup.string().required("Motivation is required"),
@@ -76,17 +73,22 @@ export default function ApplyPage() {
   const signedIn = useSelector((state: RootState) => state.loginToken.name);
 
   const [isLoading, setIsLoading] = useState(false);
+  const [isSavingSection, setIsSavingSection] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [submitError, setSubmitError] = useState("");
   const [currentTerm, setCurrentTerm] = useState<Term | null>(null);
   const [isApplicationsOpen, setIsApplicationsOpen] = useState(false);
   const [loadingTerm, setLoadingTerm] = useState(true);
-  const [currentStep, setCurrentStep] = useState(0); // 0: intro, 1: personal, 2: experience, 3: positions, 4: supplementary
+  const [currentStep, setCurrentStep] = useState(0); // 0: intro, 1: personal, 2: general, 3: positions, 4: supplementary
   const [appExists, setHasExistingApplication] = useState(false);
 
   const [isPositionsPageValid, setIsPositionsPageValid] = useState(false);
   const [isSupplementaryPageValid, setIsSupplementaryPageValid] =
     useState(false);
+
+  // Warning dialog state
+  const [isWarningDialogOpen, setIsWarningDialogOpen] = useState(false);
+  const [warningDialogMessage, setWarningDialogMessage] = useState("");
 
   // Step navigation functions
   const goToNextStep = () => setCurrentStep((prev) => prev + 1);
@@ -106,15 +108,18 @@ export default function ApplyPage() {
           ...generalPersonalErrors
         } = allGeneralErrors;
 
-        const hasEmptyPersonalFields = PERSONAL_FIELDS.some(
-          (field) =>
-            !generalPersonalAnswers[
-              field as keyof typeof generalPersonalAnswers
-            ] ||
+        const hasEmptyPersonalFields = PERSONAL_FIELDS.some((field) => {
+          const value =
             generalPersonalAnswers[
               field as keyof typeof generalPersonalAnswers
-            ] === "",
-        );
+            ];
+          // For boolean fields, check if they are undefined/null, not falsy
+          if (typeof value === "boolean") {
+            return value === undefined || value === null;
+          }
+          // For string fields, check if empty or undefined
+          return !value || value === "";
+        });
 
         const hasPersonalErrors = PERSONAL_FIELDS.some((field) =>
           Boolean(
@@ -122,43 +127,33 @@ export default function ApplyPage() {
           ),
         );
 
-        const clubExperienceIncomplete =
-          !generalPersonalAnswers.club_experience ||
-          generalPersonalAnswers.club_experience === "" ||
-          (generalPersonalAnswers.previous_experience === "true" &&
-            !generalPersonalAnswers.club_experience);
+        return !hasEmptyPersonalFields && !hasPersonalErrors;
 
-        return (
-          !hasEmptyPersonalFields &&
-          !hasPersonalErrors &&
-          !clubExperienceIncomplete
-        );
-
-      case 2: // Positions
-        // handled with IsPositionsPageValid
-        return false;
-
-      case 3: // Experience
-        const experienceAnswers = {
+      case 2: // General
+        const generalAnswers = {
           skills: allGeneralAnswers.skills,
           motivation: allGeneralAnswers.motivation,
         };
 
-        const experienceErrors = {
+        const generalErrors = {
           skills: allGeneralErrors.skills,
           motivation: allGeneralErrors.motivation,
         };
 
-        const hasEmptyExperienceAnswers = EXPERIENCE_FIELDS.some(
+        const hasEmptyGeneralAnswers = GENERAL_FIELDS.some(
           (field) =>
-            !experienceAnswers[field as keyof typeof experienceAnswers] ||
-            experienceAnswers[field as keyof typeof experienceAnswers] === "",
+            !generalAnswers[field as keyof typeof generalAnswers] ||
+            generalAnswers[field as keyof typeof generalAnswers] === "",
         );
-        const hasExperienceErrors = EXPERIENCE_FIELDS.some((field) =>
-          Boolean(experienceErrors[field as keyof typeof experienceErrors]),
+        const hasGeneralErrors = GENERAL_FIELDS.some((field) =>
+          Boolean(generalErrors[field as keyof typeof generalErrors]),
         );
 
-        return !hasEmptyExperienceAnswers && !hasExperienceErrors;
+        return !hasEmptyGeneralAnswers && !hasGeneralErrors;
+
+      case 3: // Positions
+        // handled with IsPositionsPageValid
+        return false;
 
       case 4: // Supplementary
         // handled with setIsSupplementaryPageValid
@@ -170,18 +165,15 @@ export default function ApplyPage() {
   };
 
   const handleNext = async () => {
-    // Set previousExperience to NO_PREV_EXPERIENCE if previousMember is false
-    if (
-      currentStep === 1 &&
-      formik.values.roleQuestionAnswers?.general?.previous_member === "false"
-    ) {
-      formik.setFieldValue(
-        "roleQuestionAnswers.general.club_experience",
-        NO_PREV_EXPERIENCE,
-      );
+    setIsSavingSection(true);
+    try {
+      await saveSectionAndNext();
+    } catch (error) {
+      console.error("Failed to save and continue:", error);
+      // Error dialog is already shown in saveSectionAndNext
+    } finally {
+      setIsSavingSection(false);
     }
-
-    await saveSectionAndNext();
   };
 
   const handlePrevious = () => goToPreviousStep();
@@ -196,8 +188,13 @@ export default function ApplyPage() {
         });
       }
       setCurrentStep(1);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Failed to start application:", error);
+      setWarningDialogMessage(
+        error.response?.data?.error ||
+          "Failed to start your application. Please check your internet connection and try again.",
+      );
+      setIsWarningDialogOpen(true);
     }
   };
 
@@ -232,8 +229,14 @@ export default function ApplyPage() {
       });
 
       goToNextStep();
-    } catch (error) {
+    } catch (error: any) {
       console.error("Failed to save application section:", error);
+      setWarningDialogMessage(
+        error.response?.data?.error ||
+          "Failed to save your progress. Please check your internet connection and try again.",
+      );
+      setIsWarningDialogOpen(true);
+      throw error; // Re-throw to be handled by handleNext
     }
   };
 
@@ -257,10 +260,44 @@ export default function ApplyPage() {
       setSubmitSuccess(true);
       setCurrentStep(5); // Move to success step
     } catch (error: any) {
-      setSubmitError(error.response?.data?.error || "Failed to submit");
+      const errorMessage =
+        error.response?.data?.error ||
+        "Failed to submit your application. Please try again.";
+      setSubmitError(errorMessage);
+      setWarningDialogMessage(errorMessage);
+      setIsWarningDialogOpen(true);
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const renderButtonContent = (
+    currentStep: number,
+    isLoading: boolean,
+    isSavingSection: boolean,
+  ) => {
+    const isLoadingState = (isLoading && currentStep === 4) || isSavingSection;
+    const icon = isLoadingState ? (
+      <LoadingSpinner size={16} classes="mr-1" />
+    ) : (
+      <MoveRight className="h-3 w-3 sm:h-4 sm:w-4" />
+    );
+
+    const text =
+      isLoading && currentStep === 4
+        ? "Submitting..."
+        : isSavingSection
+        ? "Saving..."
+        : currentStep === 4
+        ? "Submit"
+        : "Next";
+
+    return (
+      <>
+        {(isLoading && currentStep === 4) || isSavingSection ? icon : text}
+        {(isLoading && currentStep === 4) || isSavingSection ? text : icon}
+      </>
+    );
   };
 
   const formik = useFormik<ApplicationFormValues>({
@@ -376,6 +413,8 @@ export default function ApplyPage() {
           <PersonalDetails formik={formik} questions={currentTerm.questions} />
         );
       case 2:
+        return <General questions={currentTerm.questions} formik={formik} />;
+      case 3:
         return (
           <Positions
             formik={formik}
@@ -383,8 +422,6 @@ export default function ApplyPage() {
             isNextValid={setIsPositionsPageValid}
           />
         );
-      case 3:
-        return <Experience questions={currentTerm.questions} formik={formik} />;
       case 4:
         return (
           <Supplementary
@@ -418,9 +455,9 @@ export default function ApplyPage() {
 
       <div className="relative min-h-screen overflow-hidden bg-darkBlue2 px-4 py-20 shadow-md backdrop-blur-md">
         {/* Background Elements */}
-        <div className="pointer-events-none absolute inset-0 z-0">
+        <div className="pointer-events-none fixed inset-0 z-0">
           {/* Left Whale */}
-          <div className="absolute">
+          <div className="fixed left-0 top-20">
             <Image
               src="/execApps/B-light-bulb.svg"
               alt=""
@@ -430,7 +467,7 @@ export default function ApplyPage() {
           </div>
 
           {/* Right Whale on Cloud */}
-          <div className="absolute right-0 top-[10%] z-20">
+          <div className="fixed right-0 top-[15vh] z-20">
             <Image
               src="/execApps/B-stand.svg"
               alt=""
@@ -439,7 +476,7 @@ export default function ApplyPage() {
             />
           </div>
 
-          <div className="absolute right-0 top-1/2 z-10">
+          <div className="fixed right-0 top-[50vh] z-10">
             <Image src="/execApps/cloud.svg" alt="" width={380} height={144} />
           </div>
         </div>
@@ -458,7 +495,7 @@ export default function ApplyPage() {
                   {new Date(currentTerm.appDeadline).toLocaleDateString(
                     "en-US",
                     { month: "short", day: "numeric", year: "numeric" },
-                  )}
+                  ) || "Jul 30, 2025"}
                 </div>
               </div>
               <h1 className="mb-2 text-3xl font-bold text-white">
@@ -468,6 +505,64 @@ export default function ApplyPage() {
                 {currentTerm.termName}
               </p>
             </div>
+
+            {/* Join DSC Notion Link */}
+            <motion.div
+              className="relative mb-4 flex gap-4 overflow-hidden rounded-lg border border-solid border-lightBlue/50 bg-lightBlue/30 p-4 sm:mx-48"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{
+                opacity: 1,
+                y: 0,
+                boxShadow: [
+                  "0 0 0 0 rgba(59, 130, 246, 0)",
+                  "0 0 0 4px rgba(59, 130, 246, 0.1)",
+                  "0 0 0 0 rgba(59, 130, 246, 0)",
+                ],
+              }}
+              transition={{
+                duration: 0.6,
+                boxShadow: {
+                  duration: 3,
+                  repeat: Infinity,
+                  repeatDelay: 4,
+                },
+              }}
+              whileHover={{
+                scale: 1.02,
+                boxShadow: "0 8px 25px rgba(59, 130, 246, 0.15)",
+                transition: { duration: 0.2 },
+              }}
+            >
+              <Link href="https://uw-dsc.notion.site/join-dsc" target="_blank">
+                {/* Shimmer overlay */}
+                <motion.div
+                  className="absolute inset-0 -skew-x-12 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+                  initial={{ x: "-100%" }}
+                  animate={{ x: "200%" }}
+                  transition={{
+                    duration: 2,
+                    repeat: Infinity,
+                    repeatDelay: 5,
+                    ease: "easeInOut",
+                  }}
+                />
+
+                <div className="mx-2 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-lightBlue/20">
+                  <LinkIcon className="h-4 w-4 text-lighterBlue" />
+                </div>
+
+                <div className="flex-1">
+                  <p className="font-semibold text-lighterBlue">
+                    Available Positions
+                  </p>
+                  <p className="text-sm text-lighterBlue/80">
+                    Check out all available positions, their skillsets, and
+                    where your strengths could make the biggest impact.
+                  </p>
+                </div>
+              </Link>
+            </motion.div>
+
             <form onSubmit={formik.handleSubmit}>
               <div className="mx-auto max-w-4xl rounded-lg bg-darkBlue pb-4">
                 <div className="bg-gradient-blue flex items-center justify-between rounded-t-lg p-4 text-center backdrop-blur-md">
@@ -528,21 +623,22 @@ export default function ApplyPage() {
                         disabled={
                           currentStep === 4
                             ? !isSupplementaryPageValid
-                            : currentStep === 2
+                            : currentStep === 3
                             ? !isPositionsPageValid
-                            : !isStepValid(currentStep)
+                            : !isStepValid(currentStep) || isSavingSection
                         }
                         classes={`transition-all duration-300 w-24 sm:w-32 ${
                           currentStep === 4
                             ? `bg-gradient-orange ${
-                                !isSupplementaryPageValid
-                                  ? "cursor-not-allowed disabled"
+                                !isSupplementaryPageValid || isLoading
+                                  ? "cursor-not-allowed disabled opacity-50"
                                   : "hover:scale-105 hover:font-semibold submit-button-hover"
                               }`
-                            : isStepValid(currentStep) ||
-                              (currentStep === 2 && isPositionsPageValid)
-                            ? "bg-white hover:bg-grey1 hover:shadow-lg"
-                            : "bg-grey1 opacity-50 cursor-not-allowed hover:shadow-lg"
+                            : (isStepValid(currentStep) ||
+                                (currentStep === 3 && isPositionsPageValid)) &&
+                              !isSavingSection
+                            ? "bg-white hover:bg-grey1 hover:shadow-lg hover:scale-105"
+                            : "bg-grey1 opacity-50 cursor-not-allowed"
                         }`}
                         padding="px-3 py-2 sm:px-5 sm:py-3"
                       >
@@ -554,8 +650,11 @@ export default function ApplyPage() {
                                   : "text-darkBlue"
                               }`}
                         >
-                          {currentStep === 4 ? "Submit" : "Next"}
-                          <MoveRight className="h-3 w-3 sm:h-4 sm:w-4" />
+                          {renderButtonContent(
+                            currentStep,
+                            isLoading,
+                            isSavingSection,
+                          )}
                         </div>
                       </Button>
                     </div>
@@ -566,6 +665,14 @@ export default function ApplyPage() {
           </div>
         )}
       </div>
+
+      {/* Warning Dialog */}
+      <WarningDialog
+        isOpen={isWarningDialogOpen}
+        onClose={() => setIsWarningDialogOpen(false)}
+        title="Application Error"
+        message={warningDialogMessage}
+      />
     </>
   );
 }

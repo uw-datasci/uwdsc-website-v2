@@ -2,10 +2,8 @@ import { FormikProps } from "formik";
 import TextInput from "@/components/UI/Inputs/UWDSC/TextInput";
 import Dropdown from "@/components/UI/Dropdown";
 import InputFeedback from "@/components/UI/Inputs/UWDSC/InputFeedback";
-import TextArea from "@/components/UI/Inputs/UWDSC/TextArea";
 import { ApplicationFormValues, Question } from "@/types/application";
 import { User, GraduationCap } from "lucide-react";
-import { NO_PREV_EXPERIENCE } from "@/constants/application";
 
 interface PersonalDetailsProps {
   formik: FormikProps<ApplicationFormValues>;
@@ -28,7 +26,7 @@ export default function PersonalDetails({
   const generalAnswers = formik.values.roleQuestionAnswers.general || {};
 
   const getValue = (field: string) => {
-    if (field === "previous_member") {
+    if (field === "club_experience") {
       return generalAnswers[field as keyof typeof generalAnswers];
     }
     return generalAnswers[field as keyof typeof generalAnswers] || "";
@@ -60,7 +58,6 @@ export default function PersonalDetails({
               <label className="mb-2 block text-sm font-medium text-white">
                 Full Name <span className="text-red">*</span>
               </label>
-              <p>{formik.touched.roleQuestionAnswers?.general?.full_name}</p>
               <TextInput
                 id="roleQuestionAnswers.general.full_name"
                 name="roleQuestionAnswers.general.full_name"
@@ -225,17 +222,13 @@ export default function PersonalDetails({
               <label className="flex items-center">
                 <input
                   type="radio"
-                  name="roleQuestionAnswers.general.previous_member"
+                  name="roleQuestionAnswers.general.club_experience"
                   value="true"
-                  checked={getValue("previous_member") === "true"}
+                  checked={getValue("club_experience") === true}
                   onChange={() => {
                     formik.setFieldValue(
-                      "roleQuestionAnswers.general.previous_member",
-                      "true",
-                    );
-                    formik.setFieldValue(
                       "roleQuestionAnswers.general.club_experience",
-                      "",
+                      true,
                     );
                   }}
                   className="mr-2 h-4 w-4 border-grey2 bg-grey3 text-lightBlue focus:ring-lightBlue"
@@ -245,20 +238,13 @@ export default function PersonalDetails({
               <label className="flex items-center">
                 <input
                   type="radio"
-                  name="roleQuestionAnswers.general.previous_member"
+                  name="roleQuestionAnswers.general.club_experience"
                   value="false"
-                  checked={
-                    getValue("previous_member") === "false" &&
-                    getValue("club_experience") === NO_PREV_EXPERIENCE
-                  }
+                  checked={getValue("club_experience") === false}
                   onChange={() => {
                     formik.setFieldValue(
-                      "roleQuestionAnswers.general.previous_member",
-                      "false",
-                    );
-                    formik.setFieldValue(
                       "roleQuestionAnswers.general.club_experience",
-                      NO_PREV_EXPERIENCE,
+                      false,
                     );
                   }}
                   className="mr-2 h-4 w-4 border-grey2 bg-grey3 text-lightBlue focus:ring-lightBlue"
@@ -272,44 +258,10 @@ export default function PersonalDetails({
                   classes="px-2 pt-1 leading-relaxed"
                   state="error"
                 >
-                  {formik.errors.roleQuestionAnswers?.general?.previous_member}
+                  {formik.errors.roleQuestionAnswers?.general?.club_experience}
                 </InputFeedback>
               )}
           </div>
-
-          {getValue("previous_member") === "true" &&
-            getValue("club_experience") !== NO_PREV_EXPERIENCE && (
-              <div>
-                <label className="mb-2 block text-sm font-medium text-white">
-                  Tell us about your previous experience with the club, data
-                  science, or related activities{" "}
-                  <span className="text-red">*</span>
-                </label>
-                <TextArea
-                  id="roleQuestionAnswers.general.club_experience"
-                  name="roleQuestionAnswers.general.club_experience"
-                  placeholder="Describe your experience, involvement, or interest in data science..."
-                  value={String(getValue("club_experience")) || ""}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  rows={4}
-                  background="bg-white/10"
-                />
-                {formik.touched.roleQuestionAnswers?.general?.club_experience &&
-                  formik.errors.roleQuestionAnswers?.general
-                    ?.club_experience && (
-                    <InputFeedback
-                      classes="px-2 pt-1 leading-relaxed"
-                      state="error"
-                    >
-                      {
-                        formik.errors.roleQuestionAnswers?.general
-                          ?.club_experience
-                      }
-                    </InputFeedback>
-                  )}
-              </div>
-            )}
         </div>
       </div>
     </>

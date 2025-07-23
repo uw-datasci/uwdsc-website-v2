@@ -38,7 +38,7 @@ export default function TextArea({
           : "" /*Tailwind not rendering the class otherwise (To be fixed)*/
       }
           transition-300 w-full rounded-md border border-grey1 px-4.5 py-3.5 text-white outline-none
-        placeholder:text-grey1 focus:border-white xl:rounded-lg xl:px-6 xl:py-4.5 ${background}`}
+        placeholder:text-grey1 placeholder:opacity-60 focus:border-white xl:rounded-lg xl:px-6 xl:py-4.5 ${background}`}
       autoCapitalize={autoCap || "on"}
     />
   );

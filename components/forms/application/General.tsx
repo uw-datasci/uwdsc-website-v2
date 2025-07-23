@@ -4,12 +4,12 @@ import { ApplicationFormValues, Question } from "@/types/application";
 import { Briefcase, Heart, User } from "lucide-react";
 import InputFeedback from "@/components/UI/Inputs/UWDSC/InputFeedback";
 
-interface ExperienceProps {
+interface GeneralProps {
   formik: FormikProps<ApplicationFormValues>;
   questions: Question[];
 }
 
-export default function Experience({ formik, questions }: ExperienceProps) {
+export default function General({ formik, questions }: GeneralProps) {
   // Find skills and motivation questions
   const skillsQuestion = questions.find((q) => q.id === "skills");
   const motivationQuestion = questions.find((q) => q.id === "motivation");
@@ -169,4 +169,4 @@ export default function Experience({ formik, questions }: ExperienceProps) {
       </div>
     </div>
   );
-}
+} 
