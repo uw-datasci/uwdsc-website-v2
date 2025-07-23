@@ -449,7 +449,7 @@ export default function ApplyPage() {
             {/* Join DSC Notion Link */}
             <Link href="https://uw-dsc.notion.site/join-dsc" target="_blank">
               <motion.div
-                className="relative mb-4 flex gap-4 overflow-hidden rounded-lg border border-solid border-lightBlue/50 bg-lightBlue/30 p-4"
+                className="relative mb-4 flex gap-4 overflow-hidden rounded-lg border border-solid border-lightBlue/50 bg-lightBlue/30 p-4 sm:mx-48"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{
                   opacity: 1,
