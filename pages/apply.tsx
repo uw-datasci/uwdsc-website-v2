@@ -24,6 +24,7 @@ import Submitted from "@/components/forms/application/Submitted";
 // UI Components
 import Button from "@/components/UI/Button";
 import LoadingSpinner from "@/components/UI/LoadingSpinner";
+import WarningDialog from "@/components/UI/WarningDialog";
 
 // Types
 import { ApplicationFormValues, Term } from "@/types/application";
@@ -84,6 +85,10 @@ export default function ApplyPage() {
   const [isPositionsPageValid, setIsPositionsPageValid] = useState(false);
   const [isSupplementaryPageValid, setIsSupplementaryPageValid] =
     useState(false);
+
+  // Warning dialog state
+  const [isWarningDialogOpen, setIsWarningDialogOpen] = useState(false);
+  const [warningDialogMessage, setWarningDialogMessage] = useState("");
 
   // Step navigation functions
   const goToNextStep = () => setCurrentStep((prev) => prev + 1);
@@ -166,6 +171,7 @@ export default function ApplyPage() {
       goToNextStep();
     } catch (error) {
       console.error("Failed to save and continue:", error);
+      // Error dialog is already shown in saveSectionAndNext
     } finally {
       setIsSavingSection(false);
     }
@@ -194,8 +200,13 @@ export default function ApplyPage() {
         });
       }
       setCurrentStep(1);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Failed to start application:", error);
+      setWarningDialogMessage(
+        error.response?.data?.error ||
+          "Failed to start your application. Please check your internet connection and try again.",
+      );
+      setIsWarningDialogOpen(true);
     }
   };
 
@@ -291,8 +302,14 @@ export default function ApplyPage() {
       };
       createOrUpdateLocalStorageApplication(updatedApplicationData);
 
-    } catch (error) {
+      goToNextStep();
+    } catch (error: any) {
       console.error("Failed to save application section:", error);
+      setWarningDialogMessage(
+        error.response?.data?.error ||
+          "Failed to save your progress. Please check your internet connection and try again.",
+      );
+      setIsWarningDialogOpen(true);
       throw error; // Re-throw to be handled by handleNext
     }
   };
@@ -320,10 +337,44 @@ export default function ApplyPage() {
       setSubmitSuccess(true);
       setCurrentStep(5); // Move to success step
     } catch (error: any) {
-      setSubmitError(error.response?.data?.error || "Failed to submit");
+      const errorMessage =
+        error.response?.data?.error ||
+        "Failed to submit your application. Please try again.";
+      setSubmitError(errorMessage);
+      setWarningDialogMessage(errorMessage);
+      setIsWarningDialogOpen(true);
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const renderButtonContent = (
+    currentStep: number,
+    isLoading: boolean,
+    isSavingSection: boolean,
+  ) => {
+    const isLoadingState = (isLoading && currentStep === 4) || isSavingSection;
+    const icon = isLoadingState ? (
+      <LoadingSpinner size={16} classes="mr-1" />
+    ) : (
+      <MoveRight className="h-3 w-3 sm:h-4 sm:w-4" />
+    );
+
+    const text =
+      isLoading && currentStep === 4
+        ? "Submitting..."
+        : isSavingSection
+        ? "Saving..."
+        : currentStep === 4
+        ? "Submit"
+        : "Next";
+
+    return (
+      <>
+        {(isLoading && currentStep === 4) || isSavingSection ? icon : text}
+        {(isLoading && currentStep === 4) || isSavingSection ? text : icon}
+      </>
+    );
   };
 
   const formik = useFormik<ApplicationFormValues>({
@@ -521,9 +572,9 @@ export default function ApplyPage() {
 
       <div className="relative min-h-screen overflow-hidden bg-darkBlue2 px-4 py-20 shadow-md backdrop-blur-md">
         {/* Background Elements */}
-        <div className="pointer-events-none absolute inset-0 z-0">
+        <div className="pointer-events-none fixed inset-0 z-0">
           {/* Left Whale */}
-          <div className="absolute">
+          <div className="fixed left-0 top-20">
             <Image
               src="/execApps/B-light-bulb.svg"
               alt=""
@@ -533,7 +584,7 @@ export default function ApplyPage() {
           </div>
 
           {/* Right Whale on Cloud */}
-          <div className="absolute right-0 top-[10%] z-20">
+          <div className="fixed right-0 top-[15vh] z-20">
             <Image
               src="/execApps/B-stand.svg"
               alt=""
@@ -542,7 +593,7 @@ export default function ApplyPage() {
             />
           </div>
 
-          <div className="absolute right-0 top-1/2 z-10">
+          <div className="fixed right-0 top-[50vh] z-10">
             <Image src="/execApps/cloud.svg" alt="" width={380} height={144} />
           </div>
         </div>
@@ -573,33 +624,33 @@ export default function ApplyPage() {
             </div>
 
             {/* Join DSC Notion Link */}
-            <Link href="https://uw-dsc.notion.site/join-dsc" target="_blank">
-              <motion.div
-                className="relative mb-4 flex gap-4 overflow-hidden rounded-lg border border-solid border-lightBlue/50 bg-lightBlue/30 p-4 sm:mx-48"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{
-                  opacity: 1,
-                  y: 0,
-                  boxShadow: [
-                    "0 0 0 0 rgba(59, 130, 246, 0)",
-                    "0 0 0 4px rgba(59, 130, 246, 0.1)",
-                    "0 0 0 0 rgba(59, 130, 246, 0)",
-                  ],
-                }}
-                transition={{
-                  duration: 0.6,
-                  boxShadow: {
-                    duration: 3,
-                    repeat: Infinity,
-                    repeatDelay: 4,
-                  },
-                }}
-                whileHover={{
-                  scale: 1.02,
-                  boxShadow: "0 8px 25px rgba(59, 130, 246, 0.15)",
-                  transition: { duration: 0.2 },
-                }}
-              >
+            <motion.div
+              className="relative mb-4 flex gap-4 overflow-hidden rounded-lg border border-solid border-lightBlue/50 bg-lightBlue/30 p-4 sm:mx-48"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{
+                opacity: 1,
+                y: 0,
+                boxShadow: [
+                  "0 0 0 0 rgba(59, 130, 246, 0)",
+                  "0 0 0 4px rgba(59, 130, 246, 0.1)",
+                  "0 0 0 0 rgba(59, 130, 246, 0)",
+                ],
+              }}
+              transition={{
+                duration: 0.6,
+                boxShadow: {
+                  duration: 3,
+                  repeat: Infinity,
+                  repeatDelay: 4,
+                },
+              }}
+              whileHover={{
+                scale: 1.02,
+                boxShadow: "0 8px 25px rgba(59, 130, 246, 0.15)",
+                transition: { duration: 0.2 },
+              }}
+            >
+              <Link href="https://uw-dsc.notion.site/join-dsc" target="_blank">
                 {/* Shimmer overlay */}
                 <motion.div
                   className="absolute inset-0 -skew-x-12 bg-gradient-to-r from-transparent via-white/20 to-transparent"
@@ -626,8 +677,8 @@ export default function ApplyPage() {
                     where your strengths could make the biggest impact.
                   </p>
                 </div>
-              </motion.div>
-            </Link>
+              </Link>
+            </motion.div>
 
             <form onSubmit={formik.handleSubmit}>
               <div className="mx-auto max-w-4xl rounded-lg bg-darkBlue pb-4">
@@ -716,28 +767,10 @@ export default function ApplyPage() {
                                   : "text-darkBlue"
                               }`}
                         >
-                          {currentStep === 4 ? (
-                            isLoading ? (
-                              <>
-                                <LoadingSpinner size={16} classes="mr-1" />
-                                Submitting...
-                              </>
-                            ) : (
-                              <>
-                                Submit
-                                <MoveRight className="h-3 w-3 sm:h-4 sm:w-4" />
-                              </>
-                            )
-                          ) : isSavingSection ? (
-                            <>
-                              <LoadingSpinner size={16} classes="mr-1" />
-                              Saving...
-                            </>
-                          ) : (
-                            <>
-                              Next
-                              <MoveRight className="h-3 w-3 sm:h-4 sm:w-4" />
-                            </>
+                          {renderButtonContent(
+                            currentStep,
+                            isLoading,
+                            isSavingSection,
                           )}
                         </div>
                       </Button>
@@ -749,6 +782,14 @@ export default function ApplyPage() {
           </div>
         )}
       </div>
+
+      {/* Warning Dialog */}
+      <WarningDialog
+        isOpen={isWarningDialogOpen}
+        onClose={() => setIsWarningDialogOpen(false)}
+        title="Application Error"
+        message={warningDialogMessage}
+      />
     </>
   );
 }
