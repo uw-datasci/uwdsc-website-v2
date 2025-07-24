@@ -234,8 +234,12 @@ export default function ApplyPage() {
     }
   };
 
-  const createOrUpdateLocalStorageApplication = (applicationData: Record<string, any>) => {
-    const existingApplication = JSON.parse(localStorage.getItem("application") || "{}");
+  const createOrUpdateLocalStorageApplication = (
+    applicationData: Record<string, any>,
+  ) => {
+    const existingApplication = JSON.parse(
+      localStorage.getItem("application") || "{}",
+    );
     const updatedApplication = { ...existingApplication, ...applicationData };
     localStorage.setItem("application", JSON.stringify(updatedApplication));
     localStorage.setItem("applicationUpdatedAt", new Date().toISOString());
@@ -284,7 +288,6 @@ export default function ApplyPage() {
       };
       await createOrUpdateApplication(updatedApplicationData);
       createOrUpdateLocalStorageApplication(updatedApplicationData);
-
     } catch (error) {
       console.error("Failed to save application section:", error);
       throw error; // Re-throw to be handled by handleNext
@@ -321,7 +324,6 @@ export default function ApplyPage() {
         status: "draft",
       };
       createOrUpdateLocalStorageApplication(updatedApplicationData);
-
     } catch (error: any) {
       console.error("Failed to save application section:", error);
       setWarningDialogMessage(
@@ -431,7 +433,6 @@ export default function ApplyPage() {
     }
   }, [formik.values, handleUpdate, currentStep, currentTerm]);
 
-
   // Fetch data on component mount and when signed in status changes
   useEffect(() => {
     const fetchData = async () => {
@@ -452,18 +453,23 @@ export default function ApplyPage() {
             const application = applicationResponse.data.application;
 
             if (application) {
-              const localStorageApplicationUpdatedAt = getLocalStorageApplicationUpdatedAt();
+              const localStorageApplicationUpdatedAt =
+                getLocalStorageApplicationUpdatedAt();
               const applicationUpdatedAt = new Date(application.updatedAt);
 
               // Only use local storage data if it is more recent than the fetched application
-              if (localStorageApplicationUpdatedAt &&
-                  localStorageApplicationUpdatedAt > applicationUpdatedAt) {
+              if (
+                localStorageApplicationUpdatedAt &&
+                localStorageApplicationUpdatedAt > applicationUpdatedAt
+              ) {
                 const localStorageApplication = getLocalStorageApplication();
                 formik.setValues({
                   ...formik.values,
-                  rolesApplyingFor: localStorageApplication.rolesApplyingFor || [],
+                  rolesApplyingFor:
+                    localStorageApplication.rolesApplyingFor || [],
                   resumeUrl: localStorageApplication.resumeUrl || "",
-                  roleQuestionAnswers: localStorageApplication.roleQuestionAnswers || {},
+                  roleQuestionAnswers:
+                    localStorageApplication.roleQuestionAnswers || {},
                 });
                 createOrUpdateApplication(localStorageApplication);
               } else {
@@ -704,8 +710,8 @@ export default function ApplyPage() {
                     where your strengths could make the biggest impact.
                   </p>
                 </div>
-              </Link>
-            </motion.div>
+              </motion.div>
+            </Link>
 
             <form onSubmit={formik.handleSubmit}>
               <div className="mx-auto max-w-4xl rounded-lg bg-darkBlue pb-4">
