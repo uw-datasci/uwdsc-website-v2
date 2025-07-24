@@ -452,7 +452,7 @@ export default function ApplyPage() {
             const applicationResponse = await getCurrentUserApplication();
             const application = applicationResponse.data.application;
 
-            if (application) {
+            if (application && application.status !== "submitted") {
               const localStorageApplicationUpdatedAt =
                 getLocalStorageApplicationUpdatedAt();
               const applicationUpdatedAt = new Date(application.updatedAt);
@@ -481,11 +481,9 @@ export default function ApplyPage() {
                   roleQuestionAnswers: application.roleQuestionAnswers || {},
                 });
               }
-
               setHasExistingApplication(true);
-              if (application.status === "submitted") {
-                setCurrentStep(5); // reroute to submitted page if application submitted
-              }
+            } else if (application && application.status === "submitted") {
+              setCurrentStep(5); // reroute to submitted page if application submitted
             }
           } catch (error) {
             console.error("Error fetching application data:", error);

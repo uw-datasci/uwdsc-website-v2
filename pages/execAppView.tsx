@@ -214,7 +214,7 @@ export default function ExecAppView() {
               row.push(""); // empty ans
             }
           }
-        } else {
+        } else if (maxQuetionsPerRoleRank[i]) {
           row.push(""); // empty role
           for (let j = 0; j < maxQuetionsPerRoleRank[i]; j++) {
             row.push(""); // empty question
