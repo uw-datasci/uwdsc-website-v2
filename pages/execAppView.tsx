@@ -48,21 +48,6 @@ interface ExecApp {
       [questionId: string]: string | string[];
     };
   };
-  // academicInfo: {
-  //   program: string;
-  //   academicTerm: string;
-  //   location: string;
-  // };
-  // clubExperience: {
-  //   previousMember: boolean;
-  //   previousExperience: string;
-  // };
-  // personalInfo: {
-  //   uwEmail: string;
-  //   personalEmail: string;
-  //   fullName: string;
-  // };
-  // questionAnswers: any;
 }
 
 export default function ExecAppView() {
@@ -139,10 +124,13 @@ export default function ExecAppView() {
       "Location",
       "Status",
       "Resume URL",
-      "Previous Member",
-      "Previous Experience",
-      "Role Preferences (in order)",
+      "Previous Club Experience",
     ];
+    // add general questions from term app
+    const generalTermHeaders = currentTerm.questions.filter(q => q.role === "general").map(q => q.question);
+    generalTermHeaders.forEach(q => headers.push(q));
+    // add header for applied roles
+    headers.push("Role Preferences (in order)");
 
     const maxQuetionsPerRoleRank = new Array(MAX_ALLOWED_ROLES_TO_APPLY).fill(
       0,
@@ -198,10 +186,12 @@ export default function ExecAppView() {
         app.roleQuestionAnswers.general.location,
         app.status,
         app.resumeUrl,
-        app.roleQuestionAnswers.general.previous_member,
         app.roleQuestionAnswers.general.club_experience,
-        app.rolesApplyingFor.join(", "),
       ];
+      // add answers to general term questions
+      const generalTermQuestions = currentTerm.questions.filter(q => q.role === "general");
+      generalTermQuestions.forEach(q => row.push(app.roleQuestionAnswers.general[q.id]));
+      row.push(app.rolesApplyingFor.join(", "));
 
       // add role specific question answer pair for each ranked role
       for (let i = 0; i < MAX_ALLOWED_ROLES_TO_APPLY; i++) {
@@ -224,7 +214,7 @@ export default function ExecAppView() {
               row.push(""); // empty ans
             }
           }
-        } else {
+        } else if (maxQuetionsPerRoleRank[i]) {
           row.push(""); // empty role
           for (let j = 0; j < maxQuetionsPerRoleRank[i]; j++) {
             row.push(""); // empty question
@@ -388,7 +378,9 @@ export default function ExecAppView() {
                   {app.roleQuestionAnswers.general.program}
                 </p>
                 <p className="col-span-1 flex items-center break-all">
-                  {app.submittedAt ? formatDate(app.submittedAt) : app.status}
+                  {app.submittedAt && app.status === "submitted"
+                    ? formatDate(app.submittedAt)
+                    : app.status}
                 </p>
               </div>
               {i !== displayedApplications.length - 1 && (

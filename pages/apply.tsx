@@ -234,8 +234,12 @@ export default function ApplyPage() {
     }
   };
 
-  const createOrUpdateLocalStorageApplication = (applicationData: Record<string, any>) => {
-    const existingApplication = JSON.parse(localStorage.getItem("application") || "{}");
+  const createOrUpdateLocalStorageApplication = (
+    applicationData: Record<string, any>,
+  ) => {
+    const existingApplication = JSON.parse(
+      localStorage.getItem("application") || "{}",
+    );
     const updatedApplication = { ...existingApplication, ...applicationData };
     localStorage.setItem("application", JSON.stringify(updatedApplication));
     localStorage.setItem("applicationUpdatedAt", new Date().toISOString());
@@ -284,7 +288,6 @@ export default function ApplyPage() {
       };
       await createOrUpdateApplication(updatedApplicationData);
       createOrUpdateLocalStorageApplication(updatedApplicationData);
-
     } catch (error) {
       console.error("Failed to save application section:", error);
       throw error; // Re-throw to be handled by handleNext
@@ -321,7 +324,6 @@ export default function ApplyPage() {
         status: "draft",
       };
       createOrUpdateLocalStorageApplication(updatedApplicationData);
-
     } catch (error: any) {
       console.error("Failed to save application section:", error);
       setWarningDialogMessage(
@@ -431,7 +433,6 @@ export default function ApplyPage() {
     }
   }, [formik.values, handleUpdate, currentStep, currentTerm]);
 
-
   // Fetch data on component mount and when signed in status changes
   useEffect(() => {
     const fetchData = async () => {
@@ -451,19 +452,24 @@ export default function ApplyPage() {
             const applicationResponse = await getCurrentUserApplication();
             const application = applicationResponse.data.application;
 
-            if (application) {
-              const localStorageApplicationUpdatedAt = getLocalStorageApplicationUpdatedAt();
+            if (application && application.status !== "submitted") {
+              const localStorageApplicationUpdatedAt =
+                getLocalStorageApplicationUpdatedAt();
               const applicationUpdatedAt = new Date(application.updatedAt);
 
               // Only use local storage data if it is more recent than the fetched application
-              if (localStorageApplicationUpdatedAt &&
-                  localStorageApplicationUpdatedAt > applicationUpdatedAt) {
+              if (
+                localStorageApplicationUpdatedAt &&
+                localStorageApplicationUpdatedAt > applicationUpdatedAt
+              ) {
                 const localStorageApplication = getLocalStorageApplication();
                 formik.setValues({
                   ...formik.values,
-                  rolesApplyingFor: localStorageApplication.rolesApplyingFor || [],
+                  rolesApplyingFor:
+                    localStorageApplication.rolesApplyingFor || [],
                   resumeUrl: localStorageApplication.resumeUrl || "",
-                  roleQuestionAnswers: localStorageApplication.roleQuestionAnswers || {},
+                  roleQuestionAnswers:
+                    localStorageApplication.roleQuestionAnswers || {},
                 });
                 createOrUpdateApplication(localStorageApplication);
               } else {
@@ -475,11 +481,9 @@ export default function ApplyPage() {
                   roleQuestionAnswers: application.roleQuestionAnswers || {},
                 });
               }
-
               setHasExistingApplication(true);
-              if (application.status === "submitted") {
-                setCurrentStep(5); // reroute to submitted page if application submitted
-              }
+            } else if (application && application.status === "submitted") {
+              setCurrentStep(5); // reroute to submitted page if application submitted
             }
           } catch (error) {
             console.error("Error fetching application data:", error);
@@ -591,29 +595,33 @@ export default function ApplyPage() {
 
       <div className="relative min-h-screen overflow-hidden bg-darkBlue2 px-4 py-20 shadow-md backdrop-blur-md">
         {/* Background Elements */}
-        <div className="pointer-events-none fixed inset-0 z-0">
+        <div className="pointer-events-none absolute inset-0 z-0">
           {/* Left Whale */}
-          <div className="fixed left-0 top-20">
+          <div
+            className={`absolute ${
+              currentStep === 5 || currentStep === 0 ? "" : "top-[20%]"
+            }`}
+          >
             <Image
               src="/execApps/B-light-bulb.svg"
-              alt=""
+              alt="whale with light bulb"
               width={450}
               height={450}
             />
           </div>
 
           {/* Right Whale on Cloud */}
-          <div className="fixed right-0 top-[15vh] z-20">
+          <div
+            className={`absolute right-0 ${
+              currentStep === 5 || currentStep === 0 ? "top-[10%]" : "top-[5%]"
+            } z-20 translate-x-1/3 transform`}
+          >
             <Image
-              src="/execApps/B-stand.svg"
-              alt=""
-              width={350}
-              height={350}
+              src="/execApps/B-float.svg"
+              alt="whale floating on cloud"
+              width={500}
+              height={500}
             />
-          </div>
-
-          <div className="fixed right-0 top-[50vh] z-10">
-            <Image src="/execApps/cloud.svg" alt="" width={380} height={144} />
           </div>
         </div>
 
@@ -643,33 +651,37 @@ export default function ApplyPage() {
             </div>
 
             {/* Join DSC Notion Link */}
-            <motion.div
-              className="relative mb-4 flex gap-4 overflow-hidden rounded-lg border border-solid border-lightBlue/50 bg-lightBlue/30 p-4 sm:mx-48"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{
-                opacity: 1,
-                y: 0,
-                boxShadow: [
-                  "0 0 0 0 rgba(59, 130, 246, 0)",
-                  "0 0 0 4px rgba(59, 130, 246, 0.1)",
-                  "0 0 0 0 rgba(59, 130, 246, 0)",
-                ],
-              }}
-              transition={{
-                duration: 0.6,
-                boxShadow: {
-                  duration: 3,
-                  repeat: Infinity,
-                  repeatDelay: 4,
-                },
-              }}
-              whileHover={{
-                scale: 1.02,
-                boxShadow: "0 8px 25px rgba(59, 130, 246, 0.15)",
-                transition: { duration: 0.2 },
-              }}
+            <Link
+              href="https://uw-dsc.notion.site/join-dsc"
+              target="_blank"
+              className="mb-4 block sm:mx-48"
             >
-              <Link href="https://uw-dsc.notion.site/join-dsc" target="_blank">
+              <motion.div
+                className="relative flex gap-4 overflow-hidden rounded-lg border border-solid border-lightBlue/50 bg-lightBlue/30 p-4"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{
+                  opacity: 1,
+                  y: 0,
+                  boxShadow: [
+                    "0 0 0 0 rgba(59, 130, 246, 0)",
+                    "0 0 0 4px rgba(59, 130, 246, 0.1)",
+                    "0 0 0 0 rgba(59, 130, 246, 0)",
+                  ],
+                }}
+                transition={{
+                  duration: 0.6,
+                  boxShadow: {
+                    duration: 3,
+                    repeat: Infinity,
+                    repeatDelay: 4,
+                  },
+                }}
+                whileHover={{
+                  scale: 1.02,
+                  boxShadow: "0 8px 25px rgba(59, 130, 246, 0.15)",
+                  transition: { duration: 0.2 },
+                }}
+              >
                 {/* Shimmer overlay */}
                 <motion.div
                   className="absolute inset-0 -skew-x-12 bg-gradient-to-r from-transparent via-white/20 to-transparent"
@@ -696,8 +708,8 @@ export default function ApplyPage() {
                     where your strengths could make the biggest impact.
                   </p>
                 </div>
-              </Link>
-            </motion.div>
+              </motion.div>
+            </Link>
 
             <form onSubmit={formik.handleSubmit}>
               <div className="mx-auto max-w-4xl rounded-lg bg-darkBlue pb-4">
