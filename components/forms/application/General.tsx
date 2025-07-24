@@ -1,8 +1,7 @@
 import { FormikProps } from "formik";
-import TextArea from "@/components/UI/Inputs/UWDSC/TextArea";
 import { ApplicationFormValues, Question } from "@/types/application";
-import { Briefcase, Heart, User } from "lucide-react";
-import InputFeedback from "@/components/UI/Inputs/UWDSC/InputFeedback";
+import { User } from "lucide-react";
+import RenderDynamicQuestion from "./RenderDynamicQuestions";
 
 interface GeneralProps {
   formik: FormikProps<ApplicationFormValues>;
@@ -10,23 +9,10 @@ interface GeneralProps {
 }
 
 export default function General({ formik, questions }: GeneralProps) {
-  // Find skills and motivation questions
-  const skillsQuestion = questions.find((q) => q.id === "skills");
-  const motivationQuestion = questions.find((q) => q.id === "motivation");
-
-  const skillsPlaceholder = `Describe your relevant skills and experiences for the positions you're interested in. Include specific examples of:
-  • Leadership experience
-  • Technical skills
-  • Project management
-  • Communication abilities
-  • Team collaboration
-  • Any other relevant experiences`;
-
-  const motivationPlaceholder = `Share your motivation for joining the Data Science Club. Consider mentioning:
-  • What interests you about data science
-  • How you want to contribute to the community
-  • What you hope to achieve as an executive
-  • Your vision for the club`;
+  // Filter questions for the "general" role and sort by order
+  const generalQuestions = questions
+    .filter((q) => q.role === "general")
+    .sort((a, b) => a.order - b.order);
 
   return (
     <div className="space-y-10">
@@ -47,126 +33,18 @@ export default function General({ formik, questions }: GeneralProps) {
         </div>
       </div>
 
-      {/* Skills & Experience Card */}
+      {/* Dynamic General Questions */}
       <div className="rounded-lg border-0.5 border-solid border-white/20 bg-slateBlue p-6">
-        <div className="mb-4 flex items-center">
-          <Briefcase className="mr-2 h-5 w-5 text-lighterBlue" />
-          <h2 className="text-xl font-semibold text-white">
-            Skills & Experience
-          </h2>
-        </div>
-
-        <div className="mb-4">
-          <label className="mb-2 block text-sm font-medium text-white">
-            What skills make you an ideal candidate for each position you are
-            interested in? <span className="text-red">*</span>
-          </label>
-          <p className="mb-3 text-sm text-grey2">
-            Please give examples of how your past experiences could be used as
-            an executive.
-          </p>
-          <TextArea
-            id={skillsQuestion?.id || "skills"}
-            name={`roleQuestionAnswers.general.${
-              skillsQuestion?.id || "skills"
-            }`}
-            placeholder={skillsQuestion?.placeholder || skillsPlaceholder}
-            value={
-              formik.values.roleQuestionAnswers.general?.[
-                skillsQuestion?.id || "skills"
-              ]
-                ? String(
-                    formik.values.roleQuestionAnswers.general?.[
-                      skillsQuestion?.id || "skills"
-                    ],
-                  )
-                : ""
-            }
-            onChange={(e) =>
-              formik.setFieldValue(
-                `roleQuestionAnswers.general.${skillsQuestion?.id || "skills"}`,
-                e.target.value,
-              )
-            }
-            onBlur={formik.handleBlur}
-            rows={8}
-            background="bg-white/10"
-          />
-          {formik.touched.roleQuestionAnswers?.general?.[
-            skillsQuestion?.id || "skills"
-          ] &&
-            formik.errors.roleQuestionAnswers?.general?.[
-              skillsQuestion?.id || "skills"
-            ] && (
-              <InputFeedback classes="px-2 pt-1 leading-relaxed" state="error">
-                {
-                  formik.errors.roleQuestionAnswers?.general?.[
-                    skillsQuestion?.id || "skills"
-                  ]
-                }
-              </InputFeedback>
-            )}
-        </div>
-      </div>
-
-      {/* Motivation Card */}
-      <div className="rounded-lg border-0.5 border-solid border-white/20 bg-slateBlue p-6">
-        <div className="mb-4 flex items-center">
-          <Heart className="mr-2 h-5 w-5 text-lighterBlue" />
-          <h2 className="text-xl font-bold text-white">Motivation</h2>
-        </div>
-
-        <div className="mb-4">
-          <label className="mb-2 block text-sm font-medium text-white">
-            Why do you want to join DSC? <span className="text-red">*</span>
-          </label>
-          <TextArea
-            id={motivationQuestion?.id || "motivation"}
-            name={`roleQuestionAnswers.general.${
-              motivationQuestion?.id || "motivation"
-            }`}
-            placeholder={
-              motivationQuestion?.placeholder || motivationPlaceholder
-            }
-            value={
-              formik.values.roleQuestionAnswers.general?.[
-                motivationQuestion?.id || "motivation"
-              ]
-                ? String(
-                    formik.values.roleQuestionAnswers.general?.[
-                      motivationQuestion?.id || "motivation"
-                    ],
-                  )
-                : ""
-            }
-            onChange={(e) =>
-              formik.setFieldValue(
-                `roleQuestionAnswers.general.${
-                  motivationQuestion?.id || "motivation"
-                }`,
-                e.target.value,
-              )
-            }
-            onBlur={formik.handleBlur}
-            rows={6}
-            background="bg-white/10"
-          />
-          {formik.touched.roleQuestionAnswers?.general?.[
-            motivationQuestion?.id || "motivation"
-          ] &&
-            formik.errors.roleQuestionAnswers?.general?.[
-              motivationQuestion?.id || "motivation"
-            ] && (
-              <InputFeedback classes="px-2 pt-1 leading-relaxed" state="error">
-                {
-                  formik.errors.roleQuestionAnswers?.general?.[
-                    motivationQuestion?.id || "motivation"
-                  ]
-                }
-              </InputFeedback>
-            )}
+        <div className="space-y-6">
+          {generalQuestions.map((question) => (
+            <RenderDynamicQuestion
+              key={question.id}
+              formik={formik}
+              question={question}
+            />
+          ))}
         </div>
       </div>
     </div>
   );
-} 
+}

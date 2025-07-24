@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import { useFormik } from "formik";
@@ -18,54 +18,88 @@ import AppIntro from "@/components/forms/application/AppIntro";
 import PersonalDetails from "@/components/forms/application/PersonalDetails";
 import General from "@/components/forms/application/General";
 import Positions from "@/components/forms/application/Positions";
-import Supplementary from "@/components/forms/application/Supplementary";
+import Supplementary from "@/components/forms/application/Resume";
 import Submitted from "@/components/forms/application/Submitted";
 
 // UI Components
 import Button from "@/components/UI/Button";
 import LoadingSpinner from "@/components/UI/LoadingSpinner";
+import WarningDialog from "@/components/UI/WarningDialog";
 
 // Types
-import { ApplicationFormValues, Term } from "@/types/application";
+import { ApplicationFormValues, Term, Question } from "@/types/application";
 import { ClockIcon, LinkIcon, MoveLeft, MoveRight, User } from "lucide-react";
 import {
   PERSONAL_FIELDS,
   STEP_NAMES,
   BLANK_APPLICATION,
-  GENERAL_FIELDS,
 } from "@/constants/application";
 import Link from "next/link";
 
-const validationSchema = Yup.object({
-  resumeUrl: Yup.string()
-    .url("Must be a valid URL")
-    .required("Resume URL is required"),
+// Create dynamic validation schema based on current term questions
+const createValidationSchema = (questions: Question[]) => {
+  const generalQuestions = questions.filter((q) => q.role === "general");
+  const generalShape: any = {};
 
-  roleQuestionAnswers: Yup.object().shape({
-    general: Yup.object().shape({
-      full_name: Yup.string().required("Full Name is required"),
-      personal_email: Yup.string()
-        .email("Invalid email format")
-        .required("Personal Email is required"),
-      waterloo_email: Yup.string()
-        .email("Invalid email format")
-        .matches(/@(uwaterloo\.ca|edu\.uwaterloo\.ca)$/, "Must be a UW email")
-        .required("UW Email is required"),
-      program: Yup.string().required("Program is required"),
-      academic_term: Yup.string().required("Academic Term is required"),
-      location: Yup.string().required("Location is required"),
+  // Add hardcoded personal detail field validations
+  generalShape.full_name = Yup.string().required("Full Name is required");
+  generalShape.personal_email = Yup.string()
+    .email("Invalid email format")
+    .required("Personal Email is required");
+  generalShape.waterloo_email = Yup.string()
+    .email("Invalid email format")
+    .matches(/@(uwaterloo\.ca|edu\.uwaterloo\.ca)$/, "Must be a UW email")
+    .required("UW Email is required");
+  generalShape.program = Yup.string().required("Program is required");
+  generalShape.academic_term = Yup.string().required(
+    "Academic Term is required",
+  );
+  generalShape.location = Yup.string().required("Location is required");
+  generalShape.club_experience = Yup.boolean().test(
+    "is-defined",
+    "Please indicate if you've been a member of the UW Data Science Club before.",
+    (value) => value !== undefined && value !== null,
+  );
 
-      club_experience: Yup.boolean().test(
-        "is-defined",
-        "Please indicate if you've been a member of the UW Data Science Club before.",
-        (value) => value !== undefined && value !== null,
-      ),
+  // Add dynamic general questions from term object (excluding personal fields)
+  generalQuestions.forEach((question) => {
+    if (question.required && !PERSONAL_FIELDS.includes(question.id)) {
+      switch (question.type) {
+        case "text":
+        case "textarea":
+          generalShape[question.id] = Yup.string().required(
+            "This question is required",
+          );
+          break;
+        case "multiple_choice":
+          generalShape[question.id] = Yup.string().required(
+            "This question is required",
+          );
+          break;
+        case "checkbox":
+          generalShape[question.id] = Yup.array().min(
+            1,
+            "This question is required",
+          );
+          break;
+        default:
+          generalShape[question.id] = Yup.string().required(
+            "This question is required",
+          );
+      }
+    }
+  });
 
-      skills: Yup.string().required("Skills is required"),
-      motivation: Yup.string().required("Motivation is required"),
+  return Yup.object({
+    resumeUrl: Yup.string()
+      .url("Must be a valid URL")
+      .required("Resume URL is required"),
+
+    roleQuestionAnswers: Yup.object().shape({
+      general: Yup.object().shape(generalShape),
     }),
-  }),
-});
+  });
+};
 
 export default function ApplyPage() {
   const router = useRouter();
@@ -85,6 +119,10 @@ export default function ApplyPage() {
   const [isSupplementaryPageValid, setIsSupplementaryPageValid] =
     useState(false);
 
+  // Warning dialog state
+  const [isWarningDialogOpen, setIsWarningDialogOpen] = useState(false);
+  const [warningDialogMessage, setWarningDialogMessage] = useState("");
+
   // Step navigation functions
   const goToNextStep = () => setCurrentStep((prev) => prev + 1);
   const goToPreviousStep = () => setCurrentStep((prev) => prev - 1);
@@ -95,21 +133,11 @@ export default function ApplyPage() {
     const allGeneralErrors = formik.errors.roleQuestionAnswers?.general || {};
     switch (step) {
       case 1:
-        const { skills, motivation, ...generalPersonalAnswers } =
-          allGeneralAnswers;
-        const {
-          skills: errSkills,
-          motivation: errMotivation,
-          ...generalPersonalErrors
-        } = allGeneralErrors;
-
+        // Check hardcoded personal detail fields (these are always required)
         const hasEmptyPersonalFields = PERSONAL_FIELDS.some((field) => {
-          const value =
-            generalPersonalAnswers[
-              field as keyof typeof generalPersonalAnswers
-            ];
-          // For boolean fields, check if they are undefined/null, not falsy
-          if (typeof value === "boolean") {
+          const value = allGeneralAnswers[field];
+          // For boolean fields (like club_experience), check if they are undefined/null
+          if (field === "club_experience") {
             return value === undefined || value === null;
           }
           // For string fields, check if empty or undefined
@@ -117,31 +145,32 @@ export default function ApplyPage() {
         });
 
         const hasPersonalErrors = PERSONAL_FIELDS.some((field) =>
-          Boolean(
-            generalPersonalErrors[field as keyof typeof generalPersonalErrors],
-          ),
+          Boolean(allGeneralErrors[field]),
         );
 
         return !hasEmptyPersonalFields && !hasPersonalErrors;
 
       case 2: // General
-        const generalAnswers = {
-          skills: allGeneralAnswers.skills,
-          motivation: allGeneralAnswers.motivation,
-        };
-
-        const generalErrors = {
-          skills: allGeneralErrors.skills,
-          motivation: allGeneralErrors.motivation,
-        };
-
-        const hasEmptyGeneralAnswers = GENERAL_FIELDS.some(
-          (field) =>
-            !generalAnswers[field as keyof typeof generalAnswers] ||
-            generalAnswers[field as keyof typeof generalAnswers] === "",
+        // Get general questions that are NOT personal details
+        const generalQuestions2 =
+          currentTerm?.questions.filter((q) => q.role === "general") || [];
+        const nonPersonalGeneralQuestions = generalQuestions2.filter(
+          (q) => !PERSONAL_FIELDS.includes(q.id),
         );
-        const hasGeneralErrors = GENERAL_FIELDS.some((field) =>
-          Boolean(generalErrors[field as keyof typeof generalErrors]),
+
+        const hasEmptyGeneralAnswers = nonPersonalGeneralQuestions.some(
+          (question) => {
+            if (!question.required) return false;
+            const value = allGeneralAnswers[question.id];
+            if (question.type === "checkbox") {
+              return !Array.isArray(value) || value.length === 0;
+            }
+            return !value || value.toString().trim() === "";
+          },
+        );
+
+        const hasGeneralErrors = nonPersonalGeneralQuestions.some((question) =>
+          Boolean(allGeneralErrors[question.id]),
         );
 
         return !hasEmptyGeneralAnswers && !hasGeneralErrors;
@@ -150,7 +179,7 @@ export default function ApplyPage() {
         // handled with IsPositionsPageValid
         return false;
 
-      case 4: // Supplementary
+      case 4: // Supplementary (Resume only)
         // handled with setIsSupplementaryPageValid
         return false;
 
@@ -162,15 +191,24 @@ export default function ApplyPage() {
   const handleNext = async () => {
     setIsSavingSection(true);
     try {
-      await saveSectionAndNext();
+      await saveSection();
+      goToNextStep();
     } catch (error) {
       console.error("Failed to save and continue:", error);
+      // Error dialog is already shown in saveSectionAndNext
     } finally {
       setIsSavingSection(false);
     }
   };
 
-  const handlePrevious = () => goToPreviousStep();
+  const handlePrevious = async () => {
+    try {
+      saveSectionToLocalStorage();
+      goToPreviousStep();
+    } catch (error) {
+      console.error("Failed to go to previous step:", error);
+    }
+  };
 
   const startApplication = async () => {
     if (!currentTerm) return;
@@ -180,14 +218,80 @@ export default function ApplyPage() {
           termApplyingFor: currentTerm.id,
           ...BLANK_APPLICATION,
         });
+        createOrUpdateLocalStorageApplication({
+          termApplyingFor: currentTerm.id,
+          ...BLANK_APPLICATION,
+        });
       }
       setCurrentStep(1);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Failed to start application:", error);
+      setWarningDialogMessage(
+        error.response?.data?.error ||
+          "Failed to start your application. Please check your internet connection and try again.",
+      );
+      setIsWarningDialogOpen(true);
     }
   };
 
-  const saveSectionAndNext = async () => {
+  const createOrUpdateLocalStorageApplication = (applicationData: Record<string, any>) => {
+    const existingApplication = JSON.parse(localStorage.getItem("application") || "{}");
+    const updatedApplication = { ...existingApplication, ...applicationData };
+    localStorage.setItem("application", JSON.stringify(updatedApplication));
+    localStorage.setItem("applicationUpdatedAt", new Date().toISOString());
+  };
+
+  const getLocalStorageApplication = () => {
+    const application = localStorage.getItem("application");
+    if (application) {
+      return JSON.parse(application);
+    }
+    return null;
+  };
+
+  const getLocalStorageApplicationUpdatedAt = () => {
+    const updatedAt = localStorage.getItem("applicationUpdatedAt");
+    if (updatedAt) {
+      return new Date(updatedAt);
+    }
+    return null;
+  };
+
+  const saveSection = async () => {
+    if (!currentTerm) return;
+    try {
+      // if user filled out questions for a role and switched out of the role,
+      // clear their previous answers for unselected roles before submitting
+      const selectedRoles = [...formik.values.rolesApplyingFor, "general"];
+      let roleQA = formik.values.roleQuestionAnswers;
+      for (const [role, answers] of Object.entries(roleQA)) {
+        if (!selectedRoles.includes(role)) {
+          delete roleQA[role];
+        }
+      }
+
+      const updatedApplicationData = {
+        termApplyingFor: currentTerm.id,
+        rolesApplyingFor:
+          currentStep > 1
+            ? formik.values.rolesApplyingFor.filter(
+                (role) => role !== "None" && role,
+              )
+            : [],
+        roleQuestionAnswers: roleQA,
+        resumeUrl: formik.values.resumeUrl,
+        status: "draft",
+      };
+      await createOrUpdateApplication(updatedApplicationData);
+      createOrUpdateLocalStorageApplication(updatedApplicationData);
+
+    } catch (error) {
+      console.error("Failed to save application section:", error);
+      throw error; // Re-throw to be handled by handleNext
+    }
+  };
+
+  const saveSectionToLocalStorage = async () => {
     if (!currentTerm) return;
     try {
       // if user filled out questions for a role and switched out of the role,
@@ -204,7 +308,7 @@ export default function ApplyPage() {
         }
       }
 
-      await createOrUpdateApplication({
+      const updatedApplicationData = {
         termApplyingFor: currentTerm.id,
         rolesApplyingFor:
           currentStep > 1
@@ -215,11 +319,16 @@ export default function ApplyPage() {
         roleQuestionAnswers: roleQA,
         resumeUrl: formik.values.resumeUrl,
         status: "draft",
-      });
+      };
+      createOrUpdateLocalStorageApplication(updatedApplicationData);
 
-      goToNextStep();
-    } catch (error) {
+    } catch (error: any) {
       console.error("Failed to save application section:", error);
+      setWarningDialogMessage(
+        error.response?.data?.error ||
+          "Failed to save your progress. Please check your internet connection and try again.",
+      );
+      setIsWarningDialogOpen(true);
       throw error; // Re-throw to be handled by handleNext
     }
   };
@@ -231,7 +340,7 @@ export default function ApplyPage() {
     setSubmitError("");
 
     try {
-      await createOrUpdateApplication({
+      const updatedApplicationData = {
         termApplyingFor: currentTerm.id,
         rolesApplyingFor: formik.values.rolesApplyingFor.filter(
           (role) => role !== "None" && role,
@@ -239,15 +348,52 @@ export default function ApplyPage() {
         roleQuestionAnswers: values.roleQuestionAnswers,
         resumeUrl: values.resumeUrl,
         status: "submitted",
-      });
+      };
+
+      await createOrUpdateApplication(updatedApplicationData);
+      createOrUpdateLocalStorageApplication(updatedApplicationData);
 
       setSubmitSuccess(true);
       setCurrentStep(5); // Move to success step
     } catch (error: any) {
-      setSubmitError(error.response?.data?.error || "Failed to submit");
+      const errorMessage =
+        error.response?.data?.error ||
+        "Failed to submit your application. Please try again.";
+      setSubmitError(errorMessage);
+      setWarningDialogMessage(errorMessage);
+      setIsWarningDialogOpen(true);
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const renderButtonContent = (
+    currentStep: number,
+    isLoading: boolean,
+    isSavingSection: boolean,
+  ) => {
+    const isLoadingState = (isLoading && currentStep === 4) || isSavingSection;
+    const icon = isLoadingState ? (
+      <LoadingSpinner size={16} classes="mr-1" />
+    ) : (
+      <MoveRight className="h-3 w-3 sm:h-4 sm:w-4" />
+    );
+
+    const text =
+      isLoading && currentStep === 4
+        ? "Submitting..."
+        : isSavingSection
+        ? "Saving..."
+        : currentStep === 4
+        ? "Submit"
+        : "Next";
+
+    return (
+      <>
+        {(isLoading && currentStep === 4) || isSavingSection ? icon : text}
+        {(isLoading && currentStep === 4) || isSavingSection ? text : icon}
+      </>
+    );
   };
 
   const formik = useFormik<ApplicationFormValues>({
@@ -255,13 +401,36 @@ export default function ApplyPage() {
       resumeUrl: "",
       roleQuestionAnswers: {
         general: {},
-        supplementary: {},
       },
       rolesApplyingFor: [],
     },
-    validationSchema,
+    validationSchema: currentTerm
+      ? createValidationSchema(currentTerm.questions)
+      : undefined,
     onSubmit: submitApplication,
   });
+
+  const handleUpdate = useCallback(async () => {
+    console.log("Updating application section...");
+    console.log(formik.values);
+    try {
+      await saveSectionToLocalStorage();
+    } catch (error) {
+      console.error("Failed to save application locally:", error);
+    }
+  }, [formik.values, saveSectionToLocalStorage]);
+
+  // Debounced save to local storage when form values change
+  useEffect(() => {
+    if (currentStep > 0 && currentTerm) {
+      const timeoutId = setTimeout(() => {
+        handleUpdate();
+      }, 500); // 500ms debounce
+
+      return () => clearTimeout(timeoutId);
+    }
+  }, [formik.values, handleUpdate, currentStep, currentTerm]);
+
 
   // Fetch data on component mount and when signed in status changes
   useEffect(() => {
@@ -283,12 +452,30 @@ export default function ApplyPage() {
             const application = applicationResponse.data.application;
 
             if (application) {
-              formik.setValues({
-                ...formik.values,
-                rolesApplyingFor: application.rolesApplyingFor || [],
-                resumeUrl: application.resumeUrl || "",
-                roleQuestionAnswers: application.roleQuestionAnswers || {},
-              });
+              const localStorageApplicationUpdatedAt = getLocalStorageApplicationUpdatedAt();
+              const applicationUpdatedAt = new Date(application.updatedAt);
+
+              // Only use local storage data if it is more recent than the fetched application
+              if (localStorageApplicationUpdatedAt &&
+                  localStorageApplicationUpdatedAt > applicationUpdatedAt) {
+                const localStorageApplication = getLocalStorageApplication();
+                formik.setValues({
+                  ...formik.values,
+                  rolesApplyingFor: localStorageApplication.rolesApplyingFor || [],
+                  resumeUrl: localStorageApplication.resumeUrl || "",
+                  roleQuestionAnswers: localStorageApplication.roleQuestionAnswers || {},
+                });
+                createOrUpdateApplication(localStorageApplication);
+              } else {
+                createOrUpdateLocalStorageApplication(application);
+                formik.setValues({
+                  ...formik.values,
+                  rolesApplyingFor: application.rolesApplyingFor || [],
+                  resumeUrl: application.resumeUrl || "",
+                  roleQuestionAnswers: application.roleQuestionAnswers || {},
+                });
+              }
+
               setHasExistingApplication(true);
               if (application.status === "submitted") {
                 setCurrentStep(5); // reroute to submitted page if application submitted
@@ -376,7 +563,6 @@ export default function ApplyPage() {
         return (
           <Supplementary
             formik={formik}
-            questions={currentTerm.questions}
             isNextValid={setIsSupplementaryPageValid}
           />
         );
@@ -518,8 +704,8 @@ export default function ApplyPage() {
                     where your strengths could make the biggest impact.
                   </p>
                 </div>
-              </motion.div>
-            </Link>
+              </Link>
+            </motion.div>
 
             <form onSubmit={formik.handleSubmit}>
               <div className="mx-auto max-w-4xl rounded-lg bg-darkBlue pb-4">
@@ -608,28 +794,10 @@ export default function ApplyPage() {
                                   : "text-darkBlue"
                               }`}
                         >
-                          {currentStep === 4 ? (
-                            isLoading ? (
-                              <>
-                                <LoadingSpinner size={16} classes="mr-1" />
-                                Submitting...
-                              </>
-                            ) : (
-                              <>
-                                Submit
-                                <MoveRight className="h-3 w-3 sm:h-4 sm:w-4" />
-                              </>
-                            )
-                          ) : isSavingSection ? (
-                            <>
-                              <LoadingSpinner size={16} classes="mr-1" />
-                              Saving...
-                            </>
-                          ) : (
-                            <>
-                              Next
-                              <MoveRight className="h-3 w-3 sm:h-4 sm:w-4" />
-                            </>
+                          {renderButtonContent(
+                            currentStep,
+                            isLoading,
+                            isSavingSection,
                           )}
                         </div>
                       </Button>
@@ -641,6 +809,14 @@ export default function ApplyPage() {
           </div>
         )}
       </div>
+
+      {/* Warning Dialog */}
+      <WarningDialog
+        isOpen={isWarningDialogOpen}
+        onClose={() => setIsWarningDialogOpen(false)}
+        title="Application Error"
+        message={warningDialogMessage}
+      />
     </>
   );
 }

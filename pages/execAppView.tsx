@@ -168,11 +168,7 @@ export default function ExecAppView() {
         }
       }
     }
-    // add supplementary question headers
-    const supplementaryQuestions = currentTerm.questions.filter(
-      (q) => q.role === "supplementary",
-    );
-    supplementaryQuestions.forEach((q) => headers.push(q.question));
+    // supplementary questions removed - no longer needed
 
     // formulate applicant data info
     const csvData = termApps.map((app) => {
@@ -220,10 +216,7 @@ export default function ExecAppView() {
         }
       }
 
-      // add supplementary question answer data
-      supplementaryQuestions.forEach((q, i) => {
-        row.push(app.roleQuestionAnswers.supplementary?.[q.id] || "");
-      });
+      // supplementary question data removed - no longer needed
 
       return row;
     });
