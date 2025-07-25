@@ -2,6 +2,7 @@ export const NAVBAR_ROUTES = {
   NOT_LOGGED_IN: [
     { label: "Home", route: "/" },
     { label: "Team", route: "/team" },
+    { label: "Apply", route: "/apply" },
     { label: "Contact", route: "/#contact" },
     { label: "Calendar", route: "/calendar" },
   ],

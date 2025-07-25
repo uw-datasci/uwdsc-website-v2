@@ -123,6 +123,8 @@ export default function ApplyPage() {
   const [isWarningDialogOpen, setIsWarningDialogOpen] = useState(false);
   const [warningDialogMessage, setWarningDialogMessage] = useState("");
 
+  const userToken = useSelector((state: RootState) => state.loginToken.token);
+
   // Step navigation functions
   const goToNextStep = () => setCurrentStep((prev) => prev + 1);
   const goToPreviousStep = () => setCurrentStep((prev) => prev - 1);
@@ -294,47 +296,6 @@ export default function ApplyPage() {
     }
   };
 
-  const saveSectionToLocalStorage = async () => {
-    if (!currentTerm) return;
-    try {
-      // if user filled out questions for a role and switched out of the role,
-      // clear their previous answers for unselected roles before submitting
-      const selectedRoles = [
-        ...formik.values.rolesApplyingFor,
-        "general",
-        "supplementary",
-      ];
-      let roleQA = formik.values.roleQuestionAnswers;
-      for (const [role, answers] of Object.entries(roleQA)) {
-        if (!selectedRoles.includes(role)) {
-          delete roleQA[role];
-        }
-      }
-
-      const updatedApplicationData = {
-        termApplyingFor: currentTerm.id,
-        rolesApplyingFor:
-          currentStep > 1
-            ? formik.values.rolesApplyingFor.filter(
-                (role) => role !== "None" && role,
-              )
-            : [],
-        roleQuestionAnswers: roleQA,
-        resumeUrl: formik.values.resumeUrl,
-        status: "draft",
-      };
-      createOrUpdateLocalStorageApplication(updatedApplicationData);
-    } catch (error: any) {
-      console.error("Failed to save application section:", error);
-      setWarningDialogMessage(
-        error.response?.data?.error ||
-          "Failed to save your progress. Please check your internet connection and try again.",
-      );
-      setIsWarningDialogOpen(true);
-      throw error; // Re-throw to be handled by handleNext
-    }
-  };
-
   const submitApplication = async (values: ApplicationFormValues) => {
     if (!currentTerm) return;
 
@@ -412,6 +373,47 @@ export default function ApplyPage() {
     onSubmit: submitApplication,
   });
 
+  const saveSectionToLocalStorage = useCallback(async () => {
+    if (!currentTerm) return;
+    try {
+      // if user filled out questions for a role and switched out of the role,
+      // clear their previous answers for unselected roles before submitting
+      const selectedRoles = [
+        ...formik.values.rolesApplyingFor,
+        "general",
+        "supplementary",
+      ];
+      let roleQA = formik.values.roleQuestionAnswers;
+      for (const [role, answers] of Object.entries(roleQA)) {
+        if (!selectedRoles.includes(role)) {
+          delete roleQA[role];
+        }
+      }
+
+      const updatedApplicationData = {
+        termApplyingFor: currentTerm.id,
+        rolesApplyingFor:
+          currentStep > 1
+            ? formik.values.rolesApplyingFor.filter(
+                (role) => role !== "None" && role,
+              )
+            : [],
+        roleQuestionAnswers: roleQA,
+        resumeUrl: formik.values.resumeUrl,
+        status: "draft",
+      };
+      createOrUpdateLocalStorageApplication(updatedApplicationData);
+    } catch (error: any) {
+      console.error("Failed to save application section:", error);
+      setWarningDialogMessage(
+        error.response?.data?.error ||
+          "Failed to save your progress. Please check your internet connection and try again.",
+      );
+      setIsWarningDialogOpen(true);
+      throw error; // Re-throw to be handled by handleNext
+    }
+  }, [currentTerm, currentStep, formik.values]);
+
   const handleUpdate = useCallback(async () => {
     console.log("Updating application section...");
     console.log(formik.values);
@@ -437,7 +439,7 @@ export default function ApplyPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Fetch current term data
+        // Fetch current term data (always fetch this, regardless of auth status)
         const termResponse = await getCurrentTerm();
         if (termResponse.data.isOpen) {
           setCurrentTerm(termResponse.data.term);
@@ -500,18 +502,80 @@ export default function ApplyPage() {
 
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [signedIn]);
-
-  // Redirect if not signed in
-  useEffect(() => {
-    if (!signedIn) router.push("/");
-  }, [signedIn, router]);
+  }, [signedIn]); // Keep signedIn dependency to refetch user application data when auth status changes
 
   if (loadingTerm) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-black">
         <div className="text-white">Loading...</div>
       </div>
+    );
+  }
+
+  // Show login screen if user is not authenticated
+  if (!userToken) {
+    return (
+      <>
+        <SEO title="Login Required" />
+        <div className="relative min-h-screen overflow-hidden bg-darkBlue2 px-4 py-20 shadow-md backdrop-blur-md">
+          {/* Background Elements */}
+          <div className="pointer-events-none absolute inset-0 z-0">
+            {/* Left Whale */}
+            <div className="absolute">
+              <Image
+                src="/execApps/B-light-bulb.svg"
+                alt="whale with light bulb"
+                width={450}
+                height={450}
+              />
+            </div>
+
+            {/* Right Whale on Cloud */}
+            <div className="absolute right-0 top-[10%] z-20 translate-x-1/3 transform">
+              <Image
+                src="/execApps/B-float.svg"
+                alt="whale floating on cloud"
+                width={500}
+                height={500}
+              />
+            </div>
+          </div>
+
+          <div className="relative z-10 flex min-h-screen items-center justify-center">
+            <div className="max-w-md text-center">
+              {/* Show deadline if available and applications are open */}
+              {isApplicationsOpen && currentTerm && (
+                <div className="mb-6 flex justify-center">
+                  <div className="inline-flex items-center rounded-full border-yellowBorder bg-yellowBackground px-6 py-2 text-xs font-semibold text-yellowText">
+                    <span className="mr-2 flex items-center">
+                      <ClockIcon className="h-4 w-4" />
+                    </span>
+                    Applications due: {new Date(currentTerm.appDeadline).toLocaleDateString(
+                      "en-US",
+                      { month: "short", day: "numeric", year: "numeric" },
+                    )}
+                  </div>
+                </div>
+              )}
+              
+              <h1 className="mb-4 text-3xl font-bold text-white">
+                Login Required
+              </h1>
+              <p className="mb-6 text-grey1">
+                You need to be logged in to access the application form. Please log in to continue.
+              </p>
+              <Button
+                type="button"
+                hierarchy="primary"
+                rounded="rounded-md"
+                onClick={() => router.push("/")}
+              >
+                Go to Homepage
+              </Button>
+            </div>
+          </div>
+        </div>
+      </>
     );
   }
 
