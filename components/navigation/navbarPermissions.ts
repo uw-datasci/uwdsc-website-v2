@@ -39,7 +39,6 @@ export const NAVBAR_ROUTES = {
       subNavItems: [
         { label: "Memberships", route: "/memberships" },
         { label: "Events", route: "/events" },
-        { label: "Exec Apps", route: "/execAppView" },
       ],
     },
   ],
