@@ -1,7 +1,7 @@
 import { RootState } from "@/store/store";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import MemCard from "@/components/cards/memCard";
+import MemCard from "@/components/cards/MemCard";
 import { getCurrentUser } from "@/utils/apiCalls";
 import LoadingSpinner from "@/components/UI/LoadingSpinner";
 import EventPassport from "@/components/cards/EventPassport";
