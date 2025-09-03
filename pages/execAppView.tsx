@@ -78,7 +78,7 @@ function ExecAppView() {
         if (currentTerm) {
           const response = await getAllAppsByTerm(currentTerm.id);
           const sorted = response.data.sort((a: ExecApp, b: ExecApp) => {
-            // Sort submitted first - testtest
+            // Sort submitted first
             const a_status = a.status === "submitted" ? 0 : 1;
             const b_status = b.status === "submitted" ? 0 : 1;
             if (a_status - b_status !== 0) {
