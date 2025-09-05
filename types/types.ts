@@ -108,7 +108,7 @@ export type User = {
   email: string;
   password: string;
   userStatus: string;
-  hasPaid: boolean;
+  hasPaid: string;
   paymentMethod: string;
   verifier: string;
   paymentLocation: string;
