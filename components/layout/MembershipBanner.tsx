@@ -22,11 +22,6 @@ export default function MembershipBanner() {
       try {
         const response = await getCurrentUser();
         const userData = response.data.user;
-        console.log(
-          "MembershipBanner - hasPaid value:",
-          userData.hasPaid,
-          typeof userData.hasPaid,
-        );
         setHasPaid(userData.hasPaid);
       } catch (error) {
         console.warn("Could not fetch user payment status:", error);
