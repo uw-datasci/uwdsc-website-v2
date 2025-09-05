@@ -8,7 +8,7 @@ import { getCurrentUser } from "@/utils/apiCalls";
 export default function MembershipBanner() {
   const signedIn = useSelector((state: RootState) => state.loginToken.name);
   const token = useSelector((state: RootState) => state.loginToken.token);
-  const [hasPaid, setHasPaid] = useState<string | null>(null);
+  const [hasPaid, setHasPaid] = useState<boolean | null>(null);
   const [isDismissed, setIsDismissed] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -22,11 +22,16 @@ export default function MembershipBanner() {
       try {
         const response = await getCurrentUser();
         const userData = response.data.user;
+        console.log(
+          "MembershipBanner - hasPaid value:",
+          userData.hasPaid,
+          typeof userData.hasPaid,
+        );
         setHasPaid(userData.hasPaid);
       } catch (error) {
         console.warn("Could not fetch user payment status:", error);
         // If we can't fetch status, don't show the banner to avoid spam
-        setHasPaid("True");
+        setHasPaid(true);
       } finally {
         setIsLoading(false);
       }
@@ -43,7 +48,7 @@ export default function MembershipBanner() {
   if (
     !signedIn ||
     isLoading ||
-    hasPaid === "True" ||
+    hasPaid === true ||
     hasPaid === null ||
     isDismissed
   ) {
