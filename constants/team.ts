@@ -84,16 +84,16 @@ export const TEAM: Subteam[] = [
     name: "Development",
     members: [
       {
-        id: "winston-yu",
-        name: "Winston Yu",
+        id: "aaryan-patel",
+        name: "Aaryan Patel",
         position: "VP of Development",
-        image: winstonYu,
+        image: aaryanPatel,
       },
       {
-        id: "jacob-yan",
-        name: "Jacob Yan",
+        id: "jocelyn-xu",
+        name: "Jocelyn Xu",
         position: "VP of Development",
-        image: jacobYan,
+        image: jocelynXu,
       },
       {
         id: "andrew-chu",
@@ -118,12 +118,6 @@ export const TEAM: Subteam[] = [
         name: "Lydia He",
         position: "Developer",
         image: lydiaHe,
-      },
-      {
-        id: "jocelyn-xu",
-        name: "Jocelyn Xu",
-        position: "Developer",
-        image: jocelynXu,
       },
       {
         id: "jessica-ying",
@@ -166,12 +160,6 @@ export const TEAM: Subteam[] = [
         name: "Aditi Jha",
         position: "Developer",
         image: aditiJha,
-      },
-      {
-        id: "aaryan-patel",
-        name: "Aaryan Patel",
-        position: "Developer",
-        image: aaryanPatel,
       },
     ],
   },
