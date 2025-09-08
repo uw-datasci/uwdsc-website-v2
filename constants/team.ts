@@ -59,6 +59,7 @@ import shreeyaSantha from "@/public/teams/Shreeya-Santha.jpg";
 import maxHan from "@/public/teams/Max-Han.jpg";
 import evanChan from "@/public/teams/Evan-Chan.jpeg";
 import ananyaOhrie from "@/public/teams/Ananya-Ohrie.jpg";
+import sriganSivagnanenthirarajah from "@/public/teams/Srigan-Sivagnanenthirarajah.jpg";
 
 export const TEAM: Subteam[] = [
   {
@@ -160,6 +161,12 @@ export const TEAM: Subteam[] = [
         name: "Aditi Jha",
         position: "Developer",
         image: aditiJha,
+      },
+      {
+        id: "srigan-sivagnanenthirarajah",
+        name: "Srigan Sivagnanenthirarajah",
+        position: "Developer",
+        image: sriganSivagnanenthirarajah,
       },
     ],
   },
