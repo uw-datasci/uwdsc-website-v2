@@ -60,6 +60,7 @@ import maxHan from "@/public/teams/Max-Han.jpg";
 import evanChan from "@/public/teams/Evan-Chan.jpeg";
 import ananyaOhrie from "@/public/teams/Ananya-Ohrie.jpg";
 import sriganSivagnanenthirarajah from "@/public/teams/Srigan-Sivagnanenthirarajah.jpg";
+import andyXu from "@/public/teams/Andy-Xu.jpg";
 
 export const TEAM: Subteam[] = [
   {
@@ -173,6 +174,12 @@ export const TEAM: Subteam[] = [
         name: "Claire Liu",
         position: "Developer",
         image: claireLiu,
+      },
+      {
+        id: "andy-xu",
+        name: "Andy Xu",
+        position: "Developer",
+        image: andyXu,
       }
     ],
   },
