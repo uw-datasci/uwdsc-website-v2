@@ -168,6 +168,12 @@ export const TEAM: Subteam[] = [
         position: "Developer",
         image: sriganSivagnanenthirarajah,
       },
+      {
+        id: "claire-liu",
+        name: "Claire Liu",
+        position: "Developer",
+        image: claireLiu,
+      }
     ],
   },
   {
