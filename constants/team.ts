@@ -69,15 +69,15 @@ export const TEAM: Subteam[] = [
     members: [
       {
         id: "president1",
-        name: "Sarah Wang",
+        name: "Monica Trinh",
         position: "Co-President",
-        image: sarahWang,
+        image: monicaTrinh,
       },
       {
         id: "president2",
-        name: "Frank Chen",
+        name: "Jacob Yan",
         position: "Co-President",
-        image: frankChen,
+        image: jacobYan,
       },
     ],
   },
@@ -98,64 +98,16 @@ export const TEAM: Subteam[] = [
         image: jocelynXu,
       },
       {
-        id: "andrew-chu",
-        name: "Andrew Chu",
-        position: "Technical Lead",
-        image: andrewChu,
-      },
-      {
-        id: "andrew-lin",
-        name: "Andrew Lin",
-        position: "Technical Lead",
-        image: andrewLin,
-      },
-      {
         id: "brian-an",
         name: "Brian An",
         position: "Developer",
         image: brianAn,
       },
       {
-        id: "lydia-he",
-        name: "Lydia He",
-        position: "Developer",
-        image: lydiaHe,
-      },
-      {
-        id: "jessica-ying",
-        name: "Jessica Ying",
-        position: "Developer",
-        image: jessicaYing,
-      },
-      {
-        id: "an-tran",
-        name: "An Tran",
-        position: "Developer",
-        image: anTran,
-      },
-      {
-        id: "mahdi-khunt",
-        name: "Mahdi Raza Khunt",
-        position: "Developer",
-        image: mahdiKhunt,
-      },
-      {
         id: "karthik-viriyala",
         name: "Karthik Krishna Viriyala",
         position: "Developer",
         image: karthikViriyala,
-      },
-      {
-        id: "monica-trinh",
-        name: "Monica Trinh",
-        position: "Product Designer",
-        image: monicaTrinh,
-      },
-      {
-        id: "giang-tran",
-        name: "Giang Tran",
-        position: "Product Designer",
-        image: giangTran,
       },
       {
         id: "aditi-jha",
@@ -180,7 +132,7 @@ export const TEAM: Subteam[] = [
         name: "Andy Xu",
         position: "Developer",
         image: andyXu,
-      }, 
+      },
       {
         id: "shreeya-santha",
         name: "Shreeya Santha",
