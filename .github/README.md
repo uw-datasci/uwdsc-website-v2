@@ -103,7 +103,7 @@ query {
 
 ### Common issues:
 
-- **No issues found**: Make sure you include `#123` in the PR title or body
+- **No issues found**: Make sure you include `#123` in the PR **title** or **body**
 - **Permission errors**: The GitHub token might not have access to your project
 - **Wrong IDs**: Double-check the IDs in `project-config.js`
 
