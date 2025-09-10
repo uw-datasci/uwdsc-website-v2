@@ -180,7 +180,13 @@ export const TEAM: Subteam[] = [
         name: "Andy Xu",
         position: "Developer",
         image: andyXu,
-      }
+      }, 
+      {
+        id: "shreeya-santha",
+        name: "Shreeya Santha",
+        position: "Developer",
+        image: shreeyaSantha,
+      },
     ],
   },
   {
@@ -420,12 +426,6 @@ export const TEAM: Subteam[] = [
         name: "Nimish Patri",
         position: "VP of Finance",
         image: nimishPatri,
-      },
-      {
-        id: "shreeya-santha",
-        name: "Shreeya Santha",
-        position: "Finance Coordinator",
-        image: shreeyaSantha,
       },
       {
         id: "max-han",
