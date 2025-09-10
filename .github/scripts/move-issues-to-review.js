@@ -3,7 +3,11 @@
  */
 
 const config = require("./project-config.js");
-const { extractIssueNumbers, processIssue } = require("./project-utils.js");
+const {
+  extractIssueNumbers,
+  getLinkedIssues,
+  processIssue,
+} = require("./project-utils.js");
 
 async function main(github, context) {
   console.log("🚀 Starting issue processing workflow...");
@@ -24,16 +28,35 @@ async function main(github, context) {
     pull_number: context.issue.number,
   });
 
-  // Extract issue numbers from PR title and body
+  // Method 1: Extract issue numbers from PR title and body text
   const text = `${pr.title} ${pr.body || ""}`;
-  const issueNumbers = extractIssueNumbers(text, config.ISSUE_PATTERNS);
+  const textIssues = extractIssueNumbers(text, config.ISSUE_PATTERNS);
 
-  console.log(`🔍 Found linked issues: ${issueNumbers.join(", ")}`);
+  // Method 2: Get issues linked through GitHub's Development section
+  const linkedIssues = await getLinkedIssues(
+    github,
+    context.repo.owner,
+    context.repo.repo,
+    context.issue.number,
+  );
 
-  if (issueNumbers.length === 0) {
-    console.log("ℹ️  No linked issues found in PR title or body");
+  // Combine both methods and remove duplicates
+  const allIssues = [...new Set([...textIssues, ...linkedIssues])];
+
+  console.log(`🔍 Found issues in text: [${textIssues.join(", ") || "none"}]`);
+  console.log(
+    `🔗 Found issues in Development section: [${
+      linkedIssues.join(", ") || "none"
+    }]`,
+  );
+  console.log(`📋 Total unique issues to process: [${allIssues.join(", ")}]`);
+
+  if (allIssues.length === 0) {
+    console.log("ℹ️  No linked issues found in PR text or Development section");
     return;
   }
+
+  const issueNumbers = allIssues;
 
   // Process each linked issue
   const results = [];

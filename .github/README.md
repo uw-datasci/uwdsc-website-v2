@@ -21,13 +21,20 @@ The automation runs when:
 
 ### Issue Detection
 
-It looks for these patterns in PR titles and descriptions:
+The workflow finds linked issues in **two ways**:
+
+#### 1. Text Patterns (in PR title/description):
 
 - `#123` - Simple issue reference
 - `fixes #123` - Indicates this PR fixes the issue
 - `closes #123` - Indicates this PR closes the issue
 - `resolves #123` - Indicates this PR resolves the issue
 - `connected to #123` - Indicates this PR is related to the issue
+
+#### 2. Development Section (GitHub's built-in linking):
+
+- Issues linked through the "Development" section in the PR sidebar
+- Created by typing issue numbers when creating a branch or manually linking
 
 ### Examples
 
@@ -36,6 +43,9 @@ It looks for these patterns in PR titles and descriptions:
 
 ✅ **PR Description**: `"This update fixes #98 and closes #101"`  
 → Issues #98 and #101 move to "In Review"
+
+✅ **Development Section**: Linked "sample ticket to test workflow"  
+→ That issue moves to "In Review"
 
 ## 📁 Files Structure
 
@@ -103,7 +113,7 @@ query {
 
 ### Common issues:
 
-- **No issues found**: Make sure you include `#123` in the PR **title** or **body**
+- **No issues found**: Make sure you either include `#123` in the PR **title/body** OR link issues through the **Development section**
 - **Permission errors**: The GitHub token might not have access to your project
 - **Wrong IDs**: Double-check the IDs in `project-config.js`
 
@@ -111,7 +121,9 @@ query {
 
 ```
 🚀 Starting issue processing workflow...
-🔍 Found linked issues: 123, 456
+🔍 Found issues in text: [123]
+🔗 Found issues in Development section: [456]
+📋 Total unique issues to process: [123, 456]
 ✅ Moved issue #123 to "In Review"
 ✅ Moved issue #456 to "In Review"
 📊 Summary: ✅ Successfully processed: 2 issues
@@ -119,4 +131,4 @@ query {
 
 ## 🎉 That's It!
 
-Once configured, this runs automatically. Your developers just need to mention issue numbers in their PRs and the issues will automatically move to "In Review" for you!
+Once configured, this runs automatically. Your developers can either mention issue numbers in their PRs OR link issues through the Development section, and the issues will automatically move to "In Review" for you!

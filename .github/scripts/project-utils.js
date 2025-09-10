@@ -24,6 +24,46 @@ function extractIssueNumbers(text, patterns) {
 }
 
 /**
+ * Get issues linked through GitHub's Development section
+ */
+async function getLinkedIssues(github, owner, repo, pullNumber) {
+  try {
+    // GitHub GraphQL query to get timeline events including connected issues
+    const query = `
+      query($owner: String!, $repo: String!, $pullNumber: Int!) {
+        repository(owner: $owner, name: $repo) {
+          pullRequest(number: $pullNumber) {
+            closingIssuesReferences(first: 10) {
+              nodes {
+                number
+              }
+            }
+          }
+        }
+      }
+    `;
+
+    const result = await github.graphql(query, {
+      owner,
+      repo,
+      pullNumber,
+    });
+
+    const linkedIssues =
+      result.repository.pullRequest.closingIssuesReferences.nodes.map(
+        (issue) => issue.number,
+      );
+
+    return linkedIssues;
+  } catch (error) {
+    console.log(
+      `⚠️  Could not fetch linked issues from Development section: ${error.message}`,
+    );
+    return [];
+  }
+}
+
+/**
  * GraphQL query to find project items for issues
  */
 function createFindItemQuery() {
@@ -164,5 +204,6 @@ async function processIssue(github, config, context, issueNumber) {
 
 module.exports = {
   extractIssueNumbers,
+  getLinkedIssues,
   processIssue,
 };
