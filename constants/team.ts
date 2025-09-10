@@ -5,28 +5,20 @@ import team from "@/public/placeholder/team.png";
 import aaryanPatel from "@/public/teams/Aaryan-Patel.png";
 import adnanNasiree from "@/public/teams/Adnan-Nasiree.jpg";
 import akashLakshmanan from "@/public/teams/Akash-Lakshmanan.png";
-import andrewChu from "@/public/teams/Andrew-Chu.jpg";
-import andrewLin from "@/public/teams/Andrew-Lin.jpg";
 import annieWong from "@/public/teams/Annie-Wong.jpeg";
-import anTran from "@/public/teams/An-Tran.jpg";
 import bethanyLiu from "@/public/teams/Bethany-Liu.jpeg";
 import brianAn from "@/public/teams/Brian-An.png";
 import cathyZhang from "@/public/teams/Cathy-Zhang.jpeg";
 import chantalZhang from "@/public/teams/Chantal-Zhang.jpg";
 import claireLiu from "@/public/teams/Claire-Liu.jpg";
 import dishitaChawla from "@/public/teams/Dishita-Chawla.jpg";
-import frankChen from "@/public/teams/Frank-Chen.jpeg";
-import giangTran from "@/public/teams/Giang-Tran.png";
 import isabelleLobo from "@/public/teams/Isabelle-Lobo.png";
 import ishirLakhani from "@/public/teams/Ishir-Lakhani.png";
 import jacobYan from "@/public/teams/Jacob-Yan.jpg";
 import jeffreyKasa from "@/public/teams/Jeffrey-Kasa.jpg";
 import jennyYu from "@/public/teams/Jenny-Yu.jpg";
-import jessicaYing from "@/public/teams/Jessica-Ying.jpg";
 import jocelynXu from "@/public/teams/Jocelyn-Xu.jpg";
 import karthikViriyala from "@/public/teams/Karthik-Viriyala.jpeg";
-import lydiaHe from "@/public/teams/Lydia-He.jpeg";
-import mahdiKhunt from "@/public/teams/Mahdi-Khunt.png";
 import methuliAmarasinghe from "@/public/teams/Methuli-Amarasinghe.jpeg";
 import mincyYang from "@/public/teams/Mincy-Yang.png";
 import monicaTrinh from "@/public/teams/Monica-Trinh.jpg";
@@ -34,12 +26,10 @@ import nahalHabibizadeh from "@/public/teams/Nahal-Habibizadeh.jpeg";
 import nimishPatri from "@/public/teams/Nimish-Patri.jpg";
 import paigeLi from "@/public/teams/Paige-Li.jpeg";
 import parithySenthamilarasan from "@/public/teams/Parithy-Senthamilarasan.jpeg";
-import sarahWang from "@/public/teams/Sarah-Wang.jpeg";
 import shashwatMurawala from "@/public/teams/Shashwat-Murawala.png";
 import shae from "@/public/teams/Shae.jpg";
 import sophiaLin from "@/public/teams/Sophia-Lin.jpeg";
 import tanayKashyap from "@/public/teams/Tanay-Kashyap.jpeg";
-import winstonYu from "@/public/teams/Winston-Yu.jpg";
 import aditiJha from "@/public/teams/Aditi-Jha.jpg";
 import simoneCoutinho from "@/public/teams/Simone-Coutinho.jpeg";
 import liaMoradpour from "@/public/teams/Lia-Moradpour.jpeg";
@@ -69,15 +59,15 @@ export const TEAM: Subteam[] = [
     members: [
       {
         id: "president1",
-        name: "Sarah Wang",
+        name: "Monica Trinh",
         position: "Co-President",
-        image: sarahWang,
+        image: monicaTrinh,
       },
       {
         id: "president2",
-        name: "Frank Chen",
+        name: "Jacob Yan",
         position: "Co-President",
-        image: frankChen,
+        image: jacobYan,
       },
     ],
   },
@@ -98,64 +88,16 @@ export const TEAM: Subteam[] = [
         image: jocelynXu,
       },
       {
-        id: "andrew-chu",
-        name: "Andrew Chu",
-        position: "Technical Lead",
-        image: andrewChu,
-      },
-      {
-        id: "andrew-lin",
-        name: "Andrew Lin",
-        position: "Technical Lead",
-        image: andrewLin,
-      },
-      {
         id: "brian-an",
         name: "Brian An",
         position: "Developer",
         image: brianAn,
       },
       {
-        id: "lydia-he",
-        name: "Lydia He",
-        position: "Developer",
-        image: lydiaHe,
-      },
-      {
-        id: "jessica-ying",
-        name: "Jessica Ying",
-        position: "Developer",
-        image: jessicaYing,
-      },
-      {
-        id: "an-tran",
-        name: "An Tran",
-        position: "Developer",
-        image: anTran,
-      },
-      {
-        id: "mahdi-khunt",
-        name: "Mahdi Raza Khunt",
-        position: "Developer",
-        image: mahdiKhunt,
-      },
-      {
         id: "karthik-viriyala",
         name: "Karthik Krishna Viriyala",
         position: "Developer",
         image: karthikViriyala,
-      },
-      {
-        id: "monica-trinh",
-        name: "Monica Trinh",
-        position: "Product Designer",
-        image: monicaTrinh,
-      },
-      {
-        id: "giang-tran",
-        name: "Giang Tran",
-        position: "Product Designer",
-        image: giangTran,
       },
       {
         id: "aditi-jha",
@@ -180,7 +122,7 @@ export const TEAM: Subteam[] = [
         name: "Andy Xu",
         position: "Developer",
         image: andyXu,
-      }, 
+      },
       {
         id: "shreeya-santha",
         name: "Shreeya Santha",
