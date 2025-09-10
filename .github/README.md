@@ -18,6 +18,14 @@ The automation runs when:
 
 - A PR is **opened**
 - A draft PR is marked **ready for review**
+- A PR title or description is **edited** (to catch newly added `#123` references)
+
+### What About Development Section Linking?
+
+If you link an issue through the Development section **after** the PR is already open:
+
+- 🤖 **Sometimes triggers automatically** (if it causes a PR edit event)
+- 🔄 **Manual option**: Go to Actions tab → "Move linked issues to In Review" → "Run workflow" → Select your branch
 
 ### Issue Detection
 

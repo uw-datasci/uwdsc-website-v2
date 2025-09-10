@@ -2,7 +2,8 @@ name: Move linked issues to "In Review"
 
 on:
   pull_request:
-    types: [opened, ready_for_review]
+    types: [opened, ready_for_review, edited]
+  workflow_dispatch:
 
 jobs:
   move-issue-to-review:
