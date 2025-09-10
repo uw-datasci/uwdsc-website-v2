@@ -122,6 +122,9 @@ query {
 ### Common issues:
 
 - **No issues found**: Make sure you either include `#123` in the PR **title/body** OR link issues through the **Development section**
+- **"Could not resolve ProjectV2"**: Organization projects need repository access
+  - Go to your project → Settings → Manage access → Add your repository
+  - OR create a Personal Access Token with project permissions and add it as `PROJECT_TOKEN` secret
 - **Permission errors**: The GitHub token might not have access to your project
 - **Wrong IDs**: Double-check the IDs in `project-config.js`
 
