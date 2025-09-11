@@ -1,0 +1,21 @@
+name: Move linked issues to "In Review"
+
+on:
+  pull_request:
+    types: [opened, ready_for_review, edited]
+  workflow_dispatch:
+
+jobs:
+  move-issue-to-review:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Move linked issues to In Review column
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.PROJECT_TOKEN || secrets.GITHUB_TOKEN }}
+          script: |
+            const { main } = require('./.github/scripts/move-issues-to-review.js');
+            await main(github, context);
