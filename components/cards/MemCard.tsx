@@ -9,8 +9,8 @@ import {
 import {
   patchCheckInRegistrantByIdUser,
   getLatestEvent,
-  getCurrentUserRegistrationByID,
 } from "@/utils/apiCalls";
+import { getCurrentUserRegistrationByID } from "@/utils/userApiCalls";
 import Image from "next/image";
 import { UserInfo } from "@/pages/memCheckIn";
 import LoadingSpinner from "../UI/LoadingSpinner";

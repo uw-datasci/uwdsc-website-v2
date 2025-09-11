@@ -12,7 +12,7 @@ import cxctitle from "@/public/cxc/graphics/CxCTitle.png";
 
 import CxCBackground from "@/components/UI/CxCBackground";
 import { useEffect, useState } from "react";
-import { getCurrentUserRegistrationByID } from "@/utils/apiCalls";
+import { getCurrentUserRegistrationByID } from "@/utils/userApiCalls";
 
 export default function CxC() {
   const [registered, setRegistered] = useState<boolean>(false);

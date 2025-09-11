@@ -10,9 +10,9 @@ import EventCard from "@/components/cards/EventCard";
 import {
   createEvent,
   editEvent,
-  deleteEvent,
-  getEvents,
-} from "@/utils/apiCalls";
+  deleteEvent
+} from "@/utils/adminApiCalls";
+import { getEvents } from "@/utils/apiCalls";
 import { EventValidationSchema } from "@/utils/formValidation";
 import {
   displayEventForm,
