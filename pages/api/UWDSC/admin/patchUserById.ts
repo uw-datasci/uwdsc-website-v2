@@ -41,12 +41,14 @@ export default async function handler(
       return res
         .status(200)
         .json({ success: true, message: "User edited successfully" });
-    } else {
-      return res
-        .status(response.status)
-        .json({ success: false, message: "Failed to edit user" });
     }
   } catch (error: any) {
+    if (error.response) {
+      return res.status(error.response.status).json({
+        success: false,
+        message: error.response.data.message || "Error editing user.",
+      });
+    }
     console.error("Error editing user:", error);
     return res
       .status(500)
