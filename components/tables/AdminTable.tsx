@@ -154,15 +154,28 @@ const AdminTable = () => {
       paymentLocation: hasPaid === "True" ? currentEvent : "",
     };
 
-    await editUser({
-      token: token,
-      userId: editFormData._id,
-      newUser: updatedUser,
-    });
-    setEditedRowId(null);
-    setEditFormData(null);
-    setOldEditFormData(null);
-    fetchUserData();
+    try {
+      await editUser({
+        token: token,
+        userId: editFormData._id,
+        newUser: updatedUser,
+      });
+      setEditedRowId(null);
+      setEditFormData(null);
+      setOldEditFormData(null);
+      fetchUserData();
+    } catch (err: any) {
+      console.log("Error updating user: ", err);
+      if (err.response?.status === 403) {
+        alert("You cannot edit your own payment status.");
+        setEditedRowId(null);
+        setEditFormData(null);
+        setOldEditFormData(null);
+        fetchUserData();
+      } else {
+        alert("Error updating user. Please try again.");
+      }
+    }
   };
 
   const restoreOriginalUser = () => {
