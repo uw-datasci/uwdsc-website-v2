@@ -1,5 +1,7 @@
 # Pull Request
 
+Make sure you add the correct Assignees and Labels that best fit this pull request
+
 ## Closes Issue
 
 IMPORTANT: please include the issue nunmber from the GitHub Project
