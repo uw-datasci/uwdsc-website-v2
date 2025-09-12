@@ -17,7 +17,7 @@ import {
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import UserFormCard from "../cards/UserFormCard";
-import {getLatestEvent} from "@/utils/apiCalls";
+import {getLatestEvent} from "@/utils/eventApiCalls";
 import {
   fetchUsers,
   createUser,

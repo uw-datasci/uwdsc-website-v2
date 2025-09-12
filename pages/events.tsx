@@ -12,7 +12,7 @@ import {
   editEvent,
   deleteEvent
 } from "@/utils/adminApiCalls";
-import { getEvents } from "@/utils/apiCalls";
+import { getEvents } from "@/utils/eventApiCalls";
 import { EventValidationSchema } from "@/utils/formValidation";
 import {
   displayEventForm,
