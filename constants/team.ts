@@ -23,7 +23,7 @@ import annieWong from "@/public/teams/Annie-Wong.jpeg";
 import nancyZhou from "@/public/teams/Nancy-Zhou.jpg";
 import chantalZhang from "@/public/teams/Chantal-Zhang.jpg";
 import annaWang from "@/public/teams/Anna-Wang.png";
-import michaelLiu from "@/public/teams/michael-Liu.jpg";
+import michaelLiu from "@/public/teams/Michael-Liu.jpg";
 import jonathanShanmuganantham from "@/public/teams/Jonathan-Shanmuganantham.jpeg";
 import matthewLi from "@/public/teams/Matthew-Li.jpeg";
 import elaineLi from "@/public/teams/Elaine-Li.jpg";
