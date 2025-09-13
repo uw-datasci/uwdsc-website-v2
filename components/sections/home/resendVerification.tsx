@@ -1,5 +1,5 @@
 import { useState, useEffect, Dispatch, SetStateAction } from "react";
-import { resendVerification } from "@/utils/apiCalls";
+import { resendVerification } from "@/utils/apiCalls/userApiCalls";
 type resendVerificationProps = {
   email: string;
   panelIndex: number;

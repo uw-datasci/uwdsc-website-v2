@@ -1,4 +1,4 @@
-import { getAllAppsByTerm, getAllTerms } from "@/utils/apiCalls";
+import { getAllAppsByTerm, getAllTerms } from "@/utils/apiCalls/adminApiCalls";
 import {
   Check,
   Download,

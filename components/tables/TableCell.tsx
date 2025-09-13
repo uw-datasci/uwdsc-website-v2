@@ -4,11 +4,8 @@ import { User } from "@/types/types";
 import { ColumnType } from "./AdminTable";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
-import {
-  backfillUserEvents,
-  getLatestEvent,
-  removeUserFromEvents,
-} from "@/utils/apiCalls";
+import {getLatestEvent} from "@/utils/apiCalls/eventApiCalls";
+import { backfillUserEvents, removeUserFromEvents } from "@/utils/apiCalls/adminApiCalls";
 
 interface TableCellProps<TData> extends CellContext<TData, unknown> {
   column: Column<TData, unknown>;

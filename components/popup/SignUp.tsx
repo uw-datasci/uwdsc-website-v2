@@ -20,7 +20,7 @@ import {
   SignUpFormPart1Schema,
   SignUpFormPart2Schema,
 } from "@/utils/formValidation";
-import { sendSignUpInfo } from "@/utils/apiCalls";
+import { sendSignUpInfo } from "@/utils/apiCalls/userApiCalls";
 import ResendVerificationPage from "../sections/home/resendVerification";
 
 export default function SignUpPage() {
