@@ -1,4 +1,4 @@
-import { sendVerificationInfo } from "@/utils/userApiCalls";
+import { sendVerificationInfo } from "@/utils/apiCalls/userApiCalls";
 import Button from "@/components/UI/Button";
 import { useState } from "react";
 

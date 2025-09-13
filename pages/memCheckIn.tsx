@@ -2,7 +2,7 @@ import { RootState } from "@/store/store";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import MemCard from "@/components/cards/MemCard";
-import { getCurrentUser } from "@/utils/userApiCalls";
+import { getCurrentUser } from "@/utils/apiCalls/userApiCalls";
 import LoadingSpinner from "@/components/UI/LoadingSpinner";
 import EventPassport from "@/components/cards/EventPassport";
 import SEO from "@/components/SEO/SEO";

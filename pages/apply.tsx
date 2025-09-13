@@ -11,7 +11,7 @@ import {
   getCurrentTerm,
   getCurrentUserApplication,
   createOrUpdateApplication,
-} from "@/utils/applicationApiCalls";
+} from "@/utils/apiCalls/applicationApiCalls";
 
 // Form Components
 import AppIntro from "@/components/forms/application/AppIntro";

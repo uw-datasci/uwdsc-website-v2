@@ -17,14 +17,14 @@ import {
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import UserFormCard from "../cards/UserFormCard";
-import {getLatestEvent} from "@/utils/eventApiCalls";
+import {getLatestEvent} from "@/utils/apiCalls/eventApiCalls";
 import {
   fetchUsers,
   createUser,
   editUser,
   deleteUser,
-} from "@/utils/adminApiCalls";
-import { getCurrentUser } from "@/utils/userApiCalls";
+} from "@/utils/apiCalls/adminApiCalls";
+import { getCurrentUser } from "@/utils/apiCalls/userApiCalls";
 import TableCell from "./TableCell";
 import EditCell from "./EditCell";
 import Pagination from "./Pagination";

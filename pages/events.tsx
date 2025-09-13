@@ -11,8 +11,8 @@ import {
   createEvent,
   editEvent,
   deleteEvent
-} from "@/utils/adminApiCalls";
-import { getEvents } from "@/utils/eventApiCalls";
+} from "@/utils/apiCalls/adminApiCalls";
+import { getEvents } from "@/utils/apiCalls/eventApiCalls";
 import { EventValidationSchema } from "@/utils/formValidation";
 import {
   displayEventForm,

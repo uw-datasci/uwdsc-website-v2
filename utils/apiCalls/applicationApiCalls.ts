@@ -1,5 +1,5 @@
 import axios from "axios";
-import store from "../store/store";
+import store from "../../store/store";
 
 //Application
 export const getCurrentTerm = async () => {

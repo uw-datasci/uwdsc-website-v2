@@ -21,7 +21,7 @@ import {
   getCurrentUser,
   getCurrentUserRegistrationByID,
   patchCurrentUserRegistrationByID,
-} from "@/utils/userApiCalls";
+} from "@/utils/apiCalls/userApiCalls";
 import InputFeedback from "@/components/UI/Inputs/CxC/InputFeedback";
 
 import {} from "next/font/google";

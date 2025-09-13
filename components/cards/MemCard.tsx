@@ -7,9 +7,9 @@ import {
   setRegistrationStatus,
 } from "@/store/slices/latestEventSlice";
 
-import {getLatestEvent} from "@/utils/eventApiCalls";
-import{patchCheckInRegistrantByIdUser} from "@/utils/eventApiCalls";
-import { getCurrentUserRegistrationByID } from "@/utils/userApiCalls";
+import {getLatestEvent} from "@/utils/apiCalls/eventApiCalls";
+import{patchCheckInRegistrantByIdUser} from "@/utils/apiCalls/eventApiCalls";
+import { getCurrentUserRegistrationByID } from "@/utils/apiCalls/userApiCalls";
 import Image from "next/image";
 import { UserInfo } from "@/pages/memCheckIn";
 import LoadingSpinner from "../UI/LoadingSpinner";

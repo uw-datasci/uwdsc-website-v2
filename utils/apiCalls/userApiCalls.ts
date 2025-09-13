@@ -1,5 +1,5 @@
 import axios from "axios";
-import store from "../store/store";
+import store from "../../store/store";
 
 //User
 export const sendSignUpInfo = async (values: Record<string, string>) => {
