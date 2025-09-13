@@ -17,6 +17,7 @@ import ishirLakhani from "@/public/teams/Ishir-Lakhani.png";
 import jacobYan from "@/public/teams/Jacob-Yan.jpg";
 import jeffreyKasa from "@/public/teams/Jeffrey-Kasa.jpg";
 import jennyYu from "@/public/teams/Jenny-Yu.jpg";
+import jerryZhu from "@/public/teams/Jerry-Zhu.JPG";
 import jocelynXu from "@/public/teams/Jocelyn-Xu.jpg";
 import karthikViriyala from "@/public/teams/Karthik-Viriyala.jpeg";
 import methuliAmarasinghe from "@/public/teams/Methuli-Amarasinghe.jpeg";
@@ -129,6 +130,12 @@ export const TEAM: Subteam[] = [
         position: "Developer",
         image: shreeyaSantha,
       },
+      {
+        id: "jerry-zhu",
+        name: "Jerry Zhu",
+        position: "Developer",
+        image: jerryZhu,
+      }
     ],
   },
   {
