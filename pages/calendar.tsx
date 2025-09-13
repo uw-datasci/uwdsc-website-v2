@@ -8,8 +8,10 @@ import {
   Calendar as CalendarIcon,
   ChevronLeft,
   ChevronRight,
+  Download,
 } from "react-feather";
 import SEO from "@/components/SEO/SEO";
+import { exportMonthEvents } from "@/utils/calendarExport";
 
 interface EventData {
   id: string;
@@ -311,6 +313,15 @@ export default function Calendar() {
     }, 100);
   };
 
+  const handleExportMonthEvents = () => {
+    if (events.length > 0) {
+      const icsFileName = `dsc ${
+        MONTHS[currentDate.getMonth()]
+      } ${currentDate.getFullYear()} Events`;
+      exportMonthEvents(events, icsFileName);
+    }
+  };
+
   const renderCalendarDays = () => {
     const days = [];
 
@@ -449,10 +460,25 @@ export default function Calendar() {
         <div className="rounded-lg bg-grey4/50 p-3 sm:p-6">
           {/* Mobile Header - Inline Navigation */}
           <div className="mb-4 flex items-center justify-between sm:mb-6 sm:hidden">
-            <div className="flex flex-col items-center gap-2">
-              <h2 className="text-center text-lg font-bold text-white">
+            <div className="flex flex-col items-start gap-2">
+              <h2 className="text-center text-xl font-bold text-white">
                 {MONTHS[currentDate.getMonth()]} {currentDate.getFullYear()}
               </h2>
+              {events.length > 0 && (
+                <Button
+                  type="button"
+                  hierarchy="secondary"
+                  font="font-medium"
+                  text="text-xs"
+                  rounded="rounded-sm"
+                  padding="px-2 py-1"
+                  onClick={handleExportMonthEvents}
+                  classes="border-[1px] border-white hover:bg-blue/20 flex items-center gap-2"
+                >
+                  <Download className="h-4 w-4" />
+                  Export {MONTHS[currentDate.getMonth()]} Events
+                </Button>
+              )}
             </div>
 
             <div className="flex items-center gap-2">
@@ -500,11 +526,24 @@ export default function Calendar() {
           {/* Desktop Header - Original Layout */}
           <div className="mb-4 hidden items-center justify-between sm:mb-6 sm:flex">
             <div className="flex items-center gap-4">
-              <h2 className="text-center text-2xl font-bold text-white">
+              <h2 className="text-center text-2xl font-bold text-white lg:text-3xl">
                 {MONTHS[currentDate.getMonth()]} {currentDate.getFullYear()}
               </h2>
             </div>
-
+            {events.length > 0 && (
+              <Button
+                type="button"
+                hierarchy="secondary"
+                font="font-medium"
+                rounded="rounded-md"
+                padding="px-3 py-2"
+                onClick={handleExportMonthEvents}
+                classes="border-[1px] border-white hover:bg-blue/20 flex items-center gap-2"
+              >
+                <Download className="h-5 w-5" />
+                Export {MONTHS[currentDate.getMonth()]} Events
+              </Button>
+            )}
             <div className="flex items-center gap-3">
               <Button
                 type="button"
@@ -593,7 +632,7 @@ export default function Calendar() {
             </p>
             {!loading && events.length > 0 && (
               <p className="mt-2 text-xs sm:text-sm">
-                Tap events to see more details
+                Tap events to see more details and export options
               </p>
             )}
           </div>
