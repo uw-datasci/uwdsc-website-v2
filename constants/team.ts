@@ -32,15 +32,6 @@ import karenGuan from "@/public/teams/Karen-Guan.jpeg";
 // Education
 // Workshop
 import ishirLakhani from "@/public/teams/Ishir-Lakhani.png";
-import jacobYan from "@/public/teams/Jacob-Yan.jpg";
-import jeffreyKasa from "@/public/teams/Jeffrey-Kasa.jpg";
-import jennyYu from "@/public/teams/Jenny-Yu.jpg";
-import jerryZhu from "@/public/teams/Jerry-Zhu.JPG";
-import jocelynXu from "@/public/teams/Jocelyn-Xu.jpg";
-import karthikViriyala from "@/public/teams/Karthik-Viriyala.jpeg";
-import methuliAmarasinghe from "@/public/teams/Methuli-Amarasinghe.jpeg";
-import mincyYang from "@/public/teams/Mincy-Yang.png";
-import monicaTrinh from "@/public/teams/Monica-Trinh.jpg";
 import nahalHabibizadeh from "@/public/teams/Nahal-Habibizadeh.jpeg";
 import stevenGu from "@/public/teams/Steven-Gu.jpg";
 // Project
@@ -178,7 +169,7 @@ export const TEAM: Subteam[] = [
         name: "Jerry Zhu",
         position: "Developer",
         image: jerryZhu,
-      }
+      },
     ],
   },
   {
