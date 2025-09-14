@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getEvents } from "@/utils/apiCalls";
+import { getEvents } from "@/utils/apiCalls/eventApiCalls";
 import moment from "moment-timezone";
 import Button from "@/components/UI/Button";
 import {

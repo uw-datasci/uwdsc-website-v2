@@ -6,7 +6,8 @@ import { CiPassport1 } from "react-icons/ci";
 import { AnimatePresence, motion } from "framer-motion";
 import { Poppins } from "next/font/google";
 import EventSnippet from "./EventSnippet";
-import { getEventById, getAllFutureEvents } from "@/utils/apiCalls";
+import { getEventById} from "@/utils/apiCalls/eventApiCalls";
+import { getAllFutureEvents } from "@/utils/apiCalls/eventApiCalls";
 import { UserInfo } from "@/pages/memCheckIn";
 
 const poppins = Poppins({
