@@ -6,11 +6,10 @@ import {
   setLatestEvent,
   setRegistrationStatus,
 } from "@/store/slices/latestEventSlice";
-import {
-  patchCheckInRegistrantByIdUser,
-  getLatestEvent,
-  getCurrentUserRegistrationByID,
-} from "@/utils/apiCalls";
+
+import {getLatestEvent} from "@/utils/apiCalls/eventApiCalls";
+import{patchCheckInRegistrantByIdUser} from "@/utils/apiCalls/eventApiCalls";
+import { getCurrentUserRegistrationByID } from "@/utils/apiCalls/userApiCalls";
 import Image from "next/image";
 import { UserInfo } from "@/pages/memCheckIn";
 import LoadingSpinner from "../UI/LoadingSpinner";

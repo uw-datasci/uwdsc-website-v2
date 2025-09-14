@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { RootState } from "@/store/store";
 import { X, AlertTriangle } from "react-feather";
 import Button from "@/components/UI/Button";
-import { getCurrentUser } from "@/utils/apiCalls";
+import { getCurrentUser } from "@/utils/apiCalls/userApiCalls";
 
 export default function MembershipBanner() {
   const signedIn = useSelector((state: RootState) => state.loginToken.name);
