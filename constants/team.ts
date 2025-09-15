@@ -16,7 +16,7 @@ import karthikViriyala from "@/public/teams/Karthik-Viriyala.jpeg";
 import brianAn from "@/public/teams/Brian-An.png";
 import andyXu from "@/public/teams/Andy-Xu.jpg";
 import sriganSivagnanenthirarajah from "@/public/teams/Srigan-Sivagnanenthirarajah.jpg";
-// missing jerry zhu
+import jerryZhu from "@/public/teams/Jerry-Zhu.png";
 
 // Events
 import annieWong from "@/public/teams/Annie-Wong.jpeg";
@@ -168,7 +168,7 @@ export const TEAM: Subteam[] = [
         id: "jerry-zhu",
         name: "Jerry Zhu",
         position: "Developer",
-        image: team,
+        image: jerryZhu,
       },
     ],
   },
