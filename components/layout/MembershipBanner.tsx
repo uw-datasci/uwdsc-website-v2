@@ -60,7 +60,7 @@ export default function MembershipBanner() {
               <strong>Reminder:</strong> Complete your $4 membership fee to
               access all events with free food!
             </p>
-            <p className="mt-1 text-2xs opacity-90 sm:text-sm">
+            <p className="mt-1 text-xs opacity-90 sm:text-sm">
               Pay online through{" "}
               <a
                 href="https://wusa.ca/product/uw-data-science-club-membership/"
