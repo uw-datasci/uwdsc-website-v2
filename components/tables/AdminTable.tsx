@@ -14,10 +14,10 @@ import {
   ColumnDef,
   FilterFn,
 } from "@tanstack/react-table";
-import { useSelector } from "react-redux";
-import { RootState } from "@/store/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/store/store";
 import UserFormCard from "../cards/UserFormCard";
-import {getLatestEvent} from "@/utils/apiCalls/eventApiCalls";
+import { getLatestEvent } from "@/utils/apiCalls/eventApiCalls";
 import {
   fetchUsers,
   createUser,
@@ -30,6 +30,7 @@ import EditCell from "./EditCell";
 import Pagination from "./Pagination";
 import { RankingInfo, rankItem } from "@tanstack/match-sorter-utils";
 import { MdRefresh, MdOutlineAddCircleOutline } from "react-icons/md";
+import { updateUserPaidStatus } from "@/store/slices/paidUsersSlice";
 
 require("dotenv").config();
 
@@ -121,6 +122,8 @@ const AdminTable = () => {
   const [globalFilter, setGlobalFilter] = useState<string>("");
   const [autoResetPageIndex, skipAutoResetPageIndex] = useSkipper();
 
+  const dispatch = useDispatch<AppDispatch>();
+
   const handleSaveClick = async () => {
     const user = (await getCurrentUser()).data.user;
     const adminName = user.username;
@@ -160,6 +163,15 @@ const AdminTable = () => {
         userId: editFormData._id,
         newUser: updatedUser,
       });
+
+      dispatch(
+        updateUserPaidStatus({
+          userId: editFormData._id,
+          hasPaid: updatedUser.hasPaid === "True",
+          isMathSocMember: updatedUser.isMathSocMember === "True",
+        }),
+      );
+
       setEditedRowId(null);
       setEditFormData(null);
       setOldEditFormData(null);

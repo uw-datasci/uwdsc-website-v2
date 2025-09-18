@@ -7,6 +7,7 @@ import signInPageReducer from "./slices/signInPageSlice.js";
 import loginTokenReducer from "./slices/loginTokenSlice.js"; // Rename to loginTokenReducer
 import eventFormPageReducer from "./slices/eventFormPageSlice.js";
 import latestEventReducer from "./slices/latestEventSlice";
+import paidUsersReducer from "./slices/paidUsersSlice";
 
 // all reducers
 const rootReducer = combineReducers({
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
   loginToken: loginTokenReducer,
   eventFormPage: eventFormPageReducer,
   latestEvent: latestEventReducer,
+  paidUsers: paidUsersReducer,
 });
 
 // Persist config
