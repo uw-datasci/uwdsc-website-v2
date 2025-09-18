@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import LoadingSpinner from "@/components/UI/LoadingSpinner";
 import { MAX_ALLOWED_ROLES_TO_APPLY } from "@/constants/application";
 import withAuth from "@/components/permissions/authPage";
+import StatCard from "@/components/cards/StatCard";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -313,34 +314,27 @@ function ExecAppView() {
         {/* Stats + CSV */}
         <div className="flex flex-col items-center gap-5 py-8 sm:flex-row sm:justify-start">
           {/* Total Applications Card */}
-          <div className="flex w-fit items-center gap-4 rounded-lg border-[1px] border-[#7CA3DE] bg-[#CADAF3] px-4 py-2 sm:px-6 sm:py-4">
-            <div className="rounded-sm bg-[#5c7fe1] p-3">
-              <NotebookPen className="h-6 w-6 text-white" />
-            </div>
-            <div className="font-medium text-[#314077]">
-              <div className="text-xl sm:text-lg lg:text-xl">
-                {termApps.length}
-              </div>
-              <div className="text-md text-[#222949B2]/70 sm:text-sm lg:text-md">
-                Total Applications
-              </div>
-            </div>
-          </div>
-
+          <StatCard
+            value={termApps.length}
+            label="Total Applications"
+            icon={<NotebookPen className="h-6 w-6 text-white" />}
+            iconBgColour="bg-[#5c7fe1]"
+            cardBgColour="bg-[#CADAF3]"
+            borderColour="border-[#7CA3DE]"
+            statColour="text-[#314077]"
+            labelColour="text-[#222949B2]/70"
+          />
           {/* Completion Rate Card */}
-          <div className="flex w-fit items-center gap-4 rounded-lg border-[1px] border-[#7CA3DE] bg-[#CADAF3] px-4 py-2 sm:px-6 sm:py-4">
-            <div className="rounded-sm bg-[#4ADE80] p-3">
-              <Check className="h-6 w-6 text-white" strokeWidth={3} />
-            </div>
-            <div className="font-medium text-[#314077]">
-              <div className="text-xl sm:text-lg lg:text-xl">
-                {calculateCompletionRate()}%
-              </div>
-              <div className="text-md sm:text-sm lg:text-md">
-                Completion Rate
-              </div>
-            </div>
-          </div>
+          <StatCard
+            value={`${calculateCompletionRate()}%`}
+            label="Completion Rate"
+            icon={<Check className="h-6 w-6 text-white" strokeWidth={3} />}
+            iconBgColour="bg-[#4ADE80]"
+            cardBgColour="bg-[#CADAF3]"
+            borderColour="border-[#7CA3DE]"
+            statColour="text-[#314077]"
+            labelColour="text-[#314077]"
+          />
 
           {/* Export to CSV Button */}
           <button
@@ -376,13 +370,13 @@ function ExecAppView() {
                   {app._id}
                 </p>
                 <div className="col-span-1 flex flex-col items-start break-all">
-                  <span>{app.roleQuestionAnswers.general.full_name}</span>
+                  <span>{app.roleQuestionAnswers.general?.full_name}</span>
                   <span className="text-black/70">
-                    {app.roleQuestionAnswers.general.waterloo_email}
+                    {app.roleQuestionAnswers.general?.waterloo_email}
                   </span>
                 </div>
                 <p className="col-span-1 flex items-center break-all">
-                  {app.roleQuestionAnswers.general.program}
+                  {app.roleQuestionAnswers.general?.program}
                 </p>
                 <p className="col-span-1 flex items-center break-all">
                   {app.submittedAt && app.status === "submitted"
