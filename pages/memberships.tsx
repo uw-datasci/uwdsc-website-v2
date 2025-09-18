@@ -46,7 +46,7 @@ function Memberships() {
         </h1>
         <div className="flex flex-col gap-2 overflow-visible">
           <SectionTitle mb="mb-12">Memberships</SectionTitle>
-          <div className="flex flex-row gap-5 pb-3">
+          <div className="flex flex-col items-center gap-5 pb-3 md:flex-row md:items-start">
             {/* Total Paid Users Count */}
             <StatCard
               value={totalCount}
