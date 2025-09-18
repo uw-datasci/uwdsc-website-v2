@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { createEvent } from "@/utils/apiCalls";
+import { createEvent } from "@/utils/apiCalls/adminApiCalls";
 import { useRouter } from "next/router";
 import withAuth from "@/components/permissions/authPage";
 
