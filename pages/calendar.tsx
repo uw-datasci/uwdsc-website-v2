@@ -183,7 +183,7 @@ export default function Calendar() {
   const [currentDate, setCurrentDate] = useState(new Date());
 
   // Tooltip state
-  const [hoveredEvent, setHoveredEvent] = useState<EventData | null>(null);
+  const [selectedEvent, setSelectedEvent] = useState<EventData | null>(null);
   const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
   const [isTooltipVisible, setIsTooltipVisible] = useState(false);
   const [isTooltipPersistent, setIsTooltipPersistent] = useState(false);
@@ -331,31 +331,6 @@ export default function Calendar() {
     );
   };
 
-  const handleEventHover = (
-    event: EventData,
-    mouseEvent: React.MouseEvent | React.TouchEvent,
-  ) => {
-    if (isTooltipPersistent) return; // Don't show hover tooltip if persistent tooltip is open
-    
-    const rect = mouseEvent.currentTarget.getBoundingClientRect();
-    const calendarContainer = document.querySelector('.calendar-container');
-    const containerRect = calendarContainer?.getBoundingClientRect();
-    
-    if (containerRect) {
-      setTooltipPosition({
-        x: rect.left + rect.width / 2 - containerRect.left,
-        y: rect.top - containerRect.top,
-      });
-    } else {
-      setTooltipPosition({
-        x: rect.left + rect.width / 2,
-        y: rect.top,
-      });
-    }
-    setHoveredEvent(event);
-    setIsTooltipVisible(true);
-  };
-
   const handleEventClick = (
     event: EventData,
     mouseEvent: React.MouseEvent | React.TouchEvent,
@@ -375,7 +350,7 @@ export default function Calendar() {
         y: rect.top,
       });
     }
-    setHoveredEvent(event);
+    setSelectedEvent(event);
     setIsTooltipVisible(true);
     setIsTooltipPersistent(true);
   };
@@ -384,9 +359,6 @@ export default function Calendar() {
     if (!isTooltipPersistent) {
       setIsTooltipVisible(false);
       setTimeout(() => {
-        if (!isTooltipVisible) {
-          setHoveredEvent(null);
-        }
       }, 100);
     }
   };
@@ -394,7 +366,8 @@ export default function Calendar() {
   const handleCloseTooltip = () => {
     setIsTooltipVisible(false);
     setIsTooltipPersistent(false);
-    setHoveredEvent(null);
+    setSelectedEvent(null);
+    //setHoveredEvent(null);
   };
 
   const handleExportMonthEvents = () => {
@@ -478,7 +451,7 @@ export default function Calendar() {
                         "--i": index,
                       } as React.CSSProperties
                     }
-                    onMouseEnter={(e) => handleEventHover(event, e)}
+                    //onMouseEnter={(e) => handleEventHover(event, e)}
                     onMouseLeave={handleEventLeave}
                     onClick={(e) => handleEventClick(event, e)}
                     onTouchStart={(e) => handleEventClick(event, e)}
@@ -723,7 +696,7 @@ export default function Calendar() {
           </div>
 
           <EventTooltip
-            event={hoveredEvent}
+            event={selectedEvent}
             position={tooltipPosition}
             isVisible={isTooltipVisible}
             isPersistent={isTooltipPersistent}
