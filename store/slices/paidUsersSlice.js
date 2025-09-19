@@ -12,15 +12,16 @@ const paidUsersSlice = createSlice({
   reducers: {
     setPaidUsers: (state, action) => {
       state.users = action.payload;
-      state.totalCount = action.payload.length;
+      // The payload should contain only paid users for current use case.
+      // Including the filter for hasPaid is just a safety measure for any future use cases.
+      state.totalCount = action.payload.filter((user) => user.hasPaid).length;
       state.mathSocCount = action.payload.filter(
         (user) => user.isMathSocMember,
       ).length;
     },
     updateUserPaidStatus: (state, action) => {
       const { userId, hasPaid, isMathSocMember } = action.payload;
-      const userIndex = state.users.findIndex((user) => user.id === userId);
-
+      const userIndex = state.users.findIndex((user) => user._id === userId);
       if (userIndex !== -1) {
         // Update existing user
         state.users[userIndex] = {
@@ -30,7 +31,7 @@ const paidUsersSlice = createSlice({
         };
       } else if (hasPaid) {
         // Add new paid user
-        state.users.push({ id: userId, hasPaid, isMathSocMember });
+        state.users.push({ _id: userId, hasPaid, isMathSocMember });
       }
 
       // Recalculate counts
