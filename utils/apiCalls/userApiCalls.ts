@@ -73,3 +73,7 @@ export const getCurrentUser = async () => {
     token: store.getState().loginToken.token,
   });
 };
+
+export const getPaidUsers = async () => {
+  return await axios.get("/api/UWDSC/user/getPaidUsers");
+};
