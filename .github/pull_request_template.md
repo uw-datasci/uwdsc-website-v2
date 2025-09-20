@@ -4,10 +4,10 @@ Make sure you add the correct Assignees and Labels that best fit this pull reque
 
 ## Closes Issue
 
-IMPORTANT: please include the issue number from the GitHub Project (i.e. closes #123)
+IMPORTANT: please include the issue number from the GitHub Project
 - it's important that **closes** is there to trigger the issue as completed
 
-closes #\<issue-number\>
+closes #[issue-number]
 
 ## Changes Made
 
