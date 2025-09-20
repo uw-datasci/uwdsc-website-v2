@@ -27,11 +27,17 @@ const EventTooltip = ({
   event,
   position,
   isVisible,
+  isPersistent,
+  onClose,
 }: {
   event: EventData | null;
   position: { x: number; y: number };
   isVisible: boolean;
+  isPersistent: boolean;
+  onClose: () => void;
 }) => {
+  const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
+
   if (!event || !isVisible) return null;
 
   const startDate = moment(event.startTime);
@@ -42,9 +48,13 @@ const EventTooltip = ({
     return moment(timeString).format("MMM D, h:mm A");
   };
 
+  const handleDescriptionClick = () => {
+    setIsDescriptionExpanded(!isDescriptionExpanded);
+  };
+
   return (
     <div
-      className="fixed z-50 w-72 rounded-lg border border-grey3 bg-grey4 shadow-2xl sm:w-80"
+      className="absolute z-50 w-72 rounded-lg border border-grey3 bg-grey4 shadow-2xl sm:w-80"
       style={{
         left: position.x,
         top: position.y,
@@ -55,14 +65,43 @@ const EventTooltip = ({
       <div className="relative p-3 sm:p-4">
         <div className="bg-gradient absolute inset-0 rounded-lg opacity-10" />
         <div className="relative">
-          <h4 className="text-base mb-2 font-bold text-white sm:text-lg">
-            {event.name}
-          </h4>
+          <div className="flex items-start justify-between mb-2">
+            <h4 className="text-base font-bold text-white sm:text-lg pr-2">
+              {event.name}
+            </h4>
+            {isPersistent && (
+              <button
+                onClick={onClose}
+                className="flex-shrink-0 text-grey1 hover:text-white transition-colors"
+                aria-label="Close event details"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            )}
+          </div>
 
           {event.description && (
-            <p className="mb-3 line-clamp-2 text-xs leading-relaxed text-grey1 sm:text-sm">
-              {event.description}
-            </p>
+            <div className="mb-3">
+              <p 
+                className={`text-xs leading-relaxed text-grey1 sm:text-sm cursor-pointer hover:text-white transition-colors ${
+                  isDescriptionExpanded ? '' : 'line-clamp-2'
+                }`}
+                onClick={handleDescriptionClick}
+                title={isDescriptionExpanded ? 'Click to collapse' : 'Click to expand'}
+              >
+                {event.description}
+              </p>
+              {event.description.length > 100 && (
+                <button
+                  className="mt-1 text-xs text-blue hover:text-blue/80 transition-colors"
+                  onClick={handleDescriptionClick}
+                >
+                  {isDescriptionExpanded ? 'Show less' : 'Show more'}
+                </button>
+              )}
+            </div>
           )}
 
           <div className="space-y-2">
@@ -144,9 +183,10 @@ export default function Calendar() {
   const [currentDate, setCurrentDate] = useState(new Date());
 
   // Tooltip state
-  const [hoveredEvent, setHoveredEvent] = useState<EventData | null>(null);
+  const [selectedEvent, setSelectedEvent] = useState<EventData | null>(null);
   const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
   const [isTooltipVisible, setIsTooltipVisible] = useState(false);
+  const [isTooltipPersistent, setIsTooltipPersistent] = useState(false);
 
   const firstDayOfMonth = new Date(
     currentDate.getFullYear(),
@@ -291,26 +331,43 @@ export default function Calendar() {
     );
   };
 
-  const handleEventInteraction = (
+  const handleEventClick = (
     event: EventData,
     mouseEvent: React.MouseEvent | React.TouchEvent,
   ) => {
     const rect = mouseEvent.currentTarget.getBoundingClientRect();
-    setTooltipPosition({
-      x: rect.left + rect.width / 2,
-      y: rect.top,
-    });
-    setHoveredEvent(event);
+    const calendarContainer = document.querySelector('.calendar-container');
+    const containerRect = calendarContainer?.getBoundingClientRect();
+    
+    if (containerRect) {
+      setTooltipPosition({
+        x: rect.left + rect.width / 2 - containerRect.left,
+        y: rect.top - containerRect.top,
+      });
+    } else {
+      setTooltipPosition({
+        x: rect.left + rect.width / 2,
+        y: rect.top,
+      });
+    }
+    setSelectedEvent(event);
     setIsTooltipVisible(true);
+    setIsTooltipPersistent(true);
   };
 
   const handleEventLeave = () => {
+    if (!isTooltipPersistent) {
+      setIsTooltipVisible(false);
+      setTimeout(() => {
+      }, 100);
+    }
+  };
+
+  const handleCloseTooltip = () => {
     setIsTooltipVisible(false);
-    setTimeout(() => {
-      if (!isTooltipVisible) {
-        setHoveredEvent(null);
-      }
-    }, 100);
+    setIsTooltipPersistent(false);
+    setSelectedEvent(null);
+    //setHoveredEvent(null);
   };
 
   const handleExportMonthEvents = () => {
@@ -394,9 +451,10 @@ export default function Calendar() {
                         "--i": index,
                       } as React.CSSProperties
                     }
-                    onMouseEnter={(e) => handleEventInteraction(event, e)}
+                    //onMouseEnter={(e) => handleEventHover(event, e)}
                     onMouseLeave={handleEventLeave}
-                    onTouchStart={(e) => handleEventInteraction(event, e)}
+                    onClick={(e) => handleEventClick(event, e)}
+                    onTouchStart={(e) => handleEventClick(event, e)}
                   >
                     <div className="truncate font-semibold">
                       {eventInfo.startsBeforeMonth && "← "}
@@ -457,7 +515,7 @@ export default function Calendar() {
           </div>
         )}
 
-        <div className="rounded-lg bg-grey4/50 p-3 sm:p-6">
+        <div className="calendar-container relative rounded-lg bg-grey4/50 p-3 sm:p-6">
           {/* Mobile Header - Inline Navigation */}
           <div className="mb-4 flex items-center justify-between sm:mb-6 sm:hidden">
             <div className="flex flex-col items-start gap-2">
@@ -636,13 +694,15 @@ export default function Calendar() {
               </p>
             )}
           </div>
-        </div>
 
-        <EventTooltip
-          event={hoveredEvent}
-          position={tooltipPosition}
-          isVisible={isTooltipVisible}
-        />
+          <EventTooltip
+            event={selectedEvent}
+            position={tooltipPosition}
+            isVisible={isTooltipVisible}
+            isPersistent={isTooltipPersistent}
+            onClose={handleCloseTooltip}
+          />
+        </div>
       </div>
     </>
   );
