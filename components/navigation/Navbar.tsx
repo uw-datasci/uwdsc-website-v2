@@ -59,7 +59,10 @@ export default function Navbar() {
   return (
     <>
       {/* glass navbar */}
-      <header className="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-6 py-6 lg:px-12 lg:py-8">
+      <header
+  className={`fixed top-0 left-0 w-full z-50 flex items-center justify-between px-6 py-6 lg:px-12 lg:py-8 
+  ${isMobileMenuOpen ? "hidden lg:flex" : ""}`}
+>
         {/* logo */}
         <Logo classes="w-12 lg:w-14" />
 
