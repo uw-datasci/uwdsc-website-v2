@@ -1,5 +1,4 @@
 import { useFormik } from "formik";
-import { useState, useEffect } from "react"; 
 import TextInput from "@/components/UI/Inputs/UWDSC/TextInput";
 import TextArea from "@/components/UI/Inputs/UWDSC/TextArea";
 import InputFeedback from "@/components/UI/Inputs/UWDSC/InputFeedback";
@@ -7,6 +6,7 @@ import ToggleSwitch from "@/components/UI/Inputs/UWDSC/ToggleSwitch";
 import Button from "@/components/UI/Button";
 import { EventFormValues } from "@/types/types";
 
+// Helper function to format datetime for input field
 const formatDateTimeForInput = (dateTimeStr: string) => {
   if (!dateTimeStr) return "";
   const date = new Date(dateTimeStr);
@@ -23,7 +23,8 @@ interface EventFormProps {
   success: boolean;
   error: boolean;
   isEditing?: boolean;
-  onClose?: () => void; 
+  loading?: boolean; // <-- parent provides this
+  onClose?: () => void; // optional; parent may pass if desired
 }
 
 export default function EventForm({
@@ -31,9 +32,10 @@ export default function EventForm({
   success,
   error,
   isEditing = false,
-  onClose, 
+  loading = false,
+  onClose,
 }: EventFormProps) {
-  const [loading, setLoading] = useState(false); 
+  // NOTE: no local loading state here — parent manages it
 
   formik.values.startTime = formatDateTimeForInput(formik.values.startTime);
   formik.values.endTime = formatDateTimeForInput(formik.values.endTime);
@@ -44,26 +46,8 @@ export default function EventForm({
     formik.values.bufferedEndTime,
   );
 
-  useEffect(() => {
-    if (success) {
-      setLoading(false); 
-      const timer = setTimeout(() => {
-        if (onClose) onClose(); 
-      }, 1000); 
-      return () => clearTimeout(timer);
-    }
-  }, [success, onClose]);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    formik.handleSubmit(); 
-
-    setTimeout(() => setLoading(false), 5000);
-  };
-
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <form onSubmit={formik.handleSubmit} className="space-y-6">
       <div className="mb-6">
         <h2 className="text-2xl font-bold text-white">
           {isEditing ? "Edit Event" : "Add New Event"}
@@ -258,14 +242,11 @@ export default function EventForm({
         font="font-bold"
         text="sm:text-lg 2xl:text-xl"
         rounded="rounded-[15px]"
-        classes="w-full"
-        disabled={loading} 
+        // ✅ Use parent loading state to style/disable the button
+        classes={`w-full ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
+        disabled={loading}
       >
-        {loading
-          ? "Processing..." 
-          : isEditing
-          ? "Update Event"
-          : "Create Event"}
+        {loading ? "Processing..." : isEditing ? "Update Event" : "Create Event"}
       </Button>
 
       {success && (
