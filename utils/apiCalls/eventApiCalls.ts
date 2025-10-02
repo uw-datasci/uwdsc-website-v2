@@ -26,7 +26,8 @@ export const patchCheckInRegistrantByIdUser = async (
   );
 };
 
-export const patchCheckInRegistrantById = async ( //Not sure where this maps to
+export const patchCheckInRegistrantById = async (
+  //Not sure where this maps to
   eventId: string,
   userId: string,
   eventSecret: string,
@@ -55,5 +56,11 @@ export const getAllFutureEvents = async () => {
 export const getEventById = async (eventId: string) => {
   return await axios.get("/api/UWDSC/events/getEventById", {
     params: { eventId },
+  });
+};
+
+export const getPastEvents = async (limit: number = 10) => {
+  return await axios.get("/api/UWDSC/public/getPastEvents", {
+    params: { limit },
   });
 };
