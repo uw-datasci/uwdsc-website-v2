@@ -1,6 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
-import { displaySignIn } from "@/store/slices/signInPageSlice";
+import { displaySignIn} from "@/store/slices/signInPageSlice";
+import { displaySignUp } from "@/store/slices/signUpPageSlice";
+import { logout } from "@/store/slices/loginTokenSlice";
 import { RootState } from "@/store/store";
 import { useEffect, useState, useRef, useCallback } from "react";
 
@@ -68,7 +70,7 @@ export default function Hero() {
         loop
         muted
         playsInline
-        className="absolute top-0 left-0 w-full h-full object-cover -z-10"
+        className="absolute top-0 left-0 w-full h-full object-cover -z-10 "
       >
         <source
           src="/videos/3129957-uhd_3840_2160_25fps.mp4"
@@ -77,19 +79,39 @@ export default function Hero() {
       </video>
 
       {/* Title + Description */}
-      <div className="z-10 max-w-3xl px-4">
-        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6">
+      <div className="z-10 max-w-3xl px-4 pt-20 sm:pt-8">
+        <h1 className="text-3xl sm:text-5xl md:text-9xl font-bold mb-8 sm:mb-16">
           University of Waterloo <br /> Data Science Club
         </h1>
-        <p className="text-sm sm:text-base md:text-lg mb-8">
+        <p className="text-md md:text-xl mb-2 px-6 sm:px-6 sm:mb-8 mx-auto max-w-2xl">
           Inspiring the data science leaders of the future by building an
           inclusive community to bridge the gap between academics and the
           industry.
         </p>
       </div>
 
+      {/* Logined as Mobile */}
+      <div className="block md:hidden mt-2">
+        {signedIn && (
+          <div className="flex items-center gap-8">
+            <p className="text-sm p-2 text-grey2">
+            Logged in as <b>{signedIn}</b>
+            </p>
+            <button
+              onClick={() => {
+                dispatch(logout());
+                router.push("/");
+              }}
+              className="text-sm hover:underline text-grey2"
+            >
+              ( Log Out )
+            </button>
+          </div>
+        )}
+      </div>
+
       {/* Check-in button */}
-      <div className="z-10 mb-6">
+      <div className="z-10 mb-2">
         <button
           onClick={() => {
             if (signedIn) {
@@ -98,44 +120,81 @@ export default function Hero() {
               dispatch(displaySignIn());
             }
           }}
-          className="px-6 py-3 md:px-8 md:py-4 rounded-full text-lg md:text-xl font-medium 
-          backdrop-blur-md bg-white/10 border border-white/30 shadow-lg 
-          hover:bg-white/20 transition"
+          className="px-8 py-4 sm:px-10 sm:py-5 rounded-full text-xl font-medium 
+                     backdrop-blur-md bg-white/10 border border-white/30 shadow-lg 
+                     hover:bg-white/20 transition"
         >
           Check in for an event →
         </button>
       </div>
+      
+      {/* login/logout mobile 
+      <div className="block md:hidden flex items-center gap-8 sm:gap-4 text-white">
+        {!signedIn ? (
+          <>
+            <button
+              onClick={() => dispatch(displaySignIn())}
+              className="text-lg hover:underline"
+            >
+              ( LOGIN )
+            </button>
+            <button
+              onClick={() => dispatch(displaySignUp())}
+              className="text-lg hover:underline"
+            >
+              ( JOIN US )
+            </button>
+          </>
+          
+        ) : (
+          <>
+            <button
+              onClick={() => {
+                dispatch(logout());
+                router.push("/");
+              }}
+              className="text-lg hover:underline"
+            >
+              ( Log Out )
+            </button>
+          </>
+        )}
+      </div>
+      */}
+
+
+       {/* Sponsor Us For Iphone*/}
+      <div className="mb-4 md:mb-0 md:absolute md:bottom-24 md:left-6 mt-2 ">
+        <a
+          href=""
+          className="text-lg md:text-2xl hover:underline hover:text-gray-300"
+        >
+          Sponsor us →
+        </a>
+      </div>
+
 
       {/* Animated Stats in Hero */}
       {/* Members (top-left, moved lower) */}
-      <div className="absolute top-28 left-3 sm:left-6 flex flex-col items-center">
-        <div className="px-2 sm:px-3 md:px-4 py-0.5 sm:py-1 text-white text-lg sm:text-xl md:text-3xl lg:text-4xl">
+      <div className="absolute top-24 sm:top-28 left-3 sm:left-6 flex flex-col items-center">
+        <div className="px-2 sm:px-3 md:px-4 py-0.5 sm:py-1 text-white text-4xl md:text-5xl lg:text-7xl">
           {Math.round(members)}+
         </div>
-        <div className="text-xs sm:text-sm md:text-base lg:text-lg">
+        <div className="text-lg md:text-lg lg:text-2xl">
           {`{ MEMBERS }`}
         </div>
       </div>
 
       {/* Events (bottom-right, moved higher) */}
-      <div className="absolute bottom-24 right-3 sm:right-6 flex flex-col items-center">
-        <div className="px-2 sm:px-3 md:px-4 py-0.5 sm:py-1 text-white text-lg sm:text-xl md:text-3xl lg:text-4xl">
+      <div className="absolute bottom-12 sm:bottom-24 right-3 sm:right-6 flex flex-col items-end">
+        <div className="text-white text-4xl md:text-5xl lg:text-7xl">
           {Math.round(events)}+
         </div>
-        <div className="text-xs sm:text-sm md:text-base lg:text-lg">
+        <div className="text-lg md:text-xlg lg:text-2xl">
           {`{ WORKSHOPS }`}
         </div>
       </div>
-
-      {/* Sponsor Us (moved higher) */}
-      <div className="absolute bottom-28 left-3 sm:left-6">
-        <a
-          href="/sponsor"
-          className="text-xs sm:text-sm md:text-base underline hover:text-gray-300"
-        >
-          Sponsor us →
-        </a>
-      </div>
+    
     </section>
   );
 }

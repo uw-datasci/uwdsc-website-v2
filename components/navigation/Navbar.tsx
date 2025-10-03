@@ -95,15 +95,20 @@ export default function Navbar() {
               </button>
             </>
           ) : (
-            <button
-              onClick={() => {
-                dispatch(logout());
-                router.push("/");
-              }}
-              className="text-sm hover:underline"
-            >
-              ( Log Out )
-            </button>
+            <>
+              <p className="text-s p-2 text-grey2">
+                Logged in as <b>{signedIn}</b>
+              </p>
+              <button
+                onClick={() => {
+                  dispatch(logout());
+                  router.push("/");
+                }}
+                className="text-sm hover:underline"
+              >
+                ( Log Out )
+              </button>
+            </>
           )}
         </div>
 
