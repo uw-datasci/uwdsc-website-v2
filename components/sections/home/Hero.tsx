@@ -1,126 +1,200 @@
-import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/store/store";
+import { useRouter } from "next/router";
+import { displaySignIn} from "@/store/slices/signInPageSlice";
 import { displaySignUp } from "@/store/slices/signUpPageSlice";
-import { displaySignIn } from "@/store/slices/signInPageSlice";
-
-import Button from "@/components/UI/Button";
-import GradientBorder from "@/components/UI/GradientBorder";
-
-import officeOpen from "@/public/graphics/office-open.png";
 import { logout } from "@/store/slices/loginTokenSlice";
+import { RootState } from "@/store/store";
+import { useEffect, useState, useRef, useCallback } from "react";
+
+const ANIMATION_DURATION = 1500;
+const INTERVAL = 10;
 
 export default function Hero() {
   const dispatch = useDispatch();
+  const router = useRouter();
   const signedIn = useSelector((state: RootState) => state.loginToken.name);
 
+  // === Animation State for Members & Events ===
+  const [members, setMembers] = useState(0);
+  const [events, setEvents] = useState(0);
+  const membersTarget = 300; // your real number here
+  const eventsTarget = 100; // your real number here
+  const sectionRef = useRef<HTMLElement | null>(null);
+
+  const animateStats = useCallback(() => {
+    const memberStep = membersTarget / (ANIMATION_DURATION / INTERVAL);
+    const eventStep = eventsTarget / (ANIMATION_DURATION / INTERVAL);
+
+    const intervalId = setInterval(() => {
+      setMembers((prev) => Math.min(prev + memberStep, membersTarget));
+      setEvents((prev) => Math.min(prev + eventStep, eventsTarget));
+
+      if (members >= membersTarget && events >= eventsTarget) {
+        clearInterval(intervalId);
+      }
+    }, INTERVAL);
+
+    return intervalId;
+  }, [membersTarget, eventsTarget, members, events]);
+
+  useEffect(() => {
+    let intervalId: number | NodeJS.Timeout;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          intervalId = animateStats();
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    const currentRef = sectionRef.current;
+    if (currentRef) observer.observe(currentRef);
+
+    return () => {
+      if (currentRef) observer.unobserve(currentRef);
+      if (intervalId) clearInterval(intervalId);
+    };
+  }, [animateStats]);
+
   return (
-    <section className="mb-section mx-container mt-14 grid gap-16 lg:mt-24 lg:grid-cols-[minmax(0,5fr)_minmax(0,3fr)] ">
-      <div>
-        <h1 className="mx-auto mb-5 text-center text-2xl font-bold text-white 3xs:text-3xl 2xs:max-w-[390px] 2xs:text-4xl xs:max-w-[450px] xs:text-5xl sm:text-6xl md:max-w-[520px] md:text-7xl lg:mx-0 lg:mb-7 lg:max-w-[500px] lg:text-left lg:text-6xl xl:max-w-[540px] xl:text-9xl 2xl:max-w-[580px] 2xl:text-10xl 3xl:max-w-none 3xl:text-12xl">
-          University of Waterloo Data Science Club
+    <section
+      ref={sectionRef}
+      className="relative w-full h-screen flex flex-col items-center justify-center text-center text-white overflow-hidden"
+    >
+      {/* Background Video */}
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="absolute top-0 left-0 w-full h-full object-cover -z-10 "
+      >
+        <source
+          src="/videos/3129957-uhd_3840_2160_25fps.mp4"
+          type="video/mp4"
+        />
+      </video>
+
+      {/* Title + Description */}
+      <div className="z-10 max-w-3xl px-4 pt-20 sm:pt-8">
+        <h1 className="text-3xl sm:text-5xl md:text-9xl font-bold mb-8 sm:mb-16">
+          University of Waterloo <br /> Data Science Club
         </h1>
-        <p className="mx-auto mb-10 max-w-[350px] text-center leading-loose text-white sm:max-w-[420px] sm:text-lg lg:mx-0 lg:mb-14 lg:max-w-none lg:text-left lg:text-md xl:text-lg 2xl:text-xl">
+        <p className="text-md md:text-xl mb-2 px-6 sm:px-6 sm:mb-8 mx-auto max-w-2xl">
           Inspiring the data science leaders of the future by building an
           inclusive community to bridge the gap between academics and the
           industry.
         </p>
-        <div className="flex flex-col gap-5 sm:flex-row sm:justify-center sm:gap-12 lg:justify-start">
-          {!signedIn ? (
-            <>
-              <Button
-                type="button"
-                hierarchy="primary"
-                font="font-bold"
-                text="sm:text-lg 2xl:text-xl"
-                padding="py-3 sm:px-7 sm:py-4"
-                rounded="rounded-lg"
-                classes="lg:hidden"
-                onClick={() => {
-                  dispatch(displaySignIn());
-                }}
-              >
-                Log in
-              </Button>
-              <GradientBorder rounded="rounded-lg" classes="lg:hidden">
-                <Button
-                  type="button"
-                  hierarchy="secondary"
-                  font="font-bold"
-                  text="sm:text-lg 2xl:text-xl"
-                  padding="py-3 sm:px-7 sm:py-4"
-                  rounded="rounded-lg"
-                  classes="w-full lg:hidden"
-                  onClick={() => {
-                    dispatch(displaySignUp());
-                  }}
-                >
-                  Join Us
-                </Button>
-              </GradientBorder>
-            </>
-          ) : (
-            <>
-              <p className="text-s text-center text-grey3 lg:hidden">
-                Logged in as <b>{signedIn}</b>
-              </p>
-              <Button
-                type="route"
-                hierarchy="primary"
-                href="/memCheckIn"
-                font="font-bold"
-                text="sm:text-lg 2xl:text-xl"
-                padding="py-3 sm:px-7 sm:py-4"
-                rounded="rounded-lg"
-                classes=""
-              >
-                Check In
-              </Button>
-              <GradientBorder rounded="rounded-lg" classes="lg:hidden">
-                <Button
-                  type="button"
-                  hierarchy="secondary"
-                  font="font-bold"
-                  text="sm:text-lg 2xl:text-xl"
-                  padding="py-3 sm:px-7 sm:py-4"
-                  rounded="rounded-lg"
-                  classes="w-full lg:hidden"
-                  onClick={() => {
-                    dispatch(logout());
-                  }}
-                >
-                  Log out
-                </Button>
-              </GradientBorder>
-            </>
-          )}
-          <GradientBorder rounded="rounded-lg" classes="hidden lg:block">
-            <Button
-              type="route"
-              href="#contact"
-              hierarchy="secondary"
-              font="font-bold"
-              text="sm:text-lg 2xl:text-xl"
-              padding="py-3 sm:px-7 sm:py-4"
-              rounded="rounded-[15px]"
-              classes="w-full hidden lg:block"
+      </div>
+
+      {/* Logined as Mobile */}
+      <div className="block md:hidden mt-2">
+        {signedIn && (
+          <div className="flex items-center gap-8">
+            <p className="text-sm p-2 text-grey2">
+            Logged in as <b>{signedIn}</b>
+            </p>
+            <button
+              onClick={() => {
+                dispatch(logout());
+                router.push("/");
+              }}
+              className="text-sm hover:underline text-grey2"
             >
-              Sponsor Us
-            </Button>
-          </GradientBorder>
-          <p
-            className="text-s cursor-pointer p-0 text-center text-grey3 underline hover:underline lg:hidden"
-            onClick={() => (window.location.href = "#contact")}
-          >
-            Sponsor Us
-          </p>
+              ( Log Out )
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* Check-in button */}
+      <div className="z-10 mb-2">
+        <button
+          onClick={() => {
+            if (signedIn) {
+              router.push("/memCheckIn");
+            } else {
+              dispatch(displaySignIn());
+            }
+          }}
+          className="px-8 py-4 sm:px-10 sm:py-5 rounded-full text-xl font-medium 
+                     backdrop-blur-md bg-white/10 border border-white/30 shadow-lg 
+                     hover:bg-white/20 transition"
+        >
+          Check in for an event →
+        </button>
+      </div>
+      
+      {/* login/logout mobile 
+      <div className="block md:hidden flex items-center gap-8 sm:gap-4 text-white">
+        {!signedIn ? (
+          <>
+            <button
+              onClick={() => dispatch(displaySignIn())}
+              className="text-lg hover:underline"
+            >
+              ( LOGIN )
+            </button>
+            <button
+              onClick={() => dispatch(displaySignUp())}
+              className="text-lg hover:underline"
+            >
+              ( JOIN US )
+            </button>
+          </>
+          
+        ) : (
+          <>
+            <button
+              onClick={() => {
+                dispatch(logout());
+                router.push("/");
+              }}
+              className="text-lg hover:underline"
+            >
+              ( Log Out )
+            </button>
+          </>
+        )}
+      </div>
+      */}
+
+
+       {/* Sponsor Us For Iphone*/}
+      <div className="mb-4 md:mb-0 md:absolute md:bottom-24 md:left-6 mt-2 ">
+        <a
+          href=""
+          className="text-lg md:text-2xl hover:underline hover:text-gray-300"
+        >
+          Sponsor us →
+        </a>
+      </div>
+
+
+      {/* Animated Stats in Hero */}
+      {/* Members (top-left, moved lower) */}
+      <div className="absolute top-24 sm:top-28 left-3 sm:left-6 flex flex-col items-center">
+        <div className="px-2 sm:px-3 md:px-4 py-0.5 sm:py-1 text-white text-4xl md:text-5xl lg:text-7xl">
+          {Math.round(members)}+
+        </div>
+        <div className="text-lg md:text-lg lg:text-2xl">
+          {`{ MEMBERS }`}
         </div>
       </div>
-      <Image
-        src={officeOpen}
-        alt="office open"
-        className="mx-auto xs:max-w-[360px] lg:mx-0 lg:w-full lg:max-w-none"
-      />
+
+      {/* Events (bottom-right, moved higher) */}
+      <div className="absolute bottom-12 sm:bottom-24 right-3 sm:right-6 flex flex-col items-end">
+        <div className="text-white text-4xl md:text-5xl lg:text-7xl">
+          {Math.round(events)}+
+        </div>
+        <div className="text-lg md:text-xlg lg:text-2xl">
+          {`{ WORKSHOPS }`}
+        </div>
+      </div>
+    
     </section>
   );
 }

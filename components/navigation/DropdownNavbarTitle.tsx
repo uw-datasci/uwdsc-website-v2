@@ -57,14 +57,17 @@ function DropdownNavbarTitle({ item }: DropdownNavbarTitleProps) {
             {item.label}
             <RiArrowDropDownLine className="ml-2 " size={20} />
           </button>
+
           {isOpen && (
-            <div className="absolute z-10 mt-4 w-[150px] rounded-md border border-white bg-black">
+            <div className="absolute z-50 mt-8 w-[150px]
+               rounded-xl font-semibold bg-[#1a1a1a]/90 border border-white/30 shadow-lg">
+
               <ul className="py-2 font-normal">
                 {item.subNavItems.map((subItem, index) => (
                   <li key={index}>
                     <a
                       href={subItem.route}
-                      className="block px-4 py-2 hover:underline "
+                      className="block px-4 py-2 font-semibold hover:underline "
                     >
                       {subItem.label}
                     </a>
