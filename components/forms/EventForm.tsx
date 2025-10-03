@@ -23,6 +23,8 @@ interface EventFormProps {
   success: boolean;
   error: boolean;
   isEditing?: boolean;
+  loading?: boolean; // <-- parent provides this
+  onClose?: () => void; // optional; parent may pass if desired
 }
 
 export default function EventForm({
@@ -30,7 +32,11 @@ export default function EventForm({
   success,
   error,
   isEditing = false,
+  loading = false,
+  onClose,
 }: EventFormProps) {
+  // NOTE: no local loading state here — parent manages it
+
   formik.values.startTime = formatDateTimeForInput(formik.values.startTime);
   formik.values.endTime = formatDateTimeForInput(formik.values.endTime);
   formik.values.bufferedStartTime = formatDateTimeForInput(
@@ -236,9 +242,11 @@ export default function EventForm({
         font="font-bold"
         text="sm:text-lg 2xl:text-xl"
         rounded="rounded-[15px]"
-        classes="w-full"
+        // ✅ Use parent loading state to style/disable the button
+        classes={`w-full ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
+        disabled={loading}
       >
-        {isEditing ? "Update Event" : "Create Event"}
+        {loading ? "Processing..." : isEditing ? "Update Event" : "Create Event"}
       </Button>
 
       {success && (
