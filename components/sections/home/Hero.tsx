@@ -5,6 +5,8 @@ import { displaySignUp } from "@/store/slices/signUpPageSlice";
 import { logout } from "@/store/slices/loginTokenSlice";
 import { RootState } from "@/store/store";
 import { useEffect, useState, useRef, useCallback } from "react";
+import { getPaidUsers } from "@/utils/apiCalls/userApiCalls";
+import { getEvents } from "@/utils/apiCalls/eventApiCalls";
 
 const ANIMATION_DURATION = 1500;
 const INTERVAL = 10;
@@ -17,8 +19,8 @@ export default function Hero() {
   // === Animation State for Members & Events ===
   const [members, setMembers] = useState(0);
   const [events, setEvents] = useState(0);
-  const membersTarget = 300; // your real number here
-  const eventsTarget = 100; // your real number here
+  const [membersTarget, setMembersTarget] = useState(300); // Use 300 if failed to fetch
+  const [eventsTarget, setEventsTarget] = useState(100); // Will be updated with real data
   const sectionRef = useRef<HTMLElement | null>(null);
 
   const animateStats = useCallback(() => {
@@ -36,6 +38,39 @@ export default function Hero() {
 
     return intervalId;
   }, [membersTarget, eventsTarget, members, events]);
+
+  // Fetch real member data on component mount
+  useEffect(() => {
+    const fetchMemberData = async () => {
+      try {
+        const response = await getPaidUsers();
+        const memberCount = response.data.length;
+        setMembersTarget(memberCount);
+      } catch (error) {
+        console.error("Failed to fetch member data:", error);
+        // Keep the default value if API fails
+      }
+    };
+    
+    fetchMemberData();
+  }, []);
+
+  // Fetch real events data on component mount
+  useEffect(() => {
+    const fetchEventsData = async () => {
+      try {
+        // Get all events (past and future) to get total count
+        const response = await getEvents();
+        const eventsCount = response.data.events.length;
+        setEventsTarget(eventsCount);
+      } catch (error) {
+        console.error("Failed to fetch events data:", error);
+        // Keep the default value if API fails
+      }
+    };
+    
+    fetchEventsData();
+  }, []);
 
   useEffect(() => {
     let intervalId: number | NodeJS.Timeout;
@@ -196,5 +231,5 @@ export default function Hero() {
       </div>
     
     </section>
-  );
+  );  
 }
