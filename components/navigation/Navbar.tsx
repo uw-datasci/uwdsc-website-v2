@@ -60,43 +60,46 @@ export default function Navbar() {
     <>
       {/* glass navbar */}
       <header
-        className={`fixed left-0 top-0 z-50 flex w-full items-center justify-between px-6 py-6 lg:px-12 lg:py-8 
-  ${isMobileMenuOpen ? "hidden lg:flex" : ""}`}
+        className={`fixed left-0 top-0 z-50 flex w-full items-center px-6 py-6 lg:px-8 lg:py-8 2xl:px-12 
+${isMobileMenuOpen ? "hidden lg:flex" : ""}`}
       >
-        {/* logo */}
-        <Logo classes="w-12 lg:w-14" />
+        {/* logo - fixed width for consistent spacing */}
+        <div className="w-[250px]">
+          <Logo classes="w-12 lg:w-14" />
+        </div>
 
-        {/* centered pill */}
-        <nav
-          className="hidden gap-12 rounded-full border border-white/30 bg-white/10 px-8
-          py-2 font-semibold text-white shadow-lg backdrop-blur-md 
-          lg:flex lg:items-center lg:text-center xl:px-10 xl:py-4"
-        >
-          {routes.map((item, index) => (
-            <DropdownNavbarTitle key={index} item={item} />
-          ))}
-        </nav>
+        <div className="flex flex-1 justify-center">
+          <nav
+            className="hidden gap-12 rounded-full border border-white/30 bg-white/10 px-8
+      py-2 font-semibold text-white shadow-lg backdrop-blur-md 
+      lg:flex lg:items-center lg:text-center xl:px-10 xl:py-4"
+          >
+            {routes.map((item, index) => (
+              <DropdownNavbarTitle key={index} item={item} />
+            ))}
+          </nav>
+        </div>
 
-        {/* login/logout */}
-        <div className="hidden items-center gap-6 text-white lg:flex">
+        {/* login/logout - fixed width to match logo container */}
+        <div className="hidden w-[250px] items-center justify-end gap-6 text-white lg:flex">
           {!signedIn ? (
             <>
               <button
                 onClick={() => dispatch(displaySignIn())}
-                className="text-sm hover:underline"
+                className="text-sm hover:underline 2xl:whitespace-nowrap"
               >
                 ( Log in )
               </button>
               <button
                 onClick={() => dispatch(displaySignUp())}
-                className="text-sm hover:underline"
+                className="text-sm hover:underline 2xl:whitespace-nowrap"
               >
                 ( Join Us )
               </button>
             </>
           ) : (
             <>
-              <p className="text-s p-2 text-grey2">
+              <p className="text-center text-sm text-grey2">
                 Logged in as <b>{signedIn}</b>
               </p>
               <button
@@ -104,7 +107,7 @@ export default function Navbar() {
                   dispatch(logout());
                   router.push("/");
                 }}
-                className="text-sm hover:underline"
+                className="text-sm hover:underline 2xl:whitespace-nowrap"
               >
                 ( Log Out )
               </button>
@@ -116,7 +119,7 @@ export default function Navbar() {
         <button
           type="button"
           onClick={() => setIsMobileMenuOpen((prev) => !prev)}
-          className="flex flex-col gap-[5px] lg:hidden"
+          className="ml-auto flex flex-col gap-[5px] lg:hidden"
         >
           <div className="h-[3px] w-[22px] rounded-full bg-white" />
           <div className="h-[3px] w-8 rounded-full bg-white" />

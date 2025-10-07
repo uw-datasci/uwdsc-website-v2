@@ -45,7 +45,7 @@ export default function Hero() {
       try {
         const response = await getPaidUsers();
         const memberCount = response.data.length;
-        setMembersTarget(memberCount);
+        setMembersTarget(Math.round(memberCount / 10) * 10);
       } catch (error) {
         console.error("Failed to fetch member data:", error);
         // Keep the default value if API fails
@@ -62,7 +62,7 @@ export default function Hero() {
         // Get all events (past and future) to get total count
         const response = await getEvents();
         const eventsCount = response.data.events.length;
-        setEventsTarget(eventsCount);
+        setEventsTarget(Math.round(eventsCount / 10) * 10);
       } catch (error) {
         console.error("Failed to fetch events data:", error);
         // Keep the default value if API fails
