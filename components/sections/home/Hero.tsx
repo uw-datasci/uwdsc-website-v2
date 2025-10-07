@@ -20,7 +20,7 @@ export default function Hero() {
   const [members, setMembers] = useState(0);
   const [events, setEvents] = useState(0);
   const [membersTarget, setMembersTarget] = useState(300); // Use 300 if failed to fetch
-  const [eventsTarget, setEventsTarget] = useState(100); // Will be updated with real data
+  const [eventsTarget, setEventsTarget] = useState(0); // Will be updated with real data
   const sectionRef = useRef<HTMLElement | null>(null);
 
   const animateStats = useCallback(() => {
