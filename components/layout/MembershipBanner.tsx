@@ -51,7 +51,7 @@ export default function MembershipBanner() {
   }
 
   return (
-    <div className="fixed top-[88px] z-40 bg-gradient-orange relative text-white">
+    <div className="bg-gradient-orange relative top-[122px] z-40 text-white">
       <div className="mx-container relative z-10 flex items-center justify-between py-3">
         <div className="flex flex-1 items-center space-x-3">
           <AlertTriangle className="h-5 w-5 flex-shrink-0" />

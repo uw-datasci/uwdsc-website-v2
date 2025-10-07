@@ -6,7 +6,7 @@ import { CiPassport1 } from "react-icons/ci";
 import { AnimatePresence, motion } from "framer-motion";
 import { Poppins } from "next/font/google";
 import EventSnippet from "./EventSnippet";
-import { getEventById} from "@/utils/apiCalls/eventApiCalls";
+import { getEventById } from "@/utils/apiCalls/eventApiCalls";
 import { getAllFutureEvents } from "@/utils/apiCalls/eventApiCalls";
 import { UserInfo } from "@/pages/memCheckIn";
 
@@ -130,7 +130,7 @@ export default function EventPassport(props: EventPassportProps) {
               animate={{ opacity: 0.5 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
-              className="fixed inset-0 z-40 bg-black"
+              className="fixed inset-0 z-50 bg-black"
               onClick={toggleExpanded} // Click outside to close
             />
             {/* passport */}

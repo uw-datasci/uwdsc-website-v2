@@ -60,17 +60,17 @@ export default function Navbar() {
     <>
       {/* glass navbar */}
       <header
-  className={`fixed top-0 left-0 w-full z-50 flex items-center justify-between px-6 py-6 lg:px-12 lg:py-8 
+        className={`fixed left-0 top-0 z-50 flex w-full items-center justify-between px-6 py-6 lg:px-12 lg:py-8 
   ${isMobileMenuOpen ? "hidden lg:flex" : ""}`}
->
+      >
         {/* logo */}
         <Logo classes="w-12 lg:w-14" />
 
         {/* centered pill */}
         <nav
-          className="hidden lg:flex gap-12 font-semibold text-white 
-          px-12 py-4 rounded-full 
-          backdrop-blur-md bg-white/10 border border-white/30 shadow-lg"
+          className="hidden gap-12 rounded-full border border-white/30 bg-white/10 px-8
+          py-2 font-semibold text-white shadow-lg backdrop-blur-md 
+          lg:flex lg:items-center lg:text-center xl:px-10 xl:py-4"
         >
           {routes.map((item, index) => (
             <DropdownNavbarTitle key={index} item={item} />
@@ -78,7 +78,7 @@ export default function Navbar() {
         </nav>
 
         {/* login/logout */}
-        <div className="hidden lg:flex items-center gap-8 text-white">
+        <div className="hidden items-center gap-6 text-white lg:flex">
           {!signedIn ? (
             <>
               <button
@@ -126,8 +126,8 @@ export default function Navbar() {
 
       {/* mobile */}
       <div
-        className={`transition-transform duration-300 fixed inset-0 z-40 overflow-y-auto 
-        backdrop-blur-md bg-black/70 lg:hidden
+        className={`fixed inset-0 z-40 overflow-y-auto bg-black/70 backdrop-blur-md 
+        transition-transform duration-300 lg:hidden
         ${isMobileMenuOpen ? "translate-x-0" : "translate-x-full"}`}
       >
         <header className="flex items-center justify-between px-6 py-4 lg:px-12 lg:py-6">
@@ -143,7 +143,7 @@ export default function Navbar() {
           </button>
         </header>
 
-        <nav className="px-6 py-6 grid gap-4 text-white">
+        <nav className="grid gap-4 px-6 py-6 text-white">
           {routes.map((item, index) => (
             <DropdownNavbarTitleCollapse key={index} item={item} />
           ))}

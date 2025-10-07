@@ -11,7 +11,7 @@ import EventCard from "@/components/cards/EventCard";
 import {
   createEvent,
   editEvent,
-  deleteEvent
+  deleteEvent,
 } from "@/utils/apiCalls/adminApiCalls";
 import { getEvents } from "@/utils/apiCalls/eventApiCalls";
 import { EventValidationSchema } from "@/utils/formValidation";
@@ -289,7 +289,7 @@ function Events() {
             requirements: values.requirements,
           };
 
-          //loading pattern 
+          //loading pattern
           setSubmitting(true); // start loading
           try {
             const response = await createEvent(formattedValues);
@@ -356,7 +356,7 @@ function Events() {
   return (
     <>
       <SEO title="Manage Events" />
-      <section className="mx-container mb-section mt-14 lg:mt-20">
+      <section className="mx-container mb-section mt-24 lg:mt-[122px]">
         <h1 className="mb-14 text-center text-3xl font-bold text-white 3xs:text-6xl sm:text-8xl lg:text-10xl 2xl:text-12xl">
           Manage Events
         </h1>
