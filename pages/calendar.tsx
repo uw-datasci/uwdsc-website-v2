@@ -65,18 +65,28 @@ const EventTooltip = ({
       <div className="relative p-3 sm:p-4">
         <div className="bg-gradient absolute inset-0 rounded-lg opacity-10" />
         <div className="relative">
-          <div className="flex items-start justify-between mb-2">
-            <h4 className="text-base font-bold text-white sm:text-lg pr-2">
+          <div className="mb-2 flex items-start justify-between">
+            <h4 className="text-base pr-2 font-bold text-white sm:text-lg">
               {event.name}
             </h4>
             {isPersistent && (
               <button
                 onClick={onClose}
-                className="flex-shrink-0 text-grey1 hover:text-white transition-colors"
+                className="flex-shrink-0 text-grey1 transition-colors hover:text-white"
                 aria-label="Close event details"
               >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                <svg
+                  className="h-4 w-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
                 </svg>
               </button>
             )}
@@ -84,21 +94,25 @@ const EventTooltip = ({
 
           {event.description && (
             <div className="mb-3">
-              <p 
-                className={`text-xs leading-relaxed text-grey1 sm:text-sm cursor-pointer hover:text-white transition-colors ${
-                  isDescriptionExpanded ? '' : 'line-clamp-2'
+              <p
+                className={`cursor-pointer text-xs leading-relaxed text-grey1 transition-colors hover:text-white sm:text-sm ${
+                  isDescriptionExpanded ? "" : "line-clamp-2"
                 }`}
                 onClick={handleDescriptionClick}
-                title={isDescriptionExpanded ? 'Click to collapse' : 'Click to expand'}
+                title={
+                  isDescriptionExpanded
+                    ? "Click to collapse"
+                    : "Click to expand"
+                }
               >
                 {event.description}
               </p>
               {event.description.length > 100 && (
                 <button
-                  className="mt-1 text-xs text-blue hover:text-blue/80 transition-colors"
+                  className="mt-1 text-xs text-blue transition-colors hover:text-blue/80"
                   onClick={handleDescriptionClick}
                 >
-                  {isDescriptionExpanded ? 'Show less' : 'Show more'}
+                  {isDescriptionExpanded ? "Show less" : "Show more"}
                 </button>
               )}
             </div>
@@ -336,9 +350,9 @@ export default function Calendar() {
     mouseEvent: React.MouseEvent | React.TouchEvent,
   ) => {
     const rect = mouseEvent.currentTarget.getBoundingClientRect();
-    const calendarContainer = document.querySelector('.calendar-container');
+    const calendarContainer = document.querySelector(".calendar-container");
     const containerRect = calendarContainer?.getBoundingClientRect();
-    
+
     if (containerRect) {
       setTooltipPosition({
         x: rect.left + rect.width / 2 - containerRect.left,
@@ -358,8 +372,7 @@ export default function Calendar() {
   const handleEventLeave = () => {
     if (!isTooltipPersistent) {
       setIsTooltipVisible(false);
-      setTimeout(() => {
-      }, 100);
+      setTimeout(() => {}, 100);
     }
   };
 
@@ -504,7 +517,7 @@ export default function Calendar() {
   return (
     <>
       <SEO title="Event Calendar" />
-      <div className="mx-container mb-section mt-8 px-2 sm:mt-14 sm:px-4 lg:mt-20">
+      <div className="mx-container mb-section mt-24 px-2 sm:mt-14 sm:px-4 lg:mt-[122px]">
         <h1 className="mb-8 text-center text-2xl font-bold text-white 3xs:text-4xl xs:text-3xl sm:mb-14 sm:text-6xl lg:text-8xl xl:text-10xl 2xl:text-12xl">
           Event Calendar
         </h1>

@@ -517,7 +517,7 @@ export default function ApplyPage() {
     return (
       <>
         <SEO title="Login Required" />
-        <div className="relative min-h-screen overflow-hidden bg-darkBlue2 px-4 py-20 shadow-md backdrop-blur-md">
+        <div className="relative mt-24 min-h-screen overflow-hidden bg-darkBlue2 px-4 py-20 shadow-md backdrop-blur-md lg:mt-[122px]">
           {/* Background Elements */}
           <div className="pointer-events-none absolute inset-0 z-0">
             {/* Left Whale */}
@@ -550,19 +550,21 @@ export default function ApplyPage() {
                     <span className="mr-2 flex items-center">
                       <ClockIcon className="h-4 w-4" />
                     </span>
-                    Applications due: {new Date(currentTerm.appDeadline).toLocaleDateString(
+                    Applications due:{" "}
+                    {new Date(currentTerm.appDeadline).toLocaleDateString(
                       "en-US",
                       { month: "short", day: "numeric", year: "numeric" },
                     )}
                   </div>
                 </div>
               )}
-              
+
               <h1 className="mb-4 text-3xl font-bold text-white">
                 Login Required
               </h1>
               <p className="mb-6 text-grey1">
-                You need to be logged in to access the application form. Please log in to continue.
+                You need to be logged in to access the application form. Please
+                log in to continue.
               </p>
               <Button
                 type="button"
@@ -583,7 +585,7 @@ export default function ApplyPage() {
     return (
       <>
         <SEO title="Applications" />
-        <div className="flex min-h-screen items-center justify-center bg-black px-4">
+        <div className="mt-24 flex min-h-screen items-center justify-center bg-black px-4 lg:mt-[122px]">
           <div className="max-w-md text-center">
             <h1 className="mb-4 text-3xl font-bold text-white">
               Applications Closed
@@ -650,14 +652,14 @@ export default function ApplyPage() {
       <progress
         value={currentStep - 1}
         max={4}
-        className="p- 0 [&::-webkit-progress-value]:duration-700[&::-webkit-progress-value]:ease-in-out
-        relative z-20 m-0 block h-2 w-full bg-grey4 transition-all duration-700 ease-in-out
+        className="[&::-webkit-progress-value]:duration-700[&::-webkit-progress-value]:ease-in-out relative
+        z-20 m-0 block h-2 w-full bg-grey4 p-0 transition-all duration-700 ease-in-out
         [&::-moz-progress-bar]:bg-lightBlue [&::-moz-progress-bar]:transition-all [&::-moz-progress-bar]:duration-700
         [&::-moz-progress-bar]:ease-in-out [&::-webkit-progress-bar]:bg-grey4  [&::-webkit-progress-value]:bg-lightBlue
         [&::-webkit-progress-value]:transition-all"
       />
 
-      <div className="relative min-h-screen overflow-hidden bg-darkBlue2 px-4 py-20 shadow-md backdrop-blur-md">
+      <div className="relative mt-24 min-h-screen overflow-hidden bg-darkBlue2 px-4 py-20 shadow-md backdrop-blur-md lg:mt-[122px]">
         {/* Background Elements */}
         <div className="pointer-events-none absolute inset-0 z-0">
           {/* Left Whale */}

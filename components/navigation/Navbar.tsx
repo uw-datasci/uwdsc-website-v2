@@ -5,34 +5,11 @@ import { displaySignUp } from "@/store/slices/signUpPageSlice";
 import { displaySignIn } from "@/store/slices/signInPageSlice";
 import { RootState } from "@/store/store";
 
-import { Instagram, Linkedin, Mail, Youtube } from "react-feather";
-
-import Button from "@/components/UI/Button";
-import GradientBorder from "@/components/UI/GradientBorder";
 import Logo from "@/components/UI/Logo";
 import { logout } from "@/store/slices/loginTokenSlice";
 import DropdownNavbarTitle from "./DropdownNavbarTitle";
 import { NAVBAR_ROUTES } from "./navbarPermissions";
 import DropdownNavbarTitleCollapse from "./DropdownNavbarTitleCollapse";
-
-const SOCIALS = [
-  {
-    icon: <Mail className="w-6 text-white" />,
-    href: "mailto:contact@uwdatascience.ca",
-  },
-  {
-    icon: <Instagram className="w-6 text-white" />,
-    href: "https://www.instagram.com/uwaterloodsc/",
-  },
-  {
-    icon: <Linkedin className="w-6 text-white" />,
-    href: "https://www.linkedin.com/company/waterloo-data-science-club/",
-  },
-  {
-    icon: <Youtube className="w-6 text-white" />,
-    href: "https://www.youtube.com/channel/UCknY88pglf2xz_S72WHIDxg",
-  },
-];
 
 type NavItem = {
   label: string;
@@ -81,121 +58,96 @@ export default function Navbar() {
 
   return (
     <>
-      <header className="mx-nav relative z-30 mt-8 flex items-center justify-between pb-6 lg:mt-12">
-        <Logo classes="w-11.5 lg:w-13.5" />
-        <nav className="hidden gap-12 font-semibold text-white lg:flex">
+      {/* glass navbar */}
+      <header
+        className={`fixed left-0 top-0 z-50 flex w-full items-center justify-between px-6 py-6 lg:px-12 lg:py-8 
+  ${isMobileMenuOpen ? "hidden lg:flex" : ""}`}
+      >
+        {/* logo */}
+        <Logo classes="w-12 lg:w-14" />
+
+        {/* centered pill */}
+        <nav
+          className="hidden gap-12 rounded-full border border-white/30 bg-white/10 px-8
+          py-2 font-semibold text-white shadow-lg backdrop-blur-md 
+          lg:flex lg:items-center lg:text-center xl:px-10 xl:py-4"
+        >
           {routes.map((item, index) => (
             <DropdownNavbarTitle key={index} item={item} />
           ))}
         </nav>
+
+        {/* login/logout */}
+        <div className="hidden items-center gap-6 text-white lg:flex">
+          {!signedIn ? (
+            <>
+              <button
+                onClick={() => dispatch(displaySignIn())}
+                className="text-sm hover:underline"
+              >
+                ( Log in )
+              </button>
+              <button
+                onClick={() => dispatch(displaySignUp())}
+                className="text-sm hover:underline"
+              >
+                ( Join Us )
+              </button>
+            </>
+          ) : (
+            <>
+              <p className="text-s p-2 text-grey2">
+                Logged in as <b>{signedIn}</b>
+              </p>
+              <button
+                onClick={() => {
+                  dispatch(logout());
+                  router.push("/");
+                }}
+                className="text-sm hover:underline"
+              >
+                ( Log Out )
+              </button>
+            </>
+          )}
+        </div>
+
+        {/* mobile menu toggle */}
         <button
           type="button"
           onClick={() => setIsMobileMenuOpen((prev) => !prev)}
           className="flex flex-col gap-[5px] lg:hidden"
         >
-          <div className={`h-[5px] w-[22px] rounded-full bg-white`} />
-          <div className="h-[5px] w-8 rounded-full bg-white" />
-          <div
-            className={`h-[5px] w-[22px] translate-x-[10px] rounded-full bg-white`}
-          />
+          <div className="h-[3px] w-[22px] rounded-full bg-white" />
+          <div className="h-[3px] w-8 rounded-full bg-white" />
+          <div className="h-[3px] w-[22px] translate-x-[10px] rounded-full bg-white" />
         </button>
-
-        {/* ========= Login/Signup ========= */}
-
-        <div className="hidden lg:flex lg:gap-4">
-          {!signedIn ? (
-            <>
-              <GradientBorder rounded="rounded-lg">
-                <Button
-                  type="button"
-                  hierarchy="secondary"
-                  font="font-bold"
-                  rounded="rounded-[15px]"
-                  classes="lg:block"
-                  onClick={() => {
-                    dispatch(displaySignIn());
-                  }}
-                >
-                  Log in
-                </Button>
-              </GradientBorder>
-              <Button
-                type="button"
-                hierarchy="primary"
-                font="font-bold"
-                rounded="rounded-md"
-                classes="lg:block"
-                onClick={() => {
-                  dispatch(displaySignUp());
-                }}
-              >
-                Join Us
-              </Button>
-            </>
-          ) : (
-            <>
-              <p className="text-s p-2 text-grey3">
-                Logged in as <b>{signedIn}</b>
-              </p>
-              <GradientBorder rounded="rounded-lg">
-                <Button
-                  type="button"
-                  hierarchy="secondary"
-                  font="font-bold"
-                  rounded="rounded-[15px]"
-                  classes="lg:block"
-                  onClick={() => {
-                    dispatch(logout());
-                    router.push("/");
-                  }}
-                >
-                  Log out
-                </Button>
-              </GradientBorder>
-            </>
-          )}
-        </div>
       </header>
+
+      {/* mobile */}
       <div
-        className={`transition-300 fixed inset-0 z-40 overflow-y-auto bg-black lg:hidden ${
-          isMobileMenuOpen ? "" : "translate-x-full"
-        }`}
+        className={`fixed inset-0 z-40 overflow-y-auto bg-black/70 backdrop-blur-md 
+        transition-transform duration-300 lg:hidden
+        ${isMobileMenuOpen ? "translate-x-0" : "translate-x-full"}`}
       >
-        <header className="mx-nav relative z-50 mt-8 flex items-center justify-between pb-6 lg:mt-12">
-          <Logo classes="w-11.5 lg:w-13.5" />
+        <header className="flex items-center justify-between px-6 py-4 lg:px-12 lg:py-6">
+          <Logo classes="w-12 lg:w-14" />
           <button
             type="button"
             onClick={() => setIsMobileMenuOpen((prev) => !prev)}
-            className="flex flex-col gap-[5px] lg:hidden"
+            className="flex flex-col gap-[5px]"
           >
-            <div
-              className={`h-[5px] w-[22px] translate-x-[10px] rounded-full bg-white`}
-            />
-            <div className="h-[5px] w-8 rounded-full bg-white" />
-            <div className={`h-[5px] w-[22px] rounded-full bg-white`} />
+            <div className="h-[3px] w-[22px] translate-x-[10px] rounded-full bg-white" />
+            <div className="h-[3px] w-8 rounded-full bg-white" />
+            <div className="h-[3px] w-[22px] rounded-full bg-white" />
           </button>
         </header>
-        <div className="bg-gradient pointer-events-none absolute inset-0 opacity-10" />
-        <nav className="mx-container mt-5 grid">
-          <hr className="mb-4 border-t-2 border-white" />
-          {routes.map((item, index) => {
-            return <DropdownNavbarTitleCollapse key={index} item={item} />;
-          })}
-        </nav>
-        <div className="my-10 flex justify-center gap-4">
-          {SOCIALS.map(({ icon, href }, i) => (
-            <a
-              href={href}
-              target="_blank"
-              rel="noopener noreferrer"
-              key={`social-${i}`}
-            >
-              <GradientBorder rounded="rounded-sm">
-                <div className="rounded-[7px] bg-black p-2.5">{icon}</div>
-              </GradientBorder>
-            </a>
+
+        <nav className="grid gap-4 px-6 py-6 text-white">
+          {routes.map((item, index) => (
+            <DropdownNavbarTitleCollapse key={index} item={item} />
           ))}
-        </div>
+        </nav>
       </div>
     </>
   );
