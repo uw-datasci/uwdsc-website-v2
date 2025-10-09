@@ -1,22 +1,12 @@
 import { Event, Photo } from "@/types/types";
 
 import eot from "@/public/events/eot.png";
-import hatch from "@/public/pastEvents/event-hatch.png";
-import janeStreet from "@/public/pastEvents/event-jane-street.png";
-import cohere from "@/public/pastEvents/event-cohere.png";
-import cohereWorkshop from "@/public/pastEvents/event-cohere-workshop.png";
-import techyon from "@/public/pastEvents/event-techyon.png";
-import bdo from "@/public/pastEvents/event-bdo.png";
-import sectors from "@/public/pastEvents/event-sectors.png";
-import llmReadingGroups from "@/public/pastEvents/event-llm-reading-groups.png";
-import cxcByEY from "@/public/pastEvents/event-cxc-by-ey.jpg";
 
 import c0 from "@/public/cxc/c0.png";
 import c1 from "@/public/cxc/c1.jpg";
 import c2 from "@/public/cxc/c2.jpg";
 import c3 from "@/public/cxc/c3.jpg";
 import c4 from "@/public/cxc/c4.jpg";
-
 
 export const UPCOMING_EVENTS: Event[] = [
   {
@@ -28,54 +18,6 @@ export const UPCOMING_EVENTS: Event[] = [
     date: "6-7pm, Mon, Nov 20",
     location: "STC 0050",
   },
-];
-
-export const PAST_EVENTS: Event[] = [
-  {
-    id: "9",
-    title: "CxC Datathon by EY",
-    image: cxcByEY,
-  },
-  {
-    id: "8",
-    title: "LLM Reading Groups",
-    image: llmReadingGroups,
-  },
-  {
-    id: "7",
-    title: "Hatch Fireside Chat",
-    image: hatch,
-  },
-  {
-    id: "6",
-    title: "Jane Street Estimathon",
-    image: janeStreet,
-  },
-  {
-    id: "5",
-    title: "Cohere Hackathon",
-    image: cohere,
-  },
-  {
-    id: "4",
-    title: "Techyon Datathon ",
-    image: techyon,
-  },
-  {
-    id: "3",
-    title: "BDO Datathon",
-    image: bdo,
-  },
-  {
-    id: "2",
-    title: "DS Across Sectors",
-    image: sectors,
-  },
-  {
-    id: "1",
-    title: "Cohere Workshop",
-    image: cohereWorkshop,
-  }
 ];
 
 export const PAST_CXC: Photo[] = [
@@ -94,10 +36,10 @@ export const PAST_CXC: Photo[] = [
     title: "c2",
     image: c2,
   },
-  
+
   {
     id: "4",
     title: "c4",
     image: c4,
-  }
-]
+  },
+];
