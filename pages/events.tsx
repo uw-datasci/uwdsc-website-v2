@@ -1,4 +1,5 @@
-import { useState, useEffect, useCallback, useMemo } from "react";
+// Events.tsx
+import { useState, useEffect, useMemo } from "react";
 import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
@@ -10,7 +11,7 @@ import EventCard from "@/components/cards/EventCard";
 import {
   createEvent,
   editEvent,
-  deleteEvent
+  deleteEvent,
 } from "@/utils/apiCalls/adminApiCalls";
 import { getEvents } from "@/utils/apiCalls/eventApiCalls";
 import { EventValidationSchema } from "@/utils/formValidation";
@@ -109,7 +110,7 @@ function Events() {
   const [success, setSuccess] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
   const [upcomingEvents, setUpcomingEvents] = useState<FormattedEvent[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(true); // data fetch loading
   const [fetchError, setFetchError] = useState<string | null>(null);
   const [selectedEvent, setSelectedEvent] = useState<FormattedEvent | null>(
     null,
@@ -119,6 +120,9 @@ function Events() {
   const eventFormOpen = useSelector(
     (state: RootState) => state.eventFormPage.value,
   );
+
+  // NEW: loading state for create/edit API calls (so UI can disable submit)
+  const [submitting, setSubmitting] = useState<boolean>(false); // <-- this is the important one for EventForm
 
   // Fetch events
   useEffect(() => {
@@ -182,13 +186,16 @@ function Events() {
     initialValues: formikInitialValues,
     validationSchema: EventValidationSchema,
     enableReinitialize: true,
-    onSubmit: async (values, { resetForm }) => {
-      try {
-        setSuccess(false);
-        setError(false);
 
-        if (selectedEvent) {
-          // For editing, only send changed fields
+    // IMPORTANT: onSubmit contains the real API calls.
+    onSubmit: async (values, { resetForm }) => {
+      // top-level state for UX
+      setSuccess(false);
+      setError(false);
+
+      // EDIT flow
+      if (selectedEvent) {
+        try {
           const changedFields = getChangedFields(selectedEvent, values);
 
           // If no fields have changed, just close the form
@@ -229,20 +236,36 @@ function Events() {
             );
           }
 
-          const response = await editEvent(selectedEvent.id, changedFields);
-          if (response.data.success) {
-            resetForm();
-            setSuccess(true);
-            dispatch(removeEventForm());
-            // Trigger events refresh
-            setRefreshTrigger((prev) => prev + 1);
-            // Reset success after a delay
-            setTimeout(() => {
-              setSuccess(false);
-            }, 3000);
+          // === Jocelyn's recommended pattern: set loading just before API ===
+          setSubmitting(true); // start loading for API call
+          try {
+            const response = await editEvent(selectedEvent.id, changedFields);
+            if (response.data.success) {
+              resetForm();
+              setSuccess(true);
+              dispatch(removeEventForm());
+              // Trigger events refresh
+              setRefreshTrigger((prev) => prev + 1);
+              // Reset success after a delay
+              setTimeout(() => {
+                setSuccess(false);
+              }, 3000);
+            } else {
+              setError(true);
+            }
+          } catch (err) {
+            console.error("Error editing event:", err);
+            setError(true);
+          } finally {
+            setSubmitting(false); // always stop loading
           }
-        } else {
-          // For creating new events, send all fields
+        } catch (err) {
+          console.error("Unexpected error during edit flow:", err);
+          setError(true);
+        }
+      } else {
+        // CREATE flow
+        try {
           // Create date objects from form values
           const startTimeDate = new Date(values.startTime);
           const endTimeDate = new Date(values.endTime);
@@ -266,21 +289,33 @@ function Events() {
             requirements: values.requirements,
           };
 
-          const response = await createEvent(formattedValues);
-          if (response.data.success) {
-            resetForm();
-            setSuccess(true);
-            dispatch(removeEventForm());
-            // Trigger events refresh
-            setRefreshTrigger((prev) => prev + 1);
-            // Reset success after a delay
-            setTimeout(() => {
-              setSuccess(false);
-            }, 3000);
+          //loading pattern
+          setSubmitting(true); // start loading
+          try {
+            const response = await createEvent(formattedValues);
+            if (response.data.success) {
+              resetForm();
+              setSuccess(true);
+              dispatch(removeEventForm());
+              // Trigger events refresh
+              setRefreshTrigger((prev) => prev + 1);
+              // Reset success after a delay
+              setTimeout(() => {
+                setSuccess(false);
+              }, 3000);
+            } else {
+              setError(true);
+            }
+          } catch (err) {
+            console.error("Error creating event:", err);
+            setError(true);
+          } finally {
+            setSubmitting(false); // always stop loading
           }
+        } catch (err) {
+          console.error("Unexpected error during create flow:", err);
+          setError(true);
         }
-      } catch (error: any) {
-        setError(true);
       }
     },
   });
@@ -314,7 +349,6 @@ function Events() {
         }
       } catch (error: any) {
         console.error("Error deleting event:", error);
-        // You could add a toast notification here for better UX
       }
     }
   };
@@ -322,7 +356,7 @@ function Events() {
   return (
     <>
       <SEO title="Manage Events" />
-      <section className="mx-container mb-section mt-14 lg:mt-20">
+      <section className="mx-container mb-section mt-24 lg:mt-[122px]">
         <h1 className="mb-14 text-center text-3xl font-bold text-white 3xs:text-6xl sm:text-8xl lg:text-10xl 2xl:text-12xl">
           Manage Events
         </h1>
@@ -408,6 +442,8 @@ function Events() {
                     success={success}
                     error={error}
                     isEditing={!!selectedEvent}
+                    loading={submitting} // <-- pass submitting state to child
+                    onClose={handleCloseEventForm} // optional
                   />
                 </div>
               </div>,

@@ -49,13 +49,13 @@ export default function MemCheckIn() {
 
   return (
     <>
-    <SEO title="Check In" />
-    <div className="mt-10">
-      <div className="flex flex-col items-center px-5">
-        <MemCard userInfo={userInfo} />;
-        {userInfo.hasPaid && <EventPassport userInfo={userInfo} />}
+      <SEO title="Check In" />
+      <div className="mt-24 lg:mt-[122px]">
+        <div className="flex flex-col items-center px-5">
+          <MemCard userInfo={userInfo} />;
+          {userInfo.hasPaid && <EventPassport userInfo={userInfo} />}
+        </div>
       </div>
-    </div>
     </>
   );
 }

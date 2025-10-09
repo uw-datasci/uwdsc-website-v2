@@ -61,7 +61,7 @@ function DropdownNavbarTitleCollapse({
             />
           </button>
           {isOpen && (
-            <div className="w-[150px] rounded-md text-xl">
+            <div className="w-[150px]  rounded-md text-xl">
               <ul className="py-2 font-normal">
                 {item.subNavItems.map((subItem, index) => (
                   <li key={index} className="my-2">
@@ -73,7 +73,7 @@ function DropdownNavbarTitleCollapse({
               </ul>
             </div>
           )}
-          <hr className="my-4 border-t-2 border-white" />
+          <hr className="my-4 border-t-2 border-white " />
         </>
       ) : (
         /* Standalone link */

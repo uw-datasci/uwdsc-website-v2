@@ -294,7 +294,7 @@ function ExecAppView() {
 
   return (
     <div
-      className={`${poppins.className} min-h-screen w-full bg-[#E1EAF8] py-5 md:py-10`}
+      className={`${poppins.className} mt-24 min-h-screen w-full bg-[#E1EAF8] py-5 md:py-10 lg:mt-[122px]`}
     >
       <div className="flex flex-col items-center justify-center gap-1 p-5 md:p-10">
         <p className="text-center text-3xl font-semibold">
