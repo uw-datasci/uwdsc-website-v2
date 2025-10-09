@@ -19,11 +19,12 @@ export default function Hero() {
   // === Animation State for Members & Events ===
   const [members, setMembers] = useState(0);
   const [events, setEvents] = useState(0);
-  const [membersTarget, setMembersTarget] = useState(300); // Use 300 if failed to fetch
-  const [eventsTarget, setEventsTarget] = useState(0); // Will be updated with real data
+  const [membersTarget, setMembersTarget] = useState<number | null>(null);
+  const [eventsTarget, setEventsTarget] = useState<number | null>(null);
   const sectionRef = useRef<HTMLElement | null>(null);
 
   const animateStats = useCallback(() => {
+    if (!membersTarget || !eventsTarget) return;
     const memberStep = membersTarget / (ANIMATION_DURATION / INTERVAL);
     const eventStep = eventsTarget / (ANIMATION_DURATION / INTERVAL);
 
@@ -78,7 +79,10 @@ export default function Hero() {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          intervalId = animateStats();
+          const id = animateStats();
+          if (id !== undefined) {
+            intervalId = id;
+          }
           observer.disconnect();
         }
       },
