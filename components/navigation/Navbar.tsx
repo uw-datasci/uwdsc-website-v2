@@ -99,7 +99,7 @@ ${isMobileMenuOpen ? "hidden lg:flex" : ""}`}
             </>
           ) : (
             <>
-              <p className="text-center text-sm text-grey2">
+              <p className="text-center text-sm text-grey2 3xl:whitespace-nowrap">
                 Logged in as <b>{signedIn}</b>
               </p>
               <button
