@@ -200,10 +200,19 @@ export default function Hero() {
         )}
       </div>
       */}
+      {!signedIn && (
+        <div className="z-10 mt-6">
+          <button
+            onClick={() => dispatch(displaySignUp())}
+            className="p-3 text-xl md:text-2xl lg:hidden"
+          >
+            Sign up →
+          </button>
+        </div>
+      )}
 
-      {/* Sponsor Us For Iphone*/}
       <div
-        className="hover:text-gray-300 mt-6 text-lg hover:cursor-pointer hover:underline md:absolute md:bottom-24 md:left-6 md:mb-0 md:text-2xl"
+        className="hover:text-gray-300 p-3 text-xl hover:cursor-pointer hover:underline md:absolute md:bottom-24 md:left-6 md:mb-0 md:text-2xl"
         onClick={() => (window.location.href = "#contact")}
       >
         Sponsor us →
