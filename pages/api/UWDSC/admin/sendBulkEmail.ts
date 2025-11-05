@@ -3,6 +3,7 @@ import { resend } from "@/lib/resend";
 import WelcomeTemplate from "@/components/email-templates/WelcomeTemplate";
 import MembershipConfirmationTemplate from "@/components/email-templates/MembershipConfirmationTemplate";
 import { EmailRecipient } from "@/types/email";
+import axios from "axios";
 
 type BulkEmailRequest = {
   token: string;
@@ -43,7 +44,10 @@ export default async function handler(
 
     // Validate required fields
     if (!token) {
-      return res.status(400).json({ message: "Authentication token required" });
+      return res.status(401).json({
+        success: false,
+        error: "Authentication token required",
+      });
     }
 
     if (!recipients || recipients.length === 0) {
@@ -61,10 +65,6 @@ export default async function handler(
         message: "Custom subject and content are required for custom emails",
       });
     }
-
-    // TODO: Add authentication validation here
-    // You'll need to verify the token against your backend API
-    // For now, we'll proceed assuming the token is valid
 
     // Send emails to all recipients
     const results: EmailResult[] = [];

@@ -6,6 +6,22 @@ export const fetchUsers = async (values: Record<string, string>) => {
   return await axios.post("/api/UWDSC/admin/getAllUsers", values);
 };
 
+export const fetchFilteredUsers = async (filters: any) => {
+  const token = store.getState().loginToken.token;
+  return await axios.post("/api/UWDSC/admin/getFilteredUsers", {
+    token,
+    filters,
+  });
+};
+
+export const sendBulkEmail = async (campaignData: any) => {
+  const token = store.getState().loginToken.token;
+  return await axios.post("/api/UWDSC/admin/sendBulkEmail", {
+    token,
+    ...campaignData,
+  });
+};
+
 export const createUser = async (values: Record<string, any>) => {
   return await axios.post("/api/UWDSC/admin/createUser", values);
 };
