@@ -35,7 +35,7 @@ export default async function handler(
       error:
         // error.response?.data?.message ||
         // error.message ||
-        "Internal Server Error: please try again later or contact us",
+        "Internal Server Error: please log out & log back in to try again. If this persists, please contact us",
     });
   }
 }
