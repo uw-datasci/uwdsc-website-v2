@@ -15,26 +15,12 @@ import withAuth from "@/components/permissions/authPage";
 import StatCard from "@/components/cards/StatCard";
 import ExecAppViewCard from "@/components/cards/ExecAppViewCard";
 import Dropdown from "@/components/UI/Dropdown";
+import { escape } from "querystring";
 
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
 });
-
-const Roles = [
-  "Events Exec",
-  "Events Co-VP",
-  "Design Exec",
-  "Education Exec",
-  "Internal Exec",
-  "Outreach Exec",
-  "Outreach Co-VP",
-  "Development Exec",
-  "Development Co-VP",
-  "Social Media Exec",
-  "Social Media VP",
-  "All"
-]
 
 interface Question {
   id: string;
@@ -84,6 +70,8 @@ function ExecAppView() {
 
   const [filteredApps, setFilteredApps] = useState<ExecApp[]>([]);
 
+  const [roles, setRoles] = useState<string[]>([]);
+
   const openModal = (app: ExecApp) => {
     setSelectedApp(app);
     setIsModalOpen(true);
@@ -101,6 +89,12 @@ function ExecAppView() {
         const term = response.data[0];
         const { _id, termName, questions } = term;
         setCurrentTerm({ id: _id, termName: termName, questions: questions });
+        const possibleRoles: string[] = Array.from(
+          new Set(
+            questions.map((q: Question) => q.role).filter((role: string) => role !== "general"),
+          ),
+        );
+        setRoles(["All", ...possibleRoles]);
       } catch (err: any) {
         console.error(err);
       }
@@ -410,7 +404,7 @@ function ExecAppView() {
             <Dropdown
               id="filter-role"
               name="filter-role"
-              options={Roles}
+              options={roles}
               value={filterBy}
               placeholder="Filter by Role"
               onChange={(e) => setFilterBy(e.target.value)}
