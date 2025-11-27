@@ -5,13 +5,17 @@ import {
   ChevronLeft,
   ChevronRight,
   NotebookPen,
+  Eye,
 } from "lucide-react";
 import { Poppins } from "next/font/google";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import LoadingSpinner from "@/components/UI/LoadingSpinner";
 import { MAX_ALLOWED_ROLES_TO_APPLY } from "@/constants/application";
 import withAuth from "@/components/permissions/authPage";
 import StatCard from "@/components/cards/StatCard";
+import ExecAppViewCard from "@/components/cards/ExecAppViewCard";
+import Dropdown from "@/components/UI/Dropdown";
+import { escape } from "querystring";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -59,6 +63,25 @@ function ExecAppView() {
   // pagination
   const [pageNumber, setPageNumber] = useState(0);
 
+  const [selectedApp, setSelectedApp] = useState<ExecApp | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [filterBy, setFilterBy] = useState<string>("All");
+
+  const [filteredApps, setFilteredApps] = useState<ExecApp[]>([]);
+
+  const [roles, setRoles] = useState<string[]>([]);
+
+  const openModal = (app: ExecApp) => {
+    setSelectedApp(app);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedApp(null);
+  };
+
   useEffect(() => {
     const fetchCurrentTerm = async () => {
       try {
@@ -66,6 +89,12 @@ function ExecAppView() {
         const term = response.data[0];
         const { _id, termName, questions } = term;
         setCurrentTerm({ id: _id, termName: termName, questions: questions });
+        const possibleRoles: string[] = Array.from(
+          new Set(
+            questions.map((q: Question) => q.role).filter((role: string) => role !== "general"),
+          ),
+        );
+        setRoles(["All", ...possibleRoles]);
       } catch (err: any) {
         console.error(err);
       }
@@ -91,6 +120,7 @@ function ExecAppView() {
             );
           });
           setTermApps(sorted);
+          setFilteredApps(sorted);
         }
       } catch (err: any) {
         console.error(err);
@@ -99,6 +129,20 @@ function ExecAppView() {
     fetchTermApps();
     setPageNumber(0);
   }, [currentTerm]);
+
+  useEffect(() => {
+    if (termApps) {
+      if (filterBy === "All") {
+        setFilteredApps(termApps);
+      } else {
+        setFilteredApps(
+          termApps.filter((app) =>
+            app.rolesApplyingFor.some((role) => role === filterBy),
+          ),
+        );
+      }
+    }
+  }, [filterBy, termApps]);
 
   const calculateCompletionRate = () => {
     if (termApps) {
@@ -274,11 +318,11 @@ function ExecAppView() {
   // pagination
   const appsPerPage = 8;
   const pagesVisited = pageNumber * appsPerPage;
-  const pageCount = Math.ceil(termApps.length / appsPerPage);
+  const pageCount = Math.ceil(filteredApps.length / appsPerPage);
   const displayedApplications =
-    termApps.length > appsPerPage
-      ? termApps?.slice(pagesVisited, pagesVisited + appsPerPage)
-      : termApps;
+    filteredApps.length > appsPerPage
+      ? filteredApps.slice(pagesVisited, pagesVisited + appsPerPage)
+      : filteredApps;
 
   const goToNextPage = () => {
     if (pageNumber + 1 < pageCount) {
@@ -353,19 +397,33 @@ function ExecAppView() {
               : "p-6 sm:p-10"
           }`}
         >
-          <p className="text-xl font-semibold sm:text-2xl xl:text-4xl">
-            Applications
-          </p>
-          <div className="grid grid-cols-4 justify-between gap-3 pb-3 pt-5 text-sm font-medium sm:gap-8 sm:text-md">
+          <div className="mb-4 flex flex-col sm:flex-row sm:items-center sm:justify-between">
+            <p className="text-xl font-semibold sm:text-2xl xl:text-4xl">
+              Applications
+            </p>
+            <Dropdown
+              id="filter-role"
+              name="filter-role"
+              options={roles}
+              value={filterBy}
+              placeholder="Filter by Role"
+              onChange={(e) => setFilterBy(e.target.value)}
+              classes="mt-4 w-48"
+              background="bg-[#496AC7]"
+            />
+          </div>
+          <div className="grid grid-cols-6 justify-between gap-3 pb-3 pt-5 text-sm font-medium sm:gap-8 sm:text-md">
             <p className="col-span-1 text-left">Application ID</p>
             <p className="col-span-1">Applicant</p>
             <p className="col-span-1">Program</p>
             <p className="col-span-1">Submitted</p>
+            <p className="col-span-1">Action</p>
+            <p className="col-span-1">Role Preferences</p>
           </div>
           <div className="h-[1px] w-full bg-[#A6C3EA]" />
           {displayedApplications.map((app, i) => (
             <div key={app._id}>
-              <div className="grid grid-cols-4 gap-8 pb-3 pt-5 text-xs sm:text-md">
+              <div className="grid grid-cols-6 gap-8 pb-3 pt-5 text-xs sm:text-md">
                 <p className="col-span-1 flex items-center break-all">
                   {app._id}
                 </p>
@@ -383,6 +441,22 @@ function ExecAppView() {
                     ? formatDate(app.submittedAt)
                     : app.status}
                 </p>
+                <div className="col-span-1 flex items-center">
+                  <button
+                    onClick={() => openModal(app)}
+                    className="flex items-center gap-1.5 rounded-md bg-gradient-to-b from-[#314077] to-[#496AC7] px-3 py-2 text-xs font-medium text-white hover:opacity-90 transition-opacity sm:gap-2 sm:px-4 sm:text-sm"
+                  >
+                    <Eye className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                    View
+                  </button>
+                </div>
+                <div className="col-span-1 flex flex-col items-start justify-center break-all">
+                  {app.rolesApplyingFor.map((role, index) => (
+                  <span key={index}>
+                    {index+1}. {role}
+                  </span>
+                  ))}
+                </div>
               </div>
               {i !== displayedApplications.length - 1 && (
                 <div className="h-[1px] w-full bg-[#A6C3EA]" />
@@ -440,6 +514,13 @@ function ExecAppView() {
           </div>
         </div>
       </div>
+
+      <ExecAppViewCard
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        application={selectedApp}
+        questions={currentTerm?.questions || []}
+      />
     </div>
   );
 }
