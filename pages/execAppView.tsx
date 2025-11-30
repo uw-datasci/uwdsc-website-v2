@@ -6,6 +6,7 @@ import {
   ChevronRight,
   NotebookPen,
   Eye,
+  Search,
 } from "lucide-react";
 import { Poppins } from "next/font/google";
 import { use, useEffect, useState } from "react";
@@ -72,6 +73,8 @@ function ExecAppView() {
 
   const [roles, setRoles] = useState<string[]>([]);
 
+  const [searchQuery, setSearchQuery] = useState<string>("");
+
   const openModal = (app: ExecApp) => {
     setSelectedApp(app);
     setIsModalOpen(true);
@@ -91,7 +94,9 @@ function ExecAppView() {
         setCurrentTerm({ id: _id, termName: termName, questions: questions });
         const possibleRoles: string[] = Array.from(
           new Set(
-            questions.map((q: Question) => q.role).filter((role: string) => role !== "general"),
+            questions
+              .map((q: Question) => q.role)
+              .filter((role: string) => role !== "general"),
           ),
         );
         setRoles(["All", ...possibleRoles]);
@@ -130,19 +135,43 @@ function ExecAppView() {
     setPageNumber(0);
   }, [currentTerm]);
 
+  // Reset search query when term changes
+  useEffect(() => {
+    setSearchQuery("");
+  }, [currentTerm]);
+
+  // Reset page number when search query or filter changes
+  useEffect(() => {
+    setPageNumber(0);
+  }, [searchQuery, filterBy]);
+
   useEffect(() => {
     if (termApps) {
-      if (filterBy === "All") {
-        setFilteredApps(termApps);
-      } else {
-        setFilteredApps(
-          termApps.filter((app) =>
-            app.rolesApplyingFor.some((role) => role === filterBy),
-          ),
+      let filtered = termApps;
+
+      // Filter by role
+      if (filterBy !== "All") {
+        filtered = filtered.filter((app) =>
+          app.rolesApplyingFor.some((role) => role === filterBy),
         );
       }
+
+      // Filter by search query (applicant name)
+      if (searchQuery.trim() !== "") {
+        filtered = filtered.filter((app) => {
+          const applicantName = app.roleQuestionAnswers.general?.full_name;
+          const nameString = Array.isArray(applicantName)
+            ? applicantName.join(" ")
+            : applicantName || "";
+          return nameString
+            .toLowerCase()
+            .includes(searchQuery.toLowerCase().trim());
+        });
+      }
+
+      setFilteredApps(filtered);
     }
-  }, [filterBy, termApps]);
+  }, [filterBy, termApps, searchQuery]);
 
   const calculateCompletionRate = () => {
     if (termApps) {
@@ -397,10 +426,22 @@ function ExecAppView() {
               : "p-6 sm:p-10"
           }`}
         >
-          <div className="mb-4 flex flex-col sm:flex-row sm:items-center sm:justify-between">
-            <p className="text-xl font-semibold sm:text-2xl xl:text-4xl">
-              Applications
-            </p>
+          <div className="mb-4 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex flex-col gap-4 sm:flex-1 sm:flex-row sm:items-center sm:gap-4">
+              <p className="whitespace-nowrap text-xl font-semibold sm:text-2xl xl:text-4xl">
+                Applications
+              </p>
+              <div className="relative w-full sm:mx-8 sm:flex-1">
+                <Search className="text-gray-400 absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2" />
+                <input
+                  type="text"
+                  placeholder="Search by applicant name..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="placeholder:text-gray-400 w-full rounded-md border border-[#CADAF3] bg-white px-10 py-2 text-sm text-[#030712] focus:border-[#496AC7] focus:outline-none"
+                />
+              </div>
+            </div>
             <Dropdown
               id="filter-role"
               name="filter-role"
@@ -408,7 +449,7 @@ function ExecAppView() {
               value={filterBy}
               placeholder="Filter by Role"
               onChange={(e) => setFilterBy(e.target.value)}
-              classes="mt-4 w-48"
+              classes="mt-0 w-48"
               background="bg-[#496AC7]"
             />
           </div>
@@ -444,7 +485,7 @@ function ExecAppView() {
                 <div className="col-span-1 flex items-center">
                   <button
                     onClick={() => openModal(app)}
-                    className="flex items-center gap-1.5 rounded-md bg-gradient-to-b from-[#314077] to-[#496AC7] px-3 py-2 text-xs font-medium text-white hover:opacity-90 transition-opacity sm:gap-2 sm:px-4 sm:text-sm"
+                    className="flex items-center gap-1.5 rounded-md bg-gradient-to-b from-[#314077] to-[#496AC7] px-3 py-2 text-xs font-medium text-white transition-opacity hover:opacity-90 sm:gap-2 sm:px-4 sm:text-sm"
                   >
                     <Eye className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                     View
@@ -452,9 +493,9 @@ function ExecAppView() {
                 </div>
                 <div className="col-span-1 flex flex-col items-start justify-center break-all">
                   {app.rolesApplyingFor.map((role, index) => (
-                  <span key={index}>
-                    {index+1}. {role}
-                  </span>
+                    <span key={index}>
+                      {index + 1}. {role}
+                    </span>
                   ))}
                 </div>
               </div>
