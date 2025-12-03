@@ -178,7 +178,7 @@ function ExecAppView() {
       const submittedCount = termApps.filter(
         (app) => app.status === "submitted",
       ).length;
-      return Math.round((submittedCount / termApps.length) * 100);
+      return submittedCount;
     }
     return 0;
   };
@@ -399,8 +399,8 @@ function ExecAppView() {
           />
           {/* Completion Rate Card */}
           <StatCard
-            value={`${calculateCompletionRate()}%`}
-            label="Completion Rate"
+            value={`${calculateCompletionRate()}`}
+            label="Submitted"
             icon={<Check className="h-6 w-6 text-white" strokeWidth={3} />}
             iconBgColour="bg-[#4ADE80]"
             cardBgColour="bg-[#CADAF3]"
