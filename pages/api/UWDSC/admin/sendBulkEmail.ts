@@ -3,7 +3,7 @@ import { resend } from "@/lib/resend";
 import WelcomeTemplate from "@/components/email-templates/WelcomeTemplate";
 import MembershipConfirmationTemplate from "@/components/email-templates/MembershipConfirmationTemplate";
 import { EmailRecipient } from "@/types/email";
-import axios from "axios";
+import CustomEmailTemplate from "@/components/email-templates/CustomEmailTemplate";
 
 type BulkEmailRequest = {
   token: string;
@@ -100,10 +100,12 @@ export default async function handler(
             break;
 
           case "custom":
-            // For custom emails, you might want to create a generic template
-            // or send plain HTML content
+            // For custom emails, use the CustomEmailTemplate
             subject = customSubject!;
-            emailContent = customContent!; // This would need to be proper React component
+            emailContent = CustomEmailTemplate({
+              content: customContent!,
+              preview: customSubject!,
+            });
             break;
 
           default:
