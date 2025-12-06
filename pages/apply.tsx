@@ -346,10 +346,10 @@ export default function ApplyPage() {
       isLoading && currentStep === 4
         ? "Submitting..."
         : isSavingSection
-        ? "Saving..."
-        : currentStep === 4
-        ? "Submit"
-        : "Next";
+          ? "Saving..."
+          : currentStep === 4
+            ? "Submit"
+            : "Next";
 
     return (
       <>
@@ -648,18 +648,16 @@ export default function ApplyPage() {
   return (
     <>
       <SEO title="DSC Application" />
-
-      <progress
-        value={currentStep - 1}
-        max={4}
-        className="[&::-webkit-progress-value]:duration-700[&::-webkit-progress-value]:ease-in-out relative
-        z-20 m-0 block h-2 w-full bg-grey4 p-0 transition-all duration-700 ease-in-out
-        [&::-moz-progress-bar]:bg-lightBlue [&::-moz-progress-bar]:transition-all [&::-moz-progress-bar]:duration-700
-        [&::-moz-progress-bar]:ease-in-out [&::-webkit-progress-bar]:bg-grey4  [&::-webkit-progress-value]:bg-lightBlue
-        [&::-webkit-progress-value]:transition-all"
-      />
-
       <div className="relative mt-24 min-h-screen overflow-hidden bg-darkBlue2 px-4 py-20 shadow-md backdrop-blur-md lg:mt-[122px]">
+        <progress
+          value={currentStep - 1}
+          max={4}
+          className="[&::-webkit-progress-value]:duration-700[&::-webkit-progress-value]:ease-in-out
+        absolute left-0 top-0 z-20 m-0 block h-2 w-full bg-grey4 p-0
+        transition-all duration-700 ease-in-out
+        [&::-moz-progress-bar]:bg-lightBlue [&::-moz-progress-bar]:transition-all  [&::-moz-progress-bar]:duration-700
+        [&::-moz-progress-bar]:ease-in-out [&::-webkit-progress-bar]:bg-grey4 [&::-webkit-progress-value]:bg-lightBlue [&::-webkit-progress-value]:transition-all"
+        />
         {/* Background Elements */}
         <div className="pointer-events-none absolute inset-0 z-0">
           {/* Left Whale */}
@@ -822,8 +820,8 @@ export default function ApplyPage() {
                             index + 1 == currentStep
                               ? "w-8 bg-lightBlue sm:w-10"
                               : index + 1 < currentStep
-                              ? "w-2 bg-green sm:w-3"
-                              : "w-2 bg-grey1 sm:w-3"
+                                ? "w-2 bg-green sm:w-3"
+                                : "w-2 bg-grey1 sm:w-3"
                           }`}
                         />
                       ))}
@@ -838,8 +836,8 @@ export default function ApplyPage() {
                           currentStep === 4
                             ? !isSupplementaryPageValid
                             : currentStep === 3
-                            ? !isPositionsPageValid
-                            : !isStepValid(currentStep) || isSavingSection
+                              ? !isPositionsPageValid
+                              : !isStepValid(currentStep) || isSavingSection
                         }
                         classes={`transition-all duration-300 w-24 sm:w-32 ${
                           currentStep === 4
@@ -849,10 +847,11 @@ export default function ApplyPage() {
                                   : "hover:scale-105 hover:font-semibold submit-button-hover"
                               }`
                             : (isStepValid(currentStep) ||
-                                (currentStep === 3 && isPositionsPageValid)) &&
-                              !isSavingSection
-                            ? "bg-white hover:bg-grey1 hover:shadow-lg hover:scale-105"
-                            : "bg-grey1 opacity-50 cursor-not-allowed"
+                                  (currentStep === 3 &&
+                                    isPositionsPageValid)) &&
+                                !isSavingSection
+                              ? "bg-white hover:bg-grey1 hover:shadow-lg hover:scale-105"
+                              : "bg-grey1 opacity-50 cursor-not-allowed"
                         }`}
                         padding="px-3 py-2 sm:px-5 sm:py-3"
                       >
