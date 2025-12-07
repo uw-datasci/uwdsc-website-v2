@@ -136,10 +136,7 @@ export default function EmailCampaignsPage() {
     setResult(null);
 
     try {
-      const recipients =
-        formData.selectedRecipients.length > 0
-          ? formData.selectedRecipients
-          : filteredUsers;
+      const recipients = formData.selectedRecipients;
 
       const response = await sendBulkEmail({
         templateType: formData.templateType,
@@ -411,9 +408,53 @@ export default function EmailCampaignsPage() {
         </div>
 
         <div>
-          <h3 className="text-gray-900 mb-4 text-lg font-medium">
-            Recipients ({filteredUsers.length})
-          </h3>
+          <div className="flex flex-row justify-between">
+            <h3 className="text-gray-900 mb-4 text-lg font-medium">
+              Recipients ({filteredUsers.length})
+            </h3>
+            {filteredUsers.length > 0 && (
+              <button
+                onClick={() => {
+                  const allSelected = filteredUsers.every((user) =>
+                    formData.selectedRecipients.some((r) => r._id === user._id),
+                  );
+                  if (allSelected) {
+                    // Deselect all
+                    setFormData({
+                      ...formData,
+                      selectedRecipients: formData.selectedRecipients.filter(
+                        (recipient) =>
+                          !filteredUsers.some(
+                            (user) => user._id === recipient._id,
+                          ),
+                      ),
+                    });
+                  } else {
+                    // Select all
+                    setFormData({
+                      ...formData,
+                      selectedRecipients: [
+                        ...formData.selectedRecipients,
+                        ...filteredUsers.filter(
+                          (user) =>
+                            !formData.selectedRecipients.some(
+                              (r) => r._id === user._id,
+                            ),
+                        ),
+                      ],
+                    });
+                  }
+                }}
+                className="text-blue-600 hover:text-blue-800 text-sm font-medium hover:underline"
+              >
+                {filteredUsers.every((user) =>
+                  formData.selectedRecipients.some((r) => r._id === user._id),
+                )
+                  ? "Deselect All"
+                  : "Select All"}
+              </button>
+            )}
+          </div>
 
           <div className="border-gray-300 max-h-96 overflow-y-auto rounded-md border">
             {loading ? (
@@ -491,10 +532,7 @@ export default function EmailCampaignsPage() {
         </button>
         <button
           onClick={() => handleStepChange("preview")}
-          disabled={
-            filteredUsers.length === 0 &&
-            formData.selectedRecipients.length === 0
-          }
+          disabled={formData.selectedRecipients.length === 0}
           className="rounded-lg bg-[#2563eb] px-6 py-2.5 text-sm font-medium text-white shadow-sm transition-all duration-200 hover:bg-[#1d4ed8] hover:shadow-md focus:outline-none focus:ring-2 focus:ring-[#3b82f6] disabled:cursor-not-allowed disabled:opacity-50"
         >
           Next: Preview & Send
@@ -504,10 +542,7 @@ export default function EmailCampaignsPage() {
   );
 
   const renderPreviewStep = () => {
-    const recipients =
-      formData.selectedRecipients.length > 0
-        ? formData.selectedRecipients
-        : filteredUsers;
+    const recipients = formData.selectedRecipients;
 
     return (
       <div className="space-y-6 rounded-lg bg-white/50 p-6 shadow-sm backdrop-blur-sm">
