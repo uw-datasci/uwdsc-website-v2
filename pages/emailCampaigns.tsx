@@ -131,6 +131,34 @@ export default function EmailCampaignsPage() {
     }
   };
 
+  const toggleSelectAll = () => {
+    const allSelected = filteredUsers.every((user) =>
+      formData.selectedRecipients.some((r) => r._id === user._id),
+    );
+    if (allSelected) {
+      // Deselect all
+      setFormData({
+        ...formData,
+        selectedRecipients: formData.selectedRecipients.filter(
+          (recipient) =>
+            !filteredUsers.some((user) => user._id === recipient._id),
+        ),
+      });
+    } else {
+      // Select all
+      setFormData({
+        ...formData,
+        selectedRecipients: [
+          ...formData.selectedRecipients,
+          ...filteredUsers.filter(
+            (user) =>
+              !formData.selectedRecipients.some((r) => r._id === user._id),
+          ),
+        ],
+      });
+    }
+  };
+
   const sendCampaign = async () => {
     setSending(true);
     setResult(null);
@@ -414,37 +442,7 @@ export default function EmailCampaignsPage() {
             </h3>
             {filteredUsers.length > 0 && (
               <button
-                onClick={() => {
-                  const allSelected = filteredUsers.every((user) =>
-                    formData.selectedRecipients.some((r) => r._id === user._id),
-                  );
-                  if (allSelected) {
-                    // Deselect all
-                    setFormData({
-                      ...formData,
-                      selectedRecipients: formData.selectedRecipients.filter(
-                        (recipient) =>
-                          !filteredUsers.some(
-                            (user) => user._id === recipient._id,
-                          ),
-                      ),
-                    });
-                  } else {
-                    // Select all
-                    setFormData({
-                      ...formData,
-                      selectedRecipients: [
-                        ...formData.selectedRecipients,
-                        ...filteredUsers.filter(
-                          (user) =>
-                            !formData.selectedRecipients.some(
-                              (r) => r._id === user._id,
-                            ),
-                        ),
-                      ],
-                    });
-                  }
-                }}
+                onClick={toggleSelectAll}
                 className="text-blue-600 hover:text-blue-800 text-sm font-medium hover:underline"
               >
                 {filteredUsers.every((user) =>
