@@ -14,7 +14,6 @@ import shreeyaSantha from "@/public/teams/Shreeya-Santha.jpg";
 import brianAn from "@/public/teams/Brian-An.png";
 import andyXu from "@/public/teams/Andy-Xu.jpg";
 import jessicaYing from "@/public/teams/Jessica-Ying.jpg";
-import sophieYang from "@/public/teams/Sophie-Yang.jpg";
 import andrewChu from "@/public/teams/Andrew-Chu.jpg";
 import samayBhagat from "@/public/teams/Samay-Bhagat.jpg";
 
@@ -221,7 +220,7 @@ export const TEAM: Subteam[] = [
         id: "sophie-yang",
         name: "Sophie Yang",
         position: "Developer",
-        image: sophieYang,
+        image: team,
       },
       {
         id: "brian-an",
