@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-feather";
 import { RiArrowDropDownLine } from "react-icons/ri";
+import Image from "next/image";
 
 type NavItem = {
   label: string;
@@ -42,14 +43,7 @@ function DropdownNavbarTitle({ item }: DropdownNavbarTitleProps) {
   }, []);
 
   return (
-    <div
-      ref={dropdownRef}
-      className={
-        "font-semibold text-white " + (item.label == "CxC"
-          ? "animate-neon-lights neon-lights font-jersey tracking-[4px] text-[1.18rem]"
-          : "")
-      }
-    >
+    <div ref={dropdownRef} className="font-semibold text-white">
       {/* When there are subitems */}
       {item.subNavItems && item.subNavItems.length > 0 ? (
         <>
@@ -59,9 +53,10 @@ function DropdownNavbarTitle({ item }: DropdownNavbarTitleProps) {
           </button>
 
           {isOpen && (
-            <div className="absolute z-50 mt-8 w-[150px]
-               rounded-xl font-semibold bg-[#1a1a1a]/90 border border-white/30 shadow-lg">
-
+            <div
+              className="absolute z-50 mt-8 w-[150px]
+               rounded-xl border border-white/30 bg-[#1a1a1a]/90 font-semibold shadow-lg"
+            >
               <ul className="py-2 font-normal">
                 {item.subNavItems.map((subItem, index) => (
                   <li key={index}>
@@ -79,12 +74,25 @@ function DropdownNavbarTitle({ item }: DropdownNavbarTitleProps) {
         </>
       ) : (
         /* Standalone link */
-        <a 
-          href={item.route} 
-          className=""
-          {...(item.label === "CxC" && { target: "_blank", rel: "noopener noreferrer" })}
+        <a
+          href={item.route}
+          className="shrink-0"
+          {...(item.label === "CxC" && {
+            target: "_blank",
+            rel: "noopener noreferrer",
+          })}
         >
-          {item.label}
+          {item.label === "CxC" ? (
+            <Image
+              src="/logos/cxc_logo.svg"
+              alt="CxC Logo"
+              width={50}
+              height={25}
+              className="h-[25px] w-[50px] min-w-[50px]"
+            />
+          ) : (
+            item.label
+          )}
         </a>
       )}
     </div>
