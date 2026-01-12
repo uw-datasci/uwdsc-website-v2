@@ -79,7 +79,11 @@ function DropdownNavbarTitle({ item }: DropdownNavbarTitleProps) {
         </>
       ) : (
         /* Standalone link */
-        <a href={item.route} className="">
+        <a 
+          href={item.route} 
+          className=""
+          {...(item.label === "CxC" && { target: "_blank", rel: "noopener noreferrer" })}
+        >
           {item.label}
         </a>
       )}
