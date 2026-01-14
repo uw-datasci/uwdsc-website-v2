@@ -501,8 +501,8 @@ export const TEAM: Subteam[] = [
     name: "Outreach",
     members: [
       {
-        id: "mathumaran-thavarajah",
-        name: "Mathumaran Thavarajah",
+        id: "mathu-thavarajah",
+        name: "Mathu Thavarajah",
         position: "VP of Outreach",
         image: mathumaranThavarajah,
       },
