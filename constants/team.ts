@@ -4,34 +4,34 @@ import team from "@/public/placeholder/team.png";
 //W26 team
 // Presidents
 import monicaTrinh from "@/public/teams/Monica-Trinh.jpg";
-import ishirLakhani from "@/public/teams/Ishir-Lakhani.png";
+import ishirLakhani from "@/public/teams/Ishir-Lakhani.jpg";
 
 // Development
 import jocelynXu from "@/public/teams/Jocelyn-Xu.jpg";
-import aaryanPatel from "@/public/teams/Aaryan-Patel.png";
+import aaryanPatel from "@/public/teams/Aaryan-Patel.jpg";
 import aditiJha from "@/public/teams/Aditi-Jha.jpg";
 import shreeyaSantha from "@/public/teams/Shreeya-Santha.jpg";
-import brianAn from "@/public/teams/Brian-An.png";
+import brianAn from "@/public/teams/Brian-An.jpg";
 import andyXu from "@/public/teams/Andy-Xu.jpg";
 import andrewChu from "@/public/teams/Andrew-Chu.jpg";
-import samayBhagat from "@/public/teams/Samay-Bhagat.jpeg";
+import samayBhagat from "@/public/teams/Samay-Bhagat.jpg";
 
 // Events
 import michaelLiu from "@/public/teams/Michael-Liu.jpg";
-import karenGuan from "@/public/teams/Karen-Guan.jpeg";
+import karenGuan from "@/public/teams/Karen-Guan.jpg";
 import liaMoradpour from "@/public/teams/Lia-Moradpour.jpg";
 import rachelWang from "@/public/teams/Rachel-Wang.jpg";
-import kaushikChatterjee from "@/public/teams/Kaushik-Chatterjee.jpeg";
+import kaushikChatterjee from "@/public/teams/Kaushik-Chatterjee.jpg";
 import gurmanDeol from "@/public/teams/Gurman-Deol.jpg";
 import elrichChen from "@/public/teams/Elrich-Chen.jpg";
 import yanziGuo from "@/public/teams/Yanzi-Guo.jpg";
 import dishaSaxena from "@/public/teams/Disha-Saxena.jpg";
 
 // Education
-import tanayKashyap from "@/public/teams/Tanay-Kashyap.jpeg";
+import tanayKashyap from "@/public/teams/Tanay-Kashyap.jpg";
 import lunaNguyen from "@/public/teams/Luna-Nguyen.jpg";
 import dishitaChawla from "@/public/teams/Dishita-Chawla.jpg";
-import nahalHabibizadeh from "@/public/teams/Nahal-Habibizadeh.jpeg";
+import nahalHabibizadeh from "@/public/teams/Nahal-Habibizadeh.jpg";
 import aaryanShroff from "@/public/teams/Aaryan-Shroff.jpg";
 import abeerKashar from "@/public/teams/Abeer-Kashar.jpg";
 import sharanyaBasu from "@/public/teams/Sharanya-Basu.jpg";
@@ -41,10 +41,10 @@ import rohanSaha from "@/public/teams/Rohan-Saha.jpg";
 
 // CXC
 import michaelZhang from "@/public/teams/Michael-Zhang.jpg";
-import davidHe from "@/public/teams/David-He.png";
+import davidHe from "@/public/teams/David-He.jpg";
 import adhyaSharma from "@/public/teams/Adhya-Sharma.jpg";
-import parithySenthamilarasan from "@/public/teams/Parithy-Senthamilarasan.jpeg";
-import simoneCoutinho from "@/public/teams/Simone-Coutinho.jpeg";
+import parithySenthamilarasan from "@/public/teams/Parithy-Senthamilarasan.jpg";
+import simoneCoutinho from "@/public/teams/Simone-Coutinho.jpg";
 import aaronLiang from "@/public/teams/Aaron-Liang.jpg";
 import danielPu from "@/public/teams/Daniel-Pu.jpg";
 import ianLeung from "@/public/teams/Ian-Leung.jpg";
@@ -52,7 +52,7 @@ import parsaAhmadnezhad from "@/public/teams/Parsa-Ahmadnezhad.jpg";
 
 // Socials
 import angelMusa from "@/public/teams/Angel-Musa.jpg";
-import harryCheng from "@/public/teams/Harry-Cheng.png";
+import harryCheng from "@/public/teams/Harry-Cheng.jpg";
 import rizaQin from "@/public/teams/Riza-Qin.jpg";
 import athenaNguyen from "@/public/teams/Athena-Nguyen.jpg";
 import varshaPrasad from "@/public/teams/Varsha-Prasad.jpg";
@@ -60,7 +60,7 @@ import yuyeonKim from "@/public/teams/Yuyeon-Kim.jpg";
 import alyssaLui from "@/public/teams/Alyssa-Lui.jpg";
 
 // Design
-import winstonZhao from "@/public/teams/Winston-Zhao.png";
+import winstonZhao from "@/public/teams/Winston-Zhao.jpg";
 import danyaCheng from "@/public/teams/Danya-Cheng.jpg";
 import charleneLee from "@/public/teams/Charlene-Lee.jpg";
 import lilySong from "@/public/teams/Lily-Song.jpg";
@@ -74,9 +74,9 @@ import nimishPatri from "@/public/teams/Nimish-Patri.jpg";
 import maxHan from "@/public/teams/Max-Han.jpg";
 
 // Outreach
-import methuliAmarasinghe from "@/public/teams/Methuli-Amarasinghe.jpeg";
+import methuliAmarasinghe from "@/public/teams/Methuli-Amarasinghe.jpg";
 import kapilIyer from "@/public/teams/Kapil-Iyer.jpg";
-import mathumaranThavarajah from "@/public/teams/Mathumaran Thavarajah.jpg";
+import mathumaranThavarajah from "@/public/teams/Mathumaran-Thavarajah.jpg";
 import mahekPatel from "@/public/teams/Mahek-Patel.jpg";
 import harrisonFulford from "@/public/teams/Harrison-Fulford.jpg";
 import diyaSaxena from "@/public/teams/Diya-Saxena.jpg";
@@ -86,7 +86,7 @@ import anirudhDabas from "@/public/teams/Anirudh-Dabas.jpg";
 import davidYang from "@/public/teams/David-Yang.jpg";
 
 // Advisors
-import jerryZhu from "@/public/teams/Jerry-Zhu.png";
+import jerryZhu from "@/public/teams/Jerry-Zhu.jpg";
 import winstonYu from "@/public/teams/Winston-Yu.jpg";
 import karthikViriyala from "@/public/teams/Karthik-Viriyala.jpg";
 
