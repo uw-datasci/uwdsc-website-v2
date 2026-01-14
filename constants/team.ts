@@ -14,14 +14,14 @@ import shreeyaSantha from "@/public/teams/Shreeya-Santha.jpg";
 import brianAn from "@/public/teams/Brian-An.png";
 import andyXu from "@/public/teams/Andy-Xu.jpg";
 import andrewChu from "@/public/teams/Andrew-Chu.jpg";
-import samayBhagat from "@/public/teams/Samay-Bhagat.jpg";
+import samayBhagat from "@/public/teams/Samay-Bhagat.jpeg";
 
 // Events
 import michaelLiu from "@/public/teams/Michael-Liu.jpg";
 import karenGuan from "@/public/teams/Karen-Guan.jpeg";
 import liaMoradpour from "@/public/teams/Lia-Moradpour.jpg";
 import rachelWang from "@/public/teams/Rachel-Wang.jpg";
-import kaushikChatterjee from "@/public/teams/Kaushik-Chatterjee.jpg";
+import kaushikChatterjee from "@/public/teams/Kaushik-Chatterjee.jpeg";
 import gurmanDeol from "@/public/teams/Gurman-Deol.jpg";
 import elrichChen from "@/public/teams/Elrich-Chen.jpg";
 import yanziGuo from "@/public/teams/Yanzi-Guo.jpg";
