@@ -4,7 +4,7 @@ import team from "@/public/placeholder/team.png";
 //W26 team
 // Presidents
 import monicaTrinh from "@/public/teams/Monica-Trinh.jpg";
-import ishirLakhani from "@/public/teams/Ishir-Lakhani.jpg";
+import ishirLakhani from "@/public/teams/Ishir-Lakhani.png";
 
 // Development
 import jocelynXu from "@/public/teams/Jocelyn-Xu.jpg";
