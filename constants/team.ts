@@ -70,6 +70,7 @@ import lilySong from "@/public/teams/Lily-Song.jpg";
 // Internals
 import aidenSuh from "@/public/teams/Aiden-Suh.jpg";
 import bethanyLiu from "@/public/teams/Bethany-Liu.jpg";
+import andrewShum from "@/public/teams/Andrew-Shum.jpg";
 
 // Finance
 import nimishPatri from "@/public/teams/Nimish-Patri.jpg";
@@ -475,6 +476,12 @@ export const TEAM: Subteam[] = [
         name: "Bethany Liu",
         position: "Internals Coordinator",
         image: bethanyLiu,
+      },
+      {
+        id: "andrew-shum",
+        name: "Andrew Shum",
+        position: "Internals Coordinator",
+        image: andrewShum,
       },
     ],
   },
