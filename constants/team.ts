@@ -13,7 +13,6 @@ import aditiJha from "@/public/teams/Aditi-Jha.jpg";
 import shreeyaSantha from "@/public/teams/Shreeya-Santha.jpg";
 import brianAn from "@/public/teams/Brian-An.png";
 import andyXu from "@/public/teams/Andy-Xu.jpg";
-import jessicaYing from "@/public/teams/Jessica-Ying.jpg";
 import andrewChu from "@/public/teams/Andrew-Chu.jpg";
 import samayBhagat from "@/public/teams/Samay-Bhagat.jpg";
 
@@ -214,7 +213,7 @@ export const TEAM: Subteam[] = [
         id: "jessica-ying",
         name: "Jessica Ying",
         position: "Developer",
-        image: jessicaYing,
+        image: team,
       },
       {
         id: "sophie-yang",
