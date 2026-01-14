@@ -55,6 +55,7 @@ import parsaAhmadnezhad from "@/public/teams/Parsa-Ahmadnezhad.jpg";
 import angelMusa from "@/public/teams/Angel-Musa.jpg";
 import harryCheng from "@/public/teams/Harry-Cheng.jpg";
 import rizaQin from "@/public/teams/Riza-Qin.jpg";
+import jiaNaidu from "@/public/teams/Jia-Naidu.jpg";
 import athenaNguyen from "@/public/teams/Athena-Nguyen.jpg";
 import varshaPrasad from "@/public/teams/Varsha-Prasad.jpg";
 import yuyeonKim from "@/public/teams/Yuyeon-Kim.jpg";
@@ -77,6 +78,7 @@ import maxHan from "@/public/teams/Max-Han.jpg";
 // Outreach
 import methuliAmarasinghe from "@/public/teams/Methuli-Amarasinghe.jpg";
 import kapilIyer from "@/public/teams/Kapil-Iyer.jpg";
+import mincyYang from "@/public/teams/Mincy-Yang.png";
 import mathumaranThavarajah from "@/public/teams/Mathumaran-Thavarajah.jpg";
 import mahekPatel from "@/public/teams/Mahek-Patel.jpg";
 import harrisonFulford from "@/public/teams/Harrison-Fulford.jpg";
@@ -391,6 +393,12 @@ export const TEAM: Subteam[] = [
         image: rizaQin,
       },
       {
+        id: "jia-naidu",
+        name: "Jia Naidu",
+        position: "Social Media Coordinator",
+        image: jiaNaidu,
+      },
+      {
         id: "athena-nguyen",
         name: "Athena Nguyen",
         position: "Social Media Coordinator",
@@ -497,6 +505,12 @@ export const TEAM: Subteam[] = [
         name: "Mathumaran Thavarajah",
         position: "VP of Outreach",
         image: mathumaranThavarajah,
+      },
+      {
+        id: "mincy-yang",
+        name: "Mincy Yang",
+        position: "VP of Outreach",
+        image: mincyYang,
       },
       {
         id: "harrison-fulford",
