@@ -312,8 +312,8 @@ export const TEAM: Subteam[] = [
     ],
   },
   {
-    id: "workshops",
-    name: "Workshops",
+    id: "education",
+    name: "Education",
     members: [
       {
         id: "tanay-kashyap",
