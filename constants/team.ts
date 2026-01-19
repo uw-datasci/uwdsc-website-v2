@@ -27,6 +27,7 @@ import gurmanDeol from "@/public/teams/Gurman-Deol.jpg";
 import elrichChen from "@/public/teams/Elrich-Chen.jpg";
 import yanziGuo from "@/public/teams/Yanzi-Guo.jpg";
 import dishaSaxena from "@/public/teams/Disha-Saxena.jpg";
+import matthewLi from "@/public/teams/Matthew-Li.jpg";
 
 // Education
 import tanayKashyap from "@/public/teams/Tanay-Kashyap.jpg";
@@ -308,6 +309,12 @@ export const TEAM: Subteam[] = [
         name: "Karen Guan",
         position: "Event Coordinator",
         image: karenGuan,
+      },
+      {
+        id: "matthew-li",
+        name: "Matthew Li",
+        position: "Event Coordinator",
+        image: matthewLi,
       },
     ],
   },
