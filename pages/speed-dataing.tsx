@@ -193,8 +193,7 @@ export default function SpeedDataing() {
             transition={{ duration: 0.8, delay: 0.4 }}
             className="mb-12 max-w-xl text-center text-lg text-grey1 md:text-xl"
           >
-            Find your perfect data match at our Valentine&apos;s themed
-            networking event
+            Find your perfect match!
           </motion.p>
 
           {/* Countdown */}
