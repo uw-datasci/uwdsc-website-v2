@@ -42,6 +42,13 @@ module.exports = {
       orange: "#FDE68A",
       orangeText: "#FBBF24",
       darkBlue2: "#101431",
+      valentine: {
+        red: "#FF1744",
+        lightRed: "#FF5252",
+        pink: "#FF4081",
+        lightPink: "#FF80AB",
+        darkPink: "#F50057",
+      },
     },
     fontFamily: {
       sans: ["Satoshi-Variable", "sans-serif"],
