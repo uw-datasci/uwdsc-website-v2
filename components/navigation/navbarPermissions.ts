@@ -1,7 +1,7 @@
 export const NAVBAR_ROUTES = {
   NOT_LOGGED_IN: [
     { label: "Home", route: "/" },
-    { label: "CxC", route: "https://cxc.uwdatascience.ca/" },
+    // { label: "CxC", route: "https://cxc.uwdatascience.ca/" },
     { label: "Team", route: "/team" },
     // { label: "Apply", route: "/apply" },
     { label: "Contact", route: "/#contact" },
@@ -9,7 +9,7 @@ export const NAVBAR_ROUTES = {
   ],
   USER: [
     { label: "Home", route: "/" },
-    { label: "CxC", route: "https://cxc.uwdatascience.ca/" },
+    // { label: "CxC", route: "https://cxc.uwdatascience.ca/" },
     { label: "Team", route: "/team" },
     // { label: "Apply", route: "/apply" },
     { label: "Check In", route: "/memCheckIn" },
@@ -17,7 +17,7 @@ export const NAVBAR_ROUTES = {
   ],
   ADMIN: [
     { label: "Home", route: "/" },
-    { label: "CxC", route: "https://cxc.uwdatascience.ca/" },
+    // { label: "CxC", route: "https://cxc.uwdatascience.ca/" },
     { label: "Team", route: "/team" },
     // { label: "Apply", route: "/apply" },
     { label: "Check In", route: "/memCheckIn" },
@@ -34,7 +34,7 @@ export const NAVBAR_ROUTES = {
   ],
   EXEC: [
     { label: "Home", route: "/" },
-    { label: "CxC", route: "https://cxc.uwdatascience.ca/" },
+    // { label: "CxC", route: "https://cxc.uwdatascience.ca/" },
     { label: "Team", route: "/team" },
     // { label: "Apply", route: "/apply" },
     { label: "Check In", route: "/memCheckIn" },
