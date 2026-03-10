@@ -91,7 +91,6 @@ import anirudhDabas from "@/public/teams/Anirudh-Dabas.jpg";
 import davidYang from "@/public/teams/David-Yang.jpg";
 
 // Advisors
-import jerryZhu from "@/public/teams/Jerry-Zhu.jpg";
 import winstonYu from "@/public/teams/Winston-Yu.jpg";
 import karthikViriyala from "@/public/teams/Karthik-Viriyala.jpg";
 
@@ -581,12 +580,6 @@ export const TEAM: Subteam[] = [
     id: "advisors",
     name: "Advisors",
     members: [
-      {
-        id: "jerry-zhu",
-        name: "Jerry Zhu",
-        position: "Advisor",
-        image: jerryZhu,
-      },
       {
         id: "winston-yu",
         name: "Winston Yu",
