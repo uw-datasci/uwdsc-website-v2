@@ -718,10 +718,10 @@ export default function ApplyPage() {
             <Link
               href="https://uw-dsc.notion.site/join-dsc"
               target="_blank"
-              className="mb-4 block sm:mx-48"
+              className="mb-4 block"
             >
               <motion.div
-                className="relative flex gap-4 overflow-hidden rounded-lg border border-solid border-lightBlue/50 bg-lightBlue/30 p-4"
+                className="relative flex items-center gap-4 overflow-hidden rounded-lg border border-solid border-lightBlue/50 bg-lightBlue/30 p-4"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{
                   opacity: 1,

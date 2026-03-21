@@ -22,6 +22,12 @@ export type Role =
   | "Development Co-VP"
   | "Social Media Exec"
   | "Social Media VP"
+  | "Project Lead"
+  | "Workshop Lead"
+  | "CxC Co-VP"
+  | "CxC Exec"
+  | "Graphic Designer"
+  | "Product Designer"
   | "general"
   | "supplementary";
 
