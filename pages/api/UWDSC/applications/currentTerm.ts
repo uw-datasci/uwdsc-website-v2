@@ -18,7 +18,10 @@ export default async function handler(
 
     res.status(200).json(response.data);
   } catch (error: any) {
-    console.error("Error fetching current term:", error);
+    console.error(
+      "Error fetching current term:",
+      error.response?.data?.message || error.message || error,
+    );
     res.status(500).json({
       success: false,
       error: error.message || "Internal Server Error",

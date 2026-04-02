@@ -22,7 +22,10 @@ export default async function handler(
 
     res.status(200).json(response.data);
   } catch (error: any) {
-    console.error("Error fetching user application:", error);
+    console.error(
+      "Error fetching user application:",
+      error.response?.data?.message || error.message || error,
+    );
     res.status(error.response?.status || 500).json({
       success: false,
       error:
